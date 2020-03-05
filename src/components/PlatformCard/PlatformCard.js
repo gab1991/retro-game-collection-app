@@ -24,18 +24,23 @@ export default function PlatformCard(props) {
   let logoImage = '';
 
   switch (props.name) {
-    case 'Sega Genesis':
+    case 'Genesis':
       gamepadImage = gamepadImages['Sega Genesis.png'];
       logoImage = logoImages['sega_genesis_logo.png'];
       break;
-    case 'Nintendo Entertainment System':
+    case 'NES':
       gamepadImage = gamepadImages['Nintendo NES.png'];
       logoImage = logoImages['nes_logo.png'];
       break;
   }
 
   return (
-    <div className={styles.PlatformCard}>
+    <div
+      className={styles.PlatformCard}
+      onClick={e => {
+        props.selectPlatform(props.name);
+      }}
+    >
       <div>
         <img src={logoImage} alt={props.name} />
       </div>

@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./PlatformSelector.css";
-import PlatformCard from "../PlatformCard/PlatformCard";
+import React from 'react';
+import styles from './PlatformSelector.css';
+import PlatformCard from '../PlatformCard/PlatformCard';
 
 export default function PlatformSelector(props) {
   const platformList = props.platforms;
@@ -12,7 +12,11 @@ export default function PlatformSelector(props) {
       </div>
       <div className={styles.PlatformContainer}>
         {platformList.map(platform => (
-          <PlatformCard key={platform} name={platform} />
+          <PlatformCard
+            key={platform}
+            name={platform}
+            selectPlatform={props.selectPlatform}
+          />
         ))}
       </div>
     </div>
