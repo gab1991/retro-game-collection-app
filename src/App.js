@@ -1,11 +1,22 @@
-import React from 'react';
-import Layout from './components/Layout/Layout'
-import './App.css';
+import React from "react";
+import Layout from "./components/Layout/Layout";
+import "./App.css";
+import Navigation from "./components/Navigation/Navigation";
+import PlatformSelector from "./components/PlatformSelector/PlatformSelector";
 
-function App() {
+function App(props) {
+  const availablePlatforms = [
+    "Sega Genesis",
+    "Nintendo Entertainment System",
+    "Nintendo Entertainment System"
+  ];
+
   return (
     <div className="App">
-      <Layout><h1>Hello react</h1></Layout>
+      <Layout>
+        <Navigation />
+        <PlatformSelector platforms={availablePlatforms} />
+      </Layout>
     </div>
   );
 }

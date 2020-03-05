@@ -1,0 +1,49 @@
+.PlatformSelector {
+  display: grid;
+  grid-template-rows: 1fr 4fr;
+  width: 100%;
+  height: 91vh;
+}
+
+.PlatformSelector > div:first-child {
+  grid-row: 1/2;
+}
+
+.PlatformSelector > div:last-child {
+  grid-row: 2/5;
+}
+
+.PlatformSelectorHeading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 3rem;
+}
+.PlatformContainer {
+  /* background-color: maroon;s */
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: auto;
+}
+
+.PlatformContainer > div {
+  justify-self: center;
+  align-self: center;
+  height: 600px;
+  width: 90%;
+  margin: 5% 0;
+}
+
+@media (max-width: 800px) {
+  .PlatformContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .PlatformContainer > div {
+    height: 300px;
+    width: 90%;
+    margin: 5% 0;
+  }
+}
