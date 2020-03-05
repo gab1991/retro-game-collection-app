@@ -5,11 +5,7 @@ import Navigation from "./components/Navigation/Navigation";
 import PlatformSelector from "./components/PlatformSelector/PlatformSelector";
 
 function App(props) {
-  const availablePlatforms = [
-    "Sega Genesis",
-    "Nintendo Entertainment System",
-    "Nintendo Entertainment System"
-  ];
+  const availablePlatforms = ["Sega Genesis", "Nintendo Entertainment System"];
 
   return (
     <div className="App">
