@@ -1,4 +1,33 @@
 .GameCard {
   background-color: slategray;
   border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.GameCard > div:first-child {
+  width: 100%;
+  height: 80%;
+}
+
+.GameCard > div:last-child {
+  width: 100%;
+  line-height: 60px;
+  height: 20%;
+  background-color: darkgoldenrod;
+}
+
+.GameCard img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.GameCard p {
+  /* overflow-wrap: break-word; */
+
+  text-align: center;
 }

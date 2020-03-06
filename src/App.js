@@ -19,10 +19,6 @@ function App(props) {
   }, []);
 
   useEffect(() => {
-    console.log(selectedPlatform);
-  }, [selectedPlatform]);
-
-  useEffect(() => {
     console.log(availablePlatformsInfo);
   }, [availablePlatformsInfo]);
 
@@ -54,7 +50,12 @@ function App(props) {
             selectPlatform={selectPlatformHandler}
           />
         )}
-        {selectedPlatform && <GameSelector platform={selectedPlatform} />}
+        {selectedPlatform && (
+          <GameSelector
+            platform={selectedPlatform}
+            platformsInfo={availablePlatformsInfo}
+          />
+        )}
       </Layout>
     </div>
   );

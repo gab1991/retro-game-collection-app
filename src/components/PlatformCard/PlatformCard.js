@@ -4,7 +4,7 @@ import styles from './PlatformCard.css';
 function importAll(r) {
   let images = {};
   r.keys().map((item, index) => {
-    images[item.replace('./', '')] = r(item);
+    return (images[item.replace('./', '')] = r(item));
   });
   return images;
 }
@@ -32,12 +32,14 @@ export default function PlatformCard(props) {
       gamepadImage = gamepadImages['Nintendo NES.png'];
       logoImage = logoImages['nes_logo.png'];
       break;
+    default:
   }
 
   return (
     <div
       className={styles.PlatformCard}
       onClick={e => {
+        console.log(props);
         props.selectPlatform(props.name);
       }}
     >

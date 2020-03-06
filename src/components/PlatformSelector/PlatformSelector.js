@@ -4,6 +4,7 @@ import PlatformCard from '../PlatformCard/PlatformCard';
 
 export default function PlatformSelector(props) {
   const platformList = props.platforms;
+  console.log(platformList);
 
   return (
     <div className={styles.PlatformSelector}>
