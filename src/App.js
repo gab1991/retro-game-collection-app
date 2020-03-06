@@ -10,7 +10,7 @@ function App(props) {
   const availablePlatforms = ['Genesis', 'NES'];
   const [allPlatromsList, setAllPlatformsList] = useState();
   const [availablePlatformsInfo, setAvailablePlatformsInfo] = useState();
-  const [selectedPlatform, setSelectedPlatform] = useState();
+  const [selectedPlatform, setSelectedPlatform] = useState('Genesis');
 
   useEffect(() => {
     Backend.getAllPlatfroms().then(res =>

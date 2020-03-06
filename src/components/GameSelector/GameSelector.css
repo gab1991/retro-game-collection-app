@@ -1,4 +1,25 @@
 .GameSelector {
   min-height: 100%;
   background-color: saddlebrown;
+  display: grid;
+  grid-template-rows: 1fr 5fr;
+}
+
+.Header {
+  background-color: rgb(139, 155, 201);
+}
+
+.GamePicker {
+  background-color: plum;
+  display: flex;
+  justify-content: center;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  overflow: auto;
+}
+
+.GamePicker > div {
+  margin: 1%;
+  height: 200px;
+  width: 200px;
 }

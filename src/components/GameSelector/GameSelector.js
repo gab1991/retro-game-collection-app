@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Backend from '../../Backend/Backend';
 import styles from './GameSelector.css';
+import GameCard from '../GameSelector/GameCard/GameCard';
 
 export default function GameSelector(props) {
   const platform = props.platform;
@@ -17,5 +18,25 @@ export default function GameSelector(props) {
     }
   }, []);
 
-  return <div className={styles.GameSelector}>we are here</div>;
+  return (
+    <div className={styles.GameSelector}>
+      <div className={styles.Header}>Header</div>
+      <div className={styles.GamePicker}>
+        <GameCard />
+        <GameCard />
+        <GameCard />
+        <GameCard />
+        <GameCard />
+        <GameCard />
+        <GameCard />
+        <GameCard />
+        <GameCard />
+        <GameCard />
+        <GameCard />
+        <GameCard />
+        <GameCard />
+        <GameCard />
+      </div>
+    </div>
+  );
 }
