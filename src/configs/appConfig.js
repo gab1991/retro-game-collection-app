@@ -1,4 +1,8 @@
 const appConfig = {
+  assetsMapping: {
+    gamepadMap: {}
+  },
+
   GameSelector: {
     defaultPage: 1,
     gamesPerRequest: 20,
