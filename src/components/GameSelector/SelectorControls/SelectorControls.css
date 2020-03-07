@@ -1,0 +1,44 @@
+.SelectorControls {
+  grid-area: settings;
+  width: 100%;
+  height: 100%;
+  background-color: maroon;
+  overflow: auto;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+}
+
+.SelectorControls > div:first-child {
+  flex: 2;
+  padding: 1%;
+  background-color: mediumaquamarine;
+}
+
+.SelectorControls > div:first-child > input {
+  border: none;
+  width: 80%;
+}
+
+.SelectorControls > div:first-child > button {
+  border: none;
+  width: 20%;
+}
+
+.SelectorControls > div:last-child {
+  flex: 1;
+  padding: 1%;
+  background-color: rgb(199, 154, 169);
+}
+
+.SelectorControls > div:last-child > select {
+  border: none;
+  width: 80%;
+  appearance: none;
+}
+
+.SelectorControls > div:last-child > button {
+  border: none;
+  width: 10%;
+}

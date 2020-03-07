@@ -5,28 +5,49 @@
 }
 
 .Header {
-  background-color: rgb(139, 155, 201);
+  /* background-color: rgb(139, 155, 201); */
   display: grid;
   grid-template-areas:
-    'info settings settings settings'
-    'info settings settings settings'
-    'pagination pagination pagination pagination';
+    'img info settings settings settings'
+    'img info settings settings settings'
+    'pagination pagination pagination pagination pagination';
+  overflow: auto;
+}
+
+.Header > div {
+  height: 12vh;
+}
+
+.Header > div:last-child {
+  height: 4vh;
 }
 .PlatformInfo {
   grid-area: info;
-  background-color: lightgreen;
+  height: 10vh;
+  /* background-color: lightgreen; */
+}
+
+.IconContainer {
+  grid-area: img;
+  height: 10vh;
+  max-width: 400px;
+  background-color: lightsteelblue;
+  /* /* justify-self: center; */
+  height: 12h;
+  /* width: 30%; */
+}
+
+.IconContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .Desctiprion {
   grid-area: desc;
+
   overflow: auto;
   background-color: lightpink;
-}
-
-.Settings {
-  grid-area: settings;
-  background-color: lightslategrey;
-  overflow: auto;
 }
 
 .GamePicker {
@@ -42,4 +63,22 @@
   margin: 1%;
   height: 300px;
   width: 300px;
+}
+
+@media (max-width: 800px) {
+  .Header {
+    /* background-color: rgb(139, 155, 201); */
+    display: grid;
+    grid-template-areas:
+      'settings settings'
+      'pagination pagination ';
+    overflow: auto;
+  }
+  .IconContainer {
+    display: none;
+  }
+
+  .PlatformInfo {
+    display: none;
+  }
 }

@@ -26,7 +26,7 @@ function App(props) {
         }
       });
     }
-  }, [selectedPlatformInfo, allPlatromsList]);
+  }, [selectedPlatform, allPlatromsList]);
 
   const selectPlatformHandler = platformName => {
     setSelectedPlatform(platformName);

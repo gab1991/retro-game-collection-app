@@ -19,8 +19,4 @@ const api = {
   }
 };
 
-const images = {
-  icons: [{ name: '', src: '' }]
-};
-
 export default api;

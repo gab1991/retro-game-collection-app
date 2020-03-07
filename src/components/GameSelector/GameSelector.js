@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Backend from '../../Backend/Backend';
-import appConfig from '../../configs/appConfig';
+import { images, appConfig } from '../../configs/appConfig';
 import styles from './GameSelector.css';
 import GameCard from '../GameSelector/GameCard/GameCard';
 import Paginator from '../Paginator/Paginator.js';
+import SelectorControls from './SelectorControls/SelectorControls';
 
 export default function GameSelector(props) {
   const { platform, platformInfo } = props;
@@ -81,37 +82,26 @@ export default function GameSelector(props) {
   return (
     <div className={styles.GameSelector}>
       <div className={styles.Header}>
+        <div className={styles.IconContainer}>
+          <img src={images[platformInfo.name].gamepad.src} alt="platformImg" />
+        </div>
         <div className={styles.PlatformInfo}>
-          <p>Choosen Platform : {platformInfo.name}</p>
-          <p>Total Games Released : {platformInfo.games_count}</p>
-          <img src="" alt="platformImg" />
+          <div>
+            <p>Choosen Platform : {platformInfo.name}</p>
+          </div>
+          <div>
+            <p>Total Games Released : {platformInfo.games_count}</p>
+          </div>
         </div>
         {/* <div className={styles.Desctiprion}>{platformDescription}</div> */}
-        <div className={styles.Settings}>
-          <p>Search game:</p>
-          <input
-            type="text"
-            placeholder="Name of a game"
-            name="gameSearch"
-            onChange={gameSearchChangeHandler}
-            onKeyPress={sendRequestHandler}
-          />
-          <button name="searchBtn" onClick={sendRequestHandler}>
-            Search
-          </button>
-          <p>Filter by:{chosenFilterParams}</p>
-          <select value={ordering.name} onChange={selectChangeHandler}>
-            {orderingOptions.map(option => (
-              <option key={option}>{option}</option>
-            ))}
-          </select>
-          <button onClick={directionChangeHandler} direction="desc">
-            ↓
-          </button>
-          <button onClick={directionChangeHandler} direction="acs">
-            ↑
-          </button>
-        </div>
+        <SelectorControls
+          gameSearchChange={gameSearchChangeHandler}
+          selectChange={selectChangeHandler}
+          directionChange={directionChangeHandler}
+          sendRequest={sendRequestHandler}
+          ordering={ordering}
+          orderingOptions={orderingOptions}
+        />
         {recievedData && (
           <Paginator
             totalCount={recievedData.count}
