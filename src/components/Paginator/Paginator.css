@@ -1,3 +1,17 @@
 .Paginator {
   background-color: darkgreen;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.Paginator button {
+  width: 20px;
+  height: 30px;
+  margin: 2px;
+  border: none;
+  text-align: center;
+  background-color: transparent;
+  cursor: pointer;
+  border: 1px solid rgb(228, 228, 167);
 }

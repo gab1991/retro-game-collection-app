@@ -9,8 +9,8 @@ import GameSelector from './components/GameSelector/GameSelector';
 function App(props) {
   const availablePlatforms = ['Genesis', 'NES'];
   const [allPlatromsList, setAllPlatformsList] = useState();
-  const [availablePlatformsInfo, setAvailablePlatformsInfo] = useState();
   const [selectedPlatform, setSelectedPlatform] = useState('Genesis');
+  const [selectedPlatformInfo, setSelectedPlatformInfo] = useState();
 
   useEffect(() => {
     Backend.getAllPlatfroms().then(res =>
@@ -19,22 +19,14 @@ function App(props) {
   }, []);
 
   useEffect(() => {
-    console.log(availablePlatformsInfo);
-  }, [availablePlatformsInfo]);
-
-  useEffect(() => {
-    if (allPlatromsList) {
-      let platformInfo = [];
-      availablePlatforms.forEach(platformName => {
-        for (let i = 0; i < allPlatromsList.length; i++) {
-          if (allPlatromsList[i].name === platformName) {
-            platformInfo.push([platformName, allPlatromsList[i]]);
-          }
+    if (selectedPlatform && allPlatromsList) {
+      allPlatromsList.forEach(platform => {
+        if (platform.name === selectedPlatform) {
+          setSelectedPlatformInfo(platform);
         }
       });
-      setAvailablePlatformsInfo(platformInfo);
     }
-  }, [allPlatromsList]);
+  }, [selectedPlatformInfo, allPlatromsList]);
 
   const selectPlatformHandler = platformName => {
     setSelectedPlatform(platformName);
@@ -50,10 +42,10 @@ function App(props) {
             selectPlatform={selectPlatformHandler}
           />
         )}
-        {selectedPlatform && (
+        {selectedPlatform && selectedPlatformInfo && (
           <GameSelector
             platform={selectedPlatform}
-            platformsInfo={availablePlatformsInfo}
+            platformInfo={selectedPlatformInfo}
           />
         )}
       </Layout>

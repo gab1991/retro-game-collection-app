@@ -6,42 +6,48 @@ import GameCard from '../GameSelector/GameCard/GameCard';
 import Paginator from '../Paginator/Paginator.js';
 
 export default function GameSelector(props) {
-  const platform = props.platform;
+  const { platform, platformInfo } = props;
   const [gamesToShow, setGamesToShow] = useState();
   const [recievedData, setRecievedData] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    if (platform) {
+    {
       Backend.getGamesForPlatform({
-        page: appConfig.GameSelector.defaultPage,
+        page: currentPage,
         page_size: appConfig.GameSelector.gamesPerRequest,
         ordering: appConfig.GameSelector.defaultOrdering,
-        platforms: '167'
+        platforms: platformInfo.id
       }).then(res => {
         const games = res.results;
         setGamesToShow(games);
         setRecievedData(res);
       });
     }
-  }, [platform]);
+  }, [currentPage]);
 
   useEffect(() => {
     if (gamesToShow) {
-      console.log('gamesToShow', gamesToShow);
+      // console.log('gamesToShow', gamesToShow);
     }
   }, [gamesToShow]);
 
-  useEffect(() => {
-    if (gamesToShow) {
-      console.log('data', recievedData);
-    }
-  }, [recievedData]);
+  const pageChangeHandler = pageNumber => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div className={styles.GameSelector}>
       <div className={styles.Header}>
         Header
-        <Paginator />
+        {recievedData && (
+          <Paginator
+            totalCount={recievedData.count}
+            itemsPerPage={appConfig.GameSelector.gamesPerRequest}
+            currentPage={currentPage}
+            changeCurrentPage={pageChangeHandler}
+          />
+        )}
       </div>
       <div className={styles.GamePicker}>
         {gamesToShow &&
