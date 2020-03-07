@@ -42,7 +42,7 @@ export default function Paginator({
   let delta = 2;
 
   const buttonClick = e => {
-    const lastPage = buttons.length;
+    const lastPage = pageCount;
     const leftArrow = e.target.getAttribute('data-page') === '<<';
     const rightArrow = e.target.getAttribute('data-page') === '>>';
 
@@ -69,7 +69,7 @@ export default function Paginator({
       buttons.push(
         <button
           key={Math.ceil((1 + currentPage - delta) / 2)}
-          className={currentPage === k ? 'active' : null}
+          className={currentPage === k ? styles.active : null}
           data-page={Math.ceil((1 + currentPage - delta) / 2)}
           onClick={buttonClick}
         >
@@ -80,7 +80,7 @@ export default function Paginator({
       buttons.push(
         <button
           key={Math.ceil((currentPage + pageCount + delta) / 2)}
-          className={currentPage === k ? 'active' : null}
+          className={currentPage === k ? styles.active : null}
           data-page={Math.ceil((currentPage + pageCount + delta) / 2)}
           onClick={buttonClick}
         >
@@ -91,7 +91,7 @@ export default function Paginator({
       buttons.push(
         <button
           key={k}
-          className={currentPage === k ? 'active' : null}
+          className={currentPage === k ? styles.active : null}
           data-page={k}
           onClick={buttonClick}
         >

@@ -1,17 +1,42 @@
 .Paginator {
-  background-color: darkgreen;
-  max-width: 100%;
+  width: 50%;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .Paginator button {
+  font-size: 1rem;
+  flex: 1;
   width: 20px;
-  height: 30px;
+  height: 25px;
   margin: 2px;
-  border: none;
   text-align: center;
   background-color: transparent;
   cursor: pointer;
-  border: 1px solid rgb(228, 228, 167);
+  border: none;
+  border-radius: 5px;
+  color: lightgray;
+  outline: none;
+}
+
+.Paginator button.active {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  background: #333333;
+  text-shadow: #fff 0px 0px 5px, #fff 0px 0px 10px, #fff 0px 0px 15px,
+    #ff0 0px 0px 20px, #ff0 0px 0px 30px, #ff0 0px 0px 40px, #ff0 0px 0px 50px,
+    #ff0 0px 0px 75px;
+}
+.Paginator button:hover {
+  text-shadow: #fff 0px 0px 5px, #fff 0px 0px 10px, #fff 0px 0px 15px,
+    #ff0 0px 0px 20px, #ff0 0px 0px 30px, #ff0 0px 0px 40px, #ff0 0px 0px 50px,
+    #ff0 0px 0px 75px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 800px) {
+  .Paginator {
+    width: 100%;
+  }
 }
