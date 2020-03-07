@@ -99,8 +99,6 @@ export default function Paginator({
         </button>
       );
     }
-
-    console.log(currentPage);
   }
 
   return (

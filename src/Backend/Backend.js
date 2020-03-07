@@ -48,13 +48,3 @@ const Backend = {
 };
 
 export default Backend;
-
-//   loadData: function(offset = '0', limit = '5') {
-//     const url = `https://staffz.ru/api/announce-list?offset=${offset}&limit=${limit}`;
-//     return new Promise((resolve, reject) => {
-//       fetch(url)
-//         .then(res => res.json())
-//         .then(data => resolve(data))
-//         .catch(err => reject(err));
-//     });
-//   },

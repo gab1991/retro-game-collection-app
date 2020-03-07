@@ -1,15 +1,32 @@
 .GameSelector {
   min-height: 100%;
   display: grid;
-  grid-template-rows: 1fr 5fr;
+  grid-template-rows: 16vh auto;
 }
 
 .Header {
   background-color: rgb(139, 155, 201);
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
+  grid-template-areas:
+    'info settings settings settings'
+    'info settings settings settings'
+    'pagination pagination pagination pagination';
+}
+.PlatformInfo {
+  grid-area: info;
+  background-color: lightgreen;
+}
+
+.Desctiprion {
+  grid-area: desc;
+  overflow: auto;
+  background-color: lightpink;
+}
+
+.Settings {
+  grid-area: settings;
+  background-color: lightslategrey;
+  overflow: auto;
 }
 
 .GamePicker {
