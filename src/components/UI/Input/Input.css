@@ -1,0 +1,20 @@
+.Input {
+  border: none;
+  outline: none;
+  text-indent: 5px;
+  color: whitesmoke;
+  height: 20px;
+
+  background-color: transparent;
+  border: 1px solid whitesmoke;
+}
+
+.Input::placeholder {
+  color: whitesmoke;
+  opacity: 0.5;
+}
+.Input:active {
+  text-shadow: #fff 0px 0px 5px, #fff 0px 0px 10px, #fff 0px 0px 15px,
+    #ff0 0px 0px 20px, #ff0 0px 0px 30px, #ff0 0px 0px 40px, #ff0 0px 0px 50px,
+    #ff0 0px 0px 75px;
+}

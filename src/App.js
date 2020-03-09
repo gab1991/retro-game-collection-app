@@ -7,50 +7,50 @@ import Backend from './Backend/Backend';
 import GameSelector from './components/GameSelector/GameSelector';
 
 function App(props) {
-  const availablePlatforms = ['Genesis', 'NES'];
-  const [allPlatromsList, setAllPlatformsList] = useState();
-  const [selectedPlatform, setSelectedPlatform] = useState('Genesis');
-  const [selectedPlatformInfo, setSelectedPlatformInfo] = useState();
+	const availablePlatforms = ['Genesis', 'NES'];
+	const [allPlatromsList, setAllPlatformsList] = useState();
+	const [selectedPlatform, setSelectedPlatform] = useState('Genesis');
+	const [selectedPlatformInfo, setSelectedPlatformInfo] = useState();
 
-  useEffect(() => {
-    Backend.getAllPlatfroms().then(res =>
-      setAllPlatformsList([...res.results])
-    );
-  }, []);
+	useEffect(() => {
+		Backend.getAllPlatfroms().then(res =>
+			setAllPlatformsList([...res.results])
+		);
+	}, []);
 
-  useEffect(() => {
-    if (selectedPlatform && allPlatromsList) {
-      allPlatromsList.forEach(platform => {
-        if (platform.name === selectedPlatform) {
-          setSelectedPlatformInfo(platform);
-        }
-      });
-    }
-  }, [selectedPlatform, allPlatromsList]);
+	useEffect(() => {
+		if (selectedPlatform && allPlatromsList) {
+			allPlatromsList.forEach(platform => {
+				if (platform.name === selectedPlatform) {
+					setSelectedPlatformInfo(platform);
+				}
+			});
+		}
+	}, [selectedPlatform, allPlatromsList]);
 
-  const selectPlatformHandler = platformName => {
-    setSelectedPlatform(platformName);
-  };
+	const selectPlatformHandler = platformName => {
+		setSelectedPlatform(platformName);
+	};
 
-  return (
-    <div className="App">
-      <Layout>
-        <Navigation />
-        {!selectedPlatform && (
-          <PlatformSelector
-            platforms={availablePlatforms}
-            selectPlatform={selectPlatformHandler}
-          />
-        )}
-        {selectedPlatform && selectedPlatformInfo && (
-          <GameSelector
-            platform={selectedPlatform}
-            platformInfo={selectedPlatformInfo}
-          />
-        )}
-      </Layout>
-    </div>
-  );
+	return (
+		<div className="App">
+			<Layout>
+				<Navigation />
+				{!selectedPlatform && (
+					<PlatformSelector
+						platforms={availablePlatforms}
+						selectPlatform={selectPlatformHandler}
+					/>
+				)}
+				{selectedPlatform && selectedPlatformInfo && (
+					<GameSelector
+						platform={selectedPlatform}
+						platformInfo={selectedPlatformInfo}
+					/>
+				)}
+			</Layout>
+		</div>
+	);
 }
 
 export default App;
