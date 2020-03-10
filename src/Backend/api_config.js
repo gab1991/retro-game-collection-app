@@ -16,6 +16,9 @@ const api = {
       ordering: ['name', 'released', 'rating']
       // 'Available fields: name, released, added, created, rating. You can reverse the sort order adding a hyphen, for example: -released.'
     }
+  },
+  game: {
+    getDetailsUrl: 'https://api.rawg.io/api/games/'
   }
 };
 

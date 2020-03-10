@@ -1,0 +1,42 @@
+.GameInfoBox {
+  background-color: skyblue;
+  width: 100%;
+  height: 100%;
+  border: 2px solid grey;
+  padding: 5px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.ImageContainer {
+  background-color: slateblue;
+  max-width: 300px;
+  width: 80%;
+  height: 50%;
+}
+
+.ImageContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.TextContainer {
+  padding: 5px;
+  background-color: seagreen;
+}
+
+.TextContainer ul {
+  list-style: disc;
+}
+
+.TextContainer li {
+  text-indent: 30px;
+}
+
+span {
+  font-size: 1.3rem;
+  font-weight: bold;
+}

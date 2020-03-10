@@ -44,6 +44,16 @@ const Backend = {
         .then(data => resolve(data))
         .catch(err => reject(err));
     });
+  },
+
+  getGameDetails: slug => {
+    let url = `${api.game.getDetailsUrl}${slug}`;
+    return new Promise((resolve, reject) => {
+      fetch(url)
+        .then(res => res.json())
+        .then(data => resolve(data))
+        .catch(err => reject(err));
+    });
   }
 };
 

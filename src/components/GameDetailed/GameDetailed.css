@@ -1,0 +1,35 @@
+.GameDetailed {
+  background-color: violet;
+  min-height: 100%;
+  width: 100%;
+
+  display: grid;
+  grid-template-areas:
+    'info description description'
+    'info description description'
+    'info screenshots screenshots'
+    'info controls controls';
+}
+
+.Info {
+  grid-area: info;
+  background-color: yellowgreen;
+
+  padding: 10px;
+}
+
+.Desc {
+  grid-area: description;
+  background-color: tomato;
+  padding: 10px;
+}
+
+.Screenshots {
+  grid-area: screenshots;
+  background-color: sandybrown;
+}
+
+.Contorls {
+  grid-area: controls;
+  background-color: saddlebrown;
+}
