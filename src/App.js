@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { withRouter, Route } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
 import './App.css';
 import Navigation from './components/Navigation/Navigation';
@@ -9,13 +10,14 @@ import GameSelector from './components/GameSelector/GameSelector';
 function App(props) {
 	const availablePlatforms = ['Genesis', 'NES'];
 	const [allPlatromsList, setAllPlatformsList] = useState();
-	const [selectedPlatform, setSelectedPlatform] = useState('Genesis');
+	const [selectedPlatform, setSelectedPlatform] = useState();
 	const [selectedPlatformInfo, setSelectedPlatformInfo] = useState();
 
 	useEffect(() => {
 		Backend.getAllPlatfroms().then(res =>
 			setAllPlatformsList([...res.results])
 		);
+		props.history.push('/home');
 	}, []);
 
 	useEffect(() => {
@@ -30,22 +32,36 @@ function App(props) {
 
 	const selectPlatformHandler = platformName => {
 		setSelectedPlatform(platformName);
+		if (platformName) props.history.push('/selectGame');
 	};
-
+	console.log(props);
 	return (
 		<div className="App">
 			<Layout>
 				<Navigation />
 				{!selectedPlatform && (
-					<PlatformSelector
-						platforms={availablePlatforms}
-						selectPlatform={selectPlatformHandler}
+					<Route
+						path="/home"
+						render={props => (
+							<PlatformSelector
+								{...props}
+								platforms={availablePlatforms}
+								selectPlatform={selectPlatformHandler}
+							/>
+						)}
 					/>
 				)}
 				{selectedPlatform && selectedPlatformInfo && (
-					<GameSelector
-						platform={selectedPlatform}
-						platformInfo={selectedPlatformInfo}
+					<Route
+						path="/selectGame"
+						render={props => (
+							<GameSelector
+								{...props}
+								platform={selectedPlatform}
+								platformInfo={selectedPlatformInfo}
+								selectPlatform={selectPlatformHandler}
+							/>
+						)}
 					/>
 				)}
 			</Layout>
@@ -53,4 +69,4 @@ function App(props) {
 	);
 }
 
-export default App;
+export default withRouter(App);

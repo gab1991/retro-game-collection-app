@@ -23,6 +23,10 @@ export default function GameSelector(props) {
 	const [inputValue, setInputValue] = useState();
 
 	useEffect(() => {
+		return () => props.selectPlatform('');
+	}, []);
+
+	useEffect(() => {
 		{
 			Backend.getGamesForPlatform({
 				page: currentPage,
