@@ -1,6 +1,7 @@
 .GameDetailed {
   background-color: violet;
   min-height: 100%;
+  overflow: auto;
   width: 100%;
 
   display: grid;
@@ -21,11 +22,14 @@
 .Desc {
   grid-area: description;
   background-color: tomato;
+
+  width: 600px;
   padding: 10px;
 }
 
 .Screenshots {
   grid-area: screenshots;
+  /* width: 600px; */
   background-color: sandybrown;
 }
 

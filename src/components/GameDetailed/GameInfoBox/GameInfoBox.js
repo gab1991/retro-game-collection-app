@@ -31,8 +31,8 @@ export default function GameInfoBox(props) {
               <span>Developers:</span>
             </p>
             <ul>
-              {developers.map(dev => (
-                <li>{dev.name}</li>
+              {developers.map((dev, index) => (
+                <li key={index}>{dev.name}</li>
               ))}
             </ul>
           </>
@@ -43,8 +43,8 @@ export default function GameInfoBox(props) {
               <span>Publishers:</span>
             </p>
             <ul>
-              {publishers.map(pub => (
-                <li>{pub.name}</li>
+              {publishers.map((pub, index) => (
+                <li key={index}>{pub.name}</li>
               ))}
             </ul>
           </>
