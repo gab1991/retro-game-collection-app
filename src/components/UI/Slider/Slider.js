@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './Slider.css';
+import _ from 'underscore';
+import { diff } from 'semver';
 
 export default function Slider(props) {
   const { images } = props;
@@ -9,16 +11,16 @@ export default function Slider(props) {
   const [isDown, setIsDown] = useState(false);
   const [sliderDimensions, setSliderDimenstions] = useState();
   const [initialX, setInitialX] = useState();
-  const [diffX, setdiffX] = useState();
+  const [leftShift, setLeftShift] = useState(0);
+  const [walk, setWalk] = useState(0);
 
   useEffect(() => {
     setSliderDimenstions(sliderContainer.current.getBoundingClientRect());
   }, []);
 
   useEffect(() => {
-    if (Math.abs(diffX) > 40) {
-    }
-  }, [diffX]);
+    // console.log(leftShift);
+  }, [leftShift]);
 
   const onClickHandler = e => {
     const curAtrb = e.target.getAttribute('desc');
@@ -39,46 +41,79 @@ export default function Slider(props) {
   };
 
   const leaveHandler = () => {
+    if (
+      leftShift >
+      sliderDimensions.width - sliderDimensions.width / images.length
+    ) {
+      console.log('bigger');
+      setLeftShift(
+        sliderDimensions.width - 2 * (sliderDimensions.width / images.length)
+      );
+    }
+    if (leftShift < -sliderDimensions.width / images.length / 2) {
+      console.log('here');
+      setLeftShift(0);
+    }
+
     setIsDown(false);
     setBtnOpcaticy(0);
   };
+  const throttle = _.throttle(function(e) {
+    console.log(e.pageX);
+    let cur = e.pageX;
+    let curShift = cur - initialX;
+    console.log({ leftShift, curShift, initialX });
+
+    setLeftShift(leftShift - curShift / 50);
+  }, 10000);
 
   const dragHandler = e => {
-    if (e.type === 'mousedown') {
-      if (sliderDimensions) {
-        setInitialX(e.pageX - sliderDimensions.x);
+    if (e.target.tagName !== 'BUTTON') {
+      if (e.type === 'mousedown') {
+        console.log(e.target.tagName, 'down');
+        setInitialX(e.pageX);
         setIsDown(true);
-        console.log(initialX);
+      }
+      if (e.type === 'mouseup') {
+        console.log('up');
+        setIsDown(false);
+        if (leftShift < -sliderDimensions.width / images.length / 2) {
+          console.log('here');
+          setLeftShift(0);
+        }
+        if (
+          leftShift >
+          sliderDimensions.width - 2 * (sliderDimensions.width / images.length)
+        ) {
+          console.log('bigger');
+          setLeftShift(
+            sliderDimensions.width -
+              2 * (sliderDimensions.width / images.length)
+          );
+        }
+      }
+
+      if (e.type === 'mousemove' && isDown) {
+        throttle(e);
       }
     }
-    if (e.type === 'mouseup') setIsDown(false);
-    if (e.type === 'mousemove' && isDown && sliderDimensions) {
-      e.preventDefault();
-      // setdiffX(initialX - (e.pageX - sliderDimensions.x));
-    }
-    console.log(
-      e.type,
-      isDown,
-      initialX,
-      diffX,
-      sliderContainer.current.scrollLeft
-    );
   };
 
   return (
     <div
-      ref={sliderContainer}
       className={styles.Slider}
       onMouseEnter={enterHandler}
-      onMouseLeave={leaveHandler}>
+      onMouseLeave={leaveHandler}
+      onMouseDown={dragHandler}
+      onMouseMove={dragHandler}
+      onMouseUp={dragHandler}>
       <div
-        onMouseDown={dragHandler}
-        onMouseMove={dragHandler}
-        onMouseUp={dragHandler}
+        ref={sliderContainer}
         className={styles.Images}
         style={{
-          // transform: `translateX(-${currentImg * (100 / images.length)}%)`
-          transform: `translateX(-${diffX}px)`
+          transform: `translateX(-${currentImg * (100 / images.length)}%)`
+          // transform: `translateX(${-leftShift}px)`
+          // left: -diffX * 3
         }}>
         {images &&
           images.map((image, index) => (
