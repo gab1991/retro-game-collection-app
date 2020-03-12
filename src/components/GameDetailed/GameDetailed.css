@@ -23,14 +23,13 @@
   grid-area: description;
   background-color: tomato;
 
-  width: 600px;
   padding: 10px;
 }
 
 .Screenshots {
   grid-area: screenshots;
-  /* width: 600px; */
-  background-color: sandybrown;
+
+  height: 300px;
 }
 
 .Contorls {
