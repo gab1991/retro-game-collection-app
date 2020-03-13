@@ -4,8 +4,10 @@ import styles from './Slider.css';
 export default function Slider(props) {
   const { images } = props;
   const imageWidth = 300;
+  const totalWith = imageWidth * images.length;
   const sliderContainer = useRef();
   const [currentImg, setCurrentImg] = useState(0);
+  const [activeClass, setActiveClass] = useState(0);
   const [btnOpcatity, setBtnOpcaticy] = useState(0);
   const [isDown, setIsDown] = useState(false);
   const mouseStatsRef = useRef({
@@ -13,7 +15,6 @@ export default function Slider(props) {
     initialX: null,
     initialOffset: null
   });
-  const [activeClass, setActiveClass] = useState(0);
 
   const transitionCss = {
     transition: `transform 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275`
@@ -35,8 +36,6 @@ export default function Slider(props) {
         setCurrentImg(0);
       } else setCurrentImg(currentImg + 1);
     }
-
-    console.log(sliderContainer.current.getBoundingClientRect().x - imageWidth);
   };
 
   const enterHandler = () => {
@@ -59,16 +58,18 @@ export default function Slider(props) {
 
     sliderContainer.current.style.transform = `translateX(${mouseStatsRef.current.offset}px)`;
 
-    let classCalc = -Math.floor(mouseStatsRef.current.offset / imageWidth);
+    let activeClassCalc = -Math.floor(
+      mouseStatsRef.current.offset / imageWidth
+    );
 
-    if (classCalc < 0) {
+    if (activeClassCalc < 0) {
       setActiveClass(0);
-    } else if (classCalc > images.length - 1) {
+    } else if (activeClassCalc > images.length - 1) {
       setActiveClass(images.length - 1);
-    } else if (classCalc < 0) {
+    } else if (activeClassCalc < 0) {
       setActiveClass(0);
     } else {
-      setActiveClass(classCalc);
+      setActiveClass(activeClassCalc);
     }
   };
 
@@ -83,16 +84,10 @@ export default function Slider(props) {
     setCurrentImg(activeClass);
     setIsDown(false);
 
-    sliderContainer.current.style.transform = `translateX(-${(1800 /
+    sliderContainer.current.style.transform = `translateX(-${(totalWith /
       images.length) *
       currentImg}px)`;
   };
-
-  // console.log(
-  //   { ...mouseStatsRef.current },
-  //   sliderContainer.current.getBoundingClientRect()
-  // );
-  console.log(currentImg, activeClass);
 
   return (
     <div
@@ -106,7 +101,8 @@ export default function Slider(props) {
         ref={sliderContainer}
         className={styles.Images}
         style={{
-          transform: `translateX(-${(1800 / images.length) * currentImg}px)`,
+          transform: `translateX(-${(totalWith / images.length) *
+            currentImg}px)`,
           transition: `${!isDown ? transitionCss.transition : null}`
         }}>
         {images &&
