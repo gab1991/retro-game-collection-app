@@ -1,44 +1,44 @@
 .GameDetailed {
-  background-color: violet;
+  background-color: rgba(0, 0, 0, 0.4);
   max-height: 100%;
   overflow: auto;
   width: 100%;
 
   display: grid;
+
   grid-template-areas:
     'info description description'
     'info description description'
     'info screenshots screenshots'
     'info controls controls';
+  grid-template-columns: auto 1fr 1fr;
+  grid-template-rows: auto auto min-content auto;
 }
 
 .Info {
   grid-area: info;
-  background-color: yellowgreen;
-
+  /* background-color: yellowgreen; */
+  width: 320px;
   padding: 10px;
 }
 
 .Desc {
   grid-area: description;
-  background-color: tomato;
+  /* background-color: tomato; */
 
-  max-height: 50%;
   overflow: auto;
   padding: 10px;
 }
 
 .Screenshots {
+  /* background-color: burlywood; */
   grid-area: screenshots;
-
-  height: 300px;
 }
 
 .Contorls {
   grid-area: controls;
-  background-color: saddlebrown;
+  /* background-color: saddlebrown; */
 
-  /* height: 200px;s */
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -46,8 +46,62 @@
 }
 
 .Contorls > button {
-  background-color: aliceblue;
-  width: 100px;
-  height: 30px;
-  border: 2px solid black;
+  font: inherit;
+  color: #fff;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: #ed3330;
+  padding: 5px;
+  border-radius: 5px;
+  display: inline-block;
+  border: none;
+  transition: all 0.4s ease 0s;
+  min-width: 100px;
+  outline: none;
+  /* height: 30px; */
+}
+
+.Contorls > button:hover {
+  background: #434343;
+  letter-spacing: 1px;
+  -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+  -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+  box-shadow: 5px 40px -10px rgba(0, 0, 0, 0.57);
+  transition: all 0.4s ease 0s;
+}
+
+.Contorls > button:active {
+  transform: scale(0.8);
+}
+
+@media (max-width: 1200px) {
+  .GameDetailed {
+    grid-template-areas:
+      'info description description'
+      'info description description'
+      'screenshots screenshots screenshots'
+      'controls controls controls';
+  }
+}
+
+@media (max-width: 500px) {
+  .GameDetailed {
+    display: flex;
+    flex-direction: column;
+  }
+  .Info {
+    width: 100%;
+    font-size: 1.3rem;
+  }
+
+  .Desc {
+    font-size: 1.3rem;
+    overflow: visible;
+  }
+  .Screenshots {
+    min-height: max-content;
+  }
+  .Contorls > button {
+    min-width: auto;
+  }
 }

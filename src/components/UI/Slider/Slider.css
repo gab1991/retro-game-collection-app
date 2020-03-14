@@ -8,7 +8,6 @@
 }
 
 .Images {
-  position: absolute;
   display: flex;
 }
 .Images .Active {

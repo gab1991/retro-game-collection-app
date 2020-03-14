@@ -33,9 +33,9 @@ export default function GameDetailed(props) {
         {screenshots && <Slider images={screenshots} />}
       </div>
       <div className={styles.Contorls}>
-        <button>1</button>
-        <button>2</button>
-        <button>3</button>
+        <button>Add to Whishlist</button>
+        <button>Owned</button>
+        <button>Cancel</button>
       </div>
     </div>
   );
