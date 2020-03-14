@@ -91,7 +91,7 @@ export default function GameSelector(props) {
             <p>Total Games Released : {platformInfo.games_count}</p>
           </div>
         </div>
-        {/* <div className={styles.Desctiprion}>{platformDescription}</div> */}
+
         <SelectorControls
           gameSearchChange={gameSearchChangeHandler}
           selectChange={selectChangeHandler}

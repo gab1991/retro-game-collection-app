@@ -4,6 +4,7 @@ import styles from './GameDetailed.css';
 import ReactHtmlParser from 'react-html-parser';
 import GameInfoBox from './GameInfoBox/GameInfoBox';
 import Slider from '../UI/Slider/Slider';
+import ButtonNeon from '../UI/Buttons/ButtonNeon/ButtonNeon';
 
 export default function GameDetailed(props) {
   const {
@@ -21,6 +22,9 @@ export default function GameDetailed(props) {
       res.results.forEach(obj => screenshotsUrls.push(obj.image));
       setScreenshots(screenshotsUrls);
     });
+    return () => {
+      setScreenshots();
+    };
   }, []);
 
   return (
@@ -33,9 +37,9 @@ export default function GameDetailed(props) {
         {screenshots && <Slider images={screenshots} />}
       </div>
       <div className={styles.Contorls}>
-        <button>Add to Whishlist</button>
-        <button>Owned</button>
-        <button>Cancel</button>
+        <ButtonNeon txtContent={'Add to Whishlist'} />
+        <ButtonNeon txtContent={'Owned'} />
+        <ButtonNeon txtContent={'Cancel'} />
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from './Button.css';
+import styles from '../ButtonNeon/ButtonNeon.css';
 
-export default function Button(props) {
+export default function ButtonNeon(props) {
   const { txtContent, onClick: clickHander, direction, name, style } = props;
   return (
     <button

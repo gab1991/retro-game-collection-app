@@ -9,8 +9,8 @@
   grid-template-areas:
     'info description description'
     'info description description'
-    'info screenshots screenshots'
-    'info controls controls';
+    'screenshots screenshots screenshots'
+    'controls controls controls';
   grid-template-columns: auto 1fr 1fr;
   grid-template-rows: auto auto min-content auto;
 }
@@ -45,36 +45,7 @@
   padding: 10px;
 }
 
-.Contorls > button {
-  font: inherit;
-  color: #fff;
-  text-transform: uppercase;
-  text-decoration: none;
-  background: #ed3330;
-  padding: 5px;
-  border-radius: 5px;
-  display: inline-block;
-  border: none;
-  transition: all 0.4s ease 0s;
-  min-width: 100px;
-  outline: none;
-  /* height: 30px; */
-}
-
-.Contorls > button:hover {
-  background: #434343;
-  letter-spacing: 1px;
-  -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
-  -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
-  box-shadow: 5px 40px -10px rgba(0, 0, 0, 0.57);
-  transition: all 0.4s ease 0s;
-}
-
-.Contorls > button:active {
-  transform: scale(0.8);
-}
-
-@media (max-width: 1200px) {
+/* @media (max-width: 1200px) {
   .GameDetailed {
     grid-template-areas:
       'info description description'
@@ -82,7 +53,7 @@
       'screenshots screenshots screenshots'
       'controls controls controls';
   }
-}
+} */
 
 @media (max-width: 500px) {
   .GameDetailed {

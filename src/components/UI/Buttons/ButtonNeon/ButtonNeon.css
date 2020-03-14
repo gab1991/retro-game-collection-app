@@ -1,0 +1,25 @@
+.ButtonNeon {
+  font: inherit;
+  color: whitesmoke;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: #65323e;
+  padding: 5px;
+  border-radius: 5px;
+  display: inline-block;
+  border: none;
+  transition: all 0.4s ease 0s;
+  min-width: 100px;
+  outline: none;
+}
+
+.ButtonNeon:hover {
+  background: #434343;
+  letter-spacing: 1px;
+  box-shadow: 0 0 10px #2196f3, 0 0 30px #2196f3, 0 0 60px #2196f3;
+  transition: all 0.4s ease 0s;
+}
+
+.ButtonNeon:active {
+  transform: scale(0.8);
+}
