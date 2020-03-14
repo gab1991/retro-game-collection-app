@@ -32,7 +32,11 @@ export default function GameDetailed(props) {
       <div className={styles.Screenshots}>
         {screenshots && <Slider images={screenshots} />}
       </div>
-      <div className={styles.Contorls}></div>
+      <div className={styles.Contorls}>
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+      </div>
     </div>
   );
 }
