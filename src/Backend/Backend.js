@@ -63,6 +63,15 @@ const Backend = {
         .then(data => resolve(data))
         .catch(err => reject(err));
     });
+  },
+  getBoxArt: (platform, slug) => {
+    let url = `${api.fileServer.boxArtworkUrl}/${platform}/${slug}`;
+    return new Promise((resolve, reject) => {
+      fetch(url)
+        .then(res => res.json())
+        .then(data => resolve(data))
+        .catch(err => reject(err));
+    });
   }
 };
 

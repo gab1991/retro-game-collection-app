@@ -12,7 +12,7 @@
 
 .ImageContainer {
   align-self: center;
-  background-color: slateblue;
+  /* background-color: slateblue; */
   max-width: 300px;
   width: 80%;
   min-height: 300px;

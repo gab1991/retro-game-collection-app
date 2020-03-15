@@ -8,13 +8,14 @@ export default function GameInfoBox(props) {
     background_image: background,
     released,
     developers,
-    publishers
+    publishers,
   } = props.gameInfo;
+  const { boxArt } = props;
 
   return (
     <div className={styles.GameInfoBox}>
       <div className={styles.ImageContainer}>
-        <img src={background} alt={background}></img>
+        <img src={boxArt} alt={boxArt}></img>
       </div>
       <div className={styles.TextContainer}>
         <p>

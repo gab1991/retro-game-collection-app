@@ -15,12 +15,15 @@ export default function GameDetailed(props) {
   } = props.gameInfo;
   const descriptionParsed = ReactHtmlParser(description);
   const [screenshots, setScreenshots] = useState();
+  const [boxArtUrl, setBoxArtUrl] = useState();
 
   useEffect(() => {
     Backend.getScreenshots(slug).then(res => {
       const screenshotsUrls = [];
       res.results.forEach(obj => screenshotsUrls.push(obj.image));
       setScreenshots(screenshotsUrls);
+
+      Backend.getBoxArt('Genesis', slug).then((res) => setBoxArtUrl(res));
     });
     return () => {
       setScreenshots();
@@ -30,7 +33,7 @@ export default function GameDetailed(props) {
   return (
     <div className={styles.GameDetailed}>
       <div className={styles.Info}>
-        <GameInfoBox gameInfo={props.gameInfo} />
+        <GameInfoBox gameInfo={props.gameInfo} boxArt={boxArtUrl} />
       </div>
       <div className={styles.Desc}>{descriptionParsed}</div>
       <div className={styles.Screenshots}>
