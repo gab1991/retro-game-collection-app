@@ -7,35 +7,45 @@ import Slider from '../UI/Slider/Slider';
 import ButtonNeon from '../UI/Buttons/ButtonNeon/ButtonNeon';
 
 export default function GameDetailed(props) {
-  const {
-    name,
-    slug,
-    description,
-    background_image: background
-  } = props.gameInfo;
-  const descriptionParsed = ReactHtmlParser(description);
+  const slug = props.match.params.gameSlug;
+  const platformName = props.match.params.platformName;
+  const [gameDetails, setGameDetails] = useState();
   const [screenshots, setScreenshots] = useState();
   const [boxArtUrl, setBoxArtUrl] = useState();
+  const [descriptionParsed, setDescriptionParsed] = useState();
 
   useEffect(() => {
+    Backend.getGameDetails(slug).then(res => {
+      setGameDetails(res);
+      const description = res.description;
+      setDescriptionParsed(ReactHtmlParser(description));
+    });
+
     Backend.getScreenshots(slug).then(res => {
       const screenshotsUrls = [];
       res.results.forEach(obj => screenshotsUrls.push(obj.image));
       setScreenshots(screenshotsUrls);
-
-      Backend.getBoxArt('Genesis', slug).then((res) => setBoxArtUrl(res));
     });
-    return () => {
-      setScreenshots();
-    };
   }, []);
+
+  useEffect(() => {
+    if (gameDetails) {
+      Backend.getBoxArt(platformName, gameDetails.name).then(res =>
+        setBoxArtUrl(res)
+      );
+    }
+  }, [gameDetails]);
 
   return (
     <div className={styles.GameDetailed}>
       <div className={styles.Info}>
-        <GameInfoBox gameInfo={props.gameInfo} boxArt={boxArtUrl} />
+        {gameDetails && boxArtUrl && (
+          <GameInfoBox gameInfo={gameDetails} boxArt={boxArtUrl} />
+        )}
       </div>
-      <div className={styles.Desc}>{descriptionParsed}</div>
+      <div className={styles.Desc}>
+        {descriptionParsed ? descriptionParsed : null}
+      </div>
       <div className={styles.Screenshots}>
         {screenshots && <Slider images={screenshots} />}
       </div>

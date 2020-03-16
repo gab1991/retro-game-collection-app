@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './PlatformCard.css';
-import { images, appConfig } from '../../configs/appConfig';
+import { images } from '../../configs/appConfig';
 
 export default function PlatformCard(props) {
 	let gamepadImage = images[props.name].gamepad.src;

@@ -7,9 +7,10 @@ import Paginator from '../Paginator/Paginator.js';
 import SelectorControls from './SelectorControls/SelectorControls';
 
 export default function GameSelector(props) {
-  const { platform, platformInfo } = props;
+  const { match } = props;
+  const platformName = match.params.platformName;
+  const platformID = appConfig.platformIdList[platformName];
   const orderingOptions = appConfig.GameSelector.ordering;
-
   const [platformDescription, setPlatformDescription] = useState();
   const [gamesToShow, setGamesToShow] = useState();
   const [recievedData, setRecievedData] = useState();
@@ -19,27 +20,24 @@ export default function GameSelector(props) {
     direction: 'desc'
   });
   const [inputValue, setInputValue] = useState();
+  const [platformInfo, setPlatformInfo] = useState();
 
   useEffect(() => {
-    {
-      Backend.getGamesForPlatform({
-        page: currentPage,
-        page_size: appConfig.GameSelector.gamesPerRequest,
-        ordering: `${ordering.direction === 'desc' ? '-' : ''}${ordering.name}`,
-        platforms: platformInfo.id
-      }).then(res => {
-        const games = res.results;
-        setGamesToShow(games);
-        setRecievedData(res);
-      });
-    }
-  }, [currentPage, ordering]);
-
-  useEffect(() => {
-    Backend.getPlatformDetails(platformInfo.id).then(res => {
-      setPlatformDescription(res.description);
+    Backend.getPlatformDetails(platformID).then(res => {
+      setPlatformDescription(res);
     });
-  }, []);
+
+    Backend.getGamesForPlatform({
+      page: currentPage,
+      page_size: appConfig.GameSelector.gamesPerRequest,
+      ordering: `${ordering.direction === 'desc' ? '-' : ''}${ordering.name}`,
+      platforms: platformID
+    }).then(res => {
+      const games = res.results;
+      setGamesToShow(games);
+      setRecievedData(res);
+    });
+  }, [currentPage, ordering]);
 
   const pageChangeHandler = pageNumber => {
     setCurrentPage(pageNumber);
@@ -55,7 +53,7 @@ export default function GameSelector(props) {
         page: 1,
         page_size: appConfig.GameSelector.gamesPerRequest,
         ordering: appConfig.GameSelector.defaultOrdering,
-        platforms: platformInfo.id,
+        platforms: platformID,
         search: inputValue
       }).then(res => {
         const games = res.results;
@@ -77,18 +75,25 @@ export default function GameSelector(props) {
     setOrdering(updatedOrdering);
   };
 
+  const openGameDetailsHandler = slug => {
+    props.history.push(`/${platformName}/${slug}`);
+  };
+
   return (
     <div className={styles.GameSelector}>
       <div className={styles.Header}>
         <div className={styles.IconContainer}>
-          <img src={images[platformInfo.name].gamepad.src} alt="platformImg" />
+          <img src={images[platformName].gamepad.src} alt="platformImg" />
         </div>
         <div className={styles.PlatformInfo}>
           <div>
-            <p>Chosen Platform : {platformInfo.name}</p>
+            <p>Chosen Platform : {platformName}</p>
           </div>
           <div>
-            <p>Total Games Released : {platformInfo.games_count}</p>
+            <p>
+              Total Games Released :{' '}
+              {platformDescription ? platformDescription.games_count : null}
+            </p>
           </div>
         </div>
 
@@ -115,7 +120,7 @@ export default function GameSelector(props) {
             <GameCard
               key={game.slug}
               gameInfo={game}
-              openGameDetails={props.openGameDetails}
+              openGameDetails={openGameDetailsHandler}
             />
           ))}
       </div>
