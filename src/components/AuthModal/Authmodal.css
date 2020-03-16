@@ -6,10 +6,33 @@
   align-items: center;
 }
 
-.Modal {
+.AuthCard {
   z-index: 25;
   width: 600px;
   height: 600px;
+
+  position: relative;
+}
+
+.AuthCard:hover > .SignIn {
+  transform: perspective(1000px) rotateY(180deg);
+}
+
+.AuthCard:hover > .SignUp {
+  transform: perspective(1000px) rotateY(0deg);
+}
+.SignUp {
+  transform: perspective(1000px) rotateY(-180deg);
+}
+
+.SignIn,
+.SignUp {
+  height: 100%;
+  width: 100%;
+  backface-visibility: hidden;
+  position: absolute;
+  transition: transform 300ms linear;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,7 +43,8 @@
   background-size: cover;
 }
 
-.Modal form {
+.SignIn form,
+.SignUp form {
   width: 70%;
   height: 70%;
   display: flex;
@@ -28,30 +52,30 @@
   justify-content: space-around;
 }
 
-.Modal h1 {
+.SignIn h1 {
   color: whitesmoke;
   font-size: 3rem;
 }
 
-.Modal form label {
+.SignIn form label {
   display: block;
 }
 
-.Modal form input {
+.SignIn form input {
   width: 100%;
 }
 .GuestSection {
   background-color: slategray;
 }
 
-.Modal form > div:nth-child(1),
-.Modal form > div:nth-child(2),
-.Modal form > div:nth-child(3) {
+.SignIn form > div:nth-child(1),
+.SignIn form > div:nth-child(2),
+.SignIn form > div:nth-child(3) {
   padding: 10%;
   flex: 1;
 }
 
-.Modal form > div:nth-child(3) {
+.SignIn form > div:nth-child(3) {
   display: flex;
   justify-content: center;
   align-content: center;
