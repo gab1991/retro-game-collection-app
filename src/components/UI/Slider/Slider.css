@@ -20,6 +20,7 @@
 }
 
 .Images > div > img {
+  object-fit: contain;
   user-select: none;
   height: 100%;
   width: 100%;

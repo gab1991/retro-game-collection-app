@@ -8,7 +8,7 @@ export default function GameInfoBox(props) {
     background_image: background,
     released,
     developers,
-    publishers,
+    publishers
   } = props.gameInfo;
   const { boxArt } = props;
 
@@ -54,5 +54,3 @@ export default function GameInfoBox(props) {
     </div>
   );
 }
-
-// publishers: [

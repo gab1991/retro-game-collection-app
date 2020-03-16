@@ -1,11 +1,12 @@
 import React from 'react';
-import { withRouter, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
 import './App.css';
 import Navigation from './components/Navigation/Navigation';
 import PlatformSelector from './components/PlatformSelector/PlatformSelector';
 import GameSelector from './components/GameSelector/GameSelector';
 import GameDetailed from './components/GameDetailed/GameDetailed';
+import Profile from './components/Profile/Profile';
 
 function App(props) {
   return (
@@ -14,6 +15,7 @@ function App(props) {
         <Navigation />
         <Switch>
           <Route exact path="/" component={PlatformSelector} />
+          <Route exact path="/profile" component={Profile} />
           <Route exact path="/:platformName" component={GameSelector} />
           <Route
             exact
@@ -27,4 +29,4 @@ function App(props) {
   );
 }
 
-export default withRouter(App);
+export default App;

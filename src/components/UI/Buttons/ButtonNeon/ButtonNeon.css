@@ -18,8 +18,30 @@
   letter-spacing: 1px;
   box-shadow: 0 0 10px #2196f3, 0 0 30px #2196f3, 0 0 60px #2196f3;
   transition: all 0.4s ease 0s;
+  animation: step-end;
 }
 
 .ButtonNeon:active {
   transform: scale(0.8);
+}
+
+.Rectangular {
+  border-radius: 0;
+}
+
+.Blinking {
+  animation: blink 1.5s infinite ease-out;
+}
+
+@keyframes blink {
+  from {
+    background: #65323e;
+    transform: scale(1);
+    box-shadow: none;
+  }
+  to {
+    background: #434343;
+    transform: scale(1.2);
+    box-shadow: 0 0 10px #2196f3, 0 0 30px #2196f3, 0 0 60px #2196f3;
+  }
 }

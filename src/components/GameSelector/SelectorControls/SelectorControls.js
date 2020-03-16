@@ -44,8 +44,18 @@ export default function SelectorControls(props) {
             height={'20px'}
             width={'80%'}
           />
-          <Button txtContent="↓" onClick={directionChange} direction="desc" />
-          <Button txtContent="↑" onClick={directionChange} direction="acs" />
+          <Button
+            txtContent="↓"
+            onClick={directionChange}
+            direction="desc"
+            style={{ height: 20 }}
+          />
+          <Button
+            txtContent="↑"
+            onClick={directionChange}
+            direction="acs"
+            style={{ height: 20 }}
+          />
         </div>
       </div>
     </div>

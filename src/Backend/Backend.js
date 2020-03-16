@@ -65,7 +65,9 @@ const Backend = {
     });
   },
   getBoxArt: (platform, slug) => {
-    let url = `${api.fileServer.boxArtworkUrl}/${platform}/${slug}`;
+    let url = `${api.fileServer.boxArtworkUrl}/${platform}/${encodeURIComponent(
+      slug
+    )}`;
     return new Promise((resolve, reject) => {
       fetch(url)
         .then(res => res.json())

@@ -9,7 +9,7 @@
   grid-template-areas:
     'info description description'
     'info description description'
-    'screenshots screenshots screenshots'
+    'info screenshots screenshots'
     'controls controls controls';
   grid-template-columns: auto 1fr 1fr;
   grid-template-rows: auto auto min-content auto;

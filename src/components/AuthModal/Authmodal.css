@@ -1,0 +1,77 @@
+.AuthModal {
+  min-height: 100vh;
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Modal {
+  z-index: 25;
+  width: 600px;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  background: url('../../assets/images/chilhood_room.jpg'), rgba(0, 0, 0, 0.5);
+  background-blend-mode: multiply;
+  background-position: center;
+  background-size: cover;
+}
+
+.Modal form {
+  width: 70%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.Modal h1 {
+  color: whitesmoke;
+  font-size: 3rem;
+}
+
+.Modal form label {
+  display: block;
+}
+
+.Modal form input {
+  width: 100%;
+}
+.GuestSection {
+  background-color: slategray;
+}
+
+.Modal form > div:nth-child(1),
+.Modal form > div:nth-child(2),
+.Modal form > div:nth-child(3) {
+  padding: 10%;
+  flex: 1;
+}
+
+.Modal form > div:nth-child(3) {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.BtnSection {
+  background-color: skyblue;
+  align-items: flex-end;
+  height: 10%;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.BtnSection button {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+}
