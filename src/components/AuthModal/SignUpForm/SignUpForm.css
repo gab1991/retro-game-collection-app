@@ -1,0 +1,62 @@
+.SignUp {
+  width: 100%;
+  height: 100%;
+  background-color: khaki;
+  position: absolute;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  background: url('../../../assets/images/backgrounds/signup_back.png'),
+    rgba(0, 0, 0, 0.5);
+  background-blend-mode: multiply;
+  background-position: center;
+  background-size: cover;
+}
+
+.SignUp form {
+  width: 70%;
+  height: 70%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.SignUp h1 {
+  color: whitesmoke;
+  font-size: 3rem;
+}
+
+.SignUp form label {
+  display: block;
+}
+
+.SignUp form input {
+  width: 100%;
+}
+
+.SignUp form > div:not(:last-child) {
+  padding: 0 10%;
+  flex: 1;
+}
+
+.BtnSection {
+  align-self: flex-end;
+  height: 10%;
+  width: 100%;
+
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.BtnSection button {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+}
