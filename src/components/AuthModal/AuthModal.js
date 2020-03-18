@@ -5,9 +5,10 @@ import SignUpForm from './SignUpForm/SignUpForm';
 import SignInForm from './SigInForm/SignInForm';
 
 export default function AuthModal(props) {
-  const [activeSide, setActiveSide] = useState('SignUp');
+  const [activeSide, setActiveSide] = useState('SignIn');
 
-  const backToSignIn = () => {
+  const backToSignIn = e => {
+    e.preventDefault();
     setActiveSide('SignIn');
   };
 

@@ -17,14 +17,14 @@ export default function SignUpForm(props) {
     },
     password: {
       label: 'Password',
-      type: 'text',
+      type: 'password',
       placeholder: 'Type your password',
       value: '',
       valid: false
     },
     passConfirm: {
       label: 'Confirm Password',
-      type: 'text',
+      type: 'password',
       placeholder: 'Confirm your password once again',
       value: '',
       valid: false
@@ -124,6 +124,11 @@ export default function SignUpForm(props) {
             <Input
               {...inputs.current[name]}
               desc={name}
+              addToggler={
+                inputs.current[name].type === 'password'
+                  ? 'hideShowToggler'
+                  : null
+              }
               onChange={changeHandler}
               wrong={wrongInputs[name]}
             />
