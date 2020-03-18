@@ -39,22 +39,23 @@ export default function SignUpForm(props) {
   });
 
   const wrongListHandler = (name, action, message) => {
-    // console.log(name);
-    const updated = { ...wrongInputs };
     if (action === 'set') {
-      updated[name] = message;
       inputs.current[name].valid = false;
-      console.log(updated);
+    } else if (action === 'length 0') {
+      inputs.current[name].valid = false;
     } else {
-      updated[name] = false;
       inputs.current[name].valid = true;
     }
-    setWrongInputs(updated);
+    setWrongInputs(prevState => {
+      const wronginputs = { ...prevState };
+      wronginputs[name] = message;
+      return wronginputs;
+    });
   };
 
   const validityChecker = (name, value) => {
     if (value.length === 0) {
-      wrongListHandler(name, 'remove');
+      wrongListHandler(name, 'length 0');
     } else {
       if (name === 'username') {
         let regex = /^[a-zA-Z0-9]+$/;
@@ -104,11 +105,13 @@ export default function SignUpForm(props) {
         wrongListHandler(name, 'set', 'fill the field');
       }
     });
-
+    if (inputs.current.password.value !== inputs.current.passConfirm.value) {
+      entireFormValid = false;
+      wrongListHandler('passConfirm', 'set', 'Passwords must macth');
+    }
     if (entireFormValid) {
       const sendObj = {};
       inputsNames.forEach(name => (sendObj[name] = inputs.current[name].value));
-      // console.log(sendObj);s
     }
   };
 
