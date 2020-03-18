@@ -4,9 +4,28 @@ import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 
 export default function SignInForm(props) {
   const { toSignUp } = props;
+  const inputs = [
+    {
+      desc: 'Username',
+      type: 'text',
+      placeholder: 'Type name of your account'
+    },
+    {
+      desc: 'Password',
+      type: 'text',
+      placeholder: 'Type your password here'
+    },
+    {
+      desc: 'Password',
+      type: 'text',
+      placeholder: 'Type your password here'
+    }
+  ];
+
   const submitHandler = e => {
     e.preventDefault();
   };
+
   return (
     <div className={styles.SignIn}>
       <h1>Seen you lately?</h1>

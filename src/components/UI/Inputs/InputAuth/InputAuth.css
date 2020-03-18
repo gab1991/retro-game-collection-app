@@ -1,0 +1,24 @@
+.Label {
+  font-size: 1.2rem;
+}
+
+.InputAuth {
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  text-indent: 5px;
+}
+
+.InputAuth:focus {
+  box-shadow: 0 0 10px #2196f3, 0 0 30px #2196f3, 0 0 60px #2196f3;
+}
+
+.WrongInput,
+.WrongInput:focus {
+  box-shadow: 0 0 10px #f32f21, 0 0 30px #f32f21, 0 0 60px #f32f21;
+}
+
+.WrongMessage {
+  font-size: 0.8rem;
+  font-style: italic;
+}

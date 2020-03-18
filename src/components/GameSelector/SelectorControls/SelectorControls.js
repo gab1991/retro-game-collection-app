@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './SelectorControls.css';
-import Input from '../../UI/Input/Input';
+import Input from '../../UI/Inputs/Input';
 import SelectBox from '../../UI/SelectBox/SelectBox';
 import Button from '../../UI/Buttons/Button/Button';
 
