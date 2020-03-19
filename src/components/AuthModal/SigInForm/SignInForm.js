@@ -3,10 +3,13 @@ import styles from './SignInForm.css';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import Input from '../../UI/Inputs/InputAuth/InputAuth';
 import Backend from '../../../Backend/Backend';
+import { useDispatch } from 'react-redux';
+import { signIn } from '../../../actions/actions';
 
 export default function SignInForm(props) {
   const { toSignUp } = props;
   const [wrongInputs, setWrongInputs] = useState({});
+  const dispatchSignIn = useDispatch();
   const inputs = useRef({
     username: {
       label: 'Username',
@@ -90,6 +93,7 @@ export default function SignInForm(props) {
         const positiveRes = res.success;
         const negativeRes = res.err_message;
         if (positiveRes) {
+          dispatchSignIn(signIn());
         } else {
           wrongListHandler(res.field, 'set', negativeRes);
         }

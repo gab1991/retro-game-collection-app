@@ -20,7 +20,6 @@ export default function Slider(props) {
   });
 
   const setToCurrent = () => {
-    console.log('setting', currentImg);
     sliderContainer.current.style.transform = `translateX(-${(totalWith /
       images.length) *
       currentImg}px)`;
