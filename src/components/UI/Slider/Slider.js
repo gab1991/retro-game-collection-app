@@ -32,7 +32,7 @@ export default function Slider(props) {
   useEffect(() => {
     mouseStatsRef.current.offset = -currentImg * imageWidth;
     setActiveClass(currentImg);
-  }, [currentImg]);
+  }, [currentImg, imageWidth]);
 
   const onClickHandler = e => {
     const curAtrb = e.target.getAttribute('desc');
@@ -122,7 +122,7 @@ export default function Slider(props) {
               className={index === activeClass ? styles.Active : null}
               key={index}
               style={{ width: imageWidth }}>
-              <img draggable="false" src={image}></img>
+              <img draggable="false" src={image} alt="Screenshot"></img>
             </div>
           ))}
       </div>
@@ -136,6 +136,7 @@ export default function Slider(props) {
         onClick={onClickHandler}>
         <img
           src={sliderArrow}
+          alt="arrowImg"
           desc="prev"
           onAnimationEnd={() => setClickedClassPrev(false)}
           className={clickedClassPrev ? styles.BtnClicked : null}
@@ -152,6 +153,7 @@ export default function Slider(props) {
         onClick={onClickHandler}>
         <img
           src={sliderArrow}
+          alt="arrowImg"
           desc="next"
           style={{ transform: `rotate(180deg)` }}
           onAnimationEnd={() => setClickedClassNext(false)}

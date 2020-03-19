@@ -27,6 +27,7 @@ export default function InputAuth(props) {
           className={`${styles.InputAuth}
         ${wrong ? styles.WrongInput : null}
         `}
+          autoComplete="on"
           desc={desc}
           type={typeChanger}
           placeholder={placeholder}
@@ -39,7 +40,7 @@ export default function InputAuth(props) {
               typeChanger === 'text' ? styles.HideShowTogglerActive : null
             }`}
             onClick={passVisibilityHandler}>
-            <img src={eyeicon}></img>
+            <img src={eyeicon} alt="eyeicon"></img>
           </div>
         )}
       </div>

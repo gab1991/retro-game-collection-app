@@ -20,7 +20,6 @@ export default function GameSelector(props) {
     direction: 'desc'
   });
   const [inputValue, setInputValue] = useState();
-  const [platformInfo, setPlatformInfo] = useState();
 
   useEffect(() => {
     Backend.getPlatformDetails(platformID).then(res => {
@@ -37,7 +36,7 @@ export default function GameSelector(props) {
       setGamesToShow(games);
       setRecievedData(res);
     });
-  }, [currentPage, ordering]);
+  }, [currentPage, ordering, platformID]);
 
   const pageChangeHandler = pageNumber => {
     setCurrentPage(pageNumber);

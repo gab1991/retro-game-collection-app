@@ -3,7 +3,6 @@ import styles from './Navigation.css';
 import { withRouter } from 'react-router-dom';
 
 function Navigation(props) {
-  console.log(props);
   return (
     <div className={styles.Navigation}>
       <nav>

@@ -101,7 +101,7 @@ export default function SignUpForm(props) {
     let entireFormValid = true;
     const inputsNames = Object.keys(inputs.current);
     inputsNames.forEach(name => {
-      if (inputs.current[name].valid == false) {
+      if (inputs.current[name].valid === false) {
         entireFormValid = false;
         wrongListHandler(name, 'set', 'fill the field');
       }
@@ -115,7 +115,7 @@ export default function SignUpForm(props) {
     if (entireFormValid) {
       const sendObj = {};
       inputsNames.forEach(name => {
-        if (name != 'passConfirm') sendObj[name] = inputs.current[name].value;
+        if (name !== 'passConfirm') sendObj[name] = inputs.current[name].value;
       });
 
       Backend.postSignUp(sendObj).then(res => {

@@ -2,14 +2,7 @@ import React from 'react';
 import styles from './GameInfoBox.css';
 
 export default function GameInfoBox(props) {
-  const {
-    name,
-    description,
-    background_image: background,
-    released,
-    developers,
-    publishers
-  } = props.gameInfo;
+  const { name, released, developers, publishers } = props.gameInfo;
   const { boxArt } = props;
 
   return (

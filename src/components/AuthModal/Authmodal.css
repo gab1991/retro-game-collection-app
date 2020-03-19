@@ -29,11 +29,3 @@
 .ActiveSignUp > div:last-child {
   transform: perspective(1000px) rotateY(0deg);
 }
-
-/* .AuthCard:hover > div:first-child {
-  transform: perspective(1000px) rotateY(180deg);
-}
-
-.AuthCard:hover > div:last-child {
-  transform: perspective(1000px) rotateY(0deg);
-} */

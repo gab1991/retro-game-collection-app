@@ -26,7 +26,7 @@ export default function GameDetailed(props) {
       res.results.forEach(obj => screenshotsUrls.push(obj.image));
       setScreenshots(screenshotsUrls);
     });
-  }, []);
+  }, [slug]);
 
   useEffect(() => {
     if (gameDetails) {
@@ -34,7 +34,7 @@ export default function GameDetailed(props) {
         setBoxArtUrl(res)
       );
     }
-  }, [gameDetails]);
+  }, [gameDetails, platformName]);
 
   return (
     <div className={styles.GameDetailed}>
