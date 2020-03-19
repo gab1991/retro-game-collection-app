@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import styles from './SignUpForm.css';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import Input from '../../UI/Inputs/InputAuth/InputAuth';
+import Backend from '../../../Backend/Backend';
 
 export default function SignUpForm(props) {
   const { backToSignIn } = props;
@@ -105,13 +106,27 @@ export default function SignUpForm(props) {
         wrongListHandler(name, 'set', 'fill the field');
       }
     });
+
     if (inputs.current.password.value !== inputs.current.passConfirm.value) {
       entireFormValid = false;
       wrongListHandler('passConfirm', 'set', 'Passwords must macth');
     }
+
     if (entireFormValid) {
       const sendObj = {};
-      inputsNames.forEach(name => (sendObj[name] = inputs.current[name].value));
+      inputsNames.forEach(name => {
+        if (name != 'passConfirm') sendObj[name] = inputs.current[name].value;
+      });
+
+      Backend.postSignUp(sendObj).then(res => {
+        const positiveRes = res.user_id;
+        const negativeRes = res.err_message;
+        if (positiveRes) {
+          backToSignIn();
+        } else {
+          wrongListHandler(res.field, 'set', negativeRes);
+        }
+      });
     }
   };
 
@@ -120,7 +135,7 @@ export default function SignUpForm(props) {
       <h1>Start Your Journey</h1>
       <form onSubmit={submitHandler}>
         {Object.keys(inputs.current).map(name => (
-          <div>
+          <div key={name}>
             <Input
               {...inputs.current[name]}
               desc={name}

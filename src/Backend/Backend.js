@@ -55,6 +55,7 @@ const Backend = {
         .catch(err => reject(err));
     });
   },
+
   getScreenshots: slug => {
     let url = `${api.game.getDetailsUrl}${slug}/screenshots`;
     return new Promise((resolve, reject) => {
@@ -64,12 +65,30 @@ const Backend = {
         .catch(err => reject(err));
     });
   },
+
   getBoxArt: (platform, slug) => {
-    let url = `${api.fileServer.boxArtworkUrl}/${platform}/${encodeURIComponent(
+    let url = `${api.appServer.boxArtworkUrl}/${platform}/${encodeURIComponent(
       slug
     )}`;
     return new Promise((resolve, reject) => {
       fetch(url)
+        .then(res => res.json())
+        .then(data => resolve(data))
+        .catch(err => reject(err));
+    });
+  },
+
+  postSignUp: obj => {
+    console.log(JSON.stringify(obj));
+    let url = `${api.appServer.signUpUrl}`;
+    return new Promise((resolve, reject) => {
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(obj)
+      })
         .then(res => res.json())
         .then(data => resolve(data))
         .catch(err => reject(err));

@@ -20,8 +20,9 @@ const api = {
   game: {
     getDetailsUrl: 'https://api.rawg.io/api/games/'
   },
-  fileServer: {
-    boxArtworkUrl: 'http://localhost:8000/box_arts'
+  appServer: {
+    boxArtworkUrl: 'http://localhost:8000/box_arts',
+    signUpUrl: 'http://localhost:8000/auth/sign_up'
   }
 };
 
