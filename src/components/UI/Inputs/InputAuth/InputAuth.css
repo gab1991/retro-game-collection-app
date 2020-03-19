@@ -46,3 +46,14 @@
 .HideShowTogglerActive {
   background: #65323e;
 }
+
+@media (max-width: 800px) {
+  /* .Label {
+    font-size: 1.4rem;
+  }
+
+  .InputAuth {
+    font-size: 1.4rem;
+    text-indent: 5px;
+  } */
+}

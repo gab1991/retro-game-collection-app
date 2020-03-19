@@ -17,3 +17,12 @@
   text-align: center;
   line-height: 4vh;
 }
+
+@media (max-width: 800px) {
+  .Layout {
+    grid-template-rows: 5vh auto 0vh;
+  }
+  .Footer {
+    display: none;
+  }
+}

@@ -12,7 +12,8 @@ export default function AuthModal(props) {
     setActiveSide('SignIn');
   };
 
-  const toSignUp = () => {
+  const toSignUp = e => {
+    if (e) e.preventDefault();
     setActiveSide('SignUp');
   };
 

@@ -46,3 +46,9 @@
     box-shadow: 0 0 10px #2196f3, 0 0 30px #2196f3, 0 0 60px #2196f3;
   }
 }
+
+@media (max-width: 800px) {
+  .ButtonNeon:hover {
+    box-shadow: none;
+  }
+}

@@ -59,3 +59,22 @@
   border: none;
   outline: none;
 }
+
+@media (max-width: 800px) {
+  .SignUp form {
+    width: 90%;
+  }
+
+  .SignUp form > div:not(:last-child) {
+    padding: 0 0;
+    flex: 1;
+  }
+
+  .SignUp h1 {
+    text-align: center;
+  }
+
+  .BtnSection {
+    margin-bottom: 5%;
+  }
+}

@@ -70,3 +70,20 @@
   border: none;
   outline: none;
 }
+
+@media (max-width: 800px) {
+  .SignIn form {
+    width: 90%;
+  }
+  .SignIn form > div:nth-child(1),
+  .SignIn form > div:nth-child(2) {
+    padding: 0 0;
+    flex: 1;
+  }
+  .SignIn h1 {
+    text-align: center;
+  }
+  .BtnSection {
+    margin-bottom: 5%;
+  }
+}
