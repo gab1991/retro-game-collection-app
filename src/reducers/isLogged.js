@@ -1,7 +1,13 @@
-const loggedReducer = (state = false, action) => {
+const initial = {
+  username: 'gab1',
+  token:
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTczOGE3YTI1ZWRkMjRhZDRmMDk1NTciLCJpYXQiOjE1ODQ3MzIyODd9.FFuXuBiFV48CNC7ZJsWvRVphpSmsYZahyiSwCD3BwQY'
+};
+
+const loggedReducer = (state = initial, action) => {
   switch (action.type) {
     case 'SIGN_IN':
-      return true;
+      return action.payload;
     default:
       return state;
   }

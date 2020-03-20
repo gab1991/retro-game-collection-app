@@ -70,6 +70,7 @@ const Backend = {
     let url = `${api.appServer.boxArtworkUrl}/${platform}/${encodeURIComponent(
       slug
     )}`;
+    console.log(platform, slug);
     return new Promise((resolve, reject) => {
       fetch(url)
         .then(res => res.json())
@@ -79,7 +80,6 @@ const Backend = {
   },
 
   postSignUp: obj => {
-    console.log(JSON.stringify(obj));
     let url = `${api.appServer.signUpUrl}`;
     return new Promise((resolve, reject) => {
       fetch(url, {
@@ -94,9 +94,34 @@ const Backend = {
         .catch(err => reject(err));
     });
   },
+
   postSignIn: obj => {
-    console.log(JSON.stringify(obj));
     let url = `${api.appServer.signInUrl}`;
+    return new Promise((resolve, reject) => {
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(obj)
+      })
+        .then(res => res.json())
+        .then(data => resolve(data))
+        .catch(err => reject(err));
+    });
+  },
+
+  getProfileInfo: (username, token) => {
+    let url = `${api.appServer.profileUrl}/${username}/${token}`;
+    return new Promise((resolve, reject) => {
+      fetch(url)
+        .then(res => res.json())
+        .then(data => resolve(data))
+        .catch(err => reject(err));
+    });
+  },
+  updateProfile: (username, token, obj) => {
+    let url = `${api.appServer.profileUrl}/${username}/update/${token}`;
     return new Promise((resolve, reject) => {
       fetch(url, {
         method: 'POST',

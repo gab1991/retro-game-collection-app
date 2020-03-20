@@ -5,16 +5,16 @@ import SignUpForm from './SignUpForm/SignUpForm';
 import SignInForm from './SigInForm/SignInForm';
 
 export default function AuthModal(props) {
-  const [activeSide, setActiveSide] = useState('SignIn');
+  const [activeSide, setActiveSide] = useState('ActiveSignIn');
 
   const backToSignIn = e => {
     if (e) e.preventDefault();
-    setActiveSide('SignIn');
+    setActiveSide('ActiveSignIn');
   };
 
   const toSignUp = e => {
     if (e) e.preventDefault();
-    setActiveSide('SignUp');
+    setActiveSide('ActiveSignUp');
   };
 
   const hideAuthModal = () => {};
@@ -22,11 +22,7 @@ export default function AuthModal(props) {
   return (
     <div className={styles.AuthModal}>
       <Backdrop onClick={hideAuthModal} />
-      <div
-        className={`${styles.AuthCard}
-          ${activeSide === 'SignIn' ? styles.ActiveSignIn : null}
-          ${activeSide === 'SignUp' ? styles.ActiveSignUp : null}
-        `}>
+      <div className={`${styles.AuthCard} ${styles[activeSide]}`}>
         <SignInForm toSignUp={toSignUp} />
         <SignUpForm backToSignIn={backToSignIn} />
       </div>

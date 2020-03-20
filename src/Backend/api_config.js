@@ -23,7 +23,8 @@ const api = {
   appServer: {
     boxArtworkUrl: 'http://localhost:8000/box_arts',
     signUpUrl: 'http://localhost:8000/auth/sign_up',
-    signInUrl: 'http://localhost:8000/auth/sign_in'
+    signInUrl: 'http://localhost:8000/auth/sign_in',
+    profileUrl: 'http://localhost:8000/profile'
   }
 };
 

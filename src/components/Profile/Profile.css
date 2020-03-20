@@ -1,4 +1,35 @@
 .Profile {
   height: 100%;
   background-color: rosybrown;
+
+  display: flex;
+  justify-content: center;
+}
+
+.ShelvesContainer {
+  width: 95%;
+  height: 100%;
+  /* background-color: slategrey; */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.Shelf {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.Shelf > div:first-child {
+  height: 200px;
+  width: 100%;
+}
+
+.ShelfBoard {
+  background-color: tomato;
+  height: 20px;
+  width: 100%;
 }

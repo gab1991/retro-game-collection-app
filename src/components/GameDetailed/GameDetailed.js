@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import Backend from '../../Backend/Backend';
 import styles from './GameDetailed.css';
 import ReactHtmlParser from 'react-html-parser';
@@ -6,7 +7,7 @@ import GameInfoBox from './GameInfoBox/GameInfoBox';
 import Slider from '../UI/Slider/Slider';
 import ButtonNeon from '../UI/Buttons/ButtonNeon/ButtonNeon';
 
-export default function GameDetailed(props) {
+function GameDetailed(props) {
   const slug = props.match.params.gameSlug;
   const platformName = props.match.params.platformName;
   const [gameDetails, setGameDetails] = useState();
@@ -36,6 +37,17 @@ export default function GameDetailed(props) {
     }
   }, [gameDetails, platformName]);
 
+  const addGameToOwnedList = (platform, name) => {
+    const username = props.userData.username;
+    const token = props.userData.token;
+
+    Backend.updateProfile(username, token, {
+      action: 'addGame',
+      platform: platform,
+      name: name
+    });
+  };
+
   return (
     <div className={styles.GameDetailed}>
       <div className={styles.Info}>
@@ -51,9 +63,20 @@ export default function GameDetailed(props) {
       </div>
       <div className={styles.Contorls}>
         <ButtonNeon txtContent={'Add to Whishlist'} />
-        <ButtonNeon txtContent={'Owned'} />
+        <ButtonNeon
+          txtContent={'Owned'}
+          onClick={() => addGameToOwnedList(platformName, gameDetails.name)}
+        />
         <ButtonNeon txtContent={'Cancel'} />
       </div>
     </div>
   );
 }
+function mapStateToProps(state) {
+  return {
+    userData: state.logged,
+    profileInfo: state.profile
+  };
+}
+
+export default connect(mapStateToProps)(GameDetailed);

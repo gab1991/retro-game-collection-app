@@ -8,7 +8,8 @@ export default function ButtonNeon(props) {
     direction,
     name,
     rectangular,
-    blinking
+    blinking,
+    style
   } = props;
   return (
     <button
@@ -17,7 +18,8 @@ export default function ButtonNeon(props) {
       direction={direction}
       className={`${styles.ButtonNeon} 
       ${rectangular ? styles.Rectangular : null}
-      ${blinking ? styles.Blinking : null}`}>
+      ${blinking ? styles.Blinking : null}`}
+      style={style}>
       {txtContent}
     </button>
   );

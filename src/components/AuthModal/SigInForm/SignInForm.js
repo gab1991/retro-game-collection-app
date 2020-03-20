@@ -4,12 +4,12 @@ import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import Input from '../../UI/Inputs/InputAuth/InputAuth';
 import Backend from '../../../Backend/Backend';
 import { useDispatch } from 'react-redux';
-import { signIn } from '../../../actions/actions';
+import { signIn, profile } from '../../../actions/actions';
 
 export default function SignInForm(props) {
   const { toSignUp } = props;
   const [wrongInputs, setWrongInputs] = useState({});
-  const dispatchSignIn = useDispatch();
+  const dispatch = useDispatch();
   const inputs = useRef({
     username: {
       label: 'Username',
@@ -93,14 +93,18 @@ export default function SignInForm(props) {
         const positiveRes = res.success;
         const negativeRes = res.err_message;
         if (positiveRes) {
-          dispatchSignIn(signIn());
+          dispatch(signIn(res.username, res.token));
+
+          Backend.getProfileInfo(res.username, res.token).then(res =>
+            dispatch(profile(res))
+          );
         } else {
           wrongListHandler(res.field, 'set', negativeRes);
         }
       });
     }
   };
-
+  console.log('signin');
   return (
     <div className={styles.SignIn}>
       <h1>Seen you lately?</h1>
@@ -122,6 +126,7 @@ export default function SignInForm(props) {
           <ButtonNeon
             txtContent={`Sign in`}
             onClick={regularLogin}
+            style={{ zIndex: 100 }}
             rectangular
           />
           <ButtonNeon txtContent={`Sign Up`} rectangular onClick={toSignUp} />
