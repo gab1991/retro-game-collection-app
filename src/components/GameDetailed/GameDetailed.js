@@ -68,29 +68,18 @@ function GameDetailed(props) {
     }
   };
 
-  const addGameToOwnedList = (platform, gameDetails) => {
+  const toggleOwnedList = (platform, gameDetails) => {
     const username = props.userData.username;
     const token = props.userData.token;
+    const action = isOwned ? 'removeGame' : 'addGame';
+    console.log(action);
 
     Backend.updateProfile(username, token, {
-      action: 'addGame',
+      action: action,
       platform: platform,
       game: gameDetails
     }).then(res => {
-      if (res.success) setisOwned(true);
-    });
-  };
-
-  const removeGameToOwnedList = (platform, gameDetails) => {
-    const username = props.userData.username;
-    const token = props.userData.token;
-
-    Backend.updateProfile(username, token, {
-      action: 'removeGame',
-      platform: platform,
-      game: gameDetails
-    }).then(res => {
-      if (res.success) setisOwned(false);
+      if (res.success) setisOwned(!isOwned);
     });
   };
 
@@ -109,18 +98,10 @@ function GameDetailed(props) {
       </div>
       <div className={styles.Contorls}>
         <ButtonNeon txtContent={'Add to Whishlist'} />
-        {!isOwned && (
-          <ButtonNeon
-            txtContent={'Owned'}
-            onClick={() => addGameToOwnedList(platformName, gameDetails)}
-          />
-        )}
-        {isOwned && (
-          <ButtonNeon
-            txtContent={'Remove from Owned'}
-            onClick={() => removeGameToOwnedList(platformName, gameDetails)}
-          />
-        )}
+        <ButtonNeon
+          txtContent={isOwned ? 'Remove from Owned' : 'Owned'}
+          onClick={() => toggleOwnedList(platformName, gameDetails)}
+        />
         <ButtonNeon txtContent={'Cancel'} />
       </div>
     </div>

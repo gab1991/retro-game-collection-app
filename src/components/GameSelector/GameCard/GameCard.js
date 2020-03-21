@@ -3,7 +3,6 @@ import styles from './GameCard.css';
 
 export default function GameCard(props) {
   const { slug, name, background_image: background } = props.gameInfo;
-
   return (
     <div
       className={styles.GameCard}
