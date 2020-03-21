@@ -70,7 +70,6 @@ const Backend = {
     let url = `${api.appServer.boxArtworkUrl}/${platform}/${encodeURIComponent(
       slug
     )}`;
-    console.log(platform, slug);
     return new Promise((resolve, reject) => {
       fetch(url)
         .then(res => res.json())

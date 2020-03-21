@@ -75,7 +75,12 @@ export default function GameSelector(props) {
   };
 
   const openGameDetailsHandler = slug => {
-    props.history.push(`/${platformName}/${slug}`);
+    props.history.push({
+      pathname: `/${platformName}/${slug}`,
+      state: {
+        from: props.location.pathname
+      }
+    });
   };
 
   return (

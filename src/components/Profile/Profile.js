@@ -10,6 +10,7 @@ function Profile(props) {
   const { userData, profileInfo } = props;
   const [ownedList, setOwnedList] = useState();
   const dispatch = useDispatch();
+  console.log(props);
 
   useEffect(() => {
     Backend.getProfileInfo(userData.username, userData.token).then(res =>
@@ -18,7 +19,6 @@ function Profile(props) {
   }, [userData]);
 
   useEffect(() => {
-    console.log(profileInfo);
     if (profileInfo) {
       const platformsOwned = profileInfo.owned_list.platforms;
       setOwnedList(platformsOwned);

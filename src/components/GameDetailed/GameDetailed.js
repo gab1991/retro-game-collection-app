@@ -83,6 +83,11 @@ function GameDetailed(props) {
     });
   };
 
+  const getBack = () => {
+    props.history.push(props.history.location.state.from);
+  };
+  console.log(props);
+
   return (
     <div className={styles.GameDetailed}>
       <div className={styles.Info}>
@@ -102,7 +107,7 @@ function GameDetailed(props) {
           txtContent={isOwned ? 'Remove from Owned' : 'Owned'}
           onClick={() => toggleOwnedList(platformName, gameDetails)}
         />
-        <ButtonNeon txtContent={'Cancel'} />
+        <ButtonNeon txtContent={'Cancel'} onClick={getBack} />
       </div>
     </div>
   );

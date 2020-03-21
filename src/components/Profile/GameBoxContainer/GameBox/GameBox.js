@@ -6,18 +6,18 @@ import styles from './GameBox.css';
 function GameBox(props) {
   const { game, platform } = props;
   const [boxArtUrl, setBoxArtUrl] = useState();
-  console.log(props);
-
-  useEffect(() => {
-    console.log(boxArtUrl);
-  }, [boxArtUrl]);
 
   useEffect(() => {
     Backend.getBoxArt(platform, game.name).then(res => setBoxArtUrl(res));
   }, []);
 
   const openGameDetailsHandler = slug => {
-    props.history.push(`/${platform}/${slug}`);
+    props.history.push({
+      pathname: `/${platform}/${slug}`,
+      state: {
+        from: props.location.pathname
+      }
+    });
   };
 
   return (
