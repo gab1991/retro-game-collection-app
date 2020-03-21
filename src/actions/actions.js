@@ -11,7 +11,6 @@ const signIn = (username, token) => {
 };
 
 const profile = profileinfo => {
-  console.log('pf', profileinfo);
   return {
     type: 'FILL',
     payload: {

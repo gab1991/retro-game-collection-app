@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
+import { profile } from '../../actions/actions';
 import Backend from '../../Backend/Backend';
 import styles from './GameDetailed.css';
 import ReactHtmlParser from 'react-html-parser';
@@ -10,10 +11,23 @@ import ButtonNeon from '../UI/Buttons/ButtonNeon/ButtonNeon';
 function GameDetailed(props) {
   const slug = props.match.params.gameSlug;
   const platformName = props.match.params.platformName;
+  const { userData, profileInfo } = props;
   const [gameDetails, setGameDetails] = useState();
   const [screenshots, setScreenshots] = useState();
   const [boxArtUrl, setBoxArtUrl] = useState();
+  const [isOwned, setisOwned] = useState();
   const [descriptionParsed, setDescriptionParsed] = useState();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    Backend.getProfileInfo(userData.username, userData.token).then(res =>
+      dispatch(profile(res))
+    );
+  }, [userData]);
+
+  useEffect(() => {
+    if (profileInfo && gameDetails) isOwnedChecker();
+  }, [profileInfo, gameDetails]);
 
   useEffect(() => {
     Backend.getGameDetails(slug).then(res => {
@@ -37,14 +51,46 @@ function GameDetailed(props) {
     }
   }, [gameDetails, platformName]);
 
-  const addGameToOwnedList = (platform, name) => {
+  const isOwnedChecker = () => {
+    const userPlatforms = profileInfo.owned_list.platforms;
+    let chosenPlatform;
+    for (let i = 0; i < userPlatforms.length; i++) {
+      if (platformName === userPlatforms[i].name) {
+        chosenPlatform = userPlatforms[i];
+      }
+    }
+
+    if (chosenPlatform) {
+      const games = chosenPlatform.games;
+      for (let i = 0; i < games.length; i++) {
+        if (gameDetails.name === games[i].name) setisOwned(true);
+      }
+    }
+  };
+
+  const addGameToOwnedList = (platform, gameDetails) => {
     const username = props.userData.username;
     const token = props.userData.token;
 
     Backend.updateProfile(username, token, {
       action: 'addGame',
       platform: platform,
-      name: name
+      game: gameDetails
+    }).then(res => {
+      if (res.success) setisOwned(true);
+    });
+  };
+
+  const removeGameToOwnedList = (platform, gameDetails) => {
+    const username = props.userData.username;
+    const token = props.userData.token;
+
+    Backend.updateProfile(username, token, {
+      action: 'removeGame',
+      platform: platform,
+      game: gameDetails
+    }).then(res => {
+      if (res.success) setisOwned(false);
     });
   };
 
@@ -63,15 +109,24 @@ function GameDetailed(props) {
       </div>
       <div className={styles.Contorls}>
         <ButtonNeon txtContent={'Add to Whishlist'} />
-        <ButtonNeon
-          txtContent={'Owned'}
-          onClick={() => addGameToOwnedList(platformName, gameDetails.name)}
-        />
+        {!isOwned && (
+          <ButtonNeon
+            txtContent={'Owned'}
+            onClick={() => addGameToOwnedList(platformName, gameDetails)}
+          />
+        )}
+        {isOwned && (
+          <ButtonNeon
+            txtContent={'Remove from Owned'}
+            onClick={() => removeGameToOwnedList(platformName, gameDetails)}
+          />
+        )}
         <ButtonNeon txtContent={'Cancel'} />
       </div>
     </div>
   );
 }
+
 function mapStateToProps(state) {
   return {
     userData: state.logged,

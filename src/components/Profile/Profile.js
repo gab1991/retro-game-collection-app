@@ -12,9 +12,9 @@ function Profile(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    Backend.getProfileInfo(userData.username, userData.token).then(res => {
-      dispatch(profile(res));
-    });
+    Backend.getProfileInfo(userData.username, userData.token).then(res =>
+      dispatch(profile(res))
+    );
   }, [userData]);
 
   useEffect(() => {
