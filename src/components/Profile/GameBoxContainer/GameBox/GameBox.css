@@ -1,6 +1,5 @@
 .GameBox {
   width: 100px;
-  height: 100%;
   background-color: turquoise;
   overflow: hidden;
   border: 1px solid black;

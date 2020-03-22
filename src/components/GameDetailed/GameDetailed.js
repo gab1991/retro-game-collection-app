@@ -72,7 +72,6 @@ function GameDetailed(props) {
     const username = props.userData.username;
     const token = props.userData.token;
     const action = isOwned ? 'removeGame' : 'addGame';
-    console.log(action);
 
     Backend.updateProfile(username, token, {
       action: action,
@@ -86,7 +85,6 @@ function GameDetailed(props) {
   const getBack = () => {
     props.history.push(props.history.location.state.from);
   };
-  console.log(props);
 
   return (
     <div className={styles.GameDetailed}>

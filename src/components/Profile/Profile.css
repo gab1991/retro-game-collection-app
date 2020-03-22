@@ -1,15 +1,16 @@
 .Profile {
-  height: 100%;
-  background-color: rosybrown;
-
   display: flex;
   justify-content: center;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  overflow: auto;
 }
 
 .ShelvesContainer {
   width: 95%;
-  height: 100%;
-  /* background-color: slategrey; */
+  min-height: 100%;
+  background-color: slategrey;
+  overflow: auto;
 
   display: flex;
   flex-direction: column;
@@ -18,17 +19,17 @@
 }
 
 .Shelf {
+  margin-top: 10%;
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.Shelf > div:first-child {
-  height: 200px;
+.Shelf > div:last-child {
   width: 100%;
 }
 
-.ShelfBoard {
+.PlatformLogo {
   background-color: tomato;
   height: 20px;
   width: 100%;

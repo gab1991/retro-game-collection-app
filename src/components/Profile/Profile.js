@@ -31,11 +31,11 @@ function Profile(props) {
         {ownedList &&
           ownedList.map(platform => (
             <div key={platform.name} className={styles.Shelf}>
+              <div className={styles.PlatformLogo}>{platform.name}</div>
               <GameBoxContainer
                 platform={platform.name}
                 games={platform.games}
               />
-              <div className={styles.ShelfBoard}>{platform.name}</div>
             </div>
           ))}
       </div>
