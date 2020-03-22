@@ -1,43 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './Profile.css';
 import AuthModal from '../AuthModal/AuthModal';
-import Backend from '../../Backend/Backend';
-import GameBoxContainer from './GameBoxContainer/GameBoxContainer';
-import { connect, useDispatch } from 'react-redux';
-import { profile } from '../../actions/actions';
+import CollectionList from '../Profile/CollictionList/CollectionLIst';
+import WishList from '../Profile/WishList/WishList';
+import { connect } from 'react-redux';
 
 function Profile(props) {
-  const { userData, profileInfo } = props;
-  const [ownedList, setOwnedList] = useState();
-  const dispatch = useDispatch();
-  console.log(props);
+  const { userData } = props;
+  const [activeSection, setActiveSection] = useState('CollecitionList');
 
-  useEffect(() => {
-    Backend.getProfileInfo(userData.username, userData.token).then(res =>
-      dispatch(profile(res))
-    );
-  }, [userData]);
-
-  useEffect(() => {
-    if (profileInfo) {
-      const platformsOwned = profileInfo.owned_list.platforms;
-      setOwnedList(platformsOwned);
-    }
-  }, [profileInfo]);
+  const sectionToggler = e => {
+    const name = e.target.getAttribute('desc');
+    setActiveSection(name);
+  };
 
   return (
     <div className={styles.Profile}>
-      <div className={styles.ShelvesContainer}>
-        {ownedList &&
-          ownedList.map(platform => (
-            <div key={platform.name} className={styles.Shelf}>
-              <div className={styles.PlatformLogo}>{platform.name}</div>
-              <GameBoxContainer
-                platform={platform.name}
-                games={platform.games}
-              />
-            </div>
-          ))}
+      <div className={styles.Content}>
+        {activeSection === 'CollecitionList' && <CollectionList />}
+        {activeSection === 'WishList' && <WishList />}
+      </div>
+      <div className={styles.SideBar}>
+        <ul>
+          <li desc={'CollecitionList'} onClick={sectionToggler}>
+            <span></span>
+            My Colletcion
+          </li>
+          <li desc={'WishList'} onClick={sectionToggler}>
+            <span></span>
+            Wish List
+          </li>
+          <li>
+            <span></span>Log Out
+          </li>
+        </ul>
       </div>
       {!userData && <AuthModal />}
     </div>

@@ -1,0 +1,48 @@
+.CollectionLIst {
+  height: 100%;
+  background-color: rgb(197, 131, 32);
+  display: flex;
+  justify-content: center;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  overflow: auto;
+}
+
+.SectionName {
+  margin: 5% 0;
+  font-size: 2rem;
+}
+
+.ShelvesContainer {
+  width: 95%;
+  min-height: 100%;
+  overflow: visible;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.Shelf {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.Shelf > div:last-child {
+  width: 100%;
+}
+
+.PlatformLogo {
+  height: 70px;
+}
+
+.PlatformLogo > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media (max-width: 800px) {
+}

@@ -1,6 +1,13 @@
 .GameBoxContainer {
-  background-color: violet;
-
+  background: rgba(0, 0, 0, 0.5);
+  margin: 2% 0;
   display: flex;
   flex-wrap: wrap;
+  border: 2px solid grey;
+}
+
+@media (max-width: 800px) {
+  .GameBoxContainer {
+    justify-content: center;
+  }
 }

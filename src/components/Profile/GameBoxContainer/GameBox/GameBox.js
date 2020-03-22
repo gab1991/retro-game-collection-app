@@ -6,6 +6,7 @@ import styles from './GameBox.css';
 function GameBox(props) {
   const { game, platform } = props;
   const [boxArtUrl, setBoxArtUrl] = useState();
+  const [descrVisibility, setDescrVisibility] = useState(false);
 
   useEffect(() => {
     Backend.getBoxArt(platform, game.name).then(res => setBoxArtUrl(res));
@@ -20,11 +21,24 @@ function GameBox(props) {
     });
   };
 
+  const toggleDescrVisivility = () => {
+    setDescrVisibility(prevState => {
+      return !prevState;
+    });
+  };
+
   return (
     <div
       className={styles.GameBox}
-      onClick={() => openGameDetailsHandler(game.slug)}>
+      onClick={() => openGameDetailsHandler(game.slug)}
+      onMouseEnter={() => toggleDescrVisivility()}
+      onMouseLeave={() => toggleDescrVisivility()}>
       <img src={boxArtUrl} alt={boxArtUrl} className={styles.BoxArtImg} />
+      <div
+        className={`${styles.Desctiprion} 
+        ${descrVisibility === true ? styles.DesctiprionVisible : null}`}>
+        {game.name}
+      </div>
     </div>
   );
 }
