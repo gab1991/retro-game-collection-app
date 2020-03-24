@@ -104,7 +104,26 @@ export default function SignInForm(props) {
       });
     }
   };
-  console.log('signin');
+
+  const guestEnterHandler = e => {
+    e.preventDefault(e);
+
+    Backend.postSignIn({ username: 'guest', password: 'guest1' }).then(res => {
+      console.log(res);
+      const positiveRes = res.success;
+      const negativeRes = res.err_message;
+      if (positiveRes) {
+        dispatch(signIn(res.username, res.token));
+
+        Backend.getProfileInfo(res.username, res.token).then(res =>
+          dispatch(profile(res))
+        );
+      } else {
+        wrongListHandler(res.field, 'set', negativeRes);
+      }
+    });
+  };
+
   return (
     <div className={styles.SignIn}>
       <h1>Seen you lately?</h1>
@@ -120,7 +139,12 @@ export default function SignInForm(props) {
           </div>
         ))}
         <div>
-          <ButtonNeon txtContent={`Continue as Guest`} rectangular blinking />
+          <ButtonNeon
+            txtContent={`Continue as Guest`}
+            rectangular
+            blinking
+            onClick={guestEnterHandler}
+          />
         </div>
         <div className={styles.BtnSection}>
           <ButtonNeon

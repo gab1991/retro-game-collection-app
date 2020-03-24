@@ -10,6 +10,15 @@ const signIn = (username, token) => {
   };
 };
 
+const logOut = message => {
+  return {
+    type: 'LOG_OUT',
+    payload: {
+      message: message
+    }
+  };
+};
+
 const profile = profileinfo => {
   return {
     type: 'FILL',
@@ -20,4 +29,4 @@ const profile = profileinfo => {
 };
 
 export default actions;
-export { signIn, profile };
+export { signIn, profile, logOut };

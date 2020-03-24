@@ -17,7 +17,9 @@ export default function AuthModal(props) {
     setActiveSide('ActiveSignUp');
   };
 
-  const hideAuthModal = () => {};
+  const hideAuthModal = () => {
+    
+  };
 
   return (
     <div className={styles.AuthModal}>

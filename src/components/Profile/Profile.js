@@ -3,15 +3,21 @@ import styles from './Profile.css';
 import AuthModal from '../AuthModal/AuthModal';
 import CollectionList from '../Profile/CollictionList/CollectionLIst';
 import WishList from '../Profile/WishList/WishList';
-import { connect } from 'react-redux';
+import { logOut } from '../../actions/actions';
+import { connect, useDispatch } from 'react-redux';
 
 function Profile(props) {
   const { userData } = props;
   const [activeSection, setActiveSection] = useState('CollecitionList');
+  const dispatch = useDispatch();
 
   const sectionToggler = e => {
     const name = e.target.getAttribute('desc');
     setActiveSection(name);
+  };
+
+  const loggingOut = () => {
+    dispatch(logOut());
   };
 
   return (
@@ -30,7 +36,7 @@ function Profile(props) {
             <span></span>
             Wish List
           </li>
-          <li>
+          <li onClick={loggingOut}>
             <span></span>Log Out
           </li>
         </ul>

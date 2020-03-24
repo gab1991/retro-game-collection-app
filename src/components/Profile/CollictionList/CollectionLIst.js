@@ -1,28 +1,37 @@
 import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
 import styles from './CollectionList.css';
 import GameBoxContainer from './../GameBoxContainer/GameBoxContainer';
 import { images } from '../../../configs/appConfig';
 import Backend from '../../../Backend/Backend';
 import { connect, useDispatch } from 'react-redux';
 import { profile } from '../../../actions/actions';
+import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 
 function CollectionLIst(props) {
   const { userData, profileInfo } = props;
-  const [ownedList, setOwnedList] = useState();
+  const [ownedList, setOwnedList] = useState({ platforms: [], count: 0 });
   const dispatch = useDispatch();
 
   useEffect(() => {
-    Backend.getProfileInfo(userData.username, userData.token).then(res =>
-      dispatch(profile(res))
-    );
+    if (userData)
+      Backend.getProfileInfo(userData.username, userData.token).then(res =>
+        dispatch(profile(res))
+      );
   }, [userData]);
 
   useEffect(() => {
     if (profileInfo) {
+      console.log(profileInfo);
       const platformsOwned = profileInfo.owned_list.platforms;
-      setOwnedList(platformsOwned);
+      setOwnedList({ platforms: platformsOwned, count: platformsOwned.length });
     }
   }, [profileInfo]);
+
+  const toPlatfromSelecor = () => {
+    props.history.push('/');
+  };
+  console.log(props);
 
   return (
     <div className={styles.CollectionLIst}>
@@ -31,7 +40,7 @@ function CollectionLIst(props) {
       </div>
       <div className={styles.ShelvesContainer}>
         {ownedList &&
-          ownedList.map(platform => (
+          ownedList.platforms.map(platform => (
             <div key={platform.name} className={styles.Shelf}>
               <div className={styles.PlatformLogo}>
                 <img src={images[platform.name].logo.src} alt={props.name} />
@@ -42,6 +51,15 @@ function CollectionLIst(props) {
               />
             </div>
           ))}
+        {ownedList.count === 0 && (
+          <div className={styles.EmptyList}>
+            <h1>Nothing has been added yet</h1>
+            <ButtonNeon
+              txtContent={'Start Adding Games'}
+              onClick={toPlatfromSelecor}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -54,4 +72,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(CollectionLIst);
+export default withRouter(connect(mapStateToProps)(CollectionLIst));

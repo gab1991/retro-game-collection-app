@@ -6,6 +6,10 @@
   overflow: auto;
   overflow-x: hidden;
 }
+
+.Content {
+  flex: 1;
+}
 .SideBar {
   min-width: 300px;
   height: 100%;
