@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { profile } from '../../actions/actions';
+import { profile, addGame } from '../../actions/actions';
 import Backend from '../../Backend/Backend';
 import styles from './GameDetailed.css';
 import ReactHtmlParser from 'react-html-parser';
@@ -15,15 +15,9 @@ function GameDetailed(props) {
   const [gameDetails, setGameDetails] = useState();
   const [screenshots, setScreenshots] = useState();
   const [boxArtUrl, setBoxArtUrl] = useState();
-  const [isOwned, setisOwned] = useState();
+  const [isOwned, setisOwned] = useState(false);
   const [descriptionParsed, setDescriptionParsed] = useState();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    Backend.getProfileInfo(userData.username, userData.token).then(res =>
-      dispatch(profile(res))
-    );
-  }, [userData]);
 
   useEffect(() => {
     if (profileInfo && gameDetails) isOwnedChecker();
@@ -59,7 +53,6 @@ function GameDetailed(props) {
         chosenPlatform = userPlatforms[i];
       }
     }
-
     if (chosenPlatform) {
       const games = chosenPlatform.games;
       for (let i = 0; i < games.length; i++) {
@@ -85,6 +78,7 @@ function GameDetailed(props) {
   const getBack = () => {
     props.history.push(props.history.location.state.from);
   };
+  console.log(props);
 
   return (
     <div className={styles.GameDetailed}>

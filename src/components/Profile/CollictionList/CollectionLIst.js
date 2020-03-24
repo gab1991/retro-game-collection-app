@@ -31,7 +31,9 @@ function CollectionLIst(props) {
   const toPlatfromSelecor = () => {
     props.history.push('/');
   };
-  console.log(props);
+  const toGameSelector = platform => {
+    props.history.push(`/${platform}`);
+  };
 
   return (
     <div className={styles.CollectionLIst}>
@@ -42,8 +44,10 @@ function CollectionLIst(props) {
         {ownedList &&
           ownedList.platforms.map(platform => (
             <div key={platform.name} className={styles.Shelf}>
-              <div className={styles.PlatformLogo}>
-                <img src={images[platform.name].logo.src} alt={props.name} />
+              <div
+                className={styles.PlatformLogo}
+                onClick={() => toGameSelector(platform.name)}>
+                <img src={images[platform.name].logo.src} alt={platform.name} />
               </div>
               <GameBoxContainer
                 platform={platform.name}
@@ -51,15 +55,13 @@ function CollectionLIst(props) {
               />
             </div>
           ))}
-        {ownedList.count === 0 && (
-          <div className={styles.EmptyList}>
-            <h1>Nothing has been added yet</h1>
-            <ButtonNeon
-              txtContent={'Start Adding Games'}
-              onClick={toPlatfromSelecor}
-            />
-          </div>
-        )}
+        <div className={styles.EmptyList}>
+          <h1>Wanna add some?</h1>
+          <ButtonNeon
+            txtContent={'Start Adding Games'}
+            onClick={toPlatfromSelecor}
+          />
+        </div>
       </div>
     </div>
   );
