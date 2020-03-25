@@ -22,7 +22,6 @@ function CollectionLIst(props) {
 
   useEffect(() => {
     if (profileInfo) {
-      console.log(profileInfo);
       const platformsOwned = profileInfo.owned_list.platforms;
       setOwnedList({ platforms: platformsOwned, count: platformsOwned.length });
     }

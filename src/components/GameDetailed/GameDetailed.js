@@ -78,7 +78,6 @@ function GameDetailed(props) {
   const getBack = () => {
     props.history.push(props.history.location.state.from);
   };
-  console.log(props);
 
   return (
     <div className={styles.GameDetailed}>

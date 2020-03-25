@@ -1,16 +1,21 @@
 .GameBox {
   width: 150px;
+
   overflow: visible;
   padding: 10px;
   cursor: pointer;
-  transition: transform 300ms ease-in-out;
   position: relative;
+}
+
+.Transition {
+  transition: transform 300ms ease-in-out;
 }
 
 .BoxArtImg {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  user-select: none;
 }
 
 .GameBox:hover {
@@ -19,6 +24,7 @@
 }
 
 .Desctiprion {
+  color: whitesmoke;
   width: 100%;
   border-radius: 5px;
   opacity: 0;

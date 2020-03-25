@@ -4,9 +4,10 @@ import Backend from '../../../../Backend/Backend';
 import styles from './GameBox.css';
 
 function GameBox(props) {
-  const { game, platform } = props;
+  const { game, platform, transition } = props;
   const [boxArtUrl, setBoxArtUrl] = useState();
   const [descrVisibility, setDescrVisibility] = useState(false);
+  const [draggable, setDraggable] = useState(false);
 
   useEffect(() => {
     Backend.getBoxArt(platform, game.name).then(res => setBoxArtUrl(res));
@@ -25,18 +26,34 @@ function GameBox(props) {
     setDescrVisibility(prevState => {
       return !prevState;
     });
+    setDraggable(prevState => {
+      return !prevState;
+    });
   };
+
+  // const mouseDownHandler = () => {
+  //   console.log('here');
+  //   setDraggable(true);
+  // };
 
   return (
     <div
-      className={styles.GameBox}
+      className={`${styles.GameBox}
+      ${transition ? styles.Transition : null}`}
       onClick={() => openGameDetailsHandler(game.slug)}
       onMouseEnter={() => toggleDescrVisivility()}
-      onMouseLeave={() => toggleDescrVisivility()}>
-      <img src={boxArtUrl} alt={boxArtUrl} className={styles.BoxArtImg} />
+      onMouseLeave={() => toggleDescrVisivility()}
+      // onMouseDown={() => mouseDownHandler()}
+    >
+      <img
+        src={boxArtUrl}
+        alt={boxArtUrl}
+        className={styles.BoxArtImg}
+        draggable="false"
+      />
       <div
         className={`${styles.Desctiprion} 
-        ${descrVisibility === true ? styles.DesctiprionVisible : null}`}>
+        ${descrVisibility ? styles.DesctiprionVisible : null}`}>
         {game.name}
       </div>
     </div>
