@@ -14,7 +14,7 @@ export default function MenuSideSlider(props) {
     ${show && slideRight && styles.SlideRight}`}>
       <ul>
         {list.map(item => (
-          <li onClick={item.onclick}>
+          <li key={item.option} onClick={item.onclick}>
             <span></span>
             {item.option}
           </li>

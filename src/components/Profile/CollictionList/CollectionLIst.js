@@ -14,10 +14,10 @@ function CollectionLIst(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (userData)
-      Backend.getProfileInfo(userData.username, userData.token).then(res =>
-        dispatch(profile(res))
-      );
+    if (userData) console.log('tut');
+    Backend.getProfileInfo(userData.username, userData.token).then(res =>
+      dispatch(profile(res))
+    );
   }, [userData]);
 
   useEffect(() => {
