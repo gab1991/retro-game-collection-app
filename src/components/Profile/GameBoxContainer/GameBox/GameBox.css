@@ -1,14 +1,9 @@
 .GameBox {
   width: 150px;
-
   overflow: visible;
   padding: 10px;
   cursor: pointer;
   position: relative;
-}
-
-.Transition {
-  transition: transform 300ms ease-in-out;
 }
 
 .BoxArtImg {
@@ -35,4 +30,10 @@
 
 .DesctiprionVisible {
   opacity: 1;
+}
+
+@media (max-width: 800px) {
+  .GameBox {
+    width: 80%;
+  }
 }

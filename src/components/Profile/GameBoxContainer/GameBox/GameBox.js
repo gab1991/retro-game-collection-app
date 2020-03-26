@@ -7,7 +7,6 @@ function GameBox(props) {
   const { game, platform, transition } = props;
   const [boxArtUrl, setBoxArtUrl] = useState();
   const [descrVisibility, setDescrVisibility] = useState(false);
-  const [draggable, setDraggable] = useState(false);
 
   useEffect(() => {
     Backend.getBoxArt(platform, game.name).then(res => setBoxArtUrl(res));
@@ -26,15 +25,7 @@ function GameBox(props) {
     setDescrVisibility(prevState => {
       return !prevState;
     });
-    setDraggable(prevState => {
-      return !prevState;
-    });
   };
-
-  // const mouseDownHandler = () => {
-  //   console.log('here');
-  //   setDraggable(true);
-  // };
 
   return (
     <div
@@ -42,9 +33,7 @@ function GameBox(props) {
       ${transition ? styles.Transition : null}`}
       onClick={() => openGameDetailsHandler(game.slug)}
       onMouseEnter={() => toggleDescrVisivility()}
-      onMouseLeave={() => toggleDescrVisivility()}
-      // onMouseDown={() => mouseDownHandler()}
-    >
+      onMouseLeave={() => toggleDescrVisivility()}>
       <img
         src={boxArtUrl}
         alt={boxArtUrl}

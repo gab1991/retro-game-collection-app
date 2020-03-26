@@ -16,6 +16,7 @@ function GameDetailed(props) {
   const [screenshots, setScreenshots] = useState();
   const [boxArtUrl, setBoxArtUrl] = useState();
   const [isOwned, setisOwned] = useState(false);
+  const [isWished, setisWished] = useState(false);
   const [descriptionParsed, setDescriptionParsed] = useState();
   const dispatch = useDispatch();
 
@@ -46,17 +47,24 @@ function GameDetailed(props) {
   }, [gameDetails, platformName]);
 
   const isOwnedChecker = () => {
-    const userPlatforms = profileInfo.owned_list.platforms;
-    let chosenPlatform;
-    for (let i = 0; i < userPlatforms.length; i++) {
-      if (platformName === userPlatforms[i].name) {
-        chosenPlatform = userPlatforms[i];
+    const listToCheck = ['owned_list', 'wish_list'];
+
+    for (let i = 0; i < listToCheck.length; i++) {
+      const userPlatforms = profileInfo[listToCheck[i]].platforms;
+      let chosenPlatform;
+      for (let i = 0; i < userPlatforms.length; i++) {
+        if (platformName === userPlatforms[i].name) {
+          chosenPlatform = userPlatforms[i];
+        }
       }
-    }
-    if (chosenPlatform) {
-      const games = chosenPlatform.games;
-      for (let i = 0; i < games.length; i++) {
-        if (gameDetails.name === games[i].name) setisOwned(true);
+      if (chosenPlatform) {
+        const games = chosenPlatform.games;
+        for (let i = 0; i < games.length; i++) {
+          if (gameDetails.name === games[i].name) {
+            if ((listToCheck[i] = 'owned_list')) setisOwned(true);
+            if ((listToCheck[i] = 'wish_list')) setisWished(true);
+          }
+        }
       }
     }
   };
@@ -65,13 +73,33 @@ function GameDetailed(props) {
     const username = props.userData.username;
     const token = props.userData.token;
     const action = isOwned ? 'removeGame' : 'addGame';
+    const list = 'ownedList';
 
     Backend.updateProfile(username, token, {
       action: action,
+      list: list,
       platform: platform,
       game: gameDetails
     }).then(res => {
       if (res.success) setisOwned(!isOwned);
+    });
+  };
+
+  const toggleWishList = (platform, gameDetails) => {
+    console.log('here');
+
+    const username = props.userData.username;
+    const token = props.userData.token;
+    const action = isOwned ? 'removeGame' : 'addGame';
+    const list = 'wishList';
+
+    Backend.updateProfile(username, token, {
+      action: action,
+      list: list,
+      platform: platform,
+      game: gameDetails
+    }).then(res => {
+      if (res.success) setisWished(!isWished);
     });
   };
 
@@ -93,12 +121,15 @@ function GameDetailed(props) {
         {screenshots && <Slider images={screenshots} />}
       </div>
       <div className={styles.Contorls}>
-        <ButtonNeon txtContent={'Add to Whishlist'} />
+        <ButtonNeon
+          txtContent={isWished ? 'Remove From Wishlist' : 'Add to Wishlist'}
+          onClick={() => toggleWishList(platformName, gameDetails)}
+        />
         <ButtonNeon
           txtContent={isOwned ? 'Remove from Owned' : 'Owned'}
           onClick={() => toggleOwnedList(platformName, gameDetails)}
         />
-        <ButtonNeon txtContent={'Cancel'} onClick={getBack} />
+        <ButtonNeon txtContent={'Back'} onClick={getBack} />
       </div>
     </div>
   );

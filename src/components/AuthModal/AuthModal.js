@@ -17,13 +17,11 @@ export default function AuthModal(props) {
     setActiveSide('ActiveSignUp');
   };
 
-  const hideAuthModal = () => {
-    
-  };
+  const hideAuthModal = () => {};
 
   return (
     <div className={styles.AuthModal}>
-      <Backdrop onClick={hideAuthModal} />
+      <Backdrop onClick={hideAuthModal} closeIcon={true} show />
       <div className={`${styles.AuthCard} ${styles[activeSide]}`}>
         <SignInForm toSignUp={toSignUp} />
         <SignUpForm backToSignIn={backToSignIn} />

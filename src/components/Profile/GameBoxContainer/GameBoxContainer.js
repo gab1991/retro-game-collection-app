@@ -1,8 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import GameBox from './GameBox/GameBox';
+import { connect } from 'react-redux';
 import styles from './GameBoxContainer.css';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
+import Backend from '../../../Backend/Backend';
+
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height
+  };
+}
+
+function useWindowDimensions() {
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions()
+  );
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return windowDimensions;
+}
 
 const SortableList = SortableContainer(({ games, platform }) => {
   return (
@@ -23,7 +50,8 @@ const SortableItem = SortableElement(({ game, platform }) => (
   <GameBox game={game} platform={platform} />
 ));
 
-export default function GameBoxContainer(props) {
+function GameBoxContainer(props) {
+  const { height, width } = useWindowDimensions();
   const { games, platform } = props;
   const [gamesSort, setGamesSort] = useState([]);
 
@@ -32,7 +60,14 @@ export default function GameBoxContainer(props) {
   }, [games]);
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
-    setGamesSort(arrayMove(gamesSort, oldIndex, newIndex));
+    const newSortedgames = arrayMove(gamesSort, oldIndex, newIndex);
+    setGamesSort(newSortedgames);
+
+    Backend.updateProfile(props.userData.username, props.userData.token, {
+      sortedGames: newSortedgames,
+      platform: platform,
+      action: 'reorder'
+    });
   };
 
   return (
@@ -40,7 +75,17 @@ export default function GameBoxContainer(props) {
       onSortEnd={onSortEnd}
       games={gamesSort}
       platform={platform}
-      axis={'xy'}
+      distance={5}
+      axis={width > 800 ? 'xy' : 'y'}
     />
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    userData: state.logged,
+    profileInfo: state.profile
+  };
+}
+
+export default connect(mapStateToProps)(GameBoxContainer);

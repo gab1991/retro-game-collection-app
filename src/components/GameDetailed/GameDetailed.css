@@ -45,16 +45,6 @@
   padding: 10px;
 }
 
-/* @media (max-width: 1200px) {
-  .GameDetailed {
-    grid-template-areas:
-      'info description description'
-      'info description description'
-      'screenshots screenshots screenshots'
-      'controls controls controls';
-  }
-} */
-
 @media (max-width: 500px) {
   .GameDetailed {
     display: flex;
