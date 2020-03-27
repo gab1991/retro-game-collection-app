@@ -1,0 +1,50 @@
+.WarnModal {
+  position: absolute;
+  z-index: 25;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.WarnWindow {
+  z-index: 26;
+  width: 400px;
+  height: 200px;
+  background-color: gray;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.ImgContainer {
+  margin: 0 10px;
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+}
+
+.TxtWrapper {
+  padding: 10px;
+}
+
+.WarnWindow h2 {
+  display: inline;
+  text-align: center;
+}
+
+.ButtonSection {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.ButtonSection button {
+  width: 40%;
+}

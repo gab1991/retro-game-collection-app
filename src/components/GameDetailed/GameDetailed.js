@@ -7,6 +7,7 @@ import GameInfoBox from './GameInfoBox/GameInfoBox';
 import Slider from '../UI/Slider/Slider';
 import ButtonNeon from '../UI/Buttons/ButtonNeon/ButtonNeon';
 import { profile } from '../../actions/actions';
+import WarnModal from '../UI/Modals/WarnModal/WarnModal';
 
 function GameDetailed(props) {
   const slug = props.match.params.gameSlug;
@@ -18,13 +19,16 @@ function GameDetailed(props) {
   const [isOwned, setisOwned] = useState();
   const [isWished, setisWished] = useState();
   const [descriptionParsed, setDescriptionParsed] = useState();
+  const [showWishWarn, setShowWishListWarn] = useState();
+  const wishListWarnTxt =
+    'You already got this game in your colletcion. Do you really want it in your Wish List';
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (userData) console.log('tut');
-    Backend.getProfileInfo(userData.username, userData.token).then(res =>
-      dispatch(profile(res))
-    );
+    if (userData)
+      Backend.getProfileInfo(userData.username, userData.token).then(res =>
+        dispatch(profile(res))
+      );
   }, [userData]);
 
   useEffect(() => {
@@ -80,35 +84,57 @@ function GameDetailed(props) {
     }
   };
 
-  const toggleList = (platform, gameDetails, list) => {
-    const username = props.userData.username;
-    const token = props.userData.token;
+  const toggleList = (platform, gameDetails, list, accepted) => {
+    let goFurther = needToShowWarning(list);
 
-    let action;
-    if (list === 'owned_list') {
-      action = isOwned ? 'removeGame' : 'addGame';
-    } else if (list === 'wish_list') {
-      action = isWished ? 'removeGame' : 'addGame';
-    }
+    if (goFurther || accepted) {
+      const username = props.userData.username;
+      const token = props.userData.token;
 
-    Backend.updateProfile(username, token, {
-      action: action,
-      list: list,
-      platform: platform,
-      game: gameDetails
-    }).then(res => {
-      if (res.success) {
-        if (list === 'owned_list') {
-          setisOwned(!isOwned);
-        } else if (list === 'wish_list') {
-          setisWished(!isWished);
-        }
+      let action;
+      if (list === 'owned_list') {
+        action = isOwned ? 'removeGame' : 'addGame';
+      } else if (list === 'wish_list') {
+        action = isWished ? 'removeGame' : 'addGame';
       }
-    });
+
+      Backend.updateProfile(username, token, {
+        action: action,
+        list: list,
+        platform: platform,
+        game: gameDetails
+      }).then(res => {
+        if (res.success) {
+          if (list === 'owned_list') {
+            setisOwned(!isOwned);
+          } else if (list === 'wish_list') {
+            setisWished(!isWished);
+          }
+        }
+      });
+    }
   };
 
   const getBack = () => {
     props.history.push(props.history.location.state.from);
+  };
+
+  const hideWarning = () => {
+    setShowWishListWarn(false);
+  };
+
+  const needToShowWarning = list => {
+    if (list === 'wish_list' && isOwned && !isWished) {
+      setShowWishListWarn(true);
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const wishListWarnHandler = () => {
+    toggleList(platformName, gameDetails, 'wish_list', true);
+    setShowWishListWarn(false);
   };
 
   return (
@@ -134,6 +160,14 @@ function GameDetailed(props) {
           onClick={() => toggleList(platformName, gameDetails, 'owned_list')}
         />
         <ButtonNeon txtContent={'Back'} onClick={getBack} />
+        {showWishWarn && (
+          <WarnModal
+            message={wishListWarnTxt}
+            onBackdropClick={hideWarning}
+            onNoClick={hideWarning}
+            onYesClick={wishListWarnHandler}
+          />
+        )}
       </div>
     </div>
   );
