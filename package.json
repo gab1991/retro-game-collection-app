@@ -50,6 +50,7 @@
     "react-dev-utils": "^10.2.0",
     "react-dom": "^16.13.0",
     "react-html-parser": "^2.0.2",
+    "react-player": "^1.15.3",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "react-sortable-hoc": "^1.11.0",

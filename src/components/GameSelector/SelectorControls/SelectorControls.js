@@ -21,7 +21,6 @@ export default function SelectorControls(props) {
           <p>Search game :</p>
         </div>
         <div>
-          {' '}
           <Input
             type="text"
             placeholder="Name of a game"

@@ -18,7 +18,7 @@ function WishList(props) {
       Backend.getProfileInfo(userData.username, userData.token).then(res =>
         dispatch(profile(res))
       );
-  }, [userData]);
+  }, [userData, dispatch]);
 
   useEffect(() => {
     if (profileInfo) {

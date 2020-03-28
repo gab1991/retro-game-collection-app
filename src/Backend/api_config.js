@@ -24,7 +24,8 @@ const api = {
     boxArtworkUrl: 'http://localhost:8000/box_arts',
     signUpUrl: 'http://localhost:8000/auth/sign_up',
     signInUrl: 'http://localhost:8000/auth/sign_in',
-    profileUrl: 'http://localhost:8000/profile'
+    profileUrl: 'http://localhost:8000/profile',
+    soundTrackUrl: 'http://localhost:8000/youtube/soundtrack'
   }
 };
 

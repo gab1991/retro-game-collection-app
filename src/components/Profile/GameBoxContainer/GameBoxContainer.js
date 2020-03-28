@@ -51,7 +51,7 @@ const SortableItem = SortableElement(({ game, platform }) => (
 ));
 
 function GameBoxContainer(props) {
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
   const { games, platform } = props;
   const [gamesSort, setGamesSort] = useState([]);
 

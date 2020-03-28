@@ -1,18 +1,23 @@
 .GameDetailed {
   background-color: rgba(0, 0, 0, 0.4);
-  max-height: 100%;
   overflow: auto;
   width: 100%;
 
   display: grid;
 
   grid-template-areas:
+    /* 'info description description'
+    'info description description'
+    'info screenshots screenshots'
+    'controls controls controls'; */
     'info description description'
     'info description description'
     'info screenshots screenshots'
-    'controls controls controls';
+    'info controls controls'
+    'soundtrack gameplay commentarea';
+
   grid-template-columns: auto 1fr 1fr;
-  grid-template-rows: auto auto min-content auto;
+  grid-template-rows: auto auto min-content min-content auto;
 }
 
 .Info {
@@ -25,7 +30,7 @@
 .Desc {
   grid-area: description;
   /* background-color: tomato; */
-
+  min-height: 50%;
   overflow: auto;
   padding: 10px;
 }
@@ -33,6 +38,60 @@
 .Screenshots {
   /* background-color: burlywood; */
   grid-area: screenshots;
+}
+
+.VideoSection {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 10px;
+}
+
+.VideoSectionLabel {
+  background-color: #65323e;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  width: 100%;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Soundtrack {
+  grid-area: soundtrack;
+}
+
+.Gameplay {
+  justify-self: center;
+  grid-area: gameplay;
+}
+
+.CommentArea {
+  grid-area: commentarea;
+  padding: 10px;
+  width: 100%;
+  height: 100%;
+  /* background-color: green; */
+}
+
+.CommentArea textarea {
+  background-color: transparent;
+  font-family: inherit;
+  color: whitesmoke;
+  outline: none;
+  resize: none;
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+}
+
+.CommentArea textarea::placeholder {
+  font-family: inherit;
+  font-style: italic;
+  color: whitesmoke;
+  opacity: 0.5;
 }
 
 .Contorls {

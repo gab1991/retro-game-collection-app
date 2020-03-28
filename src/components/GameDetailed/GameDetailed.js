@@ -8,6 +8,7 @@ import Slider from '../UI/Slider/Slider';
 import ButtonNeon from '../UI/Buttons/ButtonNeon/ButtonNeon';
 import { profile } from '../../actions/actions';
 import WarnModal from '../UI/Modals/WarnModal/WarnModal';
+import ReactPlayer from 'react-player';
 
 function GameDetailed(props) {
   const slug = props.match.params.gameSlug;
@@ -16,6 +17,7 @@ function GameDetailed(props) {
   const [gameDetails, setGameDetails] = useState();
   const [screenshots, setScreenshots] = useState();
   const [boxArtUrl, setBoxArtUrl] = useState();
+  const [sountrackVideo, setSountrackVideo] = useState();
   const [isOwned, setisOwned] = useState();
   const [isWished, setisWished] = useState();
   const [descriptionParsed, setDescriptionParsed] = useState();
@@ -54,6 +56,9 @@ function GameDetailed(props) {
       Backend.getBoxArt(platformName, gameDetails.name).then(res =>
         setBoxArtUrl(res)
       );
+      // Backend.getSoundTrackVideo(platformName, gameDetails.name).then(res =>
+      //   setSountrackVideo(res)
+      // );
     }
   }, [gameDetails, platformName]);
 
@@ -146,6 +151,35 @@ function GameDetailed(props) {
       </div>
       <div className={styles.Desc}>
         {descriptionParsed ? descriptionParsed : null}
+      </div>
+      <div className={`${styles.VideoSection} ${styles.Soundtrack}`}>
+        <div className={styles.VideoSectionLabel}>SOUNDTRACK</div>
+        <ReactPlayer
+          // url={`https://www.youtube.com/watch?v=${sountrackVideo}`}
+          url={`https://www.youtube.com/watch?v=RGCTbLMkkb4`}
+          height="200px"
+          width="300px"
+          controls={true}
+          volume={0.3}
+          playing={false}
+          light
+        />
+      </div>
+      <div className={`${styles.VideoSection} ${styles.Gameplay}`}>
+        <div className={styles.VideoSectionLabel}>GAMEPLAY</div>
+        <ReactPlayer
+          // url={`https://www.youtube.com/watch?v=${sountrackVideo}`}
+          url={`https://www.youtube.com/watch?v=RGCTbLMkkb4`}
+          height="200px"
+          width="300px"
+          controls={true}
+          volume={0.3}
+          playing={false}
+          light
+        />
+      </div>
+      <div className={styles.CommentArea}>
+        <textarea placeholder="Type your remark concerning this game..."></textarea>
       </div>
       <div className={styles.Screenshots}>
         {screenshots && <Slider images={screenshots} />}

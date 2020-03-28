@@ -16,7 +16,7 @@ export default function SelectBox(props) {
 
   useEffect(() => {
     changedSelected(selectedValue);
-  }, [selectedValue]);
+  }, [selectedValue, changedSelected]);
 
   return (
     <div
@@ -29,7 +29,7 @@ export default function SelectBox(props) {
       {showDropdown && (
         <div className={styles.Options} style={{ top: height }}>
           {options.map(option => {
-            if (option != selectedValue) {
+            if (option !== selectedValue) {
               return (
                 <div key={option} onClick={changeHandler}>
                   <p style={{ lineHeight: height }}>{option}</p>

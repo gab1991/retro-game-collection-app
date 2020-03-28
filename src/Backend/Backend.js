@@ -119,6 +119,7 @@ const Backend = {
         .catch(err => reject(err));
     });
   },
+
   updateProfile: (username, token, obj) => {
     let url = `${api.appServer.profileUrl}/${username}/update/${token}`;
     return new Promise((resolve, reject) => {
@@ -131,6 +132,20 @@ const Backend = {
       })
         .then(res => res.json())
         .then(data => resolve(data))
+        .catch(err => reject(err));
+    });
+  },
+
+  getSoundTrackVideo: (platform, gameName) => {
+    let url = `${api.appServer.soundTrackUrl}/${platform}/${encodeURIComponent(
+      gameName
+    )}`;
+    return new Promise((resolve, reject) => {
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          resolve(data);
+        })
         .catch(err => reject(err));
     });
   }

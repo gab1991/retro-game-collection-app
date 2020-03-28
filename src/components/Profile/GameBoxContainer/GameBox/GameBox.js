@@ -10,7 +10,7 @@ function GameBox(props) {
 
   useEffect(() => {
     Backend.getBoxArt(platform, game.name).then(res => setBoxArtUrl(res));
-  }, []);
+  }, [platform, game.name]);
 
   const openGameDetailsHandler = slug => {
     props.history.push({
