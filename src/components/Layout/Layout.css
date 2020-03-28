@@ -1,6 +1,6 @@
 .Layout {
   display: grid;
-  grid-template-rows: 5vh auto 4vh;
+  grid-template-rows: minmax(30px, 5%) auto minmax(30px, 4%);
   overflow: hidden;
   height: 100vh;
   width: 100%;
@@ -13,9 +13,15 @@
 }
 
 .Footer {
-  background-color: rgba(41, 102, 86, 0.5);
-  text-align: center;
-  line-height: 4vh;
+  font-size: 0.7rem;
+  background-color: rgba(82, 82, 82, 0.589);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Footer a {
+  color: whitesmoke;
 }
 
 @media (max-width: 800px) {
