@@ -1,10 +1,17 @@
 .Button {
-	border: none;
-	background-color: whitesmoke;
-	cursor: pointer;
+  border: 1px solid whitesmoke;
+  background-color: gray;
+  font-size: 1rem;
+  cursor: pointer;
+  color: whitesmoke;
+  transition: letter-spacing 300ms ease;
+  transform: scale(1);
 }
 
 .Button:hover {
-	text-shadow: #fff 0px 0px 5px, #ff0 0px 0px 20px, #ff0 0px 0px 30px,
-		#ff0 0px 0px 40px, #ff0 0px 0px 50px, #ff0 0px 0px 75px;
+  letter-spacing: 3px;
+}
+
+.Button:focus {
+  outline: none;
 }

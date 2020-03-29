@@ -1,62 +1,67 @@
 .GameSelector {
   min-height: 100%;
-  display: grid;
-  grid-template-rows: 16vh auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .Header {
+  height: 150px;
   background-color: rgba(0, 0, 0, 0.6);
+
   display: grid;
   grid-template-areas:
-    'img info settings settings settings'
-    'img info settings settings settings'
+    'img info info info info'
+    'img settings settings settings settings'
     'pagination pagination pagination pagination pagination';
+  grid-template-columns: min-content auto;
 }
 
-.Header > div {
-  height: 12vh;
-}
-
-.Header > div:last-child {
-  height: 4vh;
-}
 .PlatformInfo {
   grid-area: info;
-  height: 10vh;
-  padding: 1%;
+  /* background-color: rgb(40, 61, 38); */
 
   display: flex;
-  flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  font-size: 1.2rem;
+}
+
+.PlatformInfo span {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 1.4rem;
 }
 
 .IconContainer {
   grid-area: img;
-  height: 10vh;
-  max-width: 400px;
+  /* background-color: aqua; */
 
-  height: 12h;
+  width: 300px;
+  padding: 1%;
+  overflow: hidden;
+}
+
+.IconContainer > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.Settings {
+  grid-area: settings;
+  /* background-color: rgb(95, 69, 35); */
+}
+
+.Pagination {
+  grid-area: pagination;
+
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.IconContainer img {
-  width: 80%;
-  height: 80%;
-  object-fit: cover;
-}
-
-.Desctiprion {
-  grid-area: desc;
-
-  overflow: auto;
-  /* background-color: lightpink; */
+  /* background-color: chocolate; */
 }
 
 .GamePicker {
-  /* background-color: plum; */
   display: flex;
   justify-content: center;
   align-content: flex-start;
@@ -71,14 +76,6 @@
 }
 
 @media (max-width: 800px) {
-  .Header {
-    /* background-color: rgb(139, 155, 201); */
-    display: grid;
-    grid-template-areas:
-      'settings settings'
-      'pagination pagination ';
-    overflow: auto;
-  }
   .IconContainer {
     display: none;
   }

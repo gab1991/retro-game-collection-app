@@ -1,53 +1,53 @@
 .PlatformSelector {
-  display: grid;
-  grid-template-rows: 1fr 4fr;
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  min-height: 100%;
-}
-
-.PlatformSelector > div:first-child {
-  grid-row: 1/2;
-}
-
-.PlatformSelector > div:last-child {
-  grid-row: 2/5;
+  overflow: auto;
 }
 
 .PlatformSelectorHeading {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  font-size: 5rem;
+  text-align: center;
+  font-size: 3rem;
 }
 .PlatformContainer {
-  /* background-color: maroon;s */
+  /* background-color: maroon; */
   height: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
   overflow: auto;
 }
 
 .PlatformContainer > div {
-  justify-self: center;
-  align-self: center;
   height: 600px;
-  width: 90%;
-  margin: 5% 0;
+  width: 400px;
+  margin: 10px;
 }
 
-@media (max-width: 800px) {
-  .PlatformContainer {
-    grid-template-columns: 1fr;
-  }
-
+@media (max-width: 768px) {
   .PlatformContainer > div {
-    height: 300px;
-    width: 90%;
-    margin: 5% 0;
+    height: 350px;
+    width: 250px;
+    margin: 5%;
   }
 
   .PlatformSelectorHeading {
-    text-align: center;
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 425px) {
+  .PlatformContainer > div {
+    height: 250px;
+    width: 70%;
+    margin: 5%;
+  }
+
+  .PlatformSelectorHeading {
+    font-size: 1rem;
   }
 }

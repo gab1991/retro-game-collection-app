@@ -4,13 +4,15 @@ import styles from './Input.css';
 export default function Input(props) {
   const { type, placeholder, name, onChange, onKeyPress } = props;
   return (
-    <input
-      className={styles.Input}
-      type={type}
-      placeholder={placeholder}
-      name={name}
-      onChange={onChange}
-      onKeyPress={onKeyPress}
-    />
+    <div className={styles.InputWrapper}>
+      <input
+        className={styles.Input}
+        type={type}
+        placeholder={placeholder}
+        name={name}
+        onChange={onChange}
+        onKeyPress={onKeyPress}
+      />
+    </div>
   );
 }

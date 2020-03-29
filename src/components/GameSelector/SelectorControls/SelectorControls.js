@@ -20,41 +20,42 @@ export default function SelectorControls(props) {
         <div>
           <p>Search game :</p>
         </div>
-        <div>
-          <Input
-            type="text"
-            placeholder="Name of a game"
-            name="gameSearch"
-            onChange={gameSearchChange}
-            onKeyPress={sendRequest}
-          />
-          <Button txtContent="Search" onClick={sendRequest} name="searchBtn" />
+        <div className={styles.InputSection}>
+          <div className={styles.Input}>
+            <Input
+              type="text"
+              placeholder="Name of a game"
+              name="gameSearch"
+              onChange={gameSearchChange}
+              onKeyPress={sendRequest}
+            />
+          </div>
+          <div className={styles.InputBtn}>
+            <Button
+              txtContent="Search"
+              onClick={sendRequest}
+              rectangular
+              name="searchBtn"
+            />
+          </div>
         </div>
       </div>
       <div className={styles.FilterContainer}>
         <div>
           <p>Filter by :</p>
         </div>
-        <div>
-          <SelectBox
-            selected={ordering.name}
-            options={orderingOptions}
-            changedSelected={selectChange}
-            height={'20px'}
-            width={'80%'}
-          />
-          <Button
-            txtContent="↓"
-            onClick={directionChange}
-            direction="desc"
-            style={{ height: 20 }}
-          />
-          <Button
-            txtContent="↑"
-            onClick={directionChange}
-            direction="acs"
-            style={{ height: 20 }}
-          />
+        <div className={styles.SelectBoxSection}>
+          <div className={styles.SelectBox}>
+            <SelectBox
+              selected={ordering.name}
+              options={orderingOptions}
+              changedSelected={selectChange}
+            />
+          </div>
+          <div className={styles.SelectBoxButons}>
+            <Button txtContent="↓" onClick={directionChange} direction="desc" />
+            <Button txtContent="↑" onClick={directionChange} direction="acs" />
+          </div>
         </div>
       </div>
     </div>

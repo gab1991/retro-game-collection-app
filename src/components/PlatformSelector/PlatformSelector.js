@@ -11,8 +11,8 @@ export default function PlatformSelector(props) {
 
   return (
     <div className={styles.PlatformSelector}>
-      <div className={styles.box1}>
-        <h1 className={styles.PlatformSelectorHeading}>Choose your platform</h1>
+      <div className={styles.PlatformSelectorHeading}>
+        <h1>Choose your platform</h1>
       </div>
       <div className={styles.PlatformContainer}>
         {availablePlatforms.map(platform => (

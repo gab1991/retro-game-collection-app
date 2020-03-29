@@ -1,23 +1,39 @@
 .SelectBox {
-	position: relative;
-	display: inline-block;
-	border: 1px solid whitesmoke;
-	cursor: pointer;
+  width: 100%;
+  height: 100%;
+  line-height: normal;
+  position: relative;
+  cursor: pointer;
+  border: none;
 }
 
-.SelectBox p {
-	text-align: center;
-	width: 100%;
-	height: 100%;
+.Selection {
+  width: 100%;
+  height: 100%;
+  border: 1px solid whitesmoke;
+}
+
+.TextSection {
+  transition: letter-spacing 300ms ease;
+  font-size: 1rem;
+  text-transform: capitalize;
+  background-color: #808080;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.TextSection:hover {
+  letter-spacing: 2px;
 }
 
 .Options {
-	width: 100%;
-	z-index: 10;
-	position: absolute;
+  width: inherit;
+  z-index: 10;
+  position: absolute;
 }
 
 .Options > div {
-	border: 1px solid whitesmoke;
-	border-top: none;
+  border: 1px solid whitesmoke;
+  border-top: none;
 }

@@ -16,23 +16,23 @@ export default function SelectBox(props) {
 
   useEffect(() => {
     changedSelected(selectedValue);
-  }, [selectedValue, changedSelected]);
+  }, [selectedValue]);
 
   return (
-    <div
-      className={styles.SelectBox}
-      onClick={clickHandler}
-      style={{ height: height, width: width }}>
-      <div>
-        <p style={{ lineHeight: height }}>{selectedValue}</p>
+    <div className={styles.SelectBox} onClick={clickHandler}>
+      <div className={`${styles.TextSection} ${styles.Selection}`}>
+        {selectedValue}
       </div>
       {showDropdown && (
-        <div className={styles.Options} style={{ top: height }}>
+        <div className={styles.Options}>
           {options.map(option => {
             if (option !== selectedValue) {
               return (
-                <div key={option} onClick={changeHandler}>
-                  <p style={{ lineHeight: height }}>{option}</p>
+                <div
+                  key={option}
+                  onClick={changeHandler}
+                  className={styles.TextSection}>
+                  {option}
                 </div>
               );
             }

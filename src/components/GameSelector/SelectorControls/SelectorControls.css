@@ -1,55 +1,66 @@
 .SelectorControls {
-	grid-area: settings;
-	width: 100%;
-	height: 100%;
-	/* background-color: maroon; */
-	overflow: visible;
+  width: 100%;
+  height: 100%;
 
-	display: flex;
-	justify-content: space-around;
-	align-items: flex-end;
+  display: flex;
+  justify-content: space-around;
 }
 
 .SearchContainer {
-	flex: 2;
-	padding: 1%;
-	/* background-color: teal; */
-
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
+  flex: 2;
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
-.SearchContainer > div > input {
-	width: 80%;
+.InputSection {
+  height: 25px;
+  display: flex;
+  align-items: center;
 }
 
-.SearchContainer > div > button {
-	border: none;
-	width: 20%;
+.Input {
+  height: 100%;
+  width: 80%;
+}
+
+.InputBtn {
+  height: 100%;
+  width: 20%;
+}
+
+.InputBtn button {
+  height: 100%;
+  width: 100%;
 }
 
 .FilterContainer {
-	flex: 1;
-	padding: 1%;
+  flex: 1;
+  padding: 1%;
 
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	/* background-color: rgb(199, 154, 169); */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
-.FilterContainer > div:first-child {
-	/* background-color: steelblue; */
+.SelectBoxSection {
+  height: 25px;
+  display: flex;
+  align-items: center;
 }
 
-.FilterContainer > div:last-child {
-	flex: 1;
-	display: flex;
-	justify-content: center;
-	align-items: flex-end;
+.SelectBox {
+  height: 100%;
+  width: 80%;
 }
 
-.FilterContainer > div:last-child > button {
-	width: 10%;
+.SelectBoxButons {
+  height: 100%;
+  width: 20%;
+}
+
+.SelectBoxButons button {
+  height: 100%;
+  width: 50%;
 }

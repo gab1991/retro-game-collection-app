@@ -8,7 +8,7 @@ export default function Button(props) {
       name={name}
       onClick={clickHander}
       direction={direction}
-      className={styles.ButtonNeon}
+      className={styles.Button}
       style={style}>
       {txtContent}
     </button>

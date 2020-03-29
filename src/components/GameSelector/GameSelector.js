@@ -91,32 +91,35 @@ export default function GameSelector(props) {
         </div>
         <div className={styles.PlatformInfo}>
           <div>
-            <p>Chosen Platform : {platformName}</p>
+            Chosen Platform : <span>{platformName}</span>
           </div>
           <div>
-            <p>
-              Total Games Released :{' '}
-              {platformDescription ? platformDescription.games_count : null}
-            </p>
+            Total Games Released :{' '}
+            <span>
+              {platformDescription ? platformDescription.games_count : ''}
+            </span>
           </div>
         </div>
-
-        <SelectorControls
-          gameSearchChange={gameSearchChangeHandler}
-          selectChange={selectChangeHandler}
-          directionChange={directionChangeHandler}
-          sendRequest={sendRequestHandler}
-          ordering={ordering}
-          orderingOptions={orderingOptions}
-        />
-        {recievedData && (
-          <Paginator
-            totalCount={recievedData.count}
-            itemsPerPage={appConfig.GameSelector.gamesPerRequest}
-            currentPage={currentPage}
-            changeCurrentPage={pageChangeHandler}
+        <div className={styles.Settings}>
+          <SelectorControls
+            gameSearchChange={gameSearchChangeHandler}
+            selectChange={selectChangeHandler}
+            directionChange={directionChangeHandler}
+            sendRequest={sendRequestHandler}
+            ordering={ordering}
+            orderingOptions={orderingOptions}
           />
-        )}
+        </div>
+        <div className={styles.Pagination}>
+          {recievedData && (
+            <Paginator
+              totalCount={recievedData.count}
+              itemsPerPage={appConfig.GameSelector.gamesPerRequest}
+              currentPage={currentPage}
+              changeCurrentPage={pageChangeHandler}
+            />
+          )}
+        </div>
       </div>
       <div className={styles.GamePicker}>
         {gamesToShow &&
