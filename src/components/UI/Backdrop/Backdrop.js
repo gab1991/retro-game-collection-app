@@ -4,7 +4,7 @@ import closeicon from '../../../assets/images/ui/close.svg';
 
 export default function Blackdrop(props) {
   const { show, onClick, closeIcon } = props;
-  console.log(props);
+
   return (
     <div
       onClick={onClick}

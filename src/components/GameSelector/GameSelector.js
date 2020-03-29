@@ -5,21 +5,24 @@ import styles from './GameSelector.css';
 import GameCard from '../GameSelector/GameCard/GameCard';
 import Paginator from '../Paginator/Paginator.js';
 import SelectorControls from './SelectorControls/SelectorControls';
+import queryString from 'query-string';
 
 export default function GameSelector(props) {
-  const { match } = props;
-  const platformName = match.params.platformName;
+  const { platformName } = props.match.params;
+  const params = queryString.parse(props.location.search);
+  const queryPage = Number(params.page);
+  const queryOrdering = { name: params.ordername, direction: params.direction };
+  const defaultOrdering = appConfig.GameSelector.defaultOrdering;
   const platformID = appConfig.platformIdList[platformName];
   const orderingOptions = appConfig.GameSelector.ordering;
   const [platformDescription, setPlatformDescription] = useState();
   const [gamesToShow, setGamesToShow] = useState();
   const [recievedData, setRecievedData] = useState();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [ordering, setOrdering] = useState({
-    name: 'rating',
-    direction: 'desc'
-  });
   const [inputValue, setInputValue] = useState();
+  const [currentPage, setCurrentPage] = useState(queryPage || 1);
+  const [ordering, setOrdering] = useState(
+    queryOrdering.name ? queryOrdering : defaultOrdering
+  );
 
   useEffect(() => {
     Backend.getPlatformDetails(platformID).then(res => {
@@ -39,6 +42,10 @@ export default function GameSelector(props) {
   }, [currentPage, ordering, platformID]);
 
   const pageChangeHandler = pageNumber => {
+    const updParams = { ...params };
+    updParams.page = pageNumber;
+    const stringified = queryString.stringify(updParams);
+    props.history.push(`${props.history.location.pathname}?${stringified}`);
     setCurrentPage(pageNumber);
   };
 
@@ -51,7 +58,7 @@ export default function GameSelector(props) {
       Backend.getGamesForPlatform({
         page: 1,
         page_size: appConfig.GameSelector.gamesPerRequest,
-        ordering: appConfig.GameSelector.defaultOrdering,
+        ordering: `${ordering.direction === 'desc' ? '-' : ''}${ordering.name}`,
         platforms: platformID,
         search: inputValue
       }).then(res => {
@@ -63,14 +70,25 @@ export default function GameSelector(props) {
   };
 
   const selectChangeHandler = name => {
+    const updParams = { ...params };
+    updParams.ordername = name;
+    const stringified = queryString.stringify(updParams);
+    props.history.push(`${props.history.location.pathname}?${stringified}`);
+
     let updatedOrdering = { ...ordering };
     updatedOrdering.name = name;
     setOrdering(updatedOrdering);
   };
 
   const directionChangeHandler = e => {
+    const direction = e.target.getAttribute('direction');
+    const updParams = { ...params };
+    updParams.direction = direction;
+    const stringified = queryString.stringify(updParams);
+    props.history.push(`${props.history.location.pathname}?${stringified}`);
+
     let updatedOrdering = { ...ordering };
-    updatedOrdering.direction = e.target.getAttribute('direction');
+    updatedOrdering.direction = direction;
     setOrdering(updatedOrdering);
   };
 
