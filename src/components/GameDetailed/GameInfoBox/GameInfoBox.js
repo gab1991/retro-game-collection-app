@@ -11,19 +11,13 @@ export default function GameInfoBox(props) {
         <img src={boxArt} alt={boxArt}></img>
       </div>
       <div className={styles.TextContainer}>
-        <p>
-          <span> Name: </span>
-          {name}
-        </p>
-        <p>
-          <span>Date of Release: </span>
-          {released}
-        </p>
+        <h3>Name:</h3>
+        <span>{name}</span>
+        <h3>Date of Release:</h3>
+        <span>{released}</span>
         {developers && (
           <>
-            <p>
-              <span>Developers:</span>
-            </p>
+            <h3>Developers:</h3>
             <ul>
               {developers.map((dev, index) => (
                 <li key={index}>{dev.name}</li>
@@ -33,9 +27,7 @@ export default function GameInfoBox(props) {
         )}
         {publishers && (
           <>
-            <p>
-              <span>Publishers:</span>
-            </p>
+            <h3>Publishers:</h3>
             <ul>
               {publishers.map((pub, index) => (
                 <li key={index}>{pub.name}</li>

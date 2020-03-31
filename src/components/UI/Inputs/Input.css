@@ -6,6 +6,7 @@
 }
 
 .Input {
+  width: 100%;
   outline: none;
   text-indent: 5px;
   color: whitesmoke;

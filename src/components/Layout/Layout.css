@@ -1,19 +1,23 @@
 .Layout {
   display: grid;
-  grid-template-rows: minmax(30px, 5%) auto minmax(30px, 4%);
-  overflow: hidden;
-  height: 100vh;
+  grid-template-rows: 40px auto minmax(30px, 4%);
+  overflow-y: auto;
+  overflow-x: hidden;
+  color: whitesmoke;
+
+  min-height: 100vh;
   width: 100%;
-  background-image: url('../../assets/images/background.jpg');
+  /* background-image: url('../../assets/images/background.jpg');
   background-color: rgba(0, 0, 0, 0.6);
   background-blend-mode: multiply;
   background-size: cover;
-  background-position: center;
-  color: whitesmoke;
+  background-position: center; */
 }
 
 .Footer {
+  height: 40px;
   font-size: 0.7rem;
+  margin-top: auto;
   background-color: rgba(82, 82, 82, 0.589);
   display: flex;
   justify-content: center;

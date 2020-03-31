@@ -6,6 +6,7 @@ import GameCard from '../GameSelector/GameCard/GameCard';
 import Paginator from '../Paginator/Paginator.js';
 import SelectorControls from './SelectorControls/SelectorControls';
 import queryString from 'query-string';
+import ReactHtmlParser from 'react-html-parser';
 
 export default function GameSelector(props) {
   const { platformName } = props.match.params;
@@ -16,12 +17,13 @@ export default function GameSelector(props) {
   const platformID = appConfig.platformIdList[platformName];
   const orderingOptions = appConfig.GameSelector.ordering;
   const [platformDescription, setPlatformDescription] = useState();
-  const [gamesToShow, setGamesToShow] = useState();
+  const [gamesToShow, setGamesToShow] = useState([]);
   const [recievedData, setRecievedData] = useState();
   const [inputValue, setInputValue] = useState();
+  const [noGamesFound, setNoGamesFound] = useState();
   const [currentPage, setCurrentPage] = useState(queryPage || 1);
   const [ordering, setOrdering] = useState(
-    queryOrdering.name ? queryOrdering : defaultOrdering
+    queryOrdering.name ? { ...queryOrdering } : { ...defaultOrdering }
   );
 
   useEffect(() => {
@@ -41,10 +43,14 @@ export default function GameSelector(props) {
     });
   }, [currentPage, ordering, platformID]);
 
-  const pageChangeHandler = pageNumber => {
+  const updateQueryStr = (key, value) => {
     const updParams = { ...params };
-    updParams.page = pageNumber;
-    const stringified = queryString.stringify(updParams);
+    updParams[key] = value;
+    return queryString.stringify(updParams);
+  };
+
+  const pageChangeHandler = pageNumber => {
+    const stringified = updateQueryStr('page', pageNumber);
     props.history.push(`${props.history.location.pathname}?${stringified}`);
     setCurrentPage(pageNumber);
   };
@@ -60,9 +66,14 @@ export default function GameSelector(props) {
         page_size: appConfig.GameSelector.gamesPerRequest,
         ordering: `${ordering.direction === 'desc' ? '-' : ''}${ordering.name}`,
         platforms: platformID,
-        search: inputValue
+        search: `${inputValue || ' '}`
       }).then(res => {
         const games = res.results;
+        if (games.length > 0) {
+          setNoGamesFound(false);
+        } else {
+          setNoGamesFound(true);
+        }
         setGamesToShow(games);
         setRecievedData(res);
       });
@@ -70,9 +81,7 @@ export default function GameSelector(props) {
   };
 
   const selectChangeHandler = name => {
-    const updParams = { ...params };
-    updParams.ordername = name;
-    const stringified = queryString.stringify(updParams);
+    const stringified = updateQueryStr('ordername', name);
     props.history.push(`${props.history.location.pathname}?${stringified}`);
 
     let updatedOrdering = { ...ordering };
@@ -82,9 +91,7 @@ export default function GameSelector(props) {
 
   const directionChangeHandler = e => {
     const direction = e.target.getAttribute('direction');
-    const updParams = { ...params };
-    updParams.direction = direction;
-    const stringified = queryString.stringify(updParams);
+    const stringified = updateQueryStr('direction', direction);
     props.history.push(`${props.history.location.pathname}?${stringified}`);
 
     let updatedOrdering = { ...ordering };
@@ -101,11 +108,18 @@ export default function GameSelector(props) {
     });
   };
 
+  console.log(platformDescription);
+
   return (
     <div className={styles.GameSelector}>
       <div className={styles.Header}>
         <div className={styles.IconContainer}>
           <img src={images[platformName].gamepad.src} alt="platformImg" />
+        </div>
+        <div className={styles.Description}>
+          {platformDescription
+            ? ReactHtmlParser(platformDescription.description)
+            : ''}
         </div>
         <div className={styles.PlatformInfo}>
           <div>
@@ -148,6 +162,9 @@ export default function GameSelector(props) {
               openGameDetails={openGameDetailsHandler}
             />
           ))}
+        {noGamesFound && (
+          <h1>No results have been found! Try to change the query</h1>
+        )}
       </div>
     </div>
   );

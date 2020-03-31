@@ -13,6 +13,18 @@
   outline: none;
 }
 
+.ButtonNeon.green {
+  background: #569874;
+}
+
+.ButtonNeon.gray {
+  background: #434343;
+}
+
+.ButtonNeon.red {
+  background: #963e53;
+}
+
 .ButtonNeon:hover {
   background: #434343;
   letter-spacing: 1px;

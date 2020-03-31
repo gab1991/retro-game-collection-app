@@ -1,23 +1,25 @@
 .GameDetailed {
-  background-color: rgba(0, 0, 0, 0.4);
-  overflow: auto;
-  width: 100%;
+  /* background-color: rgba(0, 0, 0, 0.6); */
+  background-color: rgba(44, 44, 44, 0.7);
+  margin: 0 auto;
+  padding: 20px 0;
+  margin-bottom: 20%;
+  max-width: 1200px;
 
   display: grid;
 
   grid-template-areas:
-    /* 'info description description'
-    'info description description'
     'info screenshots screenshots'
-    'controls controls controls'; */
     'info description description'
-    'info description description'
-    'info screenshots screenshots'
     'info controls controls'
-    'soundtrack gameplay commentarea';
+    'video video video';
 
   grid-template-columns: auto 1fr 1fr;
-  grid-template-rows: auto auto min-content min-content auto;
+  grid-template-rows: min-content 1fr min-content;
+}
+
+hr {
+  border: 1px solid rgba(82, 82, 82, 0.9);
 }
 
 .Info {
@@ -25,42 +27,21 @@
   /* background-color: yellowgreen; */
   width: 320px;
   padding: 10px;
+  padding-left: 20px;
 }
 
 .Desc {
   grid-area: description;
+  font-size: 1.3rem;
   /* background-color: tomato; */
-  min-height: 50%;
   overflow: auto;
-  padding: 10px;
+  padding: 20px;
 }
 
 .Screenshots {
   /* background-color: burlywood; */
+  padding: 10px 20px;
   grid-area: screenshots;
-}
-
-.VideoSection {
-  width: 320px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 10px;
-}
-
-.VideoSectionLabel {
-  background-color: #65323e;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  width: 100%;
-  height: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.Soundtrack {
-  grid-area: soundtrack;
 }
 
 .Gameplay {
@@ -70,6 +51,7 @@
 
 .CommentArea {
   grid-area: commentarea;
+  display: none;
   padding: 10px;
   width: 100%;
   height: 100%;
@@ -96,12 +78,61 @@
 
 .Contorls {
   grid-area: controls;
+  width: 100%;
+  padding: 10px 20px;
   /* background-color: saddlebrown; */
-
+}
+.Buttons {
   display: flex;
   justify-content: space-around;
   align-items: center;
   padding: 10px;
+}
+
+.Buttons > div {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.VideoSection {
+  padding: 20px;
+  grid-area: video;
+  width: 100%;
+  display: flex;
+}
+
+.VideoSection > div {
+  flex: 1;
+}
+
+.VideoSection > div:first-child {
+  padding-right: 10px;
+}
+
+.VideoSection > div:last-child {
+  padding-left: 10px;
+}
+
+.VideoLabel {
+  margin-bottom: 15px;
+}
+.VideoLabel h2 {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: normal;
+  font-style: italic;
+}
+
+.PlayerWrapper {
+  position: relative;
+  padding-top: 56.25%;
+}
+
+.ReactPlayer {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 @media (max-width: 500px) {

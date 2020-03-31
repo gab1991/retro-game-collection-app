@@ -144,64 +144,93 @@ function GameDetailed(props) {
 
   return (
     <div className={styles.GameDetailed}>
+      <div className={styles.Screenshots}>
+        {screenshots && <Slider images={screenshots} />}
+      </div>
       <div className={styles.Info}>
         {gameDetails && boxArtUrl && (
           <GameInfoBox gameInfo={gameDetails} boxArt={boxArtUrl} />
         )}
       </div>
       <div className={styles.Desc}>
+        <hr></hr>
         {descriptionParsed ? descriptionParsed : null}
-      </div>
-      <div className={`${styles.VideoSection} ${styles.Soundtrack}`}>
-        <div className={styles.VideoSectionLabel}>SOUNDTRACK</div>
-        <ReactPlayer
-          // url={`https://www.youtube.com/watch?v=${sountrackVideo}`}
-          url={`https://www.youtube.com/watch?v=RGCTbLMkkb4`}
-          height="200px"
-          width="300px"
-          controls={true}
-          volume={0.3}
-          playing={false}
-          light
-        />
-      </div>
-      <div className={`${styles.VideoSection} ${styles.Gameplay}`}>
-        <div className={styles.VideoSectionLabel}>GAMEPLAY</div>
-        <ReactPlayer
-          // url={`https://www.youtube.com/watch?v=${sountrackVideo}`}
-          url={`https://www.youtube.com/watch?v=RGCTbLMkkb4`}
-          height="200px"
-          width="300px"
-          controls={true}
-          volume={0.3}
-          playing={false}
-          light
-        />
       </div>
       <div className={styles.CommentArea}>
         <textarea placeholder="Type your remark concerning this game..."></textarea>
       </div>
-      <div className={styles.Screenshots}>
-        {screenshots && <Slider images={screenshots} />}
-      </div>
       <div className={styles.Contorls}>
-        <ButtonNeon
-          txtContent={isWished ? 'Remove From Wishlist' : 'Add to Wishlist'}
-          onClick={() => toggleList(platformName, gameDetails, 'wish_list')}
-        />
-        <ButtonNeon
-          txtContent={isOwned ? 'Remove from Owned' : 'Owned'}
-          onClick={() => toggleList(platformName, gameDetails, 'owned_list')}
-        />
-        <ButtonNeon txtContent={'Back'} onClick={getBack} />
-        {showWishWarn && (
-          <WarnModal
-            message={wishListWarnTxt}
-            onBackdropClick={hideWarning}
-            onNoClick={hideWarning}
-            onYesClick={wishListWarnHandler}
-          />
-        )}
+        <hr></hr>
+        <div className={styles.Buttons}>
+          <div>
+            <ButtonNeon
+              color={isWished ? 'red' : 'green'}
+              txtContent={isWished ? 'Remove from Wishlist' : 'Add to Wishlist'}
+              onClick={() => toggleList(platformName, gameDetails, 'wish_list')}
+            />
+          </div>
+          <div>
+            <ButtonNeon
+              color={isOwned ? 'red' : 'green'}
+              txtContent={isOwned ? 'Remove from Owned' : 'Owned'}
+              onClick={() =>
+                toggleList(platformName, gameDetails, 'owned_list')
+              }
+            />
+          </div>
+          <div>
+            <ButtonNeon txtContent={'Back'} onClick={getBack} color="gray" />
+          </div>
+          {showWishWarn && (
+            <WarnModal
+              message={wishListWarnTxt}
+              onBackdropClick={hideWarning}
+              onNoClick={hideWarning}
+              onYesClick={wishListWarnHandler}
+            />
+          )}
+        </div>
+        <hr></hr>
+      </div>
+      <div className={styles.VideoSection}>
+        <div className={styles.VideoSoundtrack}>
+          <div className={styles.VideoLabel}>
+            <h2>Sountrack</h2>
+            <hr></hr>
+          </div>
+          <div className={styles.PlayerWrapper}>
+            <ReactPlayer
+              // url={`https://www.youtube.com/watch?v=${sountrackVideo}`}
+              url={`https://www.youtube.com/watch?v=RGCTbLMkkb4`}
+              className={styles.ReactPlayer}
+              height="100%"
+              width="100%"
+              controls={true}
+              volume={0.3}
+              playing={false}
+              light
+            />
+          </div>
+        </div>
+        <div className={styles.VideoGameplay}>
+          <div className={styles.VideoLabel}>
+            <h2>Gameplay</h2>
+            <hr></hr>
+          </div>
+          <div className={styles.PlayerWrapper}>
+            <ReactPlayer
+              // url={`https://www.youtube.com/watch?v=${sountrackVideo}`}
+              url={`https://www.youtube.com/watch?v=kSmcxV35Xrg`}
+              className={styles.ReactPlayer}
+              height="100%"
+              width="100%"
+              controls={true}
+              volume={0.3}
+              playing={false}
+              light
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

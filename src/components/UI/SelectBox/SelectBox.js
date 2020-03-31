@@ -15,7 +15,7 @@ export default function SelectBox(props) {
   };
 
   useEffect(() => {
-    changedSelected(selectedValue);
+    if (selectedValue !== selected) changedSelected(selectedValue);
   }, [selectedValue]);
 
   return (

@@ -76,6 +76,14 @@ const images = {
   NES: {
     gamepad: { src: require('../assets/images/icons/Nintendo NES.png') },
     logo: { src: require('../assets/images/platform logos/nes_logo.png') }
+  },
+
+  PlayStation: {
+    gamepad: { src: require('../assets/images/icons/Sony Playstation.png') },
+    logo: { src: require('../assets/images/platform logos/ps_logo.png') }
+  },
+  noPicture: {
+    background: { src: require('../assets/images/no_img.png') }
   }
 };
 export default appConfig;

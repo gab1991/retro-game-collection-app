@@ -3,7 +3,7 @@ import styles from './PlatformSelector.css';
 import PlatformCard from '../PlatformCard/PlatformCard';
 
 export default function PlatformSelector(props) {
-  const availablePlatforms = ['Genesis', 'NES'];
+  const availablePlatforms = ['Genesis', 'PlayStation', 'NES'];
 
   const selectPlatformHandler = platformName => {
     props.history.push(`/${platformName}`);

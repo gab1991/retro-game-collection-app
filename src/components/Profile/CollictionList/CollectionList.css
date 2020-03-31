@@ -1,9 +1,9 @@
 .CollectionLIst {
-  height: 100%;
-  background: url('../../../assets/images/backgrounds/city_pixels.png'),
+  /* background: url('../../../assets/images/backgrounds/city_pixels.png'),
     rgba(0, 0, 0, 0.5);
   background-size: cover;
-  background-blend-mode: multiply;
+  background-blend-mode: multiply; */
+  background-color: aqua;
   display: flex;
   justify-content: center;
   align-content: flex-start;

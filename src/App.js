@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './App.css';
 import { Route, Switch } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
 import './App.css';
@@ -10,9 +11,8 @@ import Profile from './components/Profile/Profile';
 
 function App(props) {
   return (
-    <div className="App">
+    <div className={styles.App}>
       <Layout>
-        <Navigation />
         <Switch>
           <Route exact path="/" component={PlatformSelector} />
           <Route exact path="/profile" component={Profile} />

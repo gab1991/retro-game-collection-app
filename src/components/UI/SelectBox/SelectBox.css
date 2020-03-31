@@ -25,6 +25,7 @@
 
 .TextSection:hover {
   letter-spacing: 2px;
+  background-color: #65323e;
 }
 
 .Options {

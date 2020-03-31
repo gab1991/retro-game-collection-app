@@ -5,20 +5,29 @@
 }
 
 .Header {
-  height: 150px;
+  height: 200px;
   background-color: rgba(0, 0, 0, 0.6);
 
   display: grid;
   grid-template-areas:
-    'img info info info info'
-    'img settings settings settings settings'
-    'pagination pagination pagination pagination pagination';
-  grid-template-columns: min-content auto;
+    'img desc    info'
+    'img desc    settings'
+    'pagination    pagination pagination';
+  grid-template-columns: min-content auto min-content;
+}
+
+.Description {
+  grid-area: desc;
+  height: 100%;
+  overflow: auto;
+  font-style: italic;
 }
 
 .PlatformInfo {
   grid-area: info;
   /* background-color: rgb(40, 61, 38); */
+  width: 800px;
+  margin-right: 60px;
 
   display: flex;
   justify-content: space-around;
@@ -36,7 +45,7 @@
   grid-area: img;
   /* background-color: aqua; */
 
-  width: 300px;
+  width: 400px;
   padding: 1%;
   overflow: hidden;
 }
@@ -49,11 +58,16 @@
 
 .Settings {
   grid-area: settings;
+  width: 800px;
+
+  margin-right: 60px;
+
   /* background-color: rgb(95, 69, 35); */
 }
 
 .Pagination {
   grid-area: pagination;
+  height: 40px;
 
   display: flex;
   justify-content: center;
@@ -66,7 +80,6 @@
   justify-content: center;
   align-content: flex-start;
   flex-wrap: wrap;
-  overflow: auto;
 }
 
 .GamePicker > div {

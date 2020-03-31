@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './SelectorControls.css';
 import Input from '../../UI/Inputs/Input';
 import SelectBox from '../../UI/SelectBox/SelectBox';
@@ -13,6 +13,11 @@ export default function SelectorControls(props) {
     ordering,
     orderingOptions
   } = props;
+  const [pressedBtn, setPressedBtn] = useState(ordering.direction);
+
+  useEffect(() => {
+    setPressedBtn(ordering.direction);
+  }, [ordering]);
 
   return (
     <div className={styles.SelectorControls}>
@@ -36,6 +41,7 @@ export default function SelectorControls(props) {
               onClick={sendRequest}
               rectangular
               name="searchBtn"
+              letterSpacing
             />
           </div>
         </div>
@@ -53,8 +59,20 @@ export default function SelectorControls(props) {
             />
           </div>
           <div className={styles.SelectBoxButons}>
-            <Button txtContent="↓" onClick={directionChange} direction="desc" />
-            <Button txtContent="↑" onClick={directionChange} direction="acs" />
+            <Button
+              txtContent="↓"
+              onClick={directionChange}
+              direction="desc"
+              pressed={pressedBtn === 'desc' ? true : false}
+              letterSpacing={false}
+            />
+            <Button
+              txtContent="↑"
+              onClick={directionChange}
+              direction="acs"
+              pressed={pressedBtn === 'acs' ? true : false}
+              letterSpacing={false}
+            />
           </div>
         </div>
       </div>

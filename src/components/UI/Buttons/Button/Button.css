@@ -4,14 +4,26 @@
   font-size: 1rem;
   cursor: pointer;
   color: whitesmoke;
-  transition: letter-spacing 300ms ease;
+  transition: letter-spacing 300ms ease, background-color 300ms ease;
   transform: scale(1);
 }
 
-.Button:hover {
+.LetterSpacing:hover {
   letter-spacing: 3px;
 }
 
 .Button:focus {
   outline: none;
+}
+
+.Button:hover {
+  background-color: #65323e;
+}
+
+.Button:active {
+  background-color: rgb(58, 58, 58);
+}
+
+.Pressed {
+  background-color: rgb(58, 58, 58);
 }
