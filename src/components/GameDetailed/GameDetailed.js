@@ -8,6 +8,7 @@ import Slider from '../UI/Slider/Slider';
 import ButtonNeon from '../UI/Buttons/ButtonNeon/ButtonNeon';
 import { profile } from '../../actions/actions';
 import WarnModal from '../UI/Modals/WarnModal/WarnModal';
+import CornerNotifier from '../UI/Modals/CornerNotifier/CornerNotifier';
 import ReactPlayer from 'react-player';
 
 function GameDetailed(props) {
@@ -22,9 +23,13 @@ function GameDetailed(props) {
   const [isWished, setisWished] = useState();
   const [descriptionParsed, setDescriptionParsed] = useState();
   const [showWishWarn, setShowWishListWarn] = useState();
+  const [showWishNotifier, setShowWishNotifier] = useState(false);
+  const [showOwnedhNotifier, setShowOwnedNotifier] = useState(false);
   const wishListWarnTxt =
     'You already got this game in your colletcion. Do you really want it in your Wish List';
   const dispatch = useDispatch();
+
+  console.log({ isOwned, isWished });
 
   useEffect(() => {
     if (userData)
@@ -62,6 +67,25 @@ function GameDetailed(props) {
     }
   }, [gameDetails, platformName]);
 
+  const notifierHandler = (listState, listName) => {
+    console.log(listState, listName);
+    if (listState === false) {
+      if (listName === 'wish_list') {
+        console.log(showWishNotifier);
+        setShowWishNotifier(!showWishNotifier);
+        setTimeout(() => {
+          setShowWishNotifier(false);
+        }, 2000);
+      } else if (listName === 'owned_list') {
+        console.log(showOwnedhNotifier);
+        setShowOwnedNotifier(!showOwnedhNotifier);
+        setTimeout(() => {
+          setShowOwnedNotifier(false);
+        }, 2000);
+      }
+    }
+  };
+
   const isInListChecker = () => {
     const listToCheck = ['owned_list', 'wish_list'];
 
@@ -89,18 +113,20 @@ function GameDetailed(props) {
     }
   };
 
-  const toggleList = (platform, gameDetails, list, accepted) => {
+  const toggleList = (platform, gameDetails, list, action, accepted) => {
     let goFurther = needToShowWarning(list);
 
+    accepted = true;
     if (goFurther || accepted) {
       const username = props.userData.username;
       const token = props.userData.token;
 
-      let action;
-      if (list === 'owned_list') {
-        action = isOwned ? 'removeGame' : 'addGame';
-      } else if (list === 'wish_list') {
-        action = isWished ? 'removeGame' : 'addGame';
+      if (!action) {
+        if (list === 'owned_list') {
+          action = isOwned ? 'removeGame' : 'addGame';
+        } else if (list === 'wish_list') {
+          action = isWished ? 'removeGame' : 'addGame';
+        }
       }
 
       Backend.updateProfile(username, token, {
@@ -111,9 +137,15 @@ function GameDetailed(props) {
       }).then(res => {
         if (res.success) {
           if (list === 'owned_list') {
-            setisOwned(!isOwned);
+            setisOwned(prevOwned => {
+              notifierHandler(prevOwned, list);
+              return !prevOwned;
+            });
           } else if (list === 'wish_list') {
-            setisWished(!isWished);
+            setisWished(prevWish => {
+              notifierHandler(prevWish, list);
+              return !prevWish;
+            });
           }
         }
       });
@@ -181,14 +213,14 @@ function GameDetailed(props) {
           <div>
             <ButtonNeon txtContent={'Back'} onClick={getBack} color="gray" />
           </div>
-          {showWishWarn && (
+          {/* {showWishWarn && (
             <WarnModal
               message={wishListWarnTxt}
               onBackdropClick={hideWarning}
               onNoClick={hideWarning}
               onYesClick={wishListWarnHandler}
             />
-          )}
+          )} */}
         </div>
         <hr></hr>
       </div>
@@ -206,7 +238,6 @@ function GameDetailed(props) {
               height="100%"
               width="100%"
               controls={true}
-              volume={0.3}
               playing={false}
               light
             />
@@ -225,13 +256,34 @@ function GameDetailed(props) {
               height="100%"
               width="100%"
               controls={true}
-              volume={0.3}
               playing={false}
               light
             />
           </div>
         </div>
       </div>
+      <CornerNotifier
+        corner={'bottomLeft'}
+        message={'Game has been added to you'}
+        linkText={'Wish List'}
+        linkDir={'/profile/WishList'}
+        btnText={'Cancel'}
+        onCancelClick={() =>
+          toggleList(platformName, gameDetails, 'wish_list', 'removeGame')
+        }
+        show={showWishNotifier}
+      />
+      <CornerNotifier
+        corner={'bottomLeft'}
+        message={'Game has been added to you'}
+        linkText={'Owned List'}
+        linkDir={'/profile/OwnedList'}
+        btnText={'Cancel'}
+        onCancelClick={() =>
+          toggleList(platformName, gameDetails, 'owned_list', 'removeGame')
+        }
+        show={showOwnedhNotifier}
+      />
     </div>
   );
 }

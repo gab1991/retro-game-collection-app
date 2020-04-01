@@ -33,9 +33,23 @@ hr {
 .Desc {
   grid-area: description;
   font-size: 1.3rem;
+  max-height: 450px;
   /* background-color: tomato; */
   overflow: auto;
   padding: 20px;
+}
+
+.Desc::-webkit-scrollbar {
+  width: 10px;
+}
+
+.Desc::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.Desc::-webkit-scrollbar-thumb {
+  background-color: rgba(82, 82, 82);
+  border-radius: 4px;
 }
 
 .Screenshots {
@@ -78,18 +92,21 @@ hr {
 
 .Contorls {
   grid-area: controls;
-  width: 100%;
+  /* width: 100%; */
   padding: 10px 20px;
   /* background-color: saddlebrown; */
 }
+
 .Buttons {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
-  padding: 10px;
 }
 
 .Buttons > div {
+  /* background-color: bisque; */
+  margin: 10px;
   flex: 1;
   display: flex;
   justify-content: center;
@@ -135,24 +152,61 @@ hr {
   left: 0;
 }
 
-@media (max-width: 500px) {
-  .GameDetailed {
+@media (max-width: 800px) {
+  .VideoSection {
     display: flex;
     flex-direction: column;
   }
-  .Info {
-    width: 100%;
-    font-size: 1.3rem;
+
+  .Buttons {
+    display: grid;
+    grid-template-areas:
+      'wishlist ownedlist'
+      'back back';
+    grid-template-columns: 1fr 1fr;
   }
 
-  .Desc {
-    font-size: 1.3rem;
-    overflow: visible;
+  .Buttons > div:last-child {
+    grid-area: back;
   }
+}
+
+@media (max-width: 650px) {
+  .GameDetailed {
+    grid-template-areas:
+      'info'
+      'screenshots'
+      'description'
+      'controls'
+      'video';
+    justify-items: center;
+    max-width: 100%;
+  }
+
+  .Info {
+    width: 100%;
+    padding: 10px;
+  }
+
   .Screenshots {
-    min-height: max-content;
+    padding: 0;
+    overflow: auto;
+    width: 100%;
   }
-  .Contorls > button {
-    min-width: auto;
+  .Desc {
+    grid-area: description;
+    font-size: 1.3rem;
+    /* background-color: tomato; */
+    overflow: auto;
+    padding: 20px;
+  }
+  .Contorls {
+    width: 100%;
+  }
+
+  .Buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
   }
 }

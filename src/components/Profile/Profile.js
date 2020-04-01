@@ -8,7 +8,10 @@ import { connect, useDispatch } from 'react-redux';
 
 function Profile(props) {
   const { userData } = props;
-  const [activeSection, setActiveSection] = useState('CollecitionList');
+  const { section } = props.match.params;
+  const [activeSection, setActiveSection] = useState(
+    section || 'CollecitionList'
+  );
   const dispatch = useDispatch();
 
   const sectionToggler = e => {

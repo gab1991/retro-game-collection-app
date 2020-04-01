@@ -1,0 +1,50 @@
+.CornerNotifier {
+  z-index: 100;
+  position: fixed;
+  min-width: 500px;
+  height: 100px;
+  background-color: #434343;
+  transition: transform 300ms ease-in-out;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px black;
+}
+
+.topLeft {
+  top: 20px;
+  left: 20px;
+  transform: translateX(-100%) translateX(-20px);
+}
+
+.topRight {
+  top: 20px;
+  right: 40px;
+  transform: translateX(100%) translateX(40px);
+}
+
+.bottomLeft {
+  bottom: 20px;
+  left: 20px;
+  transform: translateX(-100%) translateX(-20px);
+}
+
+.bottomRight {
+  bottom: 20px;
+  right: 40px;
+  transform: translateX(100%) translateX(40px);
+}
+
+.CornerNotifier p {
+  font-size: 1.3rem;
+}
+
+.CornerNotifier a {
+  color: white;
+  margin: 0 10px;
+}
+
+.Showing {
+  transform: translateX(0);
+}
