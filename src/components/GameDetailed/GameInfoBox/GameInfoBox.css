@@ -19,7 +19,7 @@
   /* min-height: 300px; */
 }
 
-span {
+.GameInfoBox span {
   display: list-item;
   list-style: none;
   text-indent: 30px;

@@ -1,0 +1,80 @@
+.EbayItemCard {
+  width: 400px;
+  height: 100%;
+  border: 1px solid gray;
+  position: relative;
+  background-color: #eeeeee;
+  color: gray;
+
+  display: flex;
+}
+
+hr {
+  border: 1px solid gray;
+}
+
+.ImgArea {
+  height: 100%;
+  width: 200px;
+  background-color: rgb(238, 238, 238);
+  /* box-shadow: 5px 5px 10px rgb(61, 61, 61); */
+  padding: 10px 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.SvgWrapper {
+  flex: 1;
+  margin-top: 5px;
+  position: relative;
+  /* background-color: palegreen; */
+}
+
+.SvgEbay {
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  fill: currentColor;
+}
+
+.Description {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  color: #202526;
+}
+
+.Description h4 {
+  font-weight: 400;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.Description > button {
+  margin: auto;
+}
+
+.PriceSection {
+  margin-top: auto;
+}
+
+.Delivery {
+  color: gray;
+  width: max-content;
+  margin: auto;
+  font-size: 0.9rem;
+}
+
+.Delivery span {
+  cursor: pointer;
+  color: red;
+  text-decoration: underline;
+}
+
+.Total {
+  color: #202526;
+}

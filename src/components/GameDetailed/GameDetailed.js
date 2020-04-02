@@ -9,6 +9,7 @@ import ButtonNeon from '../UI/Buttons/ButtonNeon/ButtonNeon';
 import { profile } from '../../actions/actions';
 import WarnModal from '../UI/Modals/WarnModal/WarnModal';
 import CornerNotifier from '../UI/Modals/CornerNotifier/CornerNotifier';
+import EbaySection from './EbaySection/EbaySection';
 import ReactPlayer from 'react-player';
 
 function GameDetailed(props) {
@@ -177,7 +178,7 @@ function GameDetailed(props) {
   return (
     <div className={styles.GameDetailed}>
       <div className={styles.Screenshots}>
-        {screenshots && <Slider images={screenshots} />}
+        {screenshots && <Slider images={screenshots} arrows />}
       </div>
       <div className={styles.Info}>
         {gameDetails && boxArtUrl && (
@@ -262,6 +263,10 @@ function GameDetailed(props) {
           </div>
         </div>
       </div>
+      <div className={styles.EbaySection}>
+        <EbaySection />
+      </div>
+
       <CornerNotifier
         corner={'bottomLeft'}
         message={'Game has been added to you'}

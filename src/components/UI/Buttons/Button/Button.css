@@ -1,11 +1,17 @@
 .Button {
-  border: 1px solid whitesmoke;
-  background-color: gray;
-  font-size: 1rem;
+  border: none;
+  background: linear-gradient(
+    0deg,
+    rgba(0, 84, 160, 1) 0%,
+    rgb(1, 130, 204) 100%
+  );
+  width: max-content;
+  min-width: 120px;
+  padding: 0 5px;
+  font-size: 1.1rem;
   cursor: pointer;
   color: whitesmoke;
-  transition: letter-spacing 300ms ease, background-color 300ms ease;
-  transform: scale(1);
+  border-radius: 4px;
 }
 
 .LetterSpacing:hover {
@@ -17,11 +23,7 @@
 }
 
 .Button:hover {
-  background-color: #65323e;
-}
-
-.Button:active {
-  background-color: rgb(58, 58, 58);
+  background: rgba(0, 84, 160, 1);
 }
 
 .Pressed {

@@ -12,7 +12,8 @@
     'info screenshots screenshots'
     'info description description'
     'info controls controls'
-    'video video video';
+    'video video video'
+    'ebay ebay ebay';
 
   grid-template-columns: auto 1fr 1fr;
   grid-template-rows: min-content 1fr min-content;
@@ -150,6 +151,12 @@ hr {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.EbaySection {
+  grid-area: ebay;
+  width: 100%;
+  height: 300px;
 }
 
 @media (max-width: 800px) {

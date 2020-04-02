@@ -3,7 +3,7 @@ import styles from './Slider.css';
 import sliderArrow from '../../../assets/images/ui/slider-arrow-left.svg';
 
 export default function Slider(props) {
-  const { images } = props;
+  const { images, arrows, navDots, imgFit, imageHeight } = props;
   const imageWidth = props.imageWidth || 300;
   const totalWith = imageWidth * images.length;
   const sliderContainer = useRef();
@@ -41,12 +41,17 @@ export default function Slider(props) {
       } else setCurrentImg(currentImg - 1);
       setClickedClassPrev(true);
     }
-    if (curAtrb === 'next') {
+    if (curAtrb === 'next' || !arrows) {
       if (currentImg === images.length - 1) {
         setCurrentImg(0);
       } else setCurrentImg(currentImg + 1);
       setClickedClassNext(true);
     }
+  };
+
+  const onDotClickHandler = e => {
+    const index = Number(e.target.getAttribute('index'));
+    setCurrentImg(index);
   };
 
   const enterHandler = () => {
@@ -100,65 +105,88 @@ export default function Slider(props) {
   };
 
   return (
-    <div
-      className={styles.Slider}
-      onMouseEnter={enterHandler}
-      onMouseLeave={leaveHandler}
-      onMouseDown={mouseDownHandler}
-      onMouseMove={dragHandler}
-      onMouseUp={mouseUpHandler}>
+    <div className={styles.SliderNavDotsWrapper}>
       <div
-        ref={sliderContainer}
-        className={styles.Images}
-        style={{
-          transform: `translateX(-${(totalWith / images.length) *
-            currentImg}px)`,
-          transition: `${!isDown ? transitionCss.transition : null}`
-        }}>
-        {images &&
-          images.map((image, index) => (
-            <div
-              className={index === activeClass ? styles.Active : null}
-              key={index}
-              style={{ width: imageWidth }}>
-              <img draggable="false" src={image} alt="Screenshot"></img>
-            </div>
-          ))}
+        className={styles.Slider}
+        onMouseEnter={enterHandler}
+        onMouseLeave={leaveHandler}
+        onMouseDown={mouseDownHandler}
+        onMouseMove={dragHandler}
+        onMouseUp={mouseUpHandler}>
+        <div
+          ref={sliderContainer}
+          className={styles.Images}
+          style={{
+            transform: `translateX(-${(totalWith / images.length) *
+              currentImg}px)`,
+            transition: `${!isDown ? transitionCss.transition : null}`
+          }}>
+          {images &&
+            images.map((image, index) => (
+              <div
+                className={index === activeClass ? styles.Active : null}
+                key={index}
+                onClick={!arrows ? onClickHandler : null}
+                style={{ width: imageWidth, height: imageHeight || '' }}>
+                <img
+                  draggable="false"
+                  src={image}
+                  alt="screenshot"
+                  style={{ objectFit: imgFit || 'cover' }}></img>
+              </div>
+            ))}
+        </div>
+        {arrows && (
+          <>
+            <button
+              style={{
+                opacity: btnOpcatity ? '1' : null,
+                display: isDown ? 'none' : 'block'
+              }}
+              className={`${styles.PrevButton} ${styles.Btn}`}
+              desc="prev"
+              onClick={onClickHandler}>
+              <img
+                src={sliderArrow}
+                alt="arrowImg"
+                desc="prev"
+                onAnimationEnd={() => setClickedClassPrev(false)}
+                className={clickedClassPrev ? styles.BtnClicked : null}
+              />
+            </button>
+            <button
+              style={{
+                opacity: btnOpcatity ? '1' : null,
+                display: isDown ? 'none' : 'block'
+              }}
+              className={`${styles.NextButton} ${styles.Btn}`}
+              desc="next"
+              onClick={onClickHandler}>
+              <img
+                src={sliderArrow}
+                alt="arrowImg"
+                desc="next"
+                style={{ transform: `rotate(180deg)` }}
+                onAnimationEnd={() => setClickedClassNext(false)}
+                className={clickedClassNext ? styles.BtnClicked180 : null}
+              />
+            </button>
+          </>
+        )}
       </div>
-      <button
-        style={{
-          opacity: btnOpcatity ? '1' : null,
-          display: isDown ? 'none' : 'block'
-        }}
-        className={`${styles.PrevButton} ${styles.Btn}`}
-        desc="prev"
-        onClick={onClickHandler}>
-        <img
-          src={sliderArrow}
-          alt="arrowImg"
-          desc="prev"
-          onAnimationEnd={() => setClickedClassPrev(false)}
-          className={clickedClassPrev ? styles.BtnClicked : null}
-        />
-      </button>
-
-      <button
-        style={{
-          opacity: btnOpcatity ? '1' : null,
-          display: isDown ? 'none' : 'block'
-        }}
-        className={`${styles.NextButton} ${styles.Btn}`}
-        desc="next"
-        onClick={onClickHandler}>
-        <img
-          src={sliderArrow}
-          alt="arrowImg"
-          desc="next"
-          style={{ transform: `rotate(180deg)` }}
-          onAnimationEnd={() => setClickedClassNext(false)}
-          className={clickedClassNext ? styles.BtnClicked180 : null}
-        />
-      </button>
+      {navDots && (
+        <div className={styles.NavDotsContainer}>
+          {images &&
+            images.map((img, index) => (
+              <div
+                key={index}
+                className={`${styles.NavDot} 
+                ${index === activeClass ? styles.ActiveDot : null}`}
+                index={index}
+                onClick={onDotClickHandler}></div>
+            ))}
+        </div>
+      )}
     </div>
   );
 }

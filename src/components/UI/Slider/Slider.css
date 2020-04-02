@@ -1,3 +1,8 @@
+.SliderNavDotsWrapper {
+  width: 100%;
+  height: ;
+}
+
 .Slider {
   position: relative;
   overflow: hidden;
@@ -16,6 +21,7 @@
 .Images > div {
   transform: scale(0.9);
   user-select: none;
+  cursor: pointer;
 }
 
 .Images > div > img {
@@ -71,6 +77,28 @@
 
 .BtnClicked180 {
   animation: btnClicked180 300ms ease-in-out;
+}
+
+.NavDotsContainer {
+  /* position: absolute; */
+  /* background-color: blanchedalmond; */
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.NavDot {
+  cursor: pointer;
+  margin: 4px;
+  width: 10px;
+  height: 10px;
+  background-color: #a3a3a3;
+  border-radius: 50%;
+}
+
+.ActiveDot {
+  background-color: #202526;
 }
 
 @keyframes btnClicked {
