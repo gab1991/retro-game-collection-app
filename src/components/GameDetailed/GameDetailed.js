@@ -34,7 +34,7 @@ function GameDetailed(props) {
 
   useEffect(() => {
     if (userData)
-      Backend.getProfileInfo(userData.username, userData.token).then(res =>
+      Backend.getProfileInfo(userData.username, userData.token).then((res) =>
         dispatch(profile(res))
       );
   }, [userData]);
@@ -44,22 +44,22 @@ function GameDetailed(props) {
   }, [profileInfo, gameDetails]);
 
   useEffect(() => {
-    Backend.getGameDetails(slug).then(res => {
+    Backend.getGameDetails(slug).then((res) => {
       setGameDetails(res);
       const description = res.description;
       setDescriptionParsed(ReactHtmlParser(description));
     });
 
-    Backend.getScreenshots(slug).then(res => {
+    Backend.getScreenshots(slug).then((res) => {
       const screenshotsUrls = [];
-      res.results.forEach(obj => screenshotsUrls.push(obj.image));
+      res.results.forEach((obj) => screenshotsUrls.push(obj.image));
       setScreenshots(screenshotsUrls);
     });
   }, [slug]);
 
   useEffect(() => {
     if (gameDetails) {
-      Backend.getBoxArt(platformName, gameDetails.name).then(res =>
+      Backend.getBoxArt(platformName, gameDetails.name).then((res) =>
         setBoxArtUrl(res)
       );
       // Backend.getSoundTrackVideo(platformName, gameDetails.name).then(res =>
@@ -134,16 +134,16 @@ function GameDetailed(props) {
         action: action,
         list: list,
         platform: platform,
-        game: gameDetails
-      }).then(res => {
+        game: gameDetails,
+      }).then((res) => {
         if (res.success) {
           if (list === 'owned_list') {
-            setisOwned(prevOwned => {
+            setisOwned((prevOwned) => {
               notifierHandler(prevOwned, list);
               return !prevOwned;
             });
           } else if (list === 'wish_list') {
-            setisWished(prevWish => {
+            setisWished((prevWish) => {
               notifierHandler(prevWish, list);
               return !prevWish;
             });
@@ -161,7 +161,7 @@ function GameDetailed(props) {
     setShowWishListWarn(false);
   };
 
-  const needToShowWarning = list => {
+  const needToShowWarning = (list) => {
     if (list === 'wish_list' && isOwned && !isWished) {
       setShowWishListWarn(true);
       return false;
@@ -264,6 +264,8 @@ function GameDetailed(props) {
         </div>
       </div>
       <div className={styles.EbaySection}>
+        <h2>Ebay Offers</h2>
+        <hr></hr>
         {gameDetails && (
           <EbaySection platform={platformName} game={gameDetails.name} />
         )}
@@ -298,7 +300,7 @@ function GameDetailed(props) {
 function mapStateToProps(state) {
   return {
     userData: state.logged,
-    profileInfo: state.profile
+    profileInfo: state.profile,
   };
 }
 
