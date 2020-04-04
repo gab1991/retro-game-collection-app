@@ -3,7 +3,7 @@ import styles from './Slider.css';
 import sliderArrow from '../../../assets/images/ui/slider-arrow-left.svg';
 
 export default function Slider(props) {
-  const { images, arrows, navDots, imgFit, imageHeight } = props;
+  const { images, arrows, navDots, imgFit, imageHeight, transition } = props;
   const imageWidth = props.imageWidth || 300;
   const totalWith = imageWidth * images.length;
   const sliderContainer = useRef();
@@ -16,24 +16,27 @@ export default function Slider(props) {
   const mouseStatsRef = useRef({
     offset: 0,
     initialX: null,
-    initialOffset: null
+    initialOffset: null,
   });
+  const transitionCss = {
+    transition:
+      transition === 'off'
+        ? ''
+        : `transform 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275`,
+  };
 
   const setToCurrent = () => {
-    sliderContainer.current.style.transform = `translateX(-${(totalWith /
-      images.length) *
-      currentImg}px)`;
+    sliderContainer.current.style.transform = `translateX(-${
+      (totalWith / images.length) * currentImg
+    }px)`;
   };
 
-  const transitionCss = {
-    transition: `transform 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275`
-  };
   useEffect(() => {
     mouseStatsRef.current.offset = -currentImg * imageWidth;
     setActiveClass(currentImg);
   }, [currentImg, imageWidth]);
 
-  const onClickHandler = e => {
+  const onClickHandler = (e) => {
     const curAtrb = e.target.getAttribute('desc');
     if (curAtrb === 'prev') {
       if (currentImg === 0) {
@@ -49,7 +52,7 @@ export default function Slider(props) {
     }
   };
 
-  const onDotClickHandler = e => {
+  const onDotClickHandler = (e) => {
     const index = Number(e.target.getAttribute('index'));
     setCurrentImg(index);
   };
@@ -64,7 +67,7 @@ export default function Slider(props) {
     setToCurrent();
   };
 
-  const dragHandler = e => {
+  const dragHandler = (e) => {
     if (!isDown) {
       return;
     }
@@ -90,14 +93,14 @@ export default function Slider(props) {
     }
   };
 
-  const mouseDownHandler = e => {
+  const mouseDownHandler = (e) => {
     if (e.target.getAttribute('desc')) return;
     setIsDown(true);
     mouseStatsRef.current.initialX = e.clientX;
     mouseStatsRef.current.initialOffset = mouseStatsRef.current.offset;
   };
 
-  const mouseUpHandler = e => {
+  const mouseUpHandler = (e) => {
     setCurrentImg(activeClass);
 
     setIsDown(false);
@@ -117,9 +120,10 @@ export default function Slider(props) {
           ref={sliderContainer}
           className={styles.Images}
           style={{
-            transform: `translateX(-${(totalWith / images.length) *
-              currentImg}px)`,
-            transition: `${!isDown ? transitionCss.transition : null}`
+            transform: `translateX(-${
+              (totalWith / images.length) * currentImg
+            }px)`,
+            transition: `${!isDown ? transitionCss.transition : null}`,
           }}>
           {images &&
             images.map((image, index) => (
@@ -141,7 +145,7 @@ export default function Slider(props) {
             <button
               style={{
                 opacity: btnOpcatity ? '1' : null,
-                display: isDown ? 'none' : 'block'
+                display: isDown ? 'none' : 'block',
               }}
               className={`${styles.PrevButton} ${styles.Btn}`}
               desc="prev"
@@ -157,7 +161,7 @@ export default function Slider(props) {
             <button
               style={{
                 opacity: btnOpcatity ? '1' : null,
-                display: isDown ? 'none' : 'block'
+                display: isDown ? 'none' : 'block',
               }}
               className={`${styles.NextButton} ${styles.Btn}`}
               desc="next"

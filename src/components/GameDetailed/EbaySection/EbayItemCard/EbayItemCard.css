@@ -9,6 +9,11 @@
   display: flex;
 }
 
+.EbayItemCard:hover .Ribbon {
+  visibility: hidden;
+  opacity: 0;
+}
+
 hr {
   border: 1px solid gray;
 }
@@ -31,50 +36,11 @@ hr {
   /* background-color: palegreen; */
 }
 
-.SvgEbay {
-  cursor: pointer;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  fill: currentColor;
-}
-
-.Description {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  color: #202526;
-}
-
-.Description h4 {
-  font-weight: 400;
-  text-align: center;
-  font-size: 1rem;
-}
-
-.Description > button {
+.CardSpinner {
   margin: auto;
+  width: 30%;
 }
 
-.PriceSection {
-  margin-top: auto;
-}
-
-.Delivery {
-  color: gray;
-  width: max-content;
-  margin: auto;
-  font-size: 0.9rem;
-}
-
-.Delivery span {
-  cursor: pointer;
-  color: red;
-  text-decoration: underline;
-}
-
-.Total {
-  color: #202526;
+.CardSpinner svg {
+  stroke: gray;
 }

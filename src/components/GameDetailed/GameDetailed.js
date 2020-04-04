@@ -264,7 +264,9 @@ function GameDetailed(props) {
         </div>
       </div>
       <div className={styles.EbaySection}>
-        <EbaySection />
+        {gameDetails && (
+          <EbaySection platform={platformName} game={gameDetails.name} />
+        )}
       </div>
 
       <CornerNotifier

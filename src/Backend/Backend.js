@@ -148,6 +148,44 @@ const Backend = {
         })
         .catch(err => reject(err));
     });
+  },
+
+  getEbayItems: (platform, gameName) => {
+    let url = `${api.appServer.ebayItemsUrl}/${platform}/${encodeURIComponent(
+      gameName
+    )}`;
+    return new Promise((resolve, reject) => {
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          resolve(data);
+        })
+        .catch(err => reject(err));
+    });
+  },
+
+  getEbaySingleItem: id => {
+    let url = `${api.appServer.ebaySingleItemUrl}/${id}`;
+    return new Promise((resolve, reject) => {
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          resolve(data);
+        })
+        .catch(err => reject(err));
+    });
+  },
+
+  getShippingCosts: itemId => {
+    let url = `${api.appServer.shippingCostsUrl}/${itemId}`;
+    return new Promise((resolve, reject) => {
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          resolve(data);
+        })
+        .catch(err => reject(err));
+    });
   }
 };
 
