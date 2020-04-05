@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styles from './EbaySection.module.css';
 import Backend from '../../../Backend/Backend';
 import EbayItemCard from '../EbaySection/EbayItemCard/EbayItemCard';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import { Swiper, Slide } from 'react-dynamic-swiper';
+import 'react-dynamic-swiper/lib/styles.css';
 import './EbaySectionSlider.css';
 
 const sample = [
@@ -3394,9 +3393,10 @@ const sample = [
 ];
 
 export default function EbaySection(props) {
-  const { platform, game, uploadNum = 6 } = props;
-  const [ebayItems, setEbayItems] = useState([...sample]);
+  const { platform, game, uploadNum = 4 } = props;
+  const [ebayItems, setEbayItems] = useState();
   const [showedItems, setShowedItems] = useState([]);
+  const [swiperIndex, setSwiperIndex] = useState(0);
   const [counter, setCounter] = useState({
     current: 0,
     initial: uploadNum,
@@ -3404,10 +3404,10 @@ export default function EbaySection(props) {
   });
 
   useEffect(() => {
-    // Backend.getEbayItems(platform, game).then(res => {
-    //   console.log(res);
-    //   setEbayItems(res[0].item);
-    // });
+    Backend.getEbayItems(platform, game).then((res) => {
+      console.log(res);
+      setEbayItems(res[0].item);
+    });
   }, []);
 
   useEffect(() => {
@@ -3434,17 +3434,31 @@ export default function EbaySection(props) {
     setCounter({ ...updCounter });
   };
 
-  const onReachEnd = () => {
-    fillShowedItems(counter.current, 2);
-    console.log('here', counter);
+  const onReachEnd = (swiper) => {
+    let newlIndex = swiper.realIndex;
+    console.log(swiper.realIndex, counter.last);
+    if (swiperIndex < newlIndex) {
+      console.log('here', counter);
+      // console.log(newlIndex > swiperActiveIndex);
+      // setswiperActiveIndex(newlIndex);
+      fillShowedItems(counter.current, 1);
+      setSwiperIndex(newlIndex);
+    }
   };
 
   const settings = {
-    dots: true,
-    speed: 500,
-    className: 'slider variable-width',
-    slidesToShow: 3,
-    slidesToScroll: 2,
+    slidesPerView: 3,
+    spaceBetween: 15,
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+      dynamicBullets: true,
+    },
+    // loop: true,
+    on: {
+      // reachEnd: onReachEnd,
+      // sliderMove: (e) => onReachEnd(e),
+    },
   };
 
   return (
@@ -3456,28 +3470,17 @@ export default function EbaySection(props) {
           </div>
         ))}
       </Slider> */}
-      {/* <button onClick={onReachEnd}>add</button> */}
-      <Slider {...settings}>
-        {showedItems.map((item, index) => (
-          <div className={styles.Slide} key={index}>
-            <h3>{index}</h3>
-          </div>
-        ))}
-      </Slider>
-      {/* <Slider {...settings}>
-        <div>
-          <img src="http://placekitten.com/g/400/200" />
-        </div>
-        <div>
-          <img src="http://placekitten.com/g/400/200" />
-        </div>
-        <div>
-          <img src="http://placekitten.com/g/400/200" />
-        </div>
-        <div>
-          <img src="http://placekitten.com/g/400/200" />
-        </div>
-      </Slider> */}
+      <Swiper swiperOptions={{ ...settings }}>
+        {showedItems &&
+          showedItems.map((item, index) => (
+            <Slide
+              onActive={(swiper) => onReachEnd(swiper)}
+              // className={styles.Slide}
+              key={index}>
+              <EbayItemCard itemId={item.itemId} />
+            </Slide>
+          ))}
+      </Swiper>
     </div>
   );
 }

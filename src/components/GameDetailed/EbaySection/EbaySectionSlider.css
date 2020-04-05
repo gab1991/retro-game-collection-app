@@ -1,28 +1,26 @@
-.slick-slider,
-.slick-list {
+.swiper-container {
   width: 100%;
-  height: 100%;
-  background-color: yellowgreen;
-}
-.slick-list {
-  margin: 0 -10px;
+  height: 300px;
+  /* background-color: yellowgreen; */
 }
 
-.slick-slide {
-  margin: 0 10px;
+.swiper-pagination {
+  position: absolute;
+  bottom: 0;
 }
 
-.slick-slide:focus {
-  outline: none;
+.swiper-pagination-bullets {
+  bottom: 5px;
 }
 
-.slick-dots {
-  bottom: 0px;
+.swiper-pagination-bullet {
+  background: white;
+  width: 10px;
+  height: 10px;
 }
-.slick-dots li.slick-active button:before {
-  color: white;
-}
+.swiper-slide {
+  width: 390px;
+  height: 280px;
 
-.slick-initialized .slick-slide {
-  display: block;
+  background-color: rgb(83, 83, 70);
 }

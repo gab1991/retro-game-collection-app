@@ -30,7 +30,7 @@ function GameDetailed(props) {
     'You already got this game in your colletcion. Do you really want it in your Wish List';
   const dispatch = useDispatch();
 
-  console.log({ isOwned, isWished });
+  // console.log({ isOwned, isWished });
 
   useEffect(() => {
     if (userData)
