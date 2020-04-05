@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './MenuSideSlider.css';
+import styles from './MenuSideSlider.module.css';
 
 export default function MenuSideSlider(props) {
   const { slideLeft, slideRight, show, list } = props;
@@ -13,7 +13,7 @@ export default function MenuSideSlider(props) {
     ${show && slideLeft && styles.SlideLeft} 
     ${show && slideRight && styles.SlideRight}`}>
       <ul>
-        {list.map(item => (
+        {list.map((item) => (
           <li key={item.option} onClick={item.onclick}>
             <span></span>
             {item.option}

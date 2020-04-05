@@ -4,7 +4,7 @@ import EbayCardDesc from './EbayCardDescr/EbayCardDesc';
 import Backend from '../../../../Backend/Backend';
 import EbayLogo from '../../../UI/LogoSvg/EbayLogo/EbayLogo';
 import OvalSpinner from '../../../UI/LoadingSpinners/OvalSpinner/OvalSpinner';
-import styles from './EbayItemCard.css';
+import styles from './EbayItemCard.module.css';
 
 function openInNewTab(url) {
   const win = window.open(url, '_blank');

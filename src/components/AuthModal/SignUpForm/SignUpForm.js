@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import styles from './SignUpForm.css';
+import styles from './SignUpForm.module.css';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import Input from '../../UI/Inputs/InputAuth/InputAuth';
 import Backend from '../../../Backend/Backend';
@@ -14,29 +14,29 @@ export default function SignUpForm(props) {
       type: 'text',
       placeholder: 'Type name of your account',
       value: '',
-      valid: false
+      valid: false,
     },
     password: {
       label: 'Password',
       type: 'password',
       placeholder: 'Type your password',
       value: '',
-      valid: false
+      valid: false,
     },
     passConfirm: {
       label: 'Confirm Password',
       type: 'password',
       placeholder: 'Confirm your password once again',
       value: '',
-      valid: false
+      valid: false,
     },
     email: {
       label: 'Email',
       type: 'email',
       placeholder: 'Current email',
       value: '',
-      valid: false
-    }
+      valid: false,
+    },
   });
 
   const wrongListHandler = (name, action, message) => {
@@ -47,7 +47,7 @@ export default function SignUpForm(props) {
     } else {
       inputs.current[name].valid = true;
     }
-    setWrongInputs(prevState => {
+    setWrongInputs((prevState) => {
       const wronginputs = { ...prevState };
       wronginputs[name] = message;
       return wronginputs;
@@ -95,12 +95,12 @@ export default function SignUpForm(props) {
     validityChecker(name, currentValue);
   };
 
-  const submitHandler = e => {
+  const submitHandler = (e) => {
     e.preventDefault();
 
     let entireFormValid = true;
     const inputsNames = Object.keys(inputs.current);
-    inputsNames.forEach(name => {
+    inputsNames.forEach((name) => {
       if (inputs.current[name].valid === false) {
         entireFormValid = false;
         wrongListHandler(name, 'set', 'fill the field');
@@ -114,11 +114,11 @@ export default function SignUpForm(props) {
 
     if (entireFormValid) {
       const sendObj = {};
-      inputsNames.forEach(name => {
+      inputsNames.forEach((name) => {
         if (name !== 'passConfirm') sendObj[name] = inputs.current[name].value;
       });
 
-      Backend.postSignUp(sendObj).then(res => {
+      Backend.postSignUp(sendObj).then((res) => {
         const positiveRes = res.user_id;
         const negativeRes = res.err_message;
         if (positiveRes) {
@@ -134,7 +134,7 @@ export default function SignUpForm(props) {
     <div className={styles.SignUp}>
       <h1>Start Your Journey</h1>
       <form onSubmit={submitHandler}>
-        {Object.keys(inputs.current).map(name => (
+        {Object.keys(inputs.current).map((name) => (
           <div key={name}>
             <Input
               {...inputs.current[name]}

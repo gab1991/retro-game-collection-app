@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Paginator.css';
+import styles from './Paginator.module.css';
 
 function pagination(currentPage, pageCount, delta) {
   let left = currentPage - delta,
@@ -7,7 +7,7 @@ function pagination(currentPage, pageCount, delta) {
     result = [];
 
   result = Array.from({ length: pageCount }, (v, k) => k + 1).filter(
-    i => i && i >= left && i < right
+    (i) => i && i >= left && i < right
   );
 
   if (result.length > 1) {
@@ -35,13 +35,13 @@ export default function Paginator({
   totalCount,
   itemsPerPage,
   currentPage,
-  changeCurrentPage
+  changeCurrentPage,
 }) {
   const pageCount = Math.ceil(totalCount / itemsPerPage);
   const buttons = [];
   let delta = 2;
 
-  const buttonClick = e => {
+  const buttonClick = (e) => {
     const lastPage = pageCount;
     const leftArrow = e.target.getAttribute('data-page') === '<<';
     const rightArrow = e.target.getAttribute('data-page') === '>>';
@@ -71,8 +71,7 @@ export default function Paginator({
           key={Math.ceil((1 + currentPage - delta) / 2)}
           className={currentPage === k ? styles.active : null}
           data-page={Math.ceil((1 + currentPage - delta) / 2)}
-          onClick={buttonClick}
-        >
+          onClick={buttonClick}>
           {k}
         </button>
       );
@@ -82,8 +81,7 @@ export default function Paginator({
           key={Math.ceil((currentPage + pageCount + delta) / 2)}
           className={currentPage === k ? styles.active : null}
           data-page={Math.ceil((currentPage + pageCount + delta) / 2)}
-          onClick={buttonClick}
-        >
+          onClick={buttonClick}>
           {k}
         </button>
       );
@@ -93,8 +91,7 @@ export default function Paginator({
           key={k}
           className={currentPage === k ? styles.active : null}
           data-page={k}
-          onClick={buttonClick}
-        >
+          onClick={buttonClick}>
           {k}
         </button>
       );

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import GameBox from './GameBox/GameBox';
 import { connect } from 'react-redux';
-import styles from './GameBoxContainer.css';
+import styles from './GameBoxContainer.module.css';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import Backend from '../../../Backend/Backend';
@@ -10,7 +10,7 @@ function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window;
   return {
     width,
-    height
+    height,
   };
 }
 
@@ -66,7 +66,7 @@ function GameBoxContainer(props) {
     Backend.updateProfile(props.userData.username, props.userData.token, {
       sortedGames: newSortedgames,
       platform: platform,
-      action: 'reorder'
+      action: 'reorder',
     });
   };
 
@@ -84,7 +84,7 @@ function GameBoxContainer(props) {
 function mapStateToProps(state) {
   return {
     userData: state.logged,
-    profileInfo: state.profile
+    profileInfo: state.profile,
   };
 }
 

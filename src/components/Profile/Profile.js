@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './Profile.css';
+import styles from './Profile.module.css';
 import AuthModal from '../AuthModal/AuthModal';
 import CollectionList from '../Profile/CollictionList/CollectionLIst';
 import WishList from '../Profile/WishList/WishList';
@@ -14,7 +14,7 @@ function Profile(props) {
   );
   const dispatch = useDispatch();
 
-  const sectionToggler = e => {
+  const sectionToggler = (e) => {
     const name = e.target.getAttribute('desc');
     setActiveSection(name);
   };
@@ -52,7 +52,7 @@ function Profile(props) {
 function mapStateToProps(state) {
   return {
     userData: state.logged,
-    profileInfo: state.profile
+    profileInfo: state.profile,
   };
 }
 

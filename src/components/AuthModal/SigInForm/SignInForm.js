@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import styles from './SignInForm.css';
+import styles from './SignInForm.module.css';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import Input from '../../UI/Inputs/InputAuth/InputAuth';
 import Backend from '../../../Backend/Backend';
@@ -15,14 +15,14 @@ export default function SignInForm(props) {
       label: 'Username',
       type: 'text',
       placeholder: 'Type name of your account',
-      value: ''
+      value: '',
     },
     password: {
       label: 'Password',
       type: 'password',
       placeholder: 'Type your password',
-      value: ''
-    }
+      value: '',
+    },
   });
 
   const validityChecker = (name, value) => {
@@ -60,7 +60,7 @@ export default function SignInForm(props) {
     } else {
       inputs.current[name].valid = true;
     }
-    setWrongInputs(prevState => {
+    setWrongInputs((prevState) => {
       const wronginputs = { ...prevState };
       wronginputs[name] = message;
       return wronginputs;
@@ -73,12 +73,12 @@ export default function SignInForm(props) {
     validityChecker(name, currentValue);
   };
 
-  const regularLogin = e => {
+  const regularLogin = (e) => {
     e.preventDefault();
 
     let entireFormValid = true;
     const inputsNames = Object.keys(inputs.current);
-    inputsNames.forEach(name => {
+    inputsNames.forEach((name) => {
       if (inputs.current[name].valid === false) {
         entireFormValid = false;
         wrongListHandler(name, 'set', 'fill the field');
@@ -87,15 +87,17 @@ export default function SignInForm(props) {
 
     if (entireFormValid) {
       const sendObj = {};
-      inputsNames.forEach(name => (sendObj[name] = inputs.current[name].value));
+      inputsNames.forEach(
+        (name) => (sendObj[name] = inputs.current[name].value)
+      );
 
-      Backend.postSignIn(sendObj).then(res => {
+      Backend.postSignIn(sendObj).then((res) => {
         const positiveRes = res.success;
         const negativeRes = res.err_message;
         if (positiveRes) {
           dispatch(signIn(res.username, res.token));
 
-          Backend.getProfileInfo(res.username, res.token).then(res =>
+          Backend.getProfileInfo(res.username, res.token).then((res) =>
             dispatch(profile(res))
           );
         } else {
@@ -105,30 +107,32 @@ export default function SignInForm(props) {
     }
   };
 
-  const guestEnterHandler = e => {
+  const guestEnterHandler = (e) => {
     e.preventDefault(e);
 
-    Backend.postSignIn({ username: 'guest', password: 'guest1' }).then(res => {
-      console.log(res);
-      const positiveRes = res.success;
-      const negativeRes = res.err_message;
-      if (positiveRes) {
-        dispatch(signIn(res.username, res.token));
+    Backend.postSignIn({ username: 'guest', password: 'guest1' }).then(
+      (res) => {
+        console.log(res);
+        const positiveRes = res.success;
+        const negativeRes = res.err_message;
+        if (positiveRes) {
+          dispatch(signIn(res.username, res.token));
 
-        Backend.getProfileInfo(res.username, res.token).then(res =>
-          dispatch(profile(res))
-        );
-      } else {
-        wrongListHandler(res.field, 'set', negativeRes);
+          Backend.getProfileInfo(res.username, res.token).then((res) =>
+            dispatch(profile(res))
+          );
+        } else {
+          wrongListHandler(res.field, 'set', negativeRes);
+        }
       }
-    });
+    );
   };
 
   return (
     <div className={styles.SignIn}>
       <h1>Seen you lately?</h1>
       <form onSubmit={regularLogin}>
-        {Object.keys(inputs.current).map(name => (
+        {Object.keys(inputs.current).map((name) => (
           <div key={name}>
             <Input
               {...inputs.current[name]}

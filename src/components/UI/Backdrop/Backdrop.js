@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Backdrop.css';
+import styles from './Backdrop.module.css';
 import closeicon from '../../../assets/images/ui/close.svg';
 
 export default function Blackdrop(props) {

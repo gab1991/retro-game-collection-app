@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './EbayLogo.css';
+import styles from './EbayLogo.module.css';
 
 export default function EbayLogo(props) {
   return (

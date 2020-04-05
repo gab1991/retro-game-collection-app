@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import styles from './CollectionList.css';
+import styles from './CollectionList.module.css';
 import GameBoxContainer from './../GameBoxContainer/GameBoxContainer';
 import { images } from '../../../configs/appConfig';
 import Backend from '../../../Backend/Backend';
@@ -15,7 +15,7 @@ function CollectionLIst(props) {
 
   useEffect(() => {
     if (userData) {
-      Backend.getProfileInfo(userData.username, userData.token).then(res =>
+      Backend.getProfileInfo(userData.username, userData.token).then((res) =>
         dispatch(profile(res))
       );
     }
@@ -31,7 +31,7 @@ function CollectionLIst(props) {
   const toPlatfromSelecor = () => {
     props.history.push('/');
   };
-  const toGameSelector = platform => {
+  const toGameSelector = (platform) => {
     props.history.push(`/${platform}`);
   };
 
@@ -42,7 +42,7 @@ function CollectionLIst(props) {
       </div>
       <div className={styles.ShelvesContainer}>
         {ownedList &&
-          ownedList.platforms.map(platform => (
+          ownedList.platforms.map((platform) => (
             <div key={platform.name} className={styles.Shelf}>
               <div
                 className={styles.PlatformLogo}
@@ -70,7 +70,7 @@ function CollectionLIst(props) {
 function mapStateToProps(state) {
   return {
     userData: state.logged,
-    profileInfo: state.profile
+    profileInfo: state.profile,
   };
 }
 

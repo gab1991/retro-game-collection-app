@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './Navigation.css';
+import styles from './Navigation.module.css';
 import { withRouter } from 'react-router-dom';
 import Backdrop from '../UI/Backdrop/Backdrop';
 import MenuSideSlider from '../UI/MenuSideSlider/MenuSideSlider';
@@ -14,9 +14,9 @@ function Navigation(props) {
       setShowBackdrop(true);
       setProfileSlider(false);
     } else {
-      setShowBackdrop(prevState => !prevState);
+      setShowBackdrop((prevState) => !prevState);
     }
-    setShowMenuSlider(prevState => !prevState);
+    setShowMenuSlider((prevState) => !prevState);
   };
 
   const toggleProfileSlider = () => {
@@ -24,9 +24,9 @@ function Navigation(props) {
       setShowBackdrop(true);
       setShowMenuSlider(false);
     } else {
-      setShowBackdrop(prevState => !prevState);
+      setShowBackdrop((prevState) => !prevState);
     }
-    setProfileSlider(prevState => !prevState);
+    setProfileSlider((prevState) => !prevState);
   };
 
   const hideMenu = () => {
@@ -60,7 +60,7 @@ function Navigation(props) {
               slideLeft
               show={showMenuSlider}
               list={[
-                { option: 'Select Platform', onclick: toPlatformSelector }
+                { option: 'Select Platform', onclick: toPlatformSelector },
               ]}
             />
             <li onClick={toggleProfileSlider} className={styles.ProfileMobile}>

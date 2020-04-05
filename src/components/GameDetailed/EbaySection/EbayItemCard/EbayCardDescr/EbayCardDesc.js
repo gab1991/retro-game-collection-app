@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from './EbayCardDesc.css';
+import styles from './EbayCardDesc.module.css';
 import Button from '../../../../UI/Buttons/Button/Button';
 import DotSpinner from '../../../../UI/LoadingSpinners/DotSpinner/DotSpinner';
 import Backend from '../../../../../Backend/Backend';

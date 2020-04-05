@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './GameInfoBox.css';
+import styles from './GameInfoBox.module.css';
 
 export default function GameInfoBox(props) {
   const { name, released, developers, publishers } = props.gameInfo;

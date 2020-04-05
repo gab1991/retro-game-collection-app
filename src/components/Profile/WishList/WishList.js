@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import styles from './WishList.css';
+import styles from './WishList.module.css';
 import GameBoxContainer from './../GameBoxContainer/GameBoxContainer';
 import { images } from '../../../configs/appConfig';
 import Backend from '../../../Backend/Backend';
@@ -15,7 +15,7 @@ function WishList(props) {
 
   useEffect(() => {
     if (userData)
-      Backend.getProfileInfo(userData.username, userData.token).then(res =>
+      Backend.getProfileInfo(userData.username, userData.token).then((res) =>
         dispatch(profile(res))
       );
   }, [userData, dispatch]);
@@ -25,7 +25,7 @@ function WishList(props) {
       const platformsWished = profileInfo.wish_list.platforms;
       setWishedList({
         platforms: platformsWished,
-        count: platformsWished.length
+        count: platformsWished.length,
       });
     }
   }, [profileInfo]);
@@ -33,7 +33,7 @@ function WishList(props) {
   const toPlatfromSelecor = () => {
     props.history.push('/');
   };
-  const toGameSelector = platform => {
+  const toGameSelector = (platform) => {
     props.history.push(`/${platform}`);
   };
 
@@ -44,7 +44,7 @@ function WishList(props) {
       </div>
       <div className={styles.ShelvesContainer}>
         {wishedList &&
-          wishedList.platforms.map(platform => (
+          wishedList.platforms.map((platform) => (
             <div key={platform.name} className={styles.Shelf}>
               <div
                 className={styles.PlatformLogo}
@@ -72,7 +72,7 @@ function WishList(props) {
 function mapStateToProps(state) {
   return {
     userData: state.logged,
-    profileInfo: state.profile
+    profileInfo: state.profile,
   };
 }
 

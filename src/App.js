@@ -1,8 +1,7 @@
 import React from 'react';
-import styles from './App.css';
+import styles from './App.module.css';
 import { Route, Switch } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
-import './App.css';
 import Navigation from './components/Navigation/Navigation';
 import PlatformSelector from './components/PlatformSelector/PlatformSelector';
 import GameSelector from './components/GameSelector/GameSelector';

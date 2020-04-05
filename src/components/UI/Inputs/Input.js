@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Input.css';
+import styles from './Input.module.css';
 
 export default function Input(props) {
   const { type, placeholder, name, onChange, onKeyPress } = props;

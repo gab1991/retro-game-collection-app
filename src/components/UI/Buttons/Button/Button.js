@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Button.css';
+import styles from './Button.module.css';
 
 export default function Button(props) {
   const {
@@ -9,7 +9,7 @@ export default function Button(props) {
     name,
     style,
     pressed,
-    letterSpacing
+    letterSpacing,
   } = props;
   return (
     <button

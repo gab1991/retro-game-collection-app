@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import Backend from '../../Backend/Backend';
-import styles from './GameDetailed.css';
+import styles from './GameDetailed.module.css';
 import ReactHtmlParser from 'react-html-parser';
 import GameInfoBox from './GameInfoBox/GameInfoBox';
 import Slider from '../UI/Slider/Slider';

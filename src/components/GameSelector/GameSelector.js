@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Backend from '../../Backend/Backend';
 import { images, appConfig } from '../../configs/appConfig';
-import styles from './GameSelector.css';
+import styles from './GameSelector.module.css';
 import GameCard from '../GameSelector/GameCard/GameCard';
 import Paginator from '../Paginator/Paginator.js';
 import SelectorControls from './SelectorControls/SelectorControls';
@@ -27,7 +27,7 @@ export default function GameSelector(props) {
   );
 
   useEffect(() => {
-    Backend.getPlatformDetails(platformID).then(res => {
+    Backend.getPlatformDetails(platformID).then((res) => {
       setPlatformDescription(res);
     });
 
@@ -35,8 +35,8 @@ export default function GameSelector(props) {
       page: currentPage,
       page_size: appConfig.GameSelector.gamesPerRequest,
       ordering: `${ordering.direction === 'desc' ? '-' : ''}${ordering.name}`,
-      platforms: platformID
-    }).then(res => {
+      platforms: platformID,
+    }).then((res) => {
       const games = res.results;
       setGamesToShow(games);
       setRecievedData(res);
@@ -49,25 +49,25 @@ export default function GameSelector(props) {
     return queryString.stringify(updParams);
   };
 
-  const pageChangeHandler = pageNumber => {
+  const pageChangeHandler = (pageNumber) => {
     const stringified = updateQueryStr('page', pageNumber);
     props.history.push(`${props.history.location.pathname}?${stringified}`);
     setCurrentPage(pageNumber);
   };
 
-  const gameSearchChangeHandler = e => {
+  const gameSearchChangeHandler = (e) => {
     setInputValue(e.target.value);
   };
 
-  const sendRequestHandler = e => {
+  const sendRequestHandler = (e) => {
     if (e.key === 'Enter' || e.target.name === 'searchBtn') {
       Backend.getGamesForPlatform({
         page: 1,
         page_size: appConfig.GameSelector.gamesPerRequest,
         ordering: `${ordering.direction === 'desc' ? '-' : ''}${ordering.name}`,
         platforms: platformID,
-        search: `${inputValue || ' '}`
-      }).then(res => {
+        search: `${inputValue || ' '}`,
+      }).then((res) => {
         const games = res.results;
         if (games.length > 0) {
           setNoGamesFound(false);
@@ -80,7 +80,7 @@ export default function GameSelector(props) {
     }
   };
 
-  const selectChangeHandler = name => {
+  const selectChangeHandler = (name) => {
     const stringified = updateQueryStr('ordername', name);
     props.history.push(`${props.history.location.pathname}?${stringified}`);
 
@@ -89,7 +89,7 @@ export default function GameSelector(props) {
     setOrdering(updatedOrdering);
   };
 
-  const directionChangeHandler = e => {
+  const directionChangeHandler = (e) => {
     const direction = e.target.getAttribute('direction');
     const stringified = updateQueryStr('direction', direction);
     props.history.push(`${props.history.location.pathname}?${stringified}`);
@@ -99,12 +99,12 @@ export default function GameSelector(props) {
     setOrdering(updatedOrdering);
   };
 
-  const openGameDetailsHandler = slug => {
+  const openGameDetailsHandler = (slug) => {
     props.history.push({
       pathname: `/${platformName}/${slug}`,
       state: {
-        from: props.location.pathname
-      }
+        from: props.location.pathname,
+      },
     });
   };
 
@@ -155,7 +155,7 @@ export default function GameSelector(props) {
       </div>
       <div className={styles.GamePicker}>
         {gamesToShow &&
-          gamesToShow.map(game => (
+          gamesToShow.map((game) => (
             <GameCard
               key={game.slug}
               gameInfo={game}

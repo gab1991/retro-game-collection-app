@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import Backend from '../../../../Backend/Backend';
-import styles from './GameBox.css';
+import styles from './GameBox.module.css';
 
 function GameBox(props) {
   const { game, platform, transition } = props;
@@ -9,20 +9,20 @@ function GameBox(props) {
   const [descrVisibility, setDescrVisibility] = useState(false);
 
   useEffect(() => {
-    Backend.getBoxArt(platform, game.name).then(res => setBoxArtUrl(res));
+    Backend.getBoxArt(platform, game.name).then((res) => setBoxArtUrl(res));
   }, [platform, game.name]);
 
-  const openGameDetailsHandler = slug => {
+  const openGameDetailsHandler = (slug) => {
     props.history.push({
       pathname: `/${platform}/${slug}`,
       state: {
-        from: props.location.pathname
-      }
+        from: props.location.pathname,
+      },
     });
   };
 
   const toggleDescrVisivility = () => {
-    setDescrVisibility(prevState => {
+    setDescrVisibility((prevState) => {
       return !prevState;
     });
   };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './InputAuth.css';
+import styles from './InputAuth.module.css';
 import eyeicon from '../../../../assets/images/ui/eye-regular.svg';
 
 export default function InputAuth(props) {
@@ -11,12 +11,12 @@ export default function InputAuth(props) {
     onChange,
     onKeyPress,
     wrong,
-    addToggler
+    addToggler,
   } = props;
   const [typeChanger, setTypeChanger] = useState(type);
 
-  const passVisibilityHandler = e => {
-    setTypeChanger(prevType => (prevType === 'text' ? 'password' : 'text'));
+  const passVisibilityHandler = (e) => {
+    setTypeChanger((prevType) => (prevType === 'text' ? 'password' : 'text'));
   };
 
   return (
@@ -31,7 +31,7 @@ export default function InputAuth(props) {
           desc={desc}
           type={typeChanger}
           placeholder={placeholder}
-          onChange={e => onChange(e, desc)}
+          onChange={(e) => onChange(e, desc)}
           onKeyPress={onKeyPress}
         />
         {addToggler === 'hideShowToggler' && (

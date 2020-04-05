@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from './CornerNotifier.css';
+import styles from './CornerNotifier.module.css';
 import { Link } from 'react-router-dom';
 import Backdrop from '../../../UI/Backdrop/Backdrop';
 import ButtonNeon from '../../../UI/Buttons/ButtonNeon/ButtonNeon';
@@ -12,7 +12,7 @@ export default function CornerNotifier(props) {
     btnText,
     onCancelClick,
     corner,
-    show
+    show,
   } = props;
   const [showing, setShowing] = useState();
   const [grabbed, setGrabbed] = useState();
@@ -26,7 +26,7 @@ export default function CornerNotifier(props) {
     setGrabbed(false);
   };
 
-  const grab = val => {
+  const grab = (val) => {
     setGrabbed(val);
   };
 

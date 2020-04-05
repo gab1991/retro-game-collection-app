@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import styles from './EbaySection.css';
+import styles from './EbaySection.module.css';
 import Backend from '../../../Backend/Backend';
 import EbayItemCard from '../EbaySection/EbayItemCard/EbayItemCard';
-import Slider from '../../UI/';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import './EbaySectionSlider.css';
 
 const sample = [
   {
@@ -3391,9 +3394,14 @@ const sample = [
 ];
 
 export default function EbaySection(props) {
-  const { platform, game, uploadNum = 3 } = props;
+  const { platform, game, uploadNum = 6 } = props;
   const [ebayItems, setEbayItems] = useState([...sample]);
   const [showedItems, setShowedItems] = useState([]);
+  const [counter, setCounter] = useState({
+    current: 0,
+    initial: uploadNum,
+    last: null,
+  });
 
   useEffect(() => {
     // Backend.getEbayItems(platform, game).then(res => {
@@ -3404,19 +3412,72 @@ export default function EbaySection(props) {
 
   useEffect(() => {
     if (ebayItems) {
-      for (let i = 0; i < uploadNum; i++) {
-        showedItems.push(ebayItems[i]);
-      }
+      fillShowedItems(counter.current, counter.initial);
     }
   }, [ebayItems]);
 
-  console.log(sample);
+  useEffect(() => {
+    console.log(counter);
+  }, [counter.current]);
+
+  const fillShowedItems = (current, numToAdd) => {
+    let updShowedItems = [...showedItems];
+    for (let i = current; i < current + numToAdd; i++) {
+      updShowedItems.push(ebayItems[i]);
+    }
+
+    setShowedItems(updShowedItems);
+
+    let updCounter = { ...counter };
+    updCounter.current = updCounter.current + numToAdd;
+    updCounter.last = ebayItems.length - 1;
+    setCounter({ ...updCounter });
+  };
+
+  const onReachEnd = () => {
+    fillShowedItems(counter.current, 2);
+    console.log('here', counter);
+  };
+
+  const settings = {
+    dots: true,
+    speed: 500,
+    className: 'slider variable-width',
+    slidesToShow: 3,
+    slidesToScroll: 2,
+  };
 
   return (
     <div className={styles.EbaySection}>
-      {showedItems.map((item, index) => (
-        <EbayItemCard key={index} itemId={item.itemId} />
-      ))}
+      {/* <Slider {...settings}>
+        {showedItems.map((item, index) => (
+          <div key={index}>
+            <EbayItemCard itemId={item.itemId} />
+          </div>
+        ))}
+      </Slider> */}
+      {/* <button onClick={onReachEnd}>add</button> */}
+      <Slider {...settings}>
+        {showedItems.map((item, index) => (
+          <div className={styles.Slide} key={index}>
+            <h3>{index}</h3>
+          </div>
+        ))}
+      </Slider>
+      {/* <Slider {...settings}>
+        <div>
+          <img src="http://placekitten.com/g/400/200" />
+        </div>
+        <div>
+          <img src="http://placekitten.com/g/400/200" />
+        </div>
+        <div>
+          <img src="http://placekitten.com/g/400/200" />
+        </div>
+        <div>
+          <img src="http://placekitten.com/g/400/200" />
+        </div>
+      </Slider> */}
     </div>
   );
 }

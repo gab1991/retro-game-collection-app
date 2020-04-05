@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from './SelectorControls.css';
+import styles from './SelectorControls.module.css';
 import Input from '../../UI/Inputs/Input';
 import SelectBox from '../../UI/SelectBox/SelectBox';
 import Button from '../../UI/Buttons/Button/Button';
@@ -11,7 +11,7 @@ export default function SelectorControls(props) {
     directionChange,
     sendRequest,
     ordering,
-    orderingOptions
+    orderingOptions,
   } = props;
   const [pressedBtn, setPressedBtn] = useState(ordering.direction);
 

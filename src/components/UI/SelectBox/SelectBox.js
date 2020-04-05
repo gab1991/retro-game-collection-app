@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import styles from './SelectBox.css';
+import styles from './SelectBox.module.css';
 
 export default function SelectBox(props) {
   const { selected, options, changedSelected, height, width } = props;
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedValue, setSelectedValue] = useState(selected);
 
-  const clickHandler = e => {
+  const clickHandler = (e) => {
     setShowDropdown(!showDropdown);
   };
 
-  const changeHandler = e => {
+  const changeHandler = (e) => {
     setSelectedValue(e.target.textContent);
   };
 
@@ -25,7 +25,7 @@ export default function SelectBox(props) {
       </div>
       {showDropdown && (
         <div className={styles.Options}>
-          {options.map(option => {
+          {options.map((option) => {
             if (option !== selectedValue) {
               return (
                 <div

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './GameCard.css';
+import styles from './GameCard.module.css';
 import { images } from '../../../configs/appConfig';
 
 export default function GameCard(props) {

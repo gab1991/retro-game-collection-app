@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import styles from './Slider.css';
+import styles from './Slider.module.css';
 import sliderArrow from '../../../assets/images/ui/slider-arrow-left.svg';
 
 export default function Slider(props) {
