@@ -21,7 +21,6 @@ hr {
   height: 100%;
   width: 200px;
   background-color: rgb(238, 238, 238);
-  /* box-shadow: 5px 5px 10px rgb(61, 61, 61); */
   padding: 10px 0;
 
   display: flex;
@@ -29,10 +28,9 @@ hr {
 }
 
 .SvgWrapper {
-  flex: 1;
+  height: 30px;
   margin-top: 5px;
   position: relative;
-  /* background-color: palegreen; */
 }
 
 .CardSpinner {
