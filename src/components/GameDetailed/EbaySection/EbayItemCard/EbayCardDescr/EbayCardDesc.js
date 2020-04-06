@@ -38,7 +38,7 @@ export default function EbayCardDesc(props) {
 
   const getShippingCosts = () => {
     setLoadShipCosts(true);
-
+    console.log('got');
     Backend.getShippingCosts(itemId).then((res) => {
       if (res.ShippingCostSummary) {
         const shippingCost = Number(
@@ -89,12 +89,15 @@ export default function EbayCardDesc(props) {
         txtContent={isAuction ? 'Place bid' : 'Buy It Now'}
         onClick={sendToEbay}
       />
-      {isAuction && <span>Bids placed : {bidCount}</span>}
-      {isEndingSoon && (
-        <span>
-          {`Time Left : ${isEndingSoon.hours}h:${isEndingSoon.minutes}m:${isEndingSoon.seconds}s`}
-        </span>
-      )}
+      <div className={styles.AcutionSection}>
+        {isAuction && <p>Bids placed : {bidCount}</p>}
+        {isEndingSoon && (
+          <p className={styles.TimeLeft}>
+            {`Time Left : ${isEndingSoon.hours}:${isEndingSoon.minutes}:${isEndingSoon.seconds}`}
+          </p>
+        )}
+      </div>
+
       <div className={styles.PriceSection}>
         <strong>{isAuction ? 'Bid' : 'PRICE'}</strong>
         {`${' : '} ${currentPrice} ${currency}`}

@@ -52,6 +52,7 @@ export default function EbayItemCard(props) {
     setIsEndingSoon(val);
   };
 
+  console.log(itemData);
   return (
     <div className={styles.EbayItemCard}>
       {itemData && (
@@ -61,9 +62,9 @@ export default function EbayItemCard(props) {
               transition="off"
               images={itemData.pictures}
               imageWidth={200}
-              imageHeight={200}
+              imageHeight={220}
               navDots
-              imgFit={'contain'}
+              imgFit={'cover'}
             />
             <div className={styles.SvgWrapper} onClick={sendToEbay}>
               <EbayLogo />

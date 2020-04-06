@@ -3,7 +3,16 @@ import styles from './Slider.module.css';
 import sliderArrow from '../../../assets/images/ui/slider-arrow-left.svg';
 
 export default function Slider(props) {
-  const { images, arrows, navDots, imgFit, imageHeight, transition } = props;
+  const {
+    images,
+    arrows,
+    navDots,
+    dynamicDots = true,
+    numberOfDots,
+    imgFit,
+    imageHeight,
+    transition,
+  } = props;
   const imageWidth = props.imageWidth || 300;
   const totalWith = imageWidth * images.length;
   const sliderContainer = useRef();
@@ -12,6 +21,8 @@ export default function Slider(props) {
   const [btnOpcatity, setBtnOpcaticy] = useState(0);
   const [clickedClassPrev, setClickedClassPrev] = useState(false);
   const [clickedClassNext, setClickedClassNext] = useState(false);
+  const [navDynamic, setNavDynamic] = useState();
+  const [navActive, setNavActive] = useState(0);
   const [isDown, setIsDown] = useState(false);
   const mouseStatsRef = useRef({
     offset: 0,
@@ -25,6 +36,27 @@ export default function Slider(props) {
         : `transform 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275`,
   };
 
+  useEffect(() => {
+    if (images) {
+      const dotsDynamicCalc = (numOfSlides, maxDots = 14) => {
+        let dotIndex = [];
+        if (numOfSlides > maxDots) {
+          let fraction = numOfSlides / maxDots;
+          for (let i = 1; i < maxDots; i++) {
+            dotIndex.push(Math.ceil(fraction * i));
+          }
+          setNavDynamic([0, ...dotIndex]);
+        } else {
+          for (let i = 0; i < numOfSlides; i++) {
+            dotIndex.push(i);
+          }
+          setNavDynamic([...dotIndex]);
+        }
+      };
+      dotsDynamicCalc(images.length, numberOfDots);
+    }
+  }, [images]);
+
   const setToCurrent = () => {
     sliderContainer.current.style.transform = `translateX(-${
       (totalWith / images.length) * currentImg
@@ -34,6 +66,10 @@ export default function Slider(props) {
   useEffect(() => {
     mouseStatsRef.current.offset = -currentImg * imageWidth;
     setActiveClass(currentImg);
+    if (navDynamic) {
+      let ifMatch = navDynamic.indexOf(currentImg);
+      if (ifMatch !== -1) setNavActive(ifMatch);
+    }
   }, [currentImg, imageWidth]);
 
   const onClickHandler = (e) => {
@@ -53,7 +89,8 @@ export default function Slider(props) {
   };
 
   const onDotClickHandler = (e) => {
-    const index = Number(e.target.getAttribute('index'));
+    const index = Number(e.target.getAttribute('val'));
+    console.log(index);
     setCurrentImg(index);
   };
 
@@ -180,13 +217,13 @@ export default function Slider(props) {
       </div>
       {navDots && (
         <div className={styles.NavDotsContainer}>
-          {images &&
-            images.map((img, index) => (
+          {navDynamic &&
+            navDynamic.map((val, index) => (
               <div
                 key={index}
                 className={`${styles.NavDot} 
-                ${index === activeClass ? styles.ActiveDot : null}`}
-                index={index}
+                ${index === navActive ? styles.ActiveDot : null}`}
+                val={val}
                 onClick={onDotClickHandler}></div>
             ))}
         </div>

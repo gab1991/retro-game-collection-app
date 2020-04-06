@@ -21,7 +21,7 @@ hr {
   height: 100%;
   width: 200px;
   background-color: rgb(238, 238, 238);
-  padding: 10px 0;
+  padding-bottom: 10px;
 
   display: flex;
   flex-direction: column;
@@ -29,7 +29,7 @@ hr {
 
 .SvgWrapper {
   height: 30px;
-  margin-top: 5px;
+  margin-top: auto;
   position: relative;
 }
 
@@ -41,3 +41,27 @@ hr {
 .CardSpinner svg {
   stroke: gray;
 }
+/* .SwiperContainer {
+  background-color: darkgoldenrod;
+  width: 200px !important;
+  height: 240px !important;
+}
+
+.SwiperSlide {
+  width: 200px !important;
+  height: 230px !important;
+}
+
+.SwiperPagination {
+  background-color: darkgreen;
+}
+
+.SwiperBtn {
+  background: rgb(70, 70, 70) !important;
+  width: 6px !important;
+  height: 6px !important;
+  display: inline-block;
+  border-radius: 100%;
+  background: #000;
+  opacity: 0.2;
+} */

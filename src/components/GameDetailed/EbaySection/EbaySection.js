@@ -7,7 +7,7 @@ import 'react-dynamic-swiper/lib/styles.css';
 import './EbaySectionSlider.css';
 
 export default function EbaySection(props) {
-  const { platform, game, uploadNum = 1 } = props;
+  const { platform, game, uploadNum = 4 } = props;
   const [ebayItems, setEbayItems] = useState();
   const [showedItems, setShowedItems] = useState([]);
   const [swiperIndex, setSwiperIndex] = useState(0);
@@ -19,7 +19,6 @@ export default function EbaySection(props) {
 
   useEffect(() => {
     Backend.getEbayItems(platform, game).then((res) => {
-      console.log(res);
       setEbayItems(res[0].item);
     });
   }, []);
@@ -30,22 +29,23 @@ export default function EbaySection(props) {
     }
   }, [ebayItems]);
 
-  // useEffect(() => {
-  //   console.log(counter);
-  // }, [counter.current]);
+  useEffect(() => {
+    console.log(counter);
+  }, [counter.current]);
 
   const fillShowedItems = (current, numToAdd) => {
+    if (current === counter.last) return;
+
     let updShowedItems = [...showedItems];
     for (let i = current; i < current + numToAdd; i++) {
       updShowedItems.push(ebayItems[i]);
     }
+    let updCounter = { ...counter };
+    updCounter.current = current + numToAdd;
+    updCounter.last = ebayItems.length;
+    setCounter({ ...updCounter });
 
     setShowedItems(updShowedItems);
-
-    let updCounter = { ...counter };
-    updCounter.current = updCounter.current + numToAdd;
-    updCounter.last = ebayItems.length - 1;
-    setCounter({ ...updCounter });
   };
 
   const appendSlide = (swiper) => {
@@ -66,16 +66,18 @@ export default function EbaySection(props) {
       dynamicBullets: true,
     },
   };
-
+  console.log({ ebayItems, showedItems });
   return (
     <div className={styles.EbaySection}>
       <Swiper swiperOptions={{ ...SliderSettings }} navigation={false}>
         {showedItems &&
-          showedItems.map((item, index) => (
-            <Slide onActive={(swiper) => appendSlide(swiper)} key={index}>
-              <EbayItemCard itemId={item.itemId} />
-            </Slide>
-          ))}
+          showedItems.map((item, index) =>
+            item ? (
+              <Slide onActive={(swiper) => appendSlide(swiper)} key={index}>
+                <EbayItemCard itemId={item.itemId} />
+              </Slide>
+            ) : null
+          )}
       </Swiper>
     </div>
   );
