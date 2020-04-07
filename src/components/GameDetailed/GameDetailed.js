@@ -20,8 +20,8 @@ function GameDetailed(props) {
   const [screenshots, setScreenshots] = useState();
   const [boxArtUrl, setBoxArtUrl] = useState();
   const [sountrackVideo, setSountrackVideo] = useState();
-  const [isOwned, setisOwned] = useState();
-  const [isWished, setisWished] = useState();
+  const [isOwned, setisOwned] = useState(false);
+  const [isWished, setisWished] = useState(false);
   const [descriptionParsed, setDescriptionParsed] = useState();
   const [showWishWarn, setShowWishListWarn] = useState();
   const [showWishNotifier, setShowWishNotifier] = useState(false);
@@ -30,7 +30,7 @@ function GameDetailed(props) {
     'You already got this game in your colletcion. Do you really want it in your Wish List';
   const dispatch = useDispatch();
 
-  // console.log({ isOwned, isWished });
+  console.log({ isOwned, isWished, showWishNotifier, showOwnedhNotifier });
 
   useEffect(() => {
     if (userData)
@@ -100,6 +100,7 @@ function GameDetailed(props) {
         }
       }
       if (chosenPlatform) {
+        console.log(chosenPlatform, currentList);
         const games = chosenPlatform.games;
         for (let i = 0; i < games.length; i++) {
           if (gameDetails.name === games[i].name) {
@@ -188,9 +189,6 @@ function GameDetailed(props) {
       <div className={styles.Desc}>
         <hr></hr>
         {descriptionParsed ? descriptionParsed : null}
-      </div>
-      <div className={styles.CommentArea}>
-        <textarea placeholder="Type your remark concerning this game..."></textarea>
       </div>
       <div className={styles.Contorls}>
         <hr></hr>

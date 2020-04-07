@@ -3,7 +3,7 @@
   background-color: rgba(44, 44, 44, 0.7);
   margin: 0 auto;
   padding: 20px 0;
-  margin-bottom: 20%;
+  /* margin-bottom: 20%; */
   max-width: 1200px;
 
   display: grid;
@@ -25,6 +25,7 @@ hr {
 
 .Info {
   grid-area: info;
+
   /* background-color: yellowgreen; */
   width: 320px;
   padding: 10px;
@@ -190,41 +191,90 @@ hr {
 }
 
 @media (max-width: 650px) {
-  .GameDetailed {
+  /* .GameDetailed {
     grid-template-areas:
       'info'
       'screenshots'
       'description'
       'controls'
-      'video';
+      'video'
+      'ebay';
     justify-items: center;
     max-width: 100%;
+  } */
+
+  .GameDetailed {
+    grid-template-areas:
+      'info description'
+      'info controls'
+      'screenshots screenshots'
+      'video video'
+      'ebay ebay';
+    justify-items: center;
+    max-width: 100%;
+    grid-template-columns: auto 1fr;
   }
 
   .Info {
-    width: 100%;
-    padding: 10px;
+    padding: 0 5px 5px;
+    width: 170px;
+  }
+
+  .Info > div {
+    border: 2px solid gray;
   }
 
   .Screenshots {
-    padding: 0;
+    padding: 10px 0;
     overflow: auto;
     width: 100%;
+  }
+
+  .VideoSection {
+    font-size: 0.8rem;
+    padding: 0px;
+    grid-area: video;
+    width: 100%;
+    display: flex;
+  }
+
+  .VideoLabel > hr {
+    margin: 0 5px;
+  }
+
+  .VideoSection > div:first-child {
+    padding-right: 0px;
+  }
+
+  .VideoSection > div:last-child {
+    padding-left: 0px;
   }
   .Desc {
     grid-area: description;
-    font-size: 1.3rem;
+    font-size: 0.8rem;
     /* background-color: tomato; */
     overflow: auto;
-    padding: 20px;
+    padding: 0 5px;
+  }
+
+  .Desc hr {
+    display: none;
   }
   .Contorls {
+    margin-top: auto;
+    padding: 0 5px 5px;
     width: 100%;
+    font-size: 0.7rem;
   }
 
   .Buttons {
     width: 100%;
     display: flex;
     flex-direction: column;
+  }
+
+  .EbaySection {
+    font-size: 0.8rem;
+    /* height: 300px; */
   }
 }

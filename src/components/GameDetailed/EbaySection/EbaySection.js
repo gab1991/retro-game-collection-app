@@ -7,7 +7,7 @@ import 'react-dynamic-swiper/lib/styles.css';
 import './EbaySectionSlider.css';
 
 export default function EbaySection(props) {
-  const { platform, game, uploadNum = 4 } = props;
+  const { platform, game, uploadNum = 3 } = props;
   const [ebayItems, setEbayItems] = useState();
   const [showedItems, setShowedItems] = useState([]);
   const [swiperIndex, setSwiperIndex] = useState(0);
@@ -29,10 +29,6 @@ export default function EbaySection(props) {
     }
   }, [ebayItems]);
 
-  useEffect(() => {
-    console.log(counter);
-  }, [counter.current]);
-
   const fillShowedItems = (current, numToAdd) => {
     if (current === counter.last) return;
 
@@ -50,7 +46,7 @@ export default function EbaySection(props) {
 
   const appendSlide = (swiper) => {
     let newlIndex = swiper.realIndex;
-    // console.log(swiper.realIndex, counter.last);
+
     if (swiperIndex < newlIndex) {
       fillShowedItems(counter.current, 1);
       setSwiperIndex(newlIndex);
@@ -66,7 +62,7 @@ export default function EbaySection(props) {
       dynamicBullets: true,
     },
   };
-  console.log({ ebayItems, showedItems });
+
   return (
     <div className={styles.EbaySection}>
       <Swiper swiperOptions={{ ...SliderSettings }} navigation={false}>

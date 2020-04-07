@@ -46,3 +46,14 @@
 .TextContainer li {
   text-indent: 30px;
 }
+
+@media (max-width: 650px) {
+  .GameInfoBox {
+  }
+  .ImageContainer {
+  }
+
+  .TextContainer {
+    font-size: 0.8rem;
+  }
+}

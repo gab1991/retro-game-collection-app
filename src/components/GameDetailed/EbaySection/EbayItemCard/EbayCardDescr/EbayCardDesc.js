@@ -26,6 +26,7 @@ export default function EbayCardDesc(props) {
   const [loadShipCosts, setLoadShipCosts] = useState();
   const [total, setTotal] = useState();
   const [finalDeliveryPrice, setDelivertPrice] = useState(deliveryPrice);
+  const [notCalculated, setNotCalculated] = useState();
 
   useEffect(() => {
     if (currentPrice) {
@@ -38,7 +39,6 @@ export default function EbayCardDesc(props) {
 
   const getShippingCosts = () => {
     setLoadShipCosts(true);
-    console.log('got');
     Backend.getShippingCosts(itemId).then((res) => {
       if (res.ShippingCostSummary) {
         const shippingCost = Number(
@@ -47,6 +47,7 @@ export default function EbayCardDesc(props) {
         setDelivertPrice(shippingCost);
       } else {
         setDelivertPrice('');
+        setNotCalculated('Contact seller');
       }
       setLoadShipCosts(false);
     });
@@ -102,7 +103,7 @@ export default function EbayCardDesc(props) {
         <strong>{isAuction ? 'Bid' : 'PRICE'}</strong>
         {`${' : '} ${currentPrice} ${currency}`}
         <div className={styles.Delivery}>
-          {!finalDeliveryPrice && !loadShipCosts && (
+          {!finalDeliveryPrice && !loadShipCosts && !notCalculated && (
             <span onClick={getShippingCosts}>Define shipping costs</span>
           )}
           {!finalDeliveryPrice && loadShipCosts && (
@@ -110,6 +111,7 @@ export default function EbayCardDesc(props) {
               <DotSpinner />
             </div>
           )}
+          {!finalDeliveryPrice && notCalculated && `${notCalculated}`}
           {finalDeliveryPrice &&
             `${'+ Shipping'} ${finalDeliveryPrice} ${currency}`}
         </div>

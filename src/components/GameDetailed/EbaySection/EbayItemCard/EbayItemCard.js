@@ -36,7 +36,6 @@ export default function EbayItemCard(props) {
         endTime: item.EndTime,
       };
       setItemData(itemData);
-      console.log(itemData);
     });
   }, [itemId]);
 
@@ -52,7 +51,6 @@ export default function EbayItemCard(props) {
     setIsEndingSoon(val);
   };
 
-  console.log(itemData);
   return (
     <div className={styles.EbayItemCard}>
       {itemData && (
