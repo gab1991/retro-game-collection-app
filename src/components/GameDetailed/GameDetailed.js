@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import useWindowSize from '../../CustomHooks/CustomHooks';
 import { connect, useDispatch } from 'react-redux';
 import Backend from '../../Backend/Backend';
 import styles from './GameDetailed.module.css';
@@ -11,6 +12,9 @@ import WarnModal from '../UI/Modals/WarnModal/WarnModal';
 import CornerNotifier from '../UI/Modals/CornerNotifier/CornerNotifier';
 import EbaySection from './EbaySection/EbaySection';
 import ReactPlayer from 'react-player';
+import Arrow from '../../components/UI/LogoSvg/ArrowSvg/Arrow';
+import { Swiper, Slide } from 'react-dynamic-swiper';
+import 'react-dynamic-swiper/lib/styles.css';
 
 function GameDetailed(props) {
   const slug = props.match.params.gameSlug;
@@ -20,6 +24,11 @@ function GameDetailed(props) {
   const [screenshots, setScreenshots] = useState();
   const [boxArtUrl, setBoxArtUrl] = useState();
   const [sountrackVideo, setSountrackVideo] = useState();
+  const [elmsVisibility, setElmsVisibility] = useState({
+    sountrackVideo: true,
+    gameplayVideo: true,
+    ebaySection: true,
+  });
   const [isOwned, setisOwned] = useState(false);
   const [isWished, setisWished] = useState(false);
   const [descriptionParsed, setDescriptionParsed] = useState();
@@ -29,6 +38,8 @@ function GameDetailed(props) {
   const wishListWarnTxt =
     'You already got this game in your colletcion. Do you really want it in your Wish List';
   const dispatch = useDispatch();
+  const windowSize = useWindowSize();
+  console.log({ ...windowSize });
 
   console.log({ isOwned, isWished, showWishNotifier, showOwnedhNotifier });
 
@@ -176,10 +187,27 @@ function GameDetailed(props) {
     setShowWishListWarn(false);
   };
 
+  const toggleBlockVisibilty = (e) => {
+    const elm = e.currentTarget.getAttribute('elm');
+    const updVisibility = { ...elmsVisibility };
+    updVisibility[elm] = !updVisibility[elm];
+    setElmsVisibility(updVisibility);
+  };
+  console.log(screenshots);
+
   return (
     <div className={styles.GameDetailed}>
       <div className={styles.Screenshots}>
         {screenshots && <Slider images={screenshots} arrows />}
+        {/* <Swiper>
+          {screenshots &&
+            screenshots.map((image) => (
+              <Slide>
+                <img src={image}></img>
+              </Slide>
+            ))}
+        </Swiper>
+      </div> */}
       </div>
       <div className={styles.Info}>
         {gameDetails && boxArtUrl && (
@@ -227,48 +255,69 @@ function GameDetailed(props) {
         <div className={styles.VideoSoundtrack}>
           <div className={styles.VideoLabel}>
             <h2>Sountrack</h2>
+            <div
+              elm="sountrackVideo"
+              className={styles.DropDownContainer}
+              onClick={(e) => toggleBlockVisibilty(e)}>
+              <Arrow />
+            </div>
             <hr></hr>
           </div>
-          <div className={styles.PlayerWrapper}>
-            <ReactPlayer
-              // url={`https://www.youtube.com/watch?v=${sountrackVideo}`}
-              url={`https://www.youtube.com/watch?v=RGCTbLMkkb4`}
-              className={styles.ReactPlayer}
-              height="100%"
-              width="100%"
-              controls={true}
-              playing={false}
-              light
-            />
-          </div>
+          {elmsVisibility.sountrackVideo && (
+            <div className={styles.PlayerWrapper}>
+              <ReactPlayer
+                // url={`https://www.youtube.com/watch?v=${sountrackVideo}`}
+                url={`https://www.youtube.com/watch?v=RGCTbLMkkb4`}
+                className={styles.ReactPlayer}
+                height="100%"
+                width="100%"
+                controls={true}
+                playing={false}
+                light
+              />
+            </div>
+          )}
         </div>
         <div className={styles.VideoGameplay}>
           <div className={styles.VideoLabel}>
             <h2>Gameplay</h2>
+            <div
+              elm="gameplayVideo"
+              className={styles.DropDownContainer}
+              onClick={(e) => toggleBlockVisibilty(e)}>
+              <Arrow />
+            </div>
             <hr></hr>
           </div>
-          <div className={styles.PlayerWrapper}>
-            <ReactPlayer
-              // url={`https://www.youtube.com/watch?v=${sountrackVideo}`}
-              url={`https://www.youtube.com/watch?v=kSmcxV35Xrg`}
-              className={styles.ReactPlayer}
-              height="100%"
-              width="100%"
-              controls={true}
-              playing={false}
-              light
-            />
-          </div>
+          {elmsVisibility.gameplayVideo && (
+            <div className={styles.PlayerWrapper}>
+              <ReactPlayer
+                // url={`https://www.youtube.com/watch?v=${sountrackVideo}`}
+                url={`https://www.youtube.com/watch?v=kSmcxV35Xrg`}
+                className={styles.ReactPlayer}
+                height="100%"
+                width="100%"
+                controls={true}
+                playing={false}
+                light
+              />
+            </div>
+          )}
         </div>
       </div>
       <div className={styles.EbaySection}>
         <h2>Ebay Offers</h2>
+        <div
+          elm="ebaySection"
+          className={styles.DropDownContainer}
+          onClick={(e) => toggleBlockVisibilty(e)}>
+          <Arrow />
+        </div>
         <hr></hr>
-        {gameDetails && (
+        {gameDetails && elmsVisibility.ebaySection && (
           <EbaySection platform={platformName} game={gameDetails.name} />
         )}
       </div>
-
       <CornerNotifier
         corner={'bottomLeft'}
         message={'Game has been added to you'}

@@ -7,7 +7,7 @@ import 'react-dynamic-swiper/lib/styles.css';
 import './EbaySectionSlider.css';
 
 export default function EbaySection(props) {
-  const { platform, game, uploadNum = 3 } = props;
+  const { platform, game, uploadNum = 4 } = props;
   const [ebayItems, setEbayItems] = useState();
   const [showedItems, setShowedItems] = useState([]);
   const [swiperIndex, setSwiperIndex] = useState(0);

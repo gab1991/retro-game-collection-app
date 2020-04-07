@@ -20,6 +20,7 @@ export default function EbayItemCard(props) {
   useEffect(() => {
     Backend.getEbaySingleItem(itemId).then((res) => {
       const item = res.Item;
+      if (!item) return;
       const itemData = {
         pictures: item.PictureURL,
         title: item.Title,
