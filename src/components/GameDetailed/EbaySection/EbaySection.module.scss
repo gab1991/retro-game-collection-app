@@ -1,12 +1,34 @@
 .EbaySection {
   width: 100%;
   height: 320px;
-  /* background-color: brown; */
-  /* display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center; */
   padding: 10px 0;
+
+  :global .swiper-container {
+    width: 100%;
+    height: 300px;
+
+    .swiper-pagination {
+      position: absolute;
+      bottom: 2px;
+
+      .swiper-pagination-bullet {
+        background: white;
+        width: 10px;
+        height: 10px;
+      }
+    }
+
+    .swiper-container-horizontal > .swiper-pagination-bullets {
+      bottom: 0px;
+    }
+
+    .swiper-slide {
+      width: 390px;
+      height: 280px;
+
+      background-color: rgb(83, 83, 70);
+    }
+  }
 }
 
 .Nax {

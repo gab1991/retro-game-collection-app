@@ -49,10 +49,10 @@ const appConfig = {
     Jaguar: 112,
     'Game Gear': 77,
     'Neo Geo': 12,
-    Web: 171
+    Web: 171,
   },
   assetsMapping: {
-    gamepadMap: {}
+    gamepadMap: {},
   },
 
   GameSelector: {
@@ -60,31 +60,36 @@ const appConfig = {
     gamesPerRequest: 20,
     defaultOrdering: {
       name: 'rating',
-      direction: 'desc'
+      direction: 'desc',
     },
-    ordering: ['name', 'released', 'rating']
-  }
+    ordering: ['name', 'released', 'rating'],
+  },
 };
 
 const images = {
   Genesis: {
     gamepad: { src: require('../assets/images/icons/Sega Genesis.png') },
     logo: {
-      src: require('../assets/images/platform logos/sega_genesis_logo.png')
-    }
+      src: require('../assets/images/platform logos/sega_genesis_logo.png'),
+    },
   },
   NES: {
     gamepad: { src: require('../assets/images/icons/Nintendo NES.png') },
-    logo: { src: require('../assets/images/platform logos/nes_logo.png') }
+    logo: { src: require('../assets/images/platform logos/nes_logo.png') },
   },
 
   PlayStation: {
     gamepad: { src: require('../assets/images/icons/Sony Playstation.png') },
-    logo: { src: require('../assets/images/platform logos/ps_logo.png') }
+    logo: { src: require('../assets/images/platform logos/ps_logo.png') },
   },
   noPicture: {
-    background: { src: require('../assets/images/no_img.png') }
-  }
+    background: { src: require('../assets/images/no_img.png') },
+  },
+};
+
+const textMessages = {
+  fromWishToOwn:
+    'You added game to your own list. Do you want to remove it from Wishlist?',
 };
 export default appConfig;
-export { images, appConfig };
+export { images, appConfig, textMessages };

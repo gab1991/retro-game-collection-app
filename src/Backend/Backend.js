@@ -19,50 +19,50 @@ const Backend = {
     const url = api.platforms.getPlatformsURL;
     return new Promise((resolve, reject) => {
       fetch(url)
-        .then(res => res.json())
-        .then(data => resolve(data))
-        .catch(err => reject(err));
+        .then((res) => res.json())
+        .then((data) => resolve(data))
+        .catch((err) => reject(err));
     });
   },
 
-  getPlatformDetails: platformId => {
+  getPlatformDetails: (platformId) => {
     const url = `${api.platforms.getPlatformsURL}/${platformId}`;
     return new Promise((resolve, reject) => {
       fetch(url)
-        .then(res => res.json())
-        .then(data => resolve(data))
-        .catch(err => reject(err));
+        .then((res) => res.json())
+        .then((data) => resolve(data))
+        .catch((err) => reject(err));
     });
   },
 
-  getGamesForPlatform: params => {
+  getGamesForPlatform: (params) => {
     let paramsStr = queryParamBuilder(params);
     let url = `${api.games.getGamesUrl}${paramsStr}`;
     return new Promise((resolve, reject) => {
       fetch(url)
-        .then(res => res.json())
-        .then(data => resolve(data))
-        .catch(err => reject(err));
+        .then((res) => res.json())
+        .then((data) => resolve(data))
+        .catch((err) => reject(err));
     });
   },
 
-  getGameDetails: slug => {
+  getGameDetails: (slug) => {
     let url = `${api.game.getDetailsUrl}${slug}`;
     return new Promise((resolve, reject) => {
       fetch(url)
-        .then(res => res.json())
-        .then(data => resolve(data))
-        .catch(err => reject(err));
+        .then((res) => res.json())
+        .then((data) => resolve(data))
+        .catch((err) => reject(err));
     });
   },
 
-  getScreenshots: slug => {
+  getScreenshots: (slug) => {
     let url = `${api.game.getDetailsUrl}${slug}/screenshots`;
     return new Promise((resolve, reject) => {
       fetch(url)
-        .then(res => res.json())
-        .then(data => resolve(data))
-        .catch(err => reject(err));
+        .then((res) => res.json())
+        .then((data) => resolve(data))
+        .catch((err) => reject(err));
     });
   },
 
@@ -72,41 +72,41 @@ const Backend = {
     )}`;
     return new Promise((resolve, reject) => {
       fetch(url)
-        .then(res => res.json())
-        .then(data => resolve(data))
-        .catch(err => reject(err));
+        .then((res) => res.json())
+        .then((data) => resolve(data))
+        .catch((err) => reject(err));
     });
   },
 
-  postSignUp: obj => {
+  postSignUp: (obj) => {
     let url = `${api.appServer.signUpUrl}`;
     return new Promise((resolve, reject) => {
       fetch(url, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(obj)
+        body: JSON.stringify(obj),
       })
-        .then(res => res.json())
-        .then(data => resolve(data))
-        .catch(err => reject(err));
+        .then((res) => res.json())
+        .then((data) => resolve(data))
+        .catch((err) => reject(err));
     });
   },
 
-  postSignIn: obj => {
+  postSignIn: (obj) => {
     let url = `${api.appServer.signInUrl}`;
     return new Promise((resolve, reject) => {
       fetch(url, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(obj)
+        body: JSON.stringify(obj),
       })
-        .then(res => res.json())
-        .then(data => resolve(data))
-        .catch(err => reject(err));
+        .then((res) => res.json())
+        .then((data) => resolve(data))
+        .catch((err) => reject(err));
     });
   },
 
@@ -114,9 +114,9 @@ const Backend = {
     let url = `${api.appServer.profileUrl}/${username}/${token}`;
     return new Promise((resolve, reject) => {
       fetch(url)
-        .then(res => res.json())
-        .then(data => resolve(data))
-        .catch(err => reject(err));
+        .then((res) => res.json())
+        .then((data) => resolve(data))
+        .catch((err) => reject(err));
     });
   },
 
@@ -126,27 +126,28 @@ const Backend = {
       fetch(url, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(obj)
+        body: JSON.stringify(obj),
       })
-        .then(res => res.json())
-        .then(data => resolve(data))
-        .catch(err => reject(err));
+        .then((res) => res.json())
+        .then((data) => resolve(data))
+        .catch((err) => reject(err));
     });
   },
 
-  getSoundTrackVideo: (platform, gameName) => {
-    let url = `${api.appServer.soundTrackUrl}/${platform}/${encodeURIComponent(
-      gameName
-    )}`;
+  getVideo: (videoType, platform, gameName) => {
+    let url = `${
+      api.appServer.videoURL
+    }/${videoType}/${platform}/${encodeURIComponent(gameName)}`;
+    console.log(url);
     return new Promise((resolve, reject) => {
       fetch(url)
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           resolve(data);
         })
-        .catch(err => reject(err));
+        .catch((err) => reject(err));
     });
   },
 
@@ -156,37 +157,37 @@ const Backend = {
     )}`;
     return new Promise((resolve, reject) => {
       fetch(url)
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           resolve(data);
         })
-        .catch(err => reject(err));
+        .catch((err) => reject(err));
     });
   },
 
-  getEbaySingleItem: id => {
+  getEbaySingleItem: (id) => {
     let url = `${api.appServer.ebaySingleItemUrl}/${id}`;
     return new Promise((resolve, reject) => {
       fetch(url)
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           resolve(data);
         })
-        .catch(err => reject(err));
+        .catch((err) => reject(err));
     });
   },
 
-  getShippingCosts: itemId => {
+  getShippingCosts: (itemId) => {
     let url = `${api.appServer.shippingCostsUrl}/${itemId}`;
     return new Promise((resolve, reject) => {
       fetch(url)
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           resolve(data);
         })
-        .catch(err => reject(err));
+        .catch((err) => reject(err));
     });
-  }
+  },
 };
 
 export default Backend;

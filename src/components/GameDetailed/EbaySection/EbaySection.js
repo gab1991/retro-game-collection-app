@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import styles from './EbaySection.module.css';
+import styles from './EbaySection.module.scss';
 import Backend from '../../../Backend/Backend';
 import EbayItemCard from '../EbaySection/EbayItemCard/EbayItemCard';
 import { Swiper, Slide } from 'react-dynamic-swiper';
 import 'react-dynamic-swiper/lib/styles.css';
-import './EbaySectionSlider.css';
 
 export default function EbaySection(props) {
   const { platform, game, uploadNum = 4 } = props;
@@ -52,7 +51,6 @@ export default function EbaySection(props) {
       setSwiperIndex(newlIndex);
     }
   };
-
   const SliderSettings = {
     slidesPerView: 'auto',
     spaceBetween: 15,
@@ -61,10 +59,11 @@ export default function EbaySection(props) {
       clickable: true,
       dynamicBullets: true,
     },
+    // containerModifierClass: ,
   };
 
   return (
-    <div className={styles.EbaySection}>
+    <div className={styles.EbaySection} atr={'kek'}>
       <Swiper swiperOptions={{ ...SliderSettings }} navigation={false}>
         {showedItems &&
           showedItems.map((item, index) =>

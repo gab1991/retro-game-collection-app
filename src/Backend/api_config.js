@@ -1,6 +1,6 @@
 const api = {
   platforms: {
-    getPlatformsURL: 'https://api.rawg.io/api/platforms'
+    getPlatformsURL: 'https://api.rawg.io/api/platforms',
   },
   games: {
     getGamesUrl: 'https://api.rawg.io/api/games',
@@ -13,23 +13,23 @@ const api = {
       tags: 'Filter by tags, for example: 31,7 or singleplayer,multiplayer.',
       dates:
         'Filter by a release date, for example: 2010-01-01,2018-12-31.1960-01-01,1969-12-31.',
-      ordering: ['name', 'released', 'rating']
+      ordering: ['name', 'released', 'rating'],
       // 'Available fields: name, released, added, created, rating. You can reverse the sort order adding a hyphen, for example: -released.'
-    }
+    },
   },
   game: {
-    getDetailsUrl: 'https://api.rawg.io/api/games/'
+    getDetailsUrl: 'https://api.rawg.io/api/games/',
   },
   appServer: {
     boxArtworkUrl: 'http://localhost:8000/box_arts',
     signUpUrl: 'http://localhost:8000/auth/sign_up',
     signInUrl: 'http://localhost:8000/auth/sign_in',
     profileUrl: 'http://localhost:8000/profile',
-    soundTrackUrl: 'http://localhost:8000/youtube/soundtrack',
+    videoURL: 'http://localhost:8000/youtube',
     ebayItemsUrl: 'http://localhost:8000/ebay/searchList',
     ebaySingleItemUrl: 'http://localhost:8000/ebay/singleItem',
-    shippingCostsUrl: 'http://localhost:8000/ebay/shopingCosts'
-  }
+    shippingCostsUrl: 'http://localhost:8000/ebay/shopingCosts',
+  },
 };
 
 export default api;
