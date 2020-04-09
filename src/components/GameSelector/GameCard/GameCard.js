@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './GameCard.module.css';
+import styles from './GameCard.module.scss';
 import { images } from '../../../configs/appConfig';
 
 export default function GameCard(props) {
@@ -8,10 +8,10 @@ export default function GameCard(props) {
     <div
       className={styles.GameCard}
       onClick={() => props.openGameDetails(slug)}>
-      <div>
+      <div className={styles.ImgContainer}>
         <img src={background || images.noPicture.background.src} alt={slug} />
       </div>
-      <div>
+      <div className={styles.NameSection}>
         <p>{name}</p>
       </div>
     </div>

@@ -1,18 +1,21 @@
 import React from 'react';
-import styles from './GameInfoBox.module.css';
+import styles from './GameInfoBox.module.scss';
 
 export default function GameInfoBox(props) {
   const { name, released, developers, publishers } = props.gameInfo;
   const { boxArt } = props;
 
+  const regexTrim = /.+?(?=\s\()/g;
+  const needToTrim = name.match(regexTrim);
+  const nameTrimmed = needToTrim ? needToTrim[0] : name;
+
   return (
     <div className={styles.GameInfoBox}>
       <div className={styles.ImageContainer}>
-        <img src={boxArt} alt={boxArt}></img>
+        <img src={boxArt} alt={'boxart'}></img>
       </div>
       <div className={styles.TextContainer}>
-        <h3>Name:</h3>
-        <span>{name}</span>
+        <h2 className={styles.Name}>{nameTrimmed}</h2>
         <h3>Date of Release:</h3>
         <span>{released}</span>
         {developers && (

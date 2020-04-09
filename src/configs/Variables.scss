@@ -1,10 +1,16 @@
 $content-underlayer-color: rgba(44, 44, 44, 0.7);
-
+$button-neon-color: (
+  'basic': #65323e,
+  'green': #569874,
+  'gray': #434343,
+  'red': #963e53,
+);
 $breakpoints: (
-  'mobile': 640px,
-  'tablet': 768px,
+  'mobile': 600px,
+  'tablet': 900px,
   'desktop': 1200px,
 );
+
 @mixin respond-to($breakpoint) {
   @if map-has-key($breakpoints, $breakpoint) {
     @media (max-width: #{map-get($breakpoints, $breakpoint)}) {
@@ -14,4 +20,18 @@ $breakpoints: (
     @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
           + "Please make sure it is defined in `$breakpoints` map.";
   }
+}
+@function getBtnColor($color) {
+  @return map-get($button-neon-color, $color);
+}
+
+@mixin flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin w100v100 {
+  width: 100%;
+  height: 100%;
 }

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Backend from '../../Backend/Backend';
+import Input from '../../components/UI/Inputs/Input/Input';
 import { images, appConfig } from '../../configs/appConfig';
-import styles from './GameSelector.module.css';
+import styles from './GameSelector.module.scss';
 import GameCard from '../GameSelector/GameCard/GameCard';
 import Paginator from '../Paginator/Paginator.js';
 import SelectorControls from './SelectorControls/SelectorControls';
@@ -113,35 +114,10 @@ export default function GameSelector(props) {
   return (
     <div className={styles.GameSelector}>
       <div className={styles.Header}>
-        <div className={styles.IconContainer}>
-          <img src={images[platformName].gamepad.src} alt="platformImg" />
+        <div className={styles.InputWrapper}>
+          <Input />
         </div>
-        <div className={styles.Description}>
-          {platformDescription
-            ? ReactHtmlParser(platformDescription.description)
-            : ''}
-        </div>
-        <div className={styles.PlatformInfo}>
-          <div>
-            Chosen Platform : <span>{platformName}</span>
-          </div>
-          <div>
-            Total Games Released :{' '}
-            <span>
-              {platformDescription ? platformDescription.games_count : ''}
-            </span>
-          </div>
-        </div>
-        <div className={styles.Settings}>
-          <SelectorControls
-            gameSearchChange={gameSearchChangeHandler}
-            selectChange={selectChangeHandler}
-            directionChange={directionChangeHandler}
-            sendRequest={sendRequestHandler}
-            ordering={ordering}
-            orderingOptions={orderingOptions}
-          />
-        </div>
+
         <div className={styles.Pagination}>
           {recievedData && (
             <Paginator
@@ -156,11 +132,12 @@ export default function GameSelector(props) {
       <div className={styles.GamePicker}>
         {gamesToShow &&
           gamesToShow.map((game) => (
-            <GameCard
-              key={game.slug}
-              gameInfo={game}
-              openGameDetails={openGameDetailsHandler}
-            />
+            <div className={styles.GameCardWrapper} key={game.slug}>
+              <GameCard
+                gameInfo={game}
+                openGameDetails={openGameDetailsHandler}
+              />
+            </div>
           ))}
         {noGamesFound && (
           <h1>No results have been found! Try to change the query</h1>

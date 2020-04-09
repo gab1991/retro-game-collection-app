@@ -1,0 +1,61 @@
+@import '../../../configs/Variables.scss';
+
+.GameInfoBox {
+  width: 100%;
+  height: 100%;
+  border: 2px solid rgba(82, 82, 82, 0.9);
+  display: flex;
+  padding: 10px;
+  flex-direction: column;
+  align-items: center;
+
+  span {
+    display: list-item;
+    text-indent: 30px;
+  }
+}
+
+.ImageContainer {
+  margin-top: 15px;
+  align-self: center;
+  width: 90%;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.TextContainer {
+  width: 90%;
+  font-size: 1.4rem;
+  margin-top: 5px;
+
+  ul {
+    list-style: disc;
+  }
+
+  li {
+    text-indent: 30px;
+  }
+
+  .Name {
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  @include respond-to(tablet) {
+    font-size: 1.2rem;
+    .Name {
+      margin: 5px 0;
+    }
+  }
+
+  @include respond-to(mobile) {
+    font-size: 0.8rem;
+    .Name {
+      margin: 5px 0;
+    }
+  }
+}

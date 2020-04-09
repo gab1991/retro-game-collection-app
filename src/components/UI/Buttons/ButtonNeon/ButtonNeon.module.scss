@@ -1,0 +1,62 @@
+@import '../../../../configs/Variables.scss';
+
+.ButtonNeon {
+  width: max-content;
+  font-size: inherit;
+  color: whitesmoke;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: getBtnColor('basic');
+  padding: 5px;
+  border-radius: 5px;
+  display: inline-block;
+  border: none;
+  transition: all 0.4s ease 0s;
+  min-width: 100px;
+  outline: none;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &.green {
+    background: getBtnColor('green');
+  }
+  &.gray {
+    background: getBtnColor('gray');
+  }
+  &.red {
+    background: getBtnColor('red');
+  }
+  &:active {
+    transform: scale(0.8);
+  }
+  &:hover {
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px #2196f3, 0 0 30px #2196f3, 0 0 60px #2196f3;
+    animation: step-end;
+  }
+  &.Rectangular {
+    border-radius: 0;
+  }
+  &.Blinking {
+    animation: blink 1.5s infinite ease-out;
+  }
+  @include respond-to(mobile) {
+    &:hover {
+      box-shadow: none;
+    }
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    background: getBtnColor('basic');
+    transform: scale(1);
+    box-shadow: none;
+  }
+  50% {
+    background: getBtnColor('gray');
+    transform: scale(1.2);
+    box-shadow: 0 0 10px #2196f3, 0 0 30px #2196f3, 0 0 60px #2196f3;
+  }
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../ButtonNeon/ButtonNeon.module.css';
+import styles from '../ButtonNeon/ButtonNeon.module.scss';
 
 export default function ButtonNeon(props) {
   const {

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Paginator.module.css';
+import styles from './Paginator.module.scss';
 
 function pagination(currentPage, pageCount, delta) {
   let left = currentPage - delta,

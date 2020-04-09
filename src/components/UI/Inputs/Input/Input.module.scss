@@ -1,12 +1,13 @@
+@import '../../../../configs/Variables.scss';
+
 .InputWrapper {
-  height: 100%;
-  width: 100%;
+  @include w100v100;
   border: 1px solid whitesmoke;
-  border-right: none;
+  border-radius: 15px;
 }
 
 .Input {
-  width: 100%;
+  @include w100v100;
   outline: none;
   text-indent: 5px;
   color: whitesmoke;

@@ -57,7 +57,7 @@ const appConfig = {
 
   GameSelector: {
     defaultPage: 1,
-    gamesPerRequest: 20,
+    gamesPerRequest: 18,
     defaultOrdering: {
       name: 'rating',
       direction: 'desc',

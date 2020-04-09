@@ -28,9 +28,9 @@ function GameDetailed(props) {
   const [sountrackVideo, setSountrackVideo] = useState();
   const [gameplayVideo, setGameplayVideo] = useState();
   const [elmsVisibility, setElmsVisibility] = useState({
-    sountrackVideo: true,
-    gameplayVideo: true,
-    ebaySection: true,
+    sountrackVideo: false,
+    gameplayVideo: false,
+    ebaySection: false,
   });
   const [isOwned, setisOwned] = useState(false);
   const [isWished, setisWished] = useState(false);
@@ -347,28 +347,32 @@ function GameDetailed(props) {
           <EbaySection platform={platformName} game={gameDetails.name} />
         )}
       </div>
-      <CornerNotifier
-        corner={'bottomLeft'}
-        message={'Game has been added to you'}
-        linkText={'Wish List'}
-        linkDir={'/profile/WishList'}
-        btnText={'Cancel'}
-        onCancelClick={() =>
-          toggleList(platformName, gameDetails, 'wish_list', 'removeGame')
-        }
-        show={showWishNotifier}
-      />
-      <CornerNotifier
-        corner={'bottomLeft'}
-        message={'Game has been added to you'}
-        linkText={'Owned List'}
-        linkDir={'/profile/OwnedList'}
-        btnText={'Cancel'}
-        onCancelClick={() =>
-          toggleList(platformName, gameDetails, 'owned_list', 'removeGame')
-        }
-        show={showOwnedhNotifier}
-      />
+      {!isMobile && (
+        <>
+          <CornerNotifier
+            corner={'bottomLeft'}
+            message={'Game has been added to you'}
+            linkText={'Wish List'}
+            linkDir={'/profile/WishList'}
+            btnText={'Cancel'}
+            onCancelClick={() =>
+              toggleList(platformName, gameDetails, 'wish_list', 'removeGame')
+            }
+            show={showWishNotifier}
+          />
+          <CornerNotifier
+            corner={'bottomLeft'}
+            message={'Game has been added to you'}
+            linkText={'Owned List'}
+            linkDir={'/profile/OwnedList'}
+            btnText={'Cancel'}
+            onCancelClick={() =>
+              toggleList(platformName, gameDetails, 'owned_list', 'removeGame')
+            }
+            show={showOwnedhNotifier}
+          />
+        </>
+      )}
     </div>
   );
 }

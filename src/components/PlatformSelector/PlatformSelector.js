@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './PlatformSelector.module.css';
+import styles from './PlatformSelector.module.scss';
 import PlatformCard from '../PlatformCard/PlatformCard';
 
 export default function PlatformSelector(props) {

@@ -1,5 +1,14 @@
 @import '../../configs/Variables.scss';
 
+@mixin section-header {
+  h2 {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: normal;
+    font-style: italic;
+  }
+}
+
 .GameDetailed {
   background-color: $content-underlayer-color;
   margin: 0 auto;
@@ -17,13 +26,6 @@
 
   hr {
     border: 1px solid rgba(82, 82, 82, 0.9);
-  }
-
-  h2 {
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: normal;
-    font-style: italic;
   }
 
   @include respond-to(mobile) {
@@ -56,6 +58,9 @@
   padding: 10px;
   padding-left: 20px;
 
+  @include respond-to(tablet) {
+    width: 250px;
+  }
   @include respond-to(mobile) {
     padding: 0 5px 5px;
     width: 170px;
@@ -121,7 +126,6 @@
 
     .ButtonWrapper {
       margin: 10px;
-      flex: 1;
       display: flex;
       justify-content: center;
 
@@ -139,6 +143,7 @@
   padding: 20px;
   width: 100%;
   display: flex;
+  @include section-header;
 
   @include respond-to(tablet) {
     flex-direction: column;
@@ -188,6 +193,8 @@
 .EbaySection {
   grid-area: ebay;
   width: 100%;
+  @include section-header;
+
   @include respond-to(mobile) {
     font-size: 0.8rem;
   }
@@ -231,6 +238,7 @@
 
   .swiper-button-prev {
     background-color: darkgoldenrod;
+    background-image: none;
     // background-image: url('../../assets/images/background.jpg');
   }
 }
