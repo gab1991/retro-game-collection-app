@@ -17,7 +17,8 @@ $card-main-color: #65323e;
     0px 18px 23px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    box-shadow: 0 0 5px#2196f3, 0 0 10px #2196f3, 0 0 40px #2196f3;
+    box-shadow: 0 0 5px $blue-shine-color, 0 0 10px $blue-shine-color,
+      0 0 40px $blue-shine-color;
     transform: scale(0.9, 0.9);
   }
 }
@@ -37,4 +38,5 @@ $card-main-color: #65323e;
   height: 20%;
   background-color: $card-main-color;
   @include flexCenter;
+  text-align: center;
 }

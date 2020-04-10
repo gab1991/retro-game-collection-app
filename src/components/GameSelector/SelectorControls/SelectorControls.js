@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './SelectorControls.module.css';
-import Input from '../../UI/Inputs/Input/Input';
+// import Input from '../../UI/Inputs/SearchInput/SearchInput';
 import SelectBox from '../../UI/SelectBox/SelectBox';
 import Button from '../../UI/Buttons/Button/Button';
 
@@ -27,13 +27,13 @@ export default function SelectorControls(props) {
         </div>
         <div className={styles.InputSection}>
           <div className={styles.Input}>
-            <Input
+            {/* <Input
               type="text"
               placeholder="Name of a game"
               name="gameSearch"
               onChange={gameSearchChange}
               onKeyPress={sendRequest}
-            />
+            /> */}
           </div>
           <div className={styles.InputBtn}>
             <Button

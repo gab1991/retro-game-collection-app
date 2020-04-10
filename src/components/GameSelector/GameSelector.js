@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Backend from '../../Backend/Backend';
-import Input from '../../components/UI/Inputs/Input/Input';
+import SearchInput from '../../components/UI/Inputs/SearchInput/SearchInput';
+import SelectBox from '../UI/SelectBox/SelectBox';
 import { images, appConfig } from '../../configs/appConfig';
 import styles from './GameSelector.module.scss';
 import GameCard from '../GameSelector/GameCard/GameCard';
 import Paginator from '../Paginator/Paginator.js';
 import SelectorControls from './SelectorControls/SelectorControls';
 import queryString from 'query-string';
-import ReactHtmlParser from 'react-html-parser';
 
 export default function GameSelector(props) {
   const { platformName } = props.match.params;
@@ -35,7 +35,7 @@ export default function GameSelector(props) {
     Backend.getGamesForPlatform({
       page: currentPage,
       page_size: appConfig.GameSelector.gamesPerRequest,
-      ordering: `${ordering.direction === 'desc' ? '-' : ''}${ordering.name}`,
+      ordering: `${ordering.direction === '↓' ? '-' : ''}${ordering.name}`,
       platforms: platformID,
     }).then((res) => {
       const games = res.results;
@@ -44,14 +44,18 @@ export default function GameSelector(props) {
     });
   }, [currentPage, ordering, platformID]);
 
-  const updateQueryStr = (key, value) => {
+  const updateQueryStr = (arr) => {
     const updParams = { ...params };
-    updParams[key] = value;
+    arr.forEach((el) => {
+      const key = el[0];
+      const value = el[1];
+      updParams[key] = value;
+    });
     return queryString.stringify(updParams);
   };
 
   const pageChangeHandler = (pageNumber) => {
-    const stringified = updateQueryStr('page', pageNumber);
+    const stringified = updateQueryStr(['page', pageNumber]);
     props.history.push(`${props.history.location.pathname}?${stringified}`);
     setCurrentPage(pageNumber);
   };
@@ -61,7 +65,7 @@ export default function GameSelector(props) {
   };
 
   const sendRequestHandler = (e) => {
-    if (e.key === 'Enter' || e.target.name === 'searchBtn') {
+    if (e.key === 'Enter' || e.currentTarget.name === 'searchBtn') {
       Backend.getGamesForPlatform({
         page: 1,
         page_size: appConfig.GameSelector.gamesPerRequest,
@@ -81,21 +85,16 @@ export default function GameSelector(props) {
     }
   };
 
-  const selectChangeHandler = (name) => {
-    const stringified = updateQueryStr('ordername', name);
+  const selectChangeHandler = (option) => {
+    const [name, direction] = option.split(' ');
+    const stringified = updateQueryStr([
+      ['direction', direction],
+      ['ordername', name],
+    ]);
     props.history.push(`${props.history.location.pathname}?${stringified}`);
 
     let updatedOrdering = { ...ordering };
     updatedOrdering.name = name;
-    setOrdering(updatedOrdering);
-  };
-
-  const directionChangeHandler = (e) => {
-    const direction = e.target.getAttribute('direction');
-    const stringified = updateQueryStr('direction', direction);
-    props.history.push(`${props.history.location.pathname}?${stringified}`);
-
-    let updatedOrdering = { ...ordering };
     updatedOrdering.direction = direction;
     setOrdering(updatedOrdering);
   };
@@ -109,24 +108,40 @@ export default function GameSelector(props) {
     });
   };
 
-  console.log(platformDescription);
-
   return (
     <div className={styles.GameSelector}>
       <div className={styles.Header}>
-        <div className={styles.InputWrapper}>
-          <Input />
-        </div>
-
-        <div className={styles.Pagination}>
-          {recievedData && (
-            <Paginator
-              totalCount={recievedData.count}
-              itemsPerPage={appConfig.GameSelector.gamesPerRequest}
-              currentPage={currentPage}
-              changeCurrentPage={pageChangeHandler}
+        <div className={styles.ControlsContainer}>
+          <div className={styles.InputWrapper}>
+            <SearchInput
+              type="text"
+              placeholder="Name of a game"
+              name="gameSearch"
+              onChange={gameSearchChangeHandler}
+              onKeyPress={sendRequestHandler}
+              onBtnClick={sendRequestHandler}
             />
-          )}
+          </div>
+          <div className={styles.Pagination}>
+            {recievedData && (
+              <Paginator
+                totalCount={recievedData.count}
+                itemsPerPage={appConfig.GameSelector.gamesPerRequest}
+                currentPage={currentPage}
+                changeCurrentPage={pageChangeHandler}
+              />
+            )}
+          </div>
+          <div className={styles.SortByContainer}>
+            <p>Sort by</p>
+            <div className={styles.SelectBoxWrapper}>
+              <SelectBox
+                selected={`${ordering.name} ${ordering.direction}`}
+                options={orderingOptions}
+                changedSelected={selectChangeHandler}
+              />
+            </div>
+          </div>
         </div>
       </div>
       <div className={styles.GamePicker}>

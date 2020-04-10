@@ -1,0 +1,47 @@
+@import '../../../../configs/Variables.scss';
+
+.InputWrapper {
+  @include w100v100;
+  @include flexCenter;
+  border: 1px solid $basic-border-gray;
+
+  border-radius: 7px;
+  overflow: hidden;
+  transition: all 200ms ease-in-out;
+
+  &:focus-within {
+    box-shadow: 0 0 10px $blue-shine-color;
+    border: 1px solid $blue-shine-color;
+  }
+}
+
+.Input {
+  color: $font-white;
+  width: 80%;
+  outline: none;
+  text-indent: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 1rem;
+
+  &::placeholder {
+    color: $font-white;
+    opacity: 0.5;
+    text-shadow: none;
+  }
+}
+
+.SearchBtn {
+  color: $font-white;
+  flex: 1;
+  height: 100%;
+  cursor: pointer;
+  padding: 2%;
+  border: none;
+  background-color: getBtnColor('basic');
+  transition: all 100ms ease-in-out;
+
+  &:hover {
+    background-color: darken(getBtnColor('basic'), 10);
+  }
+}

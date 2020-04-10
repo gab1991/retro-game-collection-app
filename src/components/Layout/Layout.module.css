@@ -3,8 +3,6 @@
   grid-template-rows: 40px auto minmax(30px, 4%);
   overflow-y: auto;
   overflow-x: hidden;
-  color: whitesmoke;
-
   min-height: 100vh;
   width: 100%;
   /* background-image: url('../../assets/images/background.jpg');
@@ -22,10 +20,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.Footer a {
-  color: whitesmoke;
 }
 
 @media (max-width: 800px) {

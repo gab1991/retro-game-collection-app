@@ -60,9 +60,16 @@ const appConfig = {
     gamesPerRequest: 18,
     defaultOrdering: {
       name: 'rating',
-      direction: 'desc',
+      direction: '↓',
     },
-    ordering: ['name', 'released', 'rating'],
+    ordering: [
+      'name ↓',
+      'name ↑',
+      'released ↓',
+      'released ↑',
+      'rating ↓',
+      'rating ↑',
+    ],
   },
 };
 

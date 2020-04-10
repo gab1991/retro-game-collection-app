@@ -1,9 +1,9 @@
 @import '../../../../configs/Variables.scss';
 
 .ButtonNeon {
+  color: $font-white;
   width: max-content;
   font-size: inherit;
-  color: whitesmoke;
   text-transform: uppercase;
   text-decoration: none;
   background: getBtnColor('basic');
@@ -31,7 +31,8 @@
   }
   &:hover {
     letter-spacing: 1px;
-    box-shadow: 0 0 10px #2196f3, 0 0 30px #2196f3, 0 0 60px #2196f3;
+    box-shadow: 0 0 10px $blue-shine-color, 0 0 30px $blue-shine-color,
+      0 0 60px $blue-shine-color;
     animation: step-end;
   }
   &.Rectangular {
@@ -57,6 +58,7 @@
   50% {
     background: getBtnColor('gray');
     transform: scale(1.2);
-    box-shadow: 0 0 10px #2196f3, 0 0 30px #2196f3, 0 0 60px #2196f3;
+    box-shadow: 0 0 10px $blue-shine-color, 0 0 30px $blue-shine-color,
+      0 0 60px $blue-shine-color;
   }
 }
