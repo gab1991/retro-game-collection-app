@@ -1,55 +1,39 @@
 @import '../../configs/Variables.scss';
 
 .PlatformSelector {
+  @include contentWidth;
+  min-height: calc(100vh - #{$footer-height} - #{$nav-height});
+  background-color: $content-underlayer-color;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
 }
 
 .PlatformSelectorHeading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flexCenter;
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.5rem;
+  margin-top: 5%;
 }
 .PlatformContainer {
-  /* background-color: maroon; */
-  height: 100%;
   display: flex;
+  flex: 1;
   justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
   overflow: auto;
-}
 
-.PlatformContainer > div {
-  height: 600px;
-  width: 400px;
-  margin: 10px;
-}
-
-@media (max-width: 768px) {
-  .PlatformContainer > div {
-    height: 350px;
-    width: 250px;
-    margin: 5%;
-  }
-
-  .PlatformSelectorHeading {
-    font-size: 2rem;
-  }
-}
-
-@media (max-width: 425px) {
-  .PlatformContainer > div {
-    height: 250px;
-    width: 70%;
-    margin: 5%;
-  }
-
-  .PlatformSelectorHeading {
-    font-size: 1rem;
+  div {
+    height: 500px;
+    width: 350px;
+    margin: 10px;
+    @include respond-to(tablet) {
+      height: 350px;
+      width: 250px;
+      margin: 2%;
+    }
+    @include respond-to(mobile) {
+      height: 250px;
+      width: 70%;
+    }
   }
 }

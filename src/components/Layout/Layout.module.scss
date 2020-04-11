@@ -1,0 +1,29 @@
+@import '../../configs/Variables.scss';
+
+.Layout {
+  display: grid;
+  grid-template-rows: $nav-height auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 100vh;
+  width: 100%;
+  @include respond-to(mobile) {
+    grid-template-rows: calc($nav-height - 15px) auto;
+  }
+}
+
+.Footer {
+  height: $footer-height;
+  font-size: 0.7rem;
+  margin-top: auto;
+  background-color: $footer-underlayer-color;
+  text-align: center;
+  @include flexCenter;
+  a {
+    color: $font-white;
+  }
+  @include respond-to(mobile) {
+    height: 25px;
+    font-size: 0.5rem;
+  }
+}

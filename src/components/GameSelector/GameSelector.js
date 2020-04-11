@@ -6,7 +6,6 @@ import { images, appConfig } from '../../configs/appConfig';
 import styles from './GameSelector.module.scss';
 import GameCard from '../GameSelector/GameCard/GameCard';
 import Paginator from '../Paginator/Paginator.js';
-import SelectorControls from './SelectorControls/SelectorControls';
 import queryString from 'query-string';
 
 export default function GameSelector(props) {
@@ -45,17 +44,20 @@ export default function GameSelector(props) {
   }, [currentPage, ordering, platformID]);
 
   const updateQueryStr = (arr) => {
+    console.log(arr);
     const updParams = { ...params };
     arr.forEach((el) => {
       const key = el[0];
       const value = el[1];
       updParams[key] = value;
     });
+    console.log(updParams);
     return queryString.stringify(updParams);
   };
 
   const pageChangeHandler = (pageNumber) => {
-    const stringified = updateQueryStr(['page', pageNumber]);
+    console.log(pageNumber);
+    const stringified = updateQueryStr([['page', pageNumber]]);
     props.history.push(`${props.history.location.pathname}?${stringified}`);
     setCurrentPage(pageNumber);
   };
@@ -132,15 +134,12 @@ export default function GameSelector(props) {
               />
             )}
           </div>
-          <div className={styles.SortByContainer}>
-            <p>Sort by</p>
-            <div className={styles.SelectBoxWrapper}>
-              <SelectBox
-                selected={`${ordering.name} ${ordering.direction}`}
-                options={orderingOptions}
-                changedSelected={selectChangeHandler}
-              />
-            </div>
+          <div className={styles.SelectBoxWrapper}>
+            <SelectBox
+              selected={`${ordering.name} ${ordering.direction}`}
+              options={orderingOptions}
+              changedSelected={selectChangeHandler}
+            />
           </div>
         </div>
       </div>

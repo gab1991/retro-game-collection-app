@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './Navigation.module.css';
+import styles from './Navigation.module.scss';
 import { withRouter } from 'react-router-dom';
 import Backdrop from '../UI/Backdrop/Backdrop';
 import MenuSideSlider from '../UI/MenuSideSlider/MenuSideSlider';

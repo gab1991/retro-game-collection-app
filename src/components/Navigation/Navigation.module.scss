@@ -1,0 +1,43 @@
+@import '../../configs/Variables.scss';
+
+.Navigation {
+  background-color: #532e57;
+  position: relative;
+  z-index: 25;
+
+  @include respond-to(mobile) {
+    .ProfileDesctop {
+      display: none;
+    }
+    .ProfileMobile {
+      display: list-item;
+    }
+  }
+  .ProfileMobile {
+    display: none;
+  }
+
+  nav {
+    height: 100%;
+    width: 100%;
+    font-size: 1rem;
+
+    @include respond-to(mobile) {
+      font-size: 0.8rem;
+    }
+  }
+
+  ul {
+    height: 100%;
+    width: 100%;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+  }
+
+  li {
+    cursor: pointer;
+  }
+}

@@ -10,10 +10,8 @@
 }
 
 .GameDetailed {
-  background-color: $content-underlayer-color;
-  margin: 0 auto;
+  @include contentWidth background-color: $content-underlayer-color;
   padding: 20px 0;
-  max-width: 1200px;
   display: grid;
   grid-template-areas:
     'info screenshots screenshots'

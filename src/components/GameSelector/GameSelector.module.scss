@@ -3,65 +3,102 @@
 $controlsHeight: 30px;
 
 .GameSelector {
-  max-width: 1200px;
-  margin: 0 auto;
+  @include contentWidth;
   background-color: $content-underlayer-color;
   display: flex;
   flex-direction: column;
+
+  @include respond-to(tablet) {
+    margin: 10px 0;
+    grid-template-areas:
+      'search  sort'
+      'pagination pagination';
+    grid-template-columns: 50% 50%;
+  }
 }
 
 .Header {
-  padding-top: 30px;
   background-color: rgba(0, 0, 0, 0.3);
   box-shadow: 10px 0 10px black;
-  display: flex;
-  flex-direction: column;
 }
 
 .ControlsContainer {
-  @include flexCenter;
-  justify-content: space-around;
-  // align-self: center;
-  margin: 10px 0;
+  margin: 20px;
+  display: grid;
+  grid-template-areas: 'search pagination sort';
+  grid-template-columns: 30% 40% 30%;
+  align-items: center;
+  justify-items: center;
 
-  // width: 80%;
-}
-.InputWrapper {
-  height: $controlsHeight;
-  width: 300px;
-  // background-color: chocolate;
-}
-
-.SortByContainer {
-  @include flexCenter;
-  // background-color: chartreuse;
-
-  p {
-    font-size: 1.2rem;
-    margin-right: 10px;
+  @include respond-to(tablet) {
+    margin: 10px 1%;
+    grid-template-areas:
+      'search  sort'
+      'pagination pagination';
+    grid-template-columns: 50% 50%;
   }
-  .SelectBoxWrapper {
+  @include respond-to(mobile) {
+    margin: 1;
+  }
+
+  .InputWrapper {
+    grid-area: search;
     height: $controlsHeight;
-    width: 200px;
+    width: 80%;
+    @include respond-to(mobile) {
+      width: 100%;
+    }
   }
-}
 
-.Pagination {
-  // align-self: center;
-  // background-color: burlywood;
-  // height: 40px;
-  width: 40%;
-  @include flexCenter;
+  .SelectBoxWrapper {
+    grid-area: sort;
+    height: $controlsHeight;
+    width: 70%;
+    @include respond-to(mobile) {
+      width: 100%;
+    }
+  }
+
+  .Pagination {
+    grid-area: pagination;
+    width: 100%;
+    @include flexCenter;
+    @include respond-to(tablet) {
+      margin-top: 2%;
+    }
+  }
 }
 
 .GamePicker {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 33%);
+
+  @include respond-to(mobile) {
+    grid-template-columns: repeat(2, 50%);
+  }
 
   .GameCardWrapper {
-    margin: 1%;
-    height: 300px;
-    width: 300px;
+    position: relative;
+    margin: 4% 8%;
+    @include respond-to(tablet) {
+      margin: 3%;
+    }
+    @include respond-to(tablet) {
+      margin: 2%;
+    }
+    &:before {
+      display: block;
+      content: '';
+      width: 100%;
+      padding-top: 100%;
+    }
+    & > div {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      font-size: 0.8rem;
+    }
   }
 }

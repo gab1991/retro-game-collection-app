@@ -1,0 +1,34 @@
+@import '../../configs/Variables.scss';
+
+.PlatformCard {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 2px solid $basic-border-gray;
+  border-radius: 10px;
+  padding: 1%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(3, 33%);
+  align-items: center;
+  justify-items: center;
+  overflow: hidden;
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 0 10px $blue-shine-color, 0 0 30px $blue-shine-color,
+      0 0 60px $blue-shine-color;
+    background: url('../../assets/images/blue_noise.png');
+    background-position: center;
+  }
+  .Logo {
+    @include w100v100;
+    grid-row: 1/2;
+  }
+  .GamePad {
+    @include w100v100;
+    grid-row: 2/4;
+  }
+  img {
+    @include w100v100;
+    object-fit: contain;
+  }
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Layout.module.css';
+import styles from './Layout.module.scss';
 import Navigation from '../Navigation/Navigation';
 
 export default function Layout(props) {
@@ -8,13 +8,17 @@ export default function Layout(props) {
       <Navigation />
       {props.children}
       <footer className={styles.Footer}>
-        <a href="https://rawg.io/" target="_blank">
-          RAWG
-        </a>{' '}
-        is the source of the data and screenshots / boxarts are provided by{' '}
-        <a href="https://emumovies.com/" target="_blank">
-          emumovies.com
-        </a>
+        <p>
+          <a href="https://rawg.io/" target="_blank">
+            RAWG
+          </a>
+          {
+            '  is the source of the data and screenshots / boxarts are provided by '
+          }
+          <a href="https://emumovies.com/" target="_blank">
+            emumovies.com
+          </a>
+        </p>
       </footer>
     </div>
   );

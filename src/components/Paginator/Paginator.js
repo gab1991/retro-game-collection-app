@@ -39,7 +39,7 @@ export default function Paginator({
 }) {
   const pageCount = Math.ceil(totalCount / itemsPerPage);
   const buttons = [];
-  let delta = 2;
+  let delta = 1;
 
   const buttonClick = (e) => {
     const lastPage = pageCount;

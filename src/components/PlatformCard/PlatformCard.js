@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './PlatformCard.module.css';
+import styles from './PlatformCard.module.scss';
 import { images } from '../../configs/appConfig';
 
 export default function PlatformCard(props) {
@@ -12,10 +12,10 @@ export default function PlatformCard(props) {
       onClick={(e) => {
         props.selectPlatform(props.name);
       }}>
-      <div>
+      <div className={styles.Logo}>
         <img src={logoImage} alt={props.name} />
       </div>
-      <div>
+      <div className={styles.GamePad}>
         <img src={gamepadImage} alt={props.name} />
       </div>
     </div>
