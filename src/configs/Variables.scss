@@ -6,6 +6,10 @@ $button-neon-color: (
   'gray': #434343,
   'red': #963e53,
 );
+$font-main: 'Kanit', sans-serif;
+$font-neon-lamp: 'Warnes', cursive;
+
+$nav-color: #532e57;
 $basic-border-gray: rgba(82, 82, 82, 0.9);
 $font-white: whitesmoke;
 $blue-shine-color: #2196f3;
@@ -31,6 +35,9 @@ $basic-content-width: 1200px;
 @function getBtnColor($color) {
   @return map-get($button-neon-color, $color);
 }
+@function getBtnColor($color) {
+  @return map-get($button-neon-color, $color);
+}
 
 @mixin flexCenter {
   display: flex;
@@ -48,4 +55,7 @@ $basic-content-width: 1200px;
   @media (max-width: $basic-content-width) {
     width: 100%;
   }
+}
+@mixin minHeight {
+  min-height: calc(100vh - #{$footer-height} - #{$nav-height});
 }

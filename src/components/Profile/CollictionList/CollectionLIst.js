@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import styles from './CollectionList.module.css';
+import styles from './CollectionList.module.scss';
 import GameBoxContainer from './../GameBoxContainer/GameBoxContainer';
 import { images } from '../../../configs/appConfig';
 import Backend from '../../../Backend/Backend';

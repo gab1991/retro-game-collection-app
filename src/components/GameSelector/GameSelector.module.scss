@@ -4,6 +4,7 @@ $controlsHeight: 30px;
 
 .GameSelector {
   @include contentWidth;
+  @include minHeight;
   background-color: $content-underlayer-color;
   display: flex;
   flex-direction: column;

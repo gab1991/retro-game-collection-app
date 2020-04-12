@@ -2,7 +2,7 @@
 
 .PlatformSelector {
   @include contentWidth;
-  min-height: calc(100vh - #{$footer-height} - #{$nav-height});
+  @include minHeight;
   background-color: $content-underlayer-color;
   display: flex;
   flex-direction: column;

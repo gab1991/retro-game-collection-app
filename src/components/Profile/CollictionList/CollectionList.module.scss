@@ -1,0 +1,63 @@
+@import '../../../configs/Variables.scss';
+
+.CollectionLIst {
+  display: flex;
+  justify-content: center;
+  align-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.SectionName {
+  margin: 5% 0;
+  width: 100%;
+  font-size: 2rem;
+  text-align: center;
+
+  @include respond-to(tablet) {
+    text-align: center;
+    font-size: 1.5rem;
+  }
+  h1 {
+    font-family: $font-neon-lamp;
+    color: rgba(255, 255, 255, 0.5);
+    text-shadow: #fdfef8 0px 0px 4px, #fce660 0px 0px 10px, #fad60f 0px 0px 20px,
+      #fe7b02 0px 0px 30px, #f77105 0px 0px 50px;
+  }
+}
+
+.ShelvesContainer {
+  width: 95%;
+  min-height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.Shelf {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .PlatformLogo {
+    cursor: pointer;
+    height: 80px;
+    width: 30%;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+}
+
+.EmptyList {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}

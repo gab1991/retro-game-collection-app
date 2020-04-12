@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './Profile.module.css';
+import styles from './Profile.module.scss';
 import AuthModal from '../AuthModal/AuthModal';
 import CollectionList from '../Profile/CollictionList/CollectionLIst';
 import WishList from '../Profile/WishList/WishList';
@@ -40,7 +40,8 @@ function Profile(props) {
             Wish List
           </li>
           <li onClick={loggingOut}>
-            <span></span>Log Out
+            <span></span>
+            Log Out
           </li>
         </ul>
       </div>

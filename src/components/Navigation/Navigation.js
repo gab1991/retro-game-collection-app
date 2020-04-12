@@ -63,14 +63,14 @@ function Navigation(props) {
                 { option: 'Select Platform', onclick: toPlatformSelector },
               ]}
             />
-            <li onClick={toggleProfileSlider} className={styles.ProfileMobile}>
-              PROFILE
-            </li>
-            <MenuSideSlider
-              slideRight
-              show={showProfileSlider}
-              list={[{ option: 'My Colletion', onclick: toProfileMobile }]}
-            />
+            <div className={styles.ProfileMobile}>
+              <li onClick={toggleProfileSlider}>PROFILE</li>
+              <MenuSideSlider
+                slideRight
+                show={showProfileSlider}
+                list={[{ option: 'My Colletion', onclick: toProfileMobile }]}
+              />
+            </div>
             <li onClick={toProfile} className={styles.ProfileDesctop}>
               PROFILE
             </li>

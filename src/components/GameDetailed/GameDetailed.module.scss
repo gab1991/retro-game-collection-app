@@ -10,7 +10,9 @@
 }
 
 .GameDetailed {
-  @include contentWidth background-color: $content-underlayer-color;
+  @include contentWidth;
+  @include minHeight;
+  background-color: $content-underlayer-color;
   padding: 20px 0;
   display: grid;
   grid-template-areas:
