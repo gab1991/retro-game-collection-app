@@ -16,7 +16,7 @@ import ArrowEsc from '../UI/LogoSvg/ArrowEscSvg/ArrowEsc';
 import { Swiper, Slide } from 'react-dynamic-swiper';
 import 'react-dynamic-swiper/lib/styles.css';
 
-const mobileBreakPointWidth = 640;
+const mobileBreakPointWidth = 600;
 
 function GameDetailed(props) {
   const slug = props.match.params.gameSlug;
@@ -28,9 +28,9 @@ function GameDetailed(props) {
   const [sountrackVideo, setSountrackVideo] = useState();
   const [gameplayVideo, setGameplayVideo] = useState();
   const [elmsVisibility, setElmsVisibility] = useState({
-    sountrackVideo: false,
-    gameplayVideo: false,
-    ebaySection: false,
+    sountrackVideo: true,
+    gameplayVideo: true,
+    ebaySection: true,
   });
   const [isOwned, setisOwned] = useState(false);
   const [isWished, setisWished] = useState(false);
