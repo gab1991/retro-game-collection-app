@@ -3,7 +3,6 @@ import styles from './Profile.module.scss';
 import AuthModal from '../AuthModal/AuthModal';
 import CollectionList from '../Profile/CollictionList/CollectionLIst';
 import WishList from '../Profile/WishList/WishList';
-import { logOut } from '../../actions/actions';
 import { connect, useDispatch } from 'react-redux';
 
 function Profile(props) {
@@ -19,31 +18,31 @@ function Profile(props) {
     setActiveSection(name);
   };
 
-  const loggingOut = () => {
-    dispatch(logOut());
-  };
-
   return (
     <div className={styles.Profile}>
+      <div className={styles.NavTabs}>
+        <ul>
+          <li
+            desc={'CollecitionList'}
+            onClick={sectionToggler}
+            className={
+              activeSection === 'CollecitionList' ? styles.active : undefined
+            }>
+            My Colletcion
+          </li>
+          <li
+            desc={'WishList'}
+            onClick={sectionToggler}
+            className={
+              activeSection === 'WishList' ? styles.active : undefined
+            }>
+            Wish List
+          </li>
+        </ul>
+      </div>
       <div className={styles.Content}>
         {activeSection === 'CollecitionList' && <CollectionList />}
         {activeSection === 'WishList' && <WishList />}
-      </div>
-      <div className={styles.SideBar}>
-        <ul>
-          <li desc={'CollecitionList'} onClick={sectionToggler}>
-            <span></span>
-            My Colletcion
-          </li>
-          <li desc={'WishList'} onClick={sectionToggler}>
-            <span></span>
-            Wish List
-          </li>
-          <li onClick={loggingOut}>
-            <span></span>
-            Log Out
-          </li>
-        </ul>
       </div>
       {!userData && <AuthModal />}
     </div>

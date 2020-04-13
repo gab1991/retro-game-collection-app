@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { logOut } from '../../actions/actions';
+
 import styles from './Navigation.module.scss';
 import { withRouter } from 'react-router-dom';
 import Backdrop from '../UI/Backdrop/Backdrop';
@@ -8,6 +11,7 @@ function Navigation(props) {
   const [showMenuSlider, setShowMenuSlider] = useState(false);
   const [showProfileSlider, setProfileSlider] = useState(false);
   const [showBackdrop, setShowBackdrop] = useState(false);
+  const dispatch = useDispatch();
 
   const toggleMenuSlider = () => {
     if (showProfileSlider) {
@@ -49,6 +53,10 @@ function Navigation(props) {
     toggleProfileSlider();
   };
 
+  const loggingOut = () => {
+    dispatch(logOut());
+  };
+
   return (
     <>
       <Backdrop onClick={hideMenu} show={showBackdrop} />
@@ -61,6 +69,7 @@ function Navigation(props) {
               show={showMenuSlider}
               list={[
                 { option: 'Select Platform', onclick: toPlatformSelector },
+                { option: 'Log Out', onclick: loggingOut },
               ]}
             />
             <div className={styles.ProfileMobile}>

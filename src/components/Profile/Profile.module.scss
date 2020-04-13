@@ -1,39 +1,55 @@
 @import '../../configs/Variables.scss';
+$box-shadow: 0px 1px 0px #fdfef8, 0px 2px 0px #fce660, 0px 4px 10px #f77105;
 
 .Profile {
   @include contentWidth;
   @include minHeight;
-  @include flexCenter;
+  display: flex;
+  flex-direction: column;
   background-color: $content-underlayer-color;
 }
 
 .Content {
   flex: 1;
 }
-.SideBar {
-  align-self: stretch;
-  min-width: 200px;
-  max-width: 300px;
-  background-color: $nav-color;
-  animation: slideIn 300ms ease-in;
-
+.NavTabs {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0.3);
+  margin-left: 1%;
 
   ul {
+    display: flex;
+    width: 100%;
+
+    margin-top: 1%;
+    border-bottom: 1px solid $basic-border-gray;
+
     font-size: 1.3rem;
     list-style: none;
     text-align: center;
   }
   li {
-    position: relative;
-    overflow: hidden;
-    line-height: 3rem;
-    border-top: none;
     cursor: pointer;
+    width: max-content;
+    background-color: $content-underlayer-color;
+    margin-right: 1%;
+    padding: 10px;
+    border: 1px solid $basic-border-gray;
+    border-bottom: none;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    transform-origin: bottom;
+    transform: scale(0.9);
+    transition: all 300ms ease-in-out;
+
+    &.active {
+      transform: scale(1);
+      box-shadow: $box-shadow;
+    }
 
     &:hover {
+      transform: scale(1);
+      box-shadow: $box-shadow;
       font-size: 1.3rem;
       transition: 300ms;
       span {
@@ -41,25 +57,5 @@
         transition: 1s;
       }
     }
-  }
-  span {
-    position: absolute;
-    bottom: 0;
-    left: -100%;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, white);
-  }
-  @include respond-to(mobile) {
-    display: none;
-  }
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0%);
   }
 }
