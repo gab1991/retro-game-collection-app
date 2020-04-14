@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import Backend from '../../../../Backend/Backend';
-import styles from './GameBox.module.css';
+import styles from './GameBox.module.scss';
 
 function GameBox(props) {
-  const { game, platform, transition } = props;
+  const { game, platform, transition, desc = true, scaling = true } = props;
   const [boxArtUrl, setBoxArtUrl] = useState();
   const [descrVisibility, setDescrVisibility] = useState(false);
 
@@ -30,7 +30,9 @@ function GameBox(props) {
   return (
     <div
       className={`${styles.GameBox}
-      ${transition ? styles.Transition : null}`}
+      ${transition ? styles.Transition : null}
+      ${scaling ? styles.Scaling : null}
+      `}
       onClick={() => openGameDetailsHandler(game.slug)}
       onMouseEnter={() => toggleDescrVisivility()}
       onMouseLeave={() => toggleDescrVisivility()}>
@@ -40,11 +42,13 @@ function GameBox(props) {
         className={styles.BoxArtImg}
         draggable="false"
       />
-      <div
-        className={`${styles.Desctiprion} 
-        ${descrVisibility ? styles.DesctiprionVisible : null}`}>
-        {game.name}
-      </div>
+      {desc && (
+        <div
+          className={`${styles.Desctiprion} 
+            ${descrVisibility ? styles.DesctiprionVisible : null}`}>
+          {game.name}
+        </div>
+      )}
     </div>
   );
 }

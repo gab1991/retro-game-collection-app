@@ -4,6 +4,7 @@ import AuthModal from '../AuthModal/AuthModal';
 import CollectionList from '../Profile/CollictionList/CollectionLIst';
 import WishList from '../Profile/WishList/WishList';
 import { connect, useDispatch } from 'react-redux';
+import queryString from 'query-string';
 
 function Profile(props) {
   const { userData } = props;
@@ -16,6 +17,7 @@ function Profile(props) {
   const sectionToggler = (e) => {
     const name = e.target.getAttribute('desc');
     setActiveSection(name);
+    props.history.push(`/profile/${name}`);
   };
 
   return (

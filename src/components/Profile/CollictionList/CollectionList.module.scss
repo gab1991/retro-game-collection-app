@@ -52,6 +52,9 @@
       object-fit: contain;
     }
   }
+  & > div {
+    min-width: 100%;
+  }
 }
 
 .EmptyList {

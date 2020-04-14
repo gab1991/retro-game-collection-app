@@ -12,7 +12,7 @@ function openInNewTab(url) {
 }
 
 export default function EbayItemCard(props) {
-  const { itemId } = props;
+  const { itemId, game, platform } = props;
   const [itemData, setItemData] = useState();
   const [isAuction, setIsAuction] = useState(false);
   const [isEndingSoon, setIsEndingSoon] = useState(false);
@@ -71,6 +71,8 @@ export default function EbayItemCard(props) {
           </div>
           <EbayCardDesc
             {...itemData}
+            game={game}
+            platform={platform}
             itemId={itemId}
             isAuction={isAuction}
             isEndingSoon={isEndingSoon}

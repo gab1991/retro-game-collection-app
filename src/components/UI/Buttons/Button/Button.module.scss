@@ -12,6 +12,9 @@
   cursor: pointer;
   color: whitesmoke;
   border-radius: 4px;
+  &.Pressed {
+    background: rgb(58, 58, 58);
+  }
 }
 
 .LetterSpacing:hover {
@@ -24,8 +27,4 @@
 
 .Button:hover {
   background: rgba(0, 84, 160, 1);
-}
-
-.Pressed {
-  background-color: rgb(58, 58, 58);
 }

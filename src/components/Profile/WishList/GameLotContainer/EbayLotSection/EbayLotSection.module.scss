@@ -1,7 +1,23 @@
+@import '../../../../../configs/Variables.scss';
+
+.EbyaLotSection {
+  @include w100v100;
+  display: flex;
+  background-color: mediumpurple;
+}
+
+.ButtonSection {
+  width: 150px;
+  height: 50%;
+  margin: auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  background-color: mediumseagreen;
+}
 .EbaySection {
-  width: 100%;
-  height: 320px;
-  padding: 10px 0;
+  flex: 1;
 
   :global .swiper-container {
     width: 100%;
@@ -24,9 +40,7 @@
 
     .swiper-slide {
       width: 390px;
-      height: 280px;
-
-      background-color: rgb(83, 83, 70);
+      height: 100%;
     }
   }
 }

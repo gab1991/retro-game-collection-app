@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './PlatformSelector.module.scss';
 import PlatformCard from '../PlatformCard/PlatformCard';
+import ErrorModal from '../UI/Modals/ErrorModal/ErrorModal.js';
 
 export default function PlatformSelector(props) {
   const availablePlatforms = ['Genesis', 'PlayStation', 'NES'];

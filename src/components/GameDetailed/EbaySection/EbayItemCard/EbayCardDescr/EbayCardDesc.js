@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import styles from './EbayCardDesc.module.css';
+import styles from './EbayCardDesc.module.scss';
 import Button from '../../../../UI/Buttons/Button/Button';
 import DotSpinner from '../../../../UI/LoadingSpinners/DotSpinner/DotSpinner';
-import Backend from '../../../../../Backend/Backend';
+import { connect, useDispatch } from 'react-redux';
 
-export default function EbayCardDesc(props) {
+import { withRouter } from 'react-router-dom';
+import Backend from '../../../../../Backend/Backend';
+import ErrorModal from '../../../../UI/Modals/ErrorModal/ErrorModal';
+
+function EbayCardDesc(props) {
   const {
+    userData,
     itemId,
     title,
     convertedCurrentPrice,
+    game,
+    platform,
     currentPrice,
     currency,
     shipping,
@@ -27,6 +34,21 @@ export default function EbayCardDesc(props) {
   const [total, setTotal] = useState();
   const [finalDeliveryPrice, setDelivertPrice] = useState(deliveryPrice);
   const [notCalculated, setNotCalculated] = useState();
+  const [isWatched, setIsWatched] = useState();
+
+  useEffect(() => {
+    console.log(game.name, platform, itemId[0]);
+
+    Backend.isWatchedEbayCard(userData.username, userData.token, {
+      gameName: game,
+      platform: platform,
+      ebayItemId: itemId[0],
+    }).then((res) => {
+      console.log(res);
+      if (res.success) setIsWatched(true);
+      else console.log(res.err_message);
+    });
+  }, [itemId]);
 
   useEffect(() => {
     if (currentPrice) {
@@ -36,22 +58,6 @@ export default function EbayCardDesc(props) {
       setTotal(updTotal);
     }
   }, [finalDeliveryPrice, currentPrice]);
-
-  const getShippingCosts = () => {
-    setLoadShipCosts(true);
-    Backend.getShippingCosts(itemId).then((res) => {
-      if (res.ShippingCostSummary) {
-        const shippingCost = Number(
-          res.ShippingCostSummary.ShippingServiceCost.Value
-        ).toFixed(2);
-        setDelivertPrice(shippingCost);
-      } else {
-        setDelivertPrice('');
-        setNotCalculated('Contact seller');
-      }
-      setLoadShipCosts(false);
-    });
-  };
 
   useEffect(() => {
     if (endTimeProp) {
@@ -83,12 +89,55 @@ export default function EbayCardDesc(props) {
     if (listingType !== 'FixedPriceItem') auctionSetter(true);
   }, [listingType]);
 
+  const getShippingCosts = () => {
+    setLoadShipCosts(true);
+    Backend.getShippingCosts(itemId).then((res) => {
+      if (res.ShippingCostSummary) {
+        const shippingCost = Number(
+          res.ShippingCostSummary.ShippingServiceCost.Value
+        ).toFixed(2);
+        setDelivertPrice(shippingCost);
+      } else {
+        setDelivertPrice('');
+        setNotCalculated('Contact seller');
+      }
+      setLoadShipCosts(false);
+    });
+  };
+
+  const watchHandler = () => {
+    if (!isWatched) {
+      setIsWatched(true);
+      Backend.watchEbayCard(userData.username, userData.token, {
+        gameName: game,
+        platform: platform,
+        ebayItemId: itemId[0],
+      }).then((res) => {
+        if (res.err_message) console.log(res.err_message);
+      });
+    } else {
+      setIsWatched(false);
+      Backend.notWatchEbayCard(userData.username, userData.token, {
+        gameName: game,
+        platform: platform,
+        ebayItemId: itemId[0],
+      }).then((res) => {
+        if (res.err_message) console.log(res.err_message);
+      });
+    }
+  };
+
   return (
     <div className={styles.Description}>
       <h4>{title}</h4>
       <Button
         txtContent={isAuction ? 'Place bid' : 'Buy It Now'}
         onClick={sendToEbay}
+      />
+      <Button
+        txtContent={isWatched ? 'Stop watch' : 'Watch'}
+        pressed={isWatched ? true : false}
+        onClick={watchHandler}
       />
       <div className={styles.AcutionSection}>
         {isAuction && <p>Bids placed : {bidCount}</p>}
@@ -129,3 +178,12 @@ export default function EbayCardDesc(props) {
     </div>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    userData: state.logged,
+    profileInfo: state.profile,
+  };
+}
+
+export default connect(mapStateToProps)(EbayCardDesc);

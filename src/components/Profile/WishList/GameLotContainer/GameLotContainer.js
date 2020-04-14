@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import useWindowSize from '../../../CustomHooks/CustomHooks';
-import GameBox from './GameBox/GameBox';
+import useWindowSize from '../../../../CustomHooks/CustomHooks';
+import GameBox from '../../GameBoxContainer/GameBox/GameBox';
 import { connect } from 'react-redux';
-import styles from './GameBoxContainer.module.scss';
+import styles from './GameLotContainer.module.scss';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
-import Backend from '../../../Backend/Backend';
+import Backend from '../../../../Backend/Backend';
+import EbyaLotSection from './EbayLotSection/EbyaLotSection';
 
 const SortableList = SortableContainer(({ games, platform }) => {
   return (
-    <div className={styles.GameBoxContainer}>
+    <div className={styles.GameLotContainer}>
       {games.map((game, index) => (
         <SortableItem
           key={`${game.name}_${platform}`}
@@ -23,10 +24,13 @@ const SortableList = SortableContainer(({ games, platform }) => {
 });
 
 const SortableItem = SortableElement(({ game, platform }) => (
-  <GameBox game={game} platform={platform} />
+  <div className={styles.GameLots}>
+    <GameBox game={game} platform={platform} desc={false} scaling={false} />
+    <EbyaLotSection game={game} platform={platform} />
+  </div>
 ));
 
-function GameBoxContainer(props) {
+function GameLotContainer(props) {
   const { width } = useWindowSize();
   const { games, platform } = props;
   const [gamesSort, setGamesSort] = useState([]);
@@ -42,7 +46,7 @@ function GameBoxContainer(props) {
     Backend.updateProfile(props.userData.username, props.userData.token, {
       sortedGames: newSortedgames,
       platform: platform,
-      list: 'owned_list',
+      list: 'wish_list',
       action: 'reorder',
     });
   };
@@ -53,7 +57,7 @@ function GameBoxContainer(props) {
       games={gamesSort}
       platform={platform}
       distance={5}
-      axis={width > 800 ? 'xy' : 'y'}
+      axis={'y'}
     />
   );
 }
@@ -65,4 +69,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(GameBoxContainer);
+export default connect(mapStateToProps)(GameLotContainer);

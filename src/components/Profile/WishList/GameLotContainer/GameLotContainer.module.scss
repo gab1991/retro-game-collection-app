@@ -1,0 +1,23 @@
+@import '../../../../configs/Variables.scss';
+
+.GameLotContainer {
+  //   background: rgba(0, 0, 0, 0.5);
+  margin: 2% 0;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  //   border: 2px solid $basic-border-gray;
+}
+
+.GameLots {
+  width: 100%;
+  height: 300px;
+  margin-bottom: 2%;
+  display: flex;
+  border-bottom: 1px solid $basic-border-gray;
+
+  & > div:first-of-type {
+    width: 250px;
+  }
+}

@@ -40,7 +40,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  & > div {
+    min-width: 100%;
+  }
   .PlatformLogo {
     cursor: pointer;
     height: 80px;

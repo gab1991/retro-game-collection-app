@@ -7,6 +7,7 @@ import Backend from '../../../Backend/Backend';
 import { connect, useDispatch } from 'react-redux';
 import { profile } from '../../../actions/actions';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
+import GameLotContainer from './GameLotContainer/GameLotContainer';
 
 function WishList(props) {
   const { userData, profileInfo } = props;
@@ -51,7 +52,7 @@ function WishList(props) {
                 onClick={() => toGameSelector(platform.name)}>
                 <img src={images[platform.name].logo.src} alt={platform.name} />
               </div>
-              <GameBoxContainer
+              <GameLotContainer
                 platform={platform.name}
                 games={platform.games}
               />

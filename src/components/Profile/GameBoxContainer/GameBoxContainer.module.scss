@@ -1,0 +1,13 @@
+@import '../../../configs/Variables.scss';
+
+.GameBoxContainer {
+  background: rgba(0, 0, 0, 0.5);
+  margin: 2% 0;
+  display: flex;
+  flex-wrap: wrap;
+  border: 2px solid $basic-border-gray;
+
+  & > div {
+    width: 150px;
+  }
+}

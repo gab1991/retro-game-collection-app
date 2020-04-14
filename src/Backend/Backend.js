@@ -188,6 +188,54 @@ const Backend = {
         .catch((err) => reject(err));
     });
   },
+
+  watchEbayCard: (username, token, obj) => {
+    let url = `${api.appServer.profileUrl}/addEbayCard/${username}/${token}`;
+    return new Promise((resolve, reject) => {
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(obj),
+      })
+        .then((res) => res.json())
+        .then((data) => resolve(data))
+        .catch((err) => reject(err));
+    });
+  },
+
+  isWatchedEbayCard: (username, token, obj) => {
+    let url = `${api.appServer.profileUrl}/isWatchedEbayCard/${username}/${token}`;
+    return new Promise((resolve, reject) => {
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(obj),
+      })
+        .then((res) => res.json())
+        .then((data) => resolve(data))
+        .catch((err) => reject(err));
+    });
+  },
+
+  notWatchEbayCard: (username, token, obj) => {
+    let url = `${api.appServer.profileUrl}/removeEbayCard/${username}/${token}`;
+    return new Promise((resolve, reject) => {
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(obj),
+      })
+        .then((res) => res.json())
+        .then((data) => resolve(data))
+        .catch((err) => reject(err));
+    });
+  },
 };
 
 export default Backend;
