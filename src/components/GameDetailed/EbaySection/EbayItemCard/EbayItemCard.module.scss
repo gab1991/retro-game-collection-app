@@ -36,10 +36,12 @@ $card-font-color: gray;
 }
 
 .CardSpinner {
+  position: relative;
   margin: auto;
   width: 30%;
-}
+  height: 30%;
 
-.CardSpinner svg {
-  stroke: $card-font-color;
+  svg {
+    stroke: $card-font-color;
+  }
 }

@@ -26,7 +26,7 @@ const SortableList = SortableContainer(({ games, platform }) => {
 const SortableItem = SortableElement(({ game, platform }) => (
   <div className={styles.GameLots}>
     <GameBox game={game} platform={platform} desc={false} scaling={false} />
-    <EbyaLotSection game={game} platform={platform} />
+    <EbyaLotSection gameData={game} platform={platform} />
   </div>
 ));
 

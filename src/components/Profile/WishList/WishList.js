@@ -8,6 +8,7 @@ import { connect, useDispatch } from 'react-redux';
 import { profile } from '../../../actions/actions';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import GameLotContainer from './GameLotContainer/GameLotContainer';
+import EbaySection from '../../GameDetailed/EbaySection/EbaySection';
 
 function WishList(props) {
   const { userData, profileInfo } = props;
@@ -66,6 +67,13 @@ function WishList(props) {
           />
         </div>
       </div>
+      {/* <div className={styles.EbaySection}>
+        <div className={styles.EbayLabel}>
+          <h2>Ebay Offers</h2>
+          <hr></hr>
+        </div>
+        <EbaySection platform={'Genesis'} game={'Mortal'} />
+      </div> */}
     </div>
   );
 }

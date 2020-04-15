@@ -33,6 +33,7 @@ export default function EbaySection(props) {
         game={game}
         itemsToShow={ebayItems}
         swiperProps={swiperProps}
+        numToShow={4}
       />
     </div>
   );

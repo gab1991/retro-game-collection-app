@@ -1,6 +1,8 @@
 @import '../../../configs/Variables.scss';
 
 .WishLIst {
+  @include contentWidth;
+  @include minHeight;
   display: flex;
   justify-content: center;
   align-content: flex-start;
@@ -26,7 +28,7 @@
 }
 
 .ShelvesContainer {
-  width: 95%;
+  width: 100%;
   min-height: 100%;
 
   display: flex;
@@ -40,9 +42,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  & > div {
-    min-width: 100%;
+
+  & > div:last-of-type {
+    width: 100%;
   }
+
   .PlatformLogo {
     cursor: pointer;
     height: 80px;

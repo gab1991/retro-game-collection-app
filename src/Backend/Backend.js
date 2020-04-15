@@ -151,10 +151,10 @@ const Backend = {
     });
   },
 
-  getEbayItems: (platform, gameName) => {
+  getEbayItems: (platform, gameName, sortOrder) => {
     let url = `${api.appServer.ebayItemsUrl}/${platform}/${encodeURIComponent(
       gameName
-    )}`;
+    )}/${sortOrder}`;
     return new Promise((resolve, reject) => {
       fetch(url)
         .then((res) => res.json())

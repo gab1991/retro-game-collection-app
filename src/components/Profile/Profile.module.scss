@@ -4,9 +4,9 @@ $box-shadow: 0px 1px 0px #fdfef8, 0px 2px 0px #fce660, 0px 4px 10px #f77105;
 .Profile {
   @include contentWidth;
   @include minHeight;
+  background-color: $content-underlayer-color;
   display: flex;
   flex-direction: column;
-  background-color: $content-underlayer-color;
 }
 
 .Content {
@@ -15,9 +15,9 @@ $box-shadow: 0px 1px 0px #fdfef8, 0px 2px 0px #fce660, 0px 4px 10px #f77105;
 .NavTabs {
   display: flex;
   background-color: rgba(0, 0, 0, 0.3);
-  margin-left: 1%;
 
   ul {
+    padding-left: 1%;
     display: flex;
     width: 100%;
 

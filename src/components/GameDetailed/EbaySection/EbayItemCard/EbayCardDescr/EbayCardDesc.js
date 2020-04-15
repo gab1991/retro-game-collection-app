@@ -37,12 +37,10 @@ function EbayCardDesc(props) {
   const [isWatched, setIsWatched] = useState();
 
   useEffect(() => {
-    console.log(game.name, platform, itemId[0]);
-
     Backend.isWatchedEbayCard(userData.username, userData.token, {
       gameName: game,
       platform: platform,
-      ebayItemId: itemId[0],
+      ebayItemId: itemId,
     }).then((res) => {
       console.log(res);
       if (res.success) setIsWatched(true);

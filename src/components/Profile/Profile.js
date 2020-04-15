@@ -5,6 +5,7 @@ import CollectionList from '../Profile/CollictionList/CollectionLIst';
 import WishList from '../Profile/WishList/WishList';
 import { connect, useDispatch } from 'react-redux';
 import queryString from 'query-string';
+import EbaySection from '../GameDetailed/EbaySection/EbaySection';
 
 function Profile(props) {
   const { userData } = props;
