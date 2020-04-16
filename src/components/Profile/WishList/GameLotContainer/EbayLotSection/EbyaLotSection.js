@@ -32,24 +32,23 @@ function EbyaLotSection(props) {
   };
 
   useEffect(() => {
-    console.log(props);
-  }, [showedItems]);
-
-  useEffect(() => {
+    let isSubscribed = true;
     const req = (sortBy) => {
-      setLoading(true);
+      if (isSubscribed) setLoading(true);
       Backend.getEbayItems(platform, gameData.name, sortBy)
         .then((res) => {
-          setLoading(false);
-          setShowedItems(res[0].item);
+          if (isSubscribed) {
+            setLoading(false);
+            setShowedItems(res[0].item);
+          }
         })
         .catch((err) => {
-          console.log(err);
-          setLoading(false);
+          if (isSubscribed) setLoading(false);
         });
     };
     const getWatchList = () => {
-      setLoading(true);
+      if (isSubscribed) setLoading(true);
+
       Backend.getGameWatchedCards(
         userData.username,
         userData.token,
@@ -60,10 +59,12 @@ function EbyaLotSection(props) {
           const watchedEbayOffers = res.success.map((ebayCard) => ({
             itemId: [ebayCard.id],
           }));
-          setShowedItems(watchedEbayOffers);
-          setLoading(false);
+          if (isSubscribed) {
+            setShowedItems(watchedEbayOffers);
+            setLoading(false);
+          }
         } else setShowedItems([]);
-        setLoading(false);
+        if (isSubscribed) setLoading(false);
       });
     };
     switch (activeEbaylist) {
@@ -82,6 +83,9 @@ function EbyaLotSection(props) {
     }
     if (activeEbaylist === 'New Offers') {
     }
+    return () => {
+      isSubscribed = false;
+    };
   }, [activeEbaylist]);
 
   const toggleEbayList = (e) => {
@@ -91,12 +95,6 @@ function EbyaLotSection(props) {
 
   const stopWatchHandler = (itemId) => {
     console.log(itemId);
-    // if (userData) {
-    //   Backend.getProfileInfo(userData.username, userData.token).then((res) => {
-    //     dispatch(profile(res));
-    //     console.log(res.wish_list.platforms.);
-    //   });
-    // }
   };
 
   return (

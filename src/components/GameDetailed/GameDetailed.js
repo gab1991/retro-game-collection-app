@@ -3,7 +3,7 @@ import { connect, useDispatch } from 'react-redux';
 import styles from './GameDetailed.module.scss';
 import Backend from '../../Backend/Backend';
 import { textMessages } from '../../configs/appConfig';
-import useWindowSize from '../../CustomHooks/CustomHooks';
+import useWindowSize from '../../CustomHooks/useWindowSize';
 import ReactHtmlParser from 'react-html-parser';
 import GameInfoBox from './GameInfoBox/GameInfoBox';
 import ButtonNeon from '../UI/Buttons/ButtonNeon/ButtonNeon';

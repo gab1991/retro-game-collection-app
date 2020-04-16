@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import useWindowSize from '../../../CustomHooks/CustomHooks';
+import useWindowSize from '../../../CustomHooks/useWindowSize';
 import GameBox from './GameBox/GameBox';
 import { connect } from 'react-redux';
 import styles from './GameBoxContainer.module.scss';

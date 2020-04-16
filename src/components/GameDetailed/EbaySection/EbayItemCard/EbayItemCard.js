@@ -18,6 +18,7 @@ export default function EbayItemCard(props) {
   const [isEndingSoon, setIsEndingSoon] = useState(false);
 
   useEffect(() => {
+    let isSubscribed = true;
     Backend.getEbaySingleItem(itemId).then((res) => {
       const item = res.Item;
       if (!item) return;
@@ -36,8 +37,11 @@ export default function EbayItemCard(props) {
         bidCount: item.BidCount,
         endTime: item.EndTime,
       };
-      setItemData(itemData);
+      if (isSubscribed) setItemData(itemData);
     });
+    return () => {
+      isSubscribed = false;
+    };
   }, [itemId]);
 
   const sendToEbay = () => {

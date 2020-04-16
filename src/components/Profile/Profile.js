@@ -31,7 +31,7 @@ function Profile(props) {
             className={
               activeSection === 'CollecitionList' ? styles.active : undefined
             }>
-            My Colletcion
+            My Colletction
           </li>
           <li
             desc={'WishList'}
