@@ -236,6 +236,16 @@ const Backend = {
         .catch((err) => reject(err));
     });
   },
+
+  getGameWatchedCards: (username, token, platform, game) => {
+    let url = `${api.appServer.profileUrl}/getGameWatchedCards/${username}/${token}/${platform}/${game}`;
+    return new Promise((resolve, reject) => {
+      fetch(url)
+        .then((res) => res.json())
+        .then((data) => resolve(data))
+        .catch((err) => reject(err));
+    });
+  },
 };
 
 export default Backend;

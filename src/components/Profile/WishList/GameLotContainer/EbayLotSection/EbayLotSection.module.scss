@@ -4,8 +4,13 @@
   @include w100v100;
   // background-color: mediumpurple;
   display: grid;
-  grid-template-areas: 'btns ebay ebay';
-  grid-template-columns: auto 1fr 1fr;
+  grid-template-areas: 'gamebox btns ebay ebay';
+  grid-template-columns: auto auto 1fr 1fr;
+
+  & > div:first-of-type {
+    grid-area: gamebox;
+    width: 200px;
+  }
 }
 
 .ButtonSection {
@@ -19,6 +24,11 @@
   justify-content: space-around;
   border-left: 2px solid $basic-border-gray;
   border-right: 2px solid $basic-border-gray;
+
+  button {
+    width: 110px;
+    font-size: 0.8rem;
+  }
 }
 
 .EbaySection {
@@ -26,6 +36,14 @@
   height: 300px;
   width: 100%;
   position: relative;
+
+  .NoItemToShow {
+    @include w100v100;
+    // background-color: rgba(0, 0, 0, 0.3);
+    @include flexCenter;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+  }
 
   :global .swiper-container {
     width: 100%;

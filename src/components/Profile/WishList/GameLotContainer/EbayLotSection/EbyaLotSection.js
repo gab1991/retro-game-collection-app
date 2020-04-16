@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import { connect, useDispatch } from 'react-redux';
+import { profile } from '../../../../../actions/actions';
+
 import styles from './EbayLotSection.module.scss';
 import EbaySwiper from '../../../../GameDetailed/EbaySection/EbaySwiper/EbaySwiper';
-import Button from '../../../../UI/Buttons/Button/Button';
+import GameBox from '../../../GameBoxContainer/GameBox/GameBox';
+import ButtonNeon from '../../../../UI/Buttons/ButtonNeon/ButtonNeon';
 import Backend from '../../../../../Backend/Backend';
 import OvalSpinner from '../../../../UI/LoadingSpinners/OvalSpinner/OvalSpinner';
 
-export default function EbyaLotSection(props) {
-  const { gameData, platform } = props;
+function EbyaLotSection(props) {
+  const { userData, gameData, platform } = props;
+  const dispatch = useDispatch();
   const watchedEbayOffers = gameData.watchedEbayOffers.map((ebayCard) => ({
     itemId: [ebayCard.id],
   }));
   const [showedItems, setShowedItems] = useState(
-    watchedEbayOffers.length ? watchedEbayOffers : null
+    watchedEbayOffers.length ? watchedEbayOffers : []
   );
   const [activeEbaylist, setActiveEbaylist] = useState(
     watchedEbayOffers.length ? 'Watched' : 'New Offers'
@@ -27,7 +32,7 @@ export default function EbyaLotSection(props) {
   };
 
   useEffect(() => {
-    console.log(showedItems);
+    console.log(props);
   }, [showedItems]);
 
   useEffect(() => {
@@ -43,15 +48,36 @@ export default function EbyaLotSection(props) {
           setLoading(false);
         });
     };
+    const getWatchList = () => {
+      setLoading(true);
+      Backend.getGameWatchedCards(
+        userData.username,
+        userData.token,
+        platform,
+        gameData.name
+      ).then((res) => {
+        if (res.success) {
+          const watchedEbayOffers = res.success.map((ebayCard) => ({
+            itemId: [ebayCard.id],
+          }));
+          setShowedItems(watchedEbayOffers);
+          setLoading(false);
+        } else setShowedItems([]);
+        setLoading(false);
+      });
+    };
     switch (activeEbaylist) {
       case 'New Offers':
-        req('BestMatch');
+        req('StartTimeNewest');
         break;
       case 'Relevance':
-        req(activeEbaylist);
+        req('BestMatch');
+        break;
+      case 'Lowest Price':
+        req('PricePlusShippingLowest');
         break;
       case 'Watched':
-        setShowedItems(watchedEbayOffers);
+        getWatchList();
         break;
     }
     if (activeEbaylist === 'New Offers') {
@@ -63,34 +89,61 @@ export default function EbyaLotSection(props) {
     setActiveEbaylist(desc);
   };
 
+  const stopWatchHandler = (itemId) => {
+    console.log(itemId);
+    // if (userData) {
+    //   Backend.getProfileInfo(userData.username, userData.token).then((res) => {
+    //     dispatch(profile(res));
+    //     console.log(res.wish_list.platforms.);
+    //   });
+    // }
+  };
+
   return (
     <div className={styles.EbyaLotSection}>
+      <GameBox
+        game={gameData}
+        platform={platform}
+        desc={false}
+        scaling={false}
+      />
       <div className={styles.ButtonSection}>
-        <Button
+        <ButtonNeon
           txtContent={'Watched'}
-          pressed={activeEbaylist === 'Watched' ? true : false}
+          color={activeEbaylist === 'Watched' ? 'gray' : false}
           onClick={toggleEbayList}
         />
-        <Button
+        <ButtonNeon
+          txtContent={'Lowest Price'}
+          color={activeEbaylist === 'Lowest Price' ? 'gray' : false}
+          onClick={toggleEbayList}
+        />
+        <ButtonNeon
           txtContent={'New Offers'}
-          pressed={activeEbaylist === 'New Offers' ? true : false}
+          color={activeEbaylist === 'New Offers' ? 'gray' : false}
           onClick={toggleEbayList}
         />
-        <Button
+        <ButtonNeon
           txtContent={'Relevance'}
-          pressed={activeEbaylist === 'Relevance' ? true : false}
+          color={activeEbaylist === 'Relevance' ? 'gray' : false}
           onClick={toggleEbayList}
         />
       </div>
       <div className={styles.EbaySection}>
-        {!loading && (
+        {!loading && showedItems.length > 0 && (
           <EbaySwiper
-            numToShow={5}
+            numToShow={3}
             platform={platform}
             game={gameData.name}
             itemsToShow={showedItems}
             swiperProps={swiperProps}
+            stopWatchCallBack={stopWatchHandler}
           />
+        )}
+        {!loading && showedItems.length === 0 && (
+          <div className={styles.NoItemToShow}>
+            <p>No item to show in this category</p>
+          </div>
         )}
         {loading && (
           <div className={styles.LoadingSvgWrapper}>
@@ -101,3 +154,12 @@ export default function EbyaLotSection(props) {
     </div>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    userData: state.logged,
+    profileInfo: state.profile,
+  };
+}
+
+export default connect(mapStateToProps)(EbyaLotSection);

@@ -4,7 +4,14 @@ import { Swiper, Slide } from 'react-dynamic-swiper';
 import 'react-dynamic-swiper/lib/styles.css';
 
 export default function EbaySwiper(props) {
-  const { platform, game, numToShow = 1, itemsToShow, swiperProps } = props;
+  const {
+    platform,
+    game,
+    numToShow = 1,
+    itemsToShow,
+    swiperProps,
+    stopWatchCallBack,
+  } = props;
   const [showedItems, setShowedItems] = useState([]);
   const [swiperIndex, setSwiperIndex] = useState(0);
   const counterInitial = {
@@ -14,18 +21,19 @@ export default function EbaySwiper(props) {
   };
   const counter = useRef(counterInitial);
 
-  console.log({ itemsToShow });
   useEffect(() => {
     if (itemsToShow) {
-      counter.current = counterInitial;
       fillShowedItems(counter.current.current, counter.current.initial, true);
-      console.log({ itemsToShow }, counter.current);
     }
   }, [itemsToShow]);
 
   const fillShowedItems = (current, numToAdd, initialFill) => {
+    if (initialFill) {
+      counter.current = counterInitial;
+      current = 0;
+      numToAdd = counterInitial.initial;
+    }
     if (current === counter.current.last) return;
-
     let updShowedItems = initialFill ? [] : [...showedItems];
     for (let i = current; i < current + numToAdd; i++) {
       if (itemsToShow[i]) updShowedItems.push(itemsToShow[i]);
@@ -62,6 +70,7 @@ export default function EbaySwiper(props) {
                 game={game}
                 itemId={item.itemId[0]}
                 addToWish={addEbayCardToWishList}
+                stopWatchCallBack={stopWatchCallBack}
               />
             </Slide>
           ) : null

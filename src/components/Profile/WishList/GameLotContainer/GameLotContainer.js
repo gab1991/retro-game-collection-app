@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import useWindowSize from '../../../../CustomHooks/CustomHooks';
-import GameBox from '../../GameBoxContainer/GameBox/GameBox';
 import { connect } from 'react-redux';
 import styles from './GameLotContainer.module.scss';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
@@ -25,7 +24,6 @@ const SortableList = SortableContainer(({ games, platform }) => {
 
 const SortableItem = SortableElement(({ game, platform }) => (
   <div className={styles.GameLots}>
-    <GameBox game={game} platform={platform} desc={false} scaling={false} />
     <EbyaLotSection gameData={game} platform={platform} />
   </div>
 ));

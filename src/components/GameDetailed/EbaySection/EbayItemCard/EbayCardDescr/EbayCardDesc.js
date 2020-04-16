@@ -29,6 +29,7 @@ function EbayCardDesc(props) {
     isEndingSoon,
     endingSoonSetter,
     sendToEbay,
+    stopWatchCallBack,
   } = props;
   const [loadShipCosts, setLoadShipCosts] = useState();
   const [total, setTotal] = useState();
@@ -42,9 +43,7 @@ function EbayCardDesc(props) {
       platform: platform,
       ebayItemId: itemId,
     }).then((res) => {
-      console.log(res);
       if (res.success) setIsWatched(true);
-      else console.log(res.err_message);
     });
   }, [itemId]);
 
@@ -109,16 +108,17 @@ function EbayCardDesc(props) {
       Backend.watchEbayCard(userData.username, userData.token, {
         gameName: game,
         platform: platform,
-        ebayItemId: itemId[0],
+        ebayItemId: itemId,
       }).then((res) => {
         if (res.err_message) console.log(res.err_message);
       });
     } else {
+      stopWatchCallBack(itemId);
       setIsWatched(false);
       Backend.notWatchEbayCard(userData.username, userData.token, {
         gameName: game,
         platform: platform,
-        ebayItemId: itemId[0],
+        ebayItemId: itemId,
       }).then((res) => {
         if (res.err_message) console.log(res.err_message);
       });

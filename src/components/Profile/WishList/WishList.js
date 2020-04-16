@@ -67,13 +67,6 @@ function WishList(props) {
           />
         </div>
       </div>
-      {/* <div className={styles.EbaySection}>
-        <div className={styles.EbayLabel}>
-          <h2>Ebay Offers</h2>
-          <hr></hr>
-        </div>
-        <EbaySection platform={'Genesis'} game={'Mortal'} />
-      </div> */}
     </div>
   );
 }
