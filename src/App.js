@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './App.module.scss';
 import { Route, Switch } from 'react-router-dom';
 import Layout from './components/Layout/Layout';

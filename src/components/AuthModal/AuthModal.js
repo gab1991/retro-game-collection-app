@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import styles from './Authmodal.module.css';
+import styles from './Authmodal.module.scss';
 import Backdrop from '../UI/Backdrop/Backdrop';
 import SignUpForm from './SignUpForm/SignUpForm';
 import SignInForm from './SigInForm/SignInForm';
 
 export default function AuthModal(props) {
-  const [activeSide, setActiveSide] = useState('ActiveSignIn');
+  const [activeSide, setActiveSide] = useState('ActiveSignUp');
 
   const backToSignIn = (e) => {
     if (e) e.preventDefault();

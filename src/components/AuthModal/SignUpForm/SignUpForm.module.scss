@@ -1,0 +1,70 @@
+@import '../../../configs/Variables.scss';
+@mixin flexColSA {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.SignUp {
+  @include w100v100;
+  @include flexColSA;
+  position: absolute;
+  align-items: center;
+  background-image: url('../../../assets/images/backgrounds/signup_back.png');
+  background-position: center;
+  background-size: cover;
+  background-color: rgba(0, 0, 0, 0.582);
+  background-blend-mode: overlay;
+
+  form {
+    width: 70%;
+    height: 70%;
+    @include flexColSA;
+  }
+
+  h1 {
+    font-size: 3rem;
+  }
+
+  label {
+    display: block;
+  }
+}
+.InputWrapper {
+  padding: 0 10%;
+  flex: 1;
+  input {
+    width: 100%;
+  }
+}
+
+.BtnSection {
+  align-self: flex-end;
+  height: 10%;
+  width: 100%;
+
+  margin-top: auto;
+  @include flexCenter;
+  button {
+    @include w100v100;
+  }
+}
+
+// @media (max-width: 800px) {
+//   .SignUp form {
+//     width: 90%;
+//   }
+
+//   .SignUp form > div:not(:last-child) {
+//     padding: 0 0;
+//     flex: 1;
+//   }
+
+//   .SignUp h1 {
+//     text-align: center;
+//   }
+
+//   .BtnSection {
+//     margin-bottom: 5%;
+//   }
+// }

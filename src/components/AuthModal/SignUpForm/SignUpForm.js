@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import styles from './SignUpForm.module.css';
+import styles from './SignUpForm.module.scss';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import Input from '../../UI/Inputs/InputAuth/InputAuth';
 import Backend from '../../../Backend/Backend';
@@ -135,7 +135,7 @@ export default function SignUpForm(props) {
       <h1>Start Your Journey</h1>
       <form onSubmit={submitHandler}>
         {Object.keys(inputs.current).map((name) => (
-          <div key={name}>
+          <div key={name} className={styles.InputWrapper}>
             <Input
               {...inputs.current[name]}
               desc={name}

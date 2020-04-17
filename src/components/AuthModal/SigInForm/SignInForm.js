@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import styles from './SignInForm.module.css';
+import styles from './SignInForm.module.scss';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import Input from '../../UI/Inputs/InputAuth/InputAuth';
 import Backend from '../../../Backend/Backend';
@@ -73,6 +73,23 @@ export default function SignInForm(props) {
     validityChecker(name, currentValue);
   };
 
+  const sendLoginReq = (sendObj) => {
+    Backend.postSignIn(sendObj).then((res) => {
+      const positiveRes = res.success;
+      const negativeRes = res.err_message;
+      if (positiveRes) {
+        dispatch(signIn(res.username, res.token));
+        localStorage.setItem('token', res.token);
+
+        Backend.getProfileInfo(res.username, res.token).then((res) =>
+          dispatch(profile(res))
+        );
+      } else {
+        wrongListHandler(res.field, 'set', negativeRes);
+      }
+    });
+  };
+
   const regularLogin = (e) => {
     e.preventDefault();
 
@@ -90,42 +107,14 @@ export default function SignInForm(props) {
       inputsNames.forEach(
         (name) => (sendObj[name] = inputs.current[name].value)
       );
-
-      Backend.postSignIn(sendObj).then((res) => {
-        const positiveRes = res.success;
-        const negativeRes = res.err_message;
-        if (positiveRes) {
-          dispatch(signIn(res.username, res.token));
-
-          Backend.getProfileInfo(res.username, res.token).then((res) =>
-            dispatch(profile(res))
-          );
-        } else {
-          wrongListHandler(res.field, 'set', negativeRes);
-        }
-      });
+      sendLoginReq(sendObj);
     }
   };
 
   const guestEnterHandler = (e) => {
-    e.preventDefault(e);
-
-    Backend.postSignIn({ username: 'guest', password: 'guest1' }).then(
-      (res) => {
-        console.log(res);
-        const positiveRes = res.success;
-        const negativeRes = res.err_message;
-        if (positiveRes) {
-          dispatch(signIn(res.username, res.token));
-
-          Backend.getProfileInfo(res.username, res.token).then((res) =>
-            dispatch(profile(res))
-          );
-        } else {
-          wrongListHandler(res.field, 'set', negativeRes);
-        }
-      }
-    );
+    e.preventDefault();
+    const guestAut = { username: 'guest', password: 'guest1' };
+    sendLoginReq(guestAut);
   };
 
   return (
@@ -133,7 +122,7 @@ export default function SignInForm(props) {
       <h1>Seen you lately?</h1>
       <form onSubmit={regularLogin}>
         {Object.keys(inputs.current).map((name) => (
-          <div key={name}>
+          <div key={name} className={styles.InputWrapper}>
             <Input
               {...inputs.current[name]}
               desc={name}
@@ -142,7 +131,7 @@ export default function SignInForm(props) {
             />
           </div>
         ))}
-        <div>
+        <div className={styles.GuestBtnSection}>
           <ButtonNeon
             txtContent={`Continue as Guest`}
             rectangular

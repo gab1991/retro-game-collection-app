@@ -1,13 +1,18 @@
+@import '../../configs/Variables.scss';
+
 .AuthModal {
+  @include flexCenter;
   position: fixed;
   top: 0;
   left: 0;
   height: 100%;
-  min-width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
   z-index: 100;
+
+  // @include respond-to(tablet) {
+  //   width: 100%;
+  //   height: 80%;
+  // }
 }
 
 .AuthCard {
@@ -15,11 +20,11 @@
   width: 600px;
   height: 600px;
   position: relative;
-}
 
-.AuthCard > div {
-  transition: transform 300ms linear;
-  backface-visibility: hidden;
+  & > div {
+    transition: transform 300ms linear;
+    backface-visibility: hidden;
+  }
 }
 
 .ActiveSignIn > div:last-child {
@@ -32,11 +37,4 @@
 
 .ActiveSignUp > div:last-child {
   transform: perspective(1000px) rotateY(0deg);
-}
-
-@media (max-width: 800px) {
-  .AuthCard {
-    width: 100%;
-    height: 80vh;
-  }
 }
