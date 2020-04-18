@@ -9,7 +9,14 @@ function GameBox(props) {
   const [descrVisibility, setDescrVisibility] = useState(false);
 
   useEffect(() => {
-    Backend.getBoxArt(platform, game.name).then((res) => setBoxArtUrl(res));
+    let isSubscribed = true;
+
+    Backend.getBoxArt(platform, game.name).then((res) => {
+      if (isSubscribed) setBoxArtUrl(res);
+    });
+    return () => {
+      isSubscribed = false;
+    };
   }, [platform, game.name]);
 
   const openGameDetailsHandler = (slug) => {

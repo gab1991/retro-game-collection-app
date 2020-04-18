@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import styles from './GameDetailed.module.scss';
 import Backend from '../../Backend/Backend';
 import { textMessages } from '../../configs/appConfig';
@@ -7,7 +7,6 @@ import useWindowSize from '../../CustomHooks/useWindowSize';
 import ReactHtmlParser from 'react-html-parser';
 import GameInfoBox from './GameInfoBox/GameInfoBox';
 import ButtonNeon from '../UI/Buttons/ButtonNeon/ButtonNeon';
-import { profile } from '../../actions/actions';
 import WarnModal from '../UI/Modals/WarnModal/WarnModal';
 import CornerNotifier from '../UI/Modals/CornerNotifier/CornerNotifier';
 import EbaySection from './EbaySection/EbaySection';
@@ -21,7 +20,7 @@ const mobileBreakPointWidth = 600;
 function GameDetailed(props) {
   const slug = props.match.params.gameSlug;
   const platformName = props.match.params.platformName;
-  const { userData, profileInfo } = props;
+  const { profileInfo } = props;
   const [gameDetails, setGameDetails] = useState();
   const [screenshots, setScreenshots] = useState();
   const [boxArtUrl, setBoxArtUrl] = useState();
@@ -39,7 +38,6 @@ function GameDetailed(props) {
   const [showWishNotifier, setShowWishNotifier] = useState(false);
   const [showOwnedhNotifier, setShowOwnedNotifier] = useState(false);
   const wishListWarnTxt = textMessages.fromWishToOwn;
-  const dispatch = useDispatch();
   const windowSize = useWindowSize();
   const [isMobile, setIsMobile] = useState(false);
 
@@ -56,46 +54,52 @@ function GameDetailed(props) {
   }, [windowSize]);
 
   useEffect(() => {
-    if (userData)
-      Backend.getProfileInfo(userData.username, userData.token).then((res) =>
-        dispatch(profile(res))
-      );
-  }, [userData]);
-
-  useEffect(() => {
     if (profileInfo && gameDetails) isInListChecker();
   }, [profileInfo, gameDetails]);
 
   useEffect(() => {
+    let isSubscribed = true;
     Backend.getGameDetails(slug).then((res) => {
-      setGameDetails(res);
       const description = res.description;
-      setDescriptionParsed(ReactHtmlParser(description));
+      if (isSubscribed) {
+        setGameDetails(res);
+        setDescriptionParsed(ReactHtmlParser(description));
+      }
     });
 
     Backend.getScreenshots(slug).then((res) => {
       const screenshotsUrls = [];
       res.results.forEach((obj) => screenshotsUrls.push(obj.image));
-      setScreenshots(screenshotsUrls);
+      if (isSubscribed) setScreenshots(screenshotsUrls);
     });
+
+    return () => {
+      isSubscribed = false;
+    };
   }, [slug]);
 
   useEffect(() => {
+    let isSubscribed = true;
     if (gameDetails) {
-      Backend.getBoxArt(platformName, gameDetails.name).then((res) =>
-        setBoxArtUrl(res)
+      Backend.getBoxArt(platformName, gameDetails.name).then((res) => {
+        if (isSubscribed) setBoxArtUrl(res);
+      });
+
+      Backend.getVideo('sountrack', platformName, gameDetails.name).then(
+        (res) => {
+          if (isSubscribed) setSountrackVideo(res);
+        }
       );
 
-      Backend.getVideo(
-        'sountrack',
-        platformName,
-        gameDetails.name
-      ).then((res) => setSountrackVideo(res));
-
-      Backend.getVideo('gameplay', platformName, gameDetails.name).then((res) =>
-        setGameplayVideo(res)
+      Backend.getVideo('gameplay', platformName, gameDetails.name).then(
+        (res) => {
+          if (isSubscribed) setGameplayVideo(res);
+        }
       );
     }
+    return () => {
+      isSubscribed = false;
+    };
   }, [gameDetails, platformName]);
 
   const notifierHandler = (listState, listName) => {
@@ -106,7 +110,6 @@ function GameDetailed(props) {
           setShowWishNotifier(false);
         }, 2000);
       } else if (listName === 'owned_list') {
-        console.log(showOwnedhNotifier);
         setShowOwnedNotifier(!showOwnedhNotifier);
         setTimeout(() => {
           setShowOwnedNotifier(false);
@@ -145,7 +148,6 @@ function GameDetailed(props) {
   const toggleList = (platform, gameDetails, list, action) => {
     const notifierBlock = needToShowWarning(list);
 
-    const username = props.userData.username;
     const token = props.userData.token;
 
     if (!action) {
@@ -156,7 +158,7 @@ function GameDetailed(props) {
       }
     }
 
-    Backend.updateProfile(username, token, {
+    Backend.updateProfile(token, {
       action: action,
       list: list,
       platform: platform,

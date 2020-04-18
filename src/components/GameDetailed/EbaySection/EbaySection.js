@@ -8,9 +8,13 @@ export default function EbaySection(props) {
   const [ebayItems, setEbayItems] = useState();
 
   useEffect(() => {
+    let isSubcribed = true;
     Backend.getEbayItems(platform, game).then((res) => {
-      setEbayItems(res[0].item);
+      if (isSubcribed) setEbayItems(res[0].item);
     });
+    return () => {
+      isSubcribed = false;
+    };
   }, []);
 
   const swiperProps = {

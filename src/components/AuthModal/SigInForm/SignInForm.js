@@ -74,20 +74,16 @@ export default function SignInForm(props) {
   };
 
   const sendLoginReq = (sendObj) => {
-    Backend.postSignIn(sendObj).then((res) => {
-      const positiveRes = res.success;
-      const negativeRes = res.err_message;
-      if (positiveRes) {
+    Backend.postSignIn(sendObj)
+      .then((res) => {
         dispatch(signIn(res.username, res.token));
         localStorage.setItem('token', res.token);
-
-        Backend.getProfileInfo(res.username, res.token).then((res) =>
-          dispatch(profile(res))
-        );
-      } else {
-        wrongListHandler(res.field, 'set', negativeRes);
-      }
-    });
+      })
+      .catch((err) => {
+        if (err.status === 400 && err.body.field) {
+          wrongListHandler(err.body.field, 'set', err.body.err_message);
+        }
+      });
   };
 
   const regularLogin = (e) => {

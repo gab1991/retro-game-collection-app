@@ -41,7 +41,7 @@ function GameLotContainer(props) {
     const newSortedgames = arrayMove(gamesSort, oldIndex, newIndex);
     setGamesSort(newSortedgames);
 
-    Backend.updateProfile(props.userData.username, props.userData.token, {
+    Backend.updateProfile(props.userData.token, {
       sortedGames: newSortedgames,
       platform: platform,
       list: 'wish_list',

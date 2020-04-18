@@ -13,6 +13,14 @@ function queryParamBuilder(params) {
   }
   return `?${result.join('&')}`;
 }
+async function handleErrors(res) {
+  if (!res.ok) {
+    const status = res.status;
+    const body = await res.json();
+    throw { status, body };
+  }
+  return res.json();
+}
 
 const Backend = {
   getAllPlatfroms: () => {
@@ -88,7 +96,7 @@ const Backend = {
         },
         body: JSON.stringify(obj),
       })
-        .then((res) => res.json())
+        .then(handleErrors)
         .then((data) => resolve(data))
         .catch((err) => reject(err));
     });
@@ -104,29 +112,37 @@ const Backend = {
         },
         body: JSON.stringify(obj),
       })
-        .then((res) => res.json())
+        .then(handleErrors)
         .then((data) => resolve(data))
         .catch((err) => reject(err));
     });
   },
 
-  getProfileInfo: (username, token) => {
-    let url = `${api.appServer.profileUrl}/${username}/${token}`;
+  getProfileInfo: (token) => {
+    let url = `${api.appServer.profileUrl}`;
     return new Promise((resolve, reject) => {
-      fetch(url)
-        .then((res) => res.json())
+      fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then(handleErrors)
         .then((data) => resolve(data))
         .catch((err) => reject(err));
     });
   },
 
-  updateProfile: (username, token, obj) => {
-    let url = `${api.appServer.profileUrl}/${username}/update/${token}`;
+  updateProfile: (token, obj) => {
+    let url = `${api.appServer.profileUrl}/update`;
     return new Promise((resolve, reject) => {
       fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(obj),
       })
@@ -189,13 +205,14 @@ const Backend = {
     });
   },
 
-  watchEbayCard: (username, token, obj) => {
-    let url = `${api.appServer.profileUrl}/addEbayCard/${username}/${token}`;
+  watchEbayCard: (token, obj) => {
+    let url = `${api.appServer.profileUrl}/addEbayCard`;
     return new Promise((resolve, reject) => {
       fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(obj),
       })
@@ -205,13 +222,14 @@ const Backend = {
     });
   },
 
-  isWatchedEbayCard: (username, token, obj) => {
-    let url = `${api.appServer.profileUrl}/isWatchedEbayCard/${username}/${token}`;
+  isWatchedEbayCard: (token, obj) => {
+    let url = `${api.appServer.profileUrl}/isWatchedEbayCard`;
     return new Promise((resolve, reject) => {
       fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(obj),
       })
@@ -221,13 +239,14 @@ const Backend = {
     });
   },
 
-  notWatchEbayCard: (username, token, obj) => {
-    let url = `${api.appServer.profileUrl}/removeEbayCard/${username}/${token}`;
+  notWatchEbayCard: (token, obj) => {
+    let url = `${api.appServer.profileUrl}/removeEbayCard`;
     return new Promise((resolve, reject) => {
       fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(obj),
       })
@@ -237,11 +256,19 @@ const Backend = {
     });
   },
 
-  getGameWatchedCards: (username, token, platform, game) => {
-    let url = `${api.appServer.profileUrl}/getGameWatchedCards/${username}/${token}/${platform}/${game}`;
+  getGameWatchedCards: (token, platform, game) => {
+    console.log({ token, platform, game });
+    let url = `${api.appServer.profileUrl}/getGameWatchedCards/${platform}/${game}`;
     return new Promise((resolve, reject) => {
-      fetch(url)
-        .then((res) => res.json())
+      fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then(handleErrors)
         .then((data) => resolve(data))
         .catch((err) => reject(err));
     });

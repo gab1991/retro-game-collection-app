@@ -32,14 +32,18 @@ function GameBoxContainer(props) {
   const [gamesSort, setGamesSort] = useState([]);
 
   useEffect(() => {
-    setGamesSort(games);
+    let isSubscribed = true;
+    if (isSubscribed) setGamesSort(games);
+    return () => {
+      isSubscribed = false;
+    };
   }, [games]);
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
     const newSortedgames = arrayMove(gamesSort, oldIndex, newIndex);
     setGamesSort(newSortedgames);
 
-    Backend.updateProfile(props.userData.username, props.userData.token, {
+    Backend.updateProfile(props.userData.token, {
       sortedGames: newSortedgames,
       platform: platform,
       list: 'owned_list',

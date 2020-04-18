@@ -16,13 +16,6 @@ function WishList(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (userData)
-      Backend.getProfileInfo(userData.username, userData.token).then((res) =>
-        dispatch(profile(res))
-      );
-  }, [userData, dispatch]);
-
-  useEffect(() => {
     if (profileInfo) {
       const platformsWished = profileInfo.wish_list.platforms;
       setWishedList({

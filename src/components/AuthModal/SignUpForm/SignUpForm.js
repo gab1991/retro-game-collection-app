@@ -118,15 +118,13 @@ export default function SignUpForm(props) {
         if (name !== 'passConfirm') sendObj[name] = inputs.current[name].value;
       });
 
-      Backend.postSignUp(sendObj).then((res) => {
-        const positiveRes = res.user_id;
-        const negativeRes = res.err_message;
-        if (positiveRes) {
-          backToSignIn();
-        } else {
-          wrongListHandler(res.field, 'set', negativeRes);
-        }
-      });
+      Backend.postSignUp(sendObj)
+        .then((res) => backToSignIn())
+        .catch((err) => {
+          if (err.status === 400 && err.body.field) {
+            wrongListHandler(err.body.field, 'set', err.body.err_message);
+          }
+        });
     }
   };
 

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
-import { profile } from '../../../../../actions/actions';
-
+import { connect } from 'react-redux';
 import styles from './EbayLotSection.module.scss';
 import EbaySwiper from '../../../../GameDetailed/EbaySection/EbaySwiper/EbaySwiper';
 import GameBox from '../../../GameBoxContainer/GameBox/GameBox';
@@ -11,7 +9,6 @@ import OvalSpinner from '../../../../UI/LoadingSpinners/OvalSpinner/OvalSpinner'
 
 function EbyaLotSection(props) {
   const { userData, gameData, platform } = props;
-  const dispatch = useDispatch();
   const watchedEbayOffers = gameData.watchedEbayOffers.map((ebayCard) => ({
     itemId: [ebayCard.id],
   }));
@@ -49,23 +46,20 @@ function EbyaLotSection(props) {
     const getWatchList = () => {
       if (isSubscribed) setLoading(true);
 
-      Backend.getGameWatchedCards(
-        userData.username,
-        userData.token,
-        platform,
-        gameData.name
-      ).then((res) => {
-        if (res.success) {
-          const watchedEbayOffers = res.success.map((ebayCard) => ({
-            itemId: [ebayCard.id],
-          }));
-          if (isSubscribed) {
-            setShowedItems(watchedEbayOffers);
-            setLoading(false);
-          }
-        } else setShowedItems([]);
-        if (isSubscribed) setLoading(false);
-      });
+      Backend.getGameWatchedCards(userData.token, platform, gameData.name).then(
+        (res) => {
+          if (res.success) {
+            const watchedEbayOffers = res.success.map((ebayCard) => ({
+              itemId: [ebayCard.id],
+            }));
+            if (isSubscribed) {
+              setShowedItems(watchedEbayOffers);
+              setLoading(false);
+            }
+          } else setShowedItems([]);
+          if (isSubscribed) setLoading(false);
+        }
+      );
     };
     switch (activeEbaylist) {
       case 'New Offers':

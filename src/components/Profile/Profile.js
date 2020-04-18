@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Profile.module.scss';
+import { profile, logOut } from '../../actions/actions';
+
+import ErrorModal from '../UI/Modals/ErrorModal/ErrorModal';
+import Backend from '../../Backend/Backend';
 import AuthModal from '../AuthModal/AuthModal';
 import CollectionList from '../Profile/CollictionList/CollectionLIst';
 import WishList from '../Profile/WishList/WishList';
 import { connect, useDispatch } from 'react-redux';
-import queryString from 'query-string';
-import EbaySection from '../GameDetailed/EbaySection/EbaySection';
 
 function Profile(props) {
   const { userData } = props;
@@ -13,12 +15,38 @@ function Profile(props) {
   const [activeSection, setActiveSection] = useState(
     section || 'CollecitionList'
   );
+  const [showError, setShowError] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    let isSubscribed = true;
+    if (userData) {
+      Backend.getProfileInfo(userData.token)
+        .then((res) => {
+          dispatch(profile(res));
+        })
+        .catch((err) => {
+          if (isSubscribed)
+            setShowError({
+              message: `Couldn't get your profile info. Try to relog`,
+            });
+          console.log({ Profile_err: err });
+        });
+    }
+    return () => {
+      isSubscribed = false;
+    };
+  }, [userData]);
 
   const sectionToggler = (e) => {
     const name = e.target.getAttribute('desc');
     setActiveSection(name);
     props.history.push(`/profile/${name}`);
+  };
+
+  const cleanAuth = () => {
+    dispatch(logOut());
+    setShowError(false);
   };
 
   return (
@@ -48,6 +76,13 @@ function Profile(props) {
         {activeSection === 'WishList' && <WishList />}
       </div>
       {!userData && <AuthModal />}
+      {showError && (
+        <ErrorModal
+          message={showError.message}
+          onBackdropClick={cleanAuth}
+          onBtnClick={cleanAuth}
+        />
+      )}
     </div>
   );
 }

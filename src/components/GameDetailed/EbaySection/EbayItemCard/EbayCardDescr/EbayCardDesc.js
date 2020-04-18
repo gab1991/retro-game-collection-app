@@ -40,7 +40,7 @@ function EbayCardDesc(props) {
   useEffect(() => {
     let isSubscribed = true;
 
-    Backend.isWatchedEbayCard(userData.username, userData.token, {
+    Backend.isWatchedEbayCard(userData.token, {
       gameName: game,
       platform: platform,
       ebayItemId: itemId,
@@ -111,7 +111,7 @@ function EbayCardDesc(props) {
   const watchHandler = () => {
     if (!isWatched) {
       setIsWatched(true);
-      Backend.watchEbayCard(userData.username, userData.token, {
+      Backend.watchEbayCard(userData.token, {
         gameName: game,
         platform: platform,
         ebayItemId: itemId,
@@ -121,7 +121,7 @@ function EbayCardDesc(props) {
     } else {
       stopWatchCallBack(itemId);
       setIsWatched(false);
-      Backend.notWatchEbayCard(userData.username, userData.token, {
+      Backend.notWatchEbayCard(userData.token, {
         gameName: game,
         platform: platform,
         ebayItemId: itemId,

@@ -3,28 +3,19 @@ import { withRouter } from 'react-router-dom';
 import styles from './CollectionList.module.scss';
 import GameBoxContainer from './../GameBoxContainer/GameBoxContainer';
 import { images } from '../../../configs/appConfig';
-import Backend from '../../../Backend/Backend';
-import { connect, useDispatch } from 'react-redux';
-import { profile } from '../../../actions/actions';
+import { connect } from 'react-redux';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 
 function CollectionLIst(props) {
-  const { userData, profileInfo } = props;
+  const { profileInfo } = props;
   const [ownedList, setOwnedList] = useState({ platforms: [], count: 0 });
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (userData) {
-      Backend.getProfileInfo(userData.username, userData.token).then((res) =>
-        dispatch(profile(res))
-      );
-    }
-  }, [userData, dispatch]);
 
   useEffect(() => {
     if (profileInfo) {
       const platformsOwned = profileInfo.owned_list.platforms;
       setOwnedList({ platforms: platformsOwned, count: platformsOwned.length });
+    } else {
+      setOwnedList({ platforms: [], count: 0 });
     }
   }, [profileInfo]);
 
