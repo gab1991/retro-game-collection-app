@@ -15,7 +15,6 @@
   background-size: cover;
   background-color: rgba(0, 0, 0, 0.582);
   background-blend-mode: overlay;
-
   form {
     width: 70%;
     height: 70%;
@@ -24,17 +23,58 @@
 
   h1 {
     font-size: 3rem;
+    text-align: center;
   }
 
   label {
     display: block;
   }
+  .CloseSvgWrapper {
+    cursor: pointer;
+    width: 6%;
+    height: 6%;
+    top: 2%;
+    right: 2%;
+    position: absolute;
+    z-index: 30;
+    opacity: 0.5;
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  @include respond-to(mobile) {
+    form {
+      @include w100v100;
+    }
+    h1 {
+      font-size: 2rem;
+      margin: 30% 0 5%;
+    }
+    .CloseSvgWrapper {
+      width: 25px;
+      height: 25px;
+      top: 1%;
+      right: 1%;
+    }
+  }
 }
-.InputWrapper {
-  padding: 0 10%;
+.InputsSection {
   flex: 1;
-  input {
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .InputWrapper {
+    flex: 1;
+    margin: 0 10%;
+    input {
+      width: 100%;
+    }
+  }
+  @include respond-to(mobile) {
+    margin-top: 0%;
+    min-height: 75%;
+    flex: 0;
   }
 }
 
@@ -42,29 +82,21 @@
   align-self: flex-end;
   height: 10%;
   width: 100%;
-
   margin-top: auto;
-  @include flexCenter;
+  display: flex;
+  justify-content: space-between;
   button {
-    @include w100v100;
+    height: 100%;
+    width: 48%;
+  }
+  @include respond-to(mobile) {
+    padding: 0 10%;
+    font-size: 0.8rem;
+    margin-bottom: 15%;
+    height: 7%;
+
+    button {
+      width: 45%;
+    }
   }
 }
-
-// @media (max-width: 800px) {
-//   .SignUp form {
-//     width: 90%;
-//   }
-
-//   .SignUp form > div:not(:last-child) {
-//     padding: 0 0;
-//     flex: 1;
-//   }
-
-//   .SignUp h1 {
-//     text-align: center;
-//   }
-
-//   .BtnSection {
-//     margin-bottom: 5%;
-//   }
-// }

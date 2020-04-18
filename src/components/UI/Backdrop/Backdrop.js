@@ -1,6 +1,5 @@
 import React from 'react';
-import styles from './Backdrop.module.css';
-import closeicon from '../../../assets/images/ui/close.svg';
+import styles from './Backdrop.module.scss';
 
 export default function Blackdrop(props) {
   const { show, onClick, closeIcon } = props;
@@ -9,12 +8,6 @@ export default function Blackdrop(props) {
     <div
       onClick={onClick}
       className={styles.Backdrop}
-      style={{ display: `${show ? 'block' : 'none'}` }}>
-      {closeIcon && (
-        <div className={styles.CloseIconContainer}>
-          <img src={closeicon} alt="closeicon" />
-        </div>
-      )}
-    </div>
+      style={{ display: `${show ? 'block' : 'none'}` }}></div>
   );
 }

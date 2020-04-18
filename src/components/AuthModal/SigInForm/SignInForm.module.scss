@@ -15,7 +15,6 @@
   background-size: cover;
   background-color: rgba(0, 0, 0, 0.445);
   background-blend-mode: overlay;
-
   form {
     width: 70%;
     height: 70%;
@@ -24,34 +23,97 @@
 
   h1 {
     font-size: 3rem;
+    text-align: center;
   }
   label {
     display: block;
   }
+
+  .CloseSvgWrapper {
+    cursor: pointer;
+    width: 6%;
+    height: 6%;
+    top: 2%;
+    right: 2%;
+    position: absolute;
+    z-index: 30;
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  @include respond-to(mobile) {
+    form {
+      width: 100%;
+    }
+    h1 {
+      font-size: 2rem;
+      margin: 30% 0 5%;
+    }
+    .CloseSvgWrapper {
+      width: 25px;
+      height: 25px;
+      top: 1%;
+      right: 1%;
+    }
+  }
 }
 
-.InputWrapper {
-  padding: 0 10%;
+.InputsSection {
   flex: 1;
+  display: flex;
+  flex-direction: column;
 
-  input {
-    width: 100%;
+  .InputWrapper {
+    flex: 1;
+    margin: 0 10%;
+    input {
+      width: 100%;
+    }
   }
 }
 
 .GuestBtnSection {
+  height: 10%;
+  width: 100%;
   @include flexCenter;
+  margin-bottom: 5%;
   button {
-    margin-bottom: 10%;
+    height: 100%;
+    width: 48%;
+  }
+  @include respond-to(mobile) {
+    font-size: 0.8rem;
+    padding: 0 10%;
+
+    height: 7%;
+    button {
+      width: 45%;
+    }
   }
 }
 
 .BtnSection {
-  align-items: flex-end;
+  align-self: flex-end;
   height: 10%;
   width: 100%;
-  @include flexCenter;
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
   button {
-    @include w100v100;
+    height: 100%;
+    width: 48%;
+  }
+  @include respond-to(mobile) {
+    padding: 0 10%;
+    font-size: 0.8rem;
+    margin-top: 0;
+    margin-bottom: 15%;
+    height: 7%;
+    button {
+      width: 45%;
+    }
   }
 }

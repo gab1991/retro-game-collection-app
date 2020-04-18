@@ -1,5 +1,7 @@
 import React, { useRef, useState } from 'react';
 import styles from './SignInForm.module.scss';
+import CloseSvg from '../../UI/LogoSvg/CloseSvg/CloseSvg';
+
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import Input from '../../UI/Inputs/InputAuth/InputAuth';
 import Backend from '../../../Backend/Backend';
@@ -117,21 +119,23 @@ export default function SignInForm(props) {
     <div className={styles.SignIn}>
       <h1>Seen you lately?</h1>
       <form onSubmit={regularLogin}>
-        {Object.keys(inputs.current).map((name) => (
-          <div key={name} className={styles.InputWrapper}>
-            <Input
-              {...inputs.current[name]}
-              desc={name}
-              onChange={changeHandler}
-              wrong={wrongInputs[name]}
-            />
-          </div>
-        ))}
+        <div className={styles.InputsSection}>
+          {Object.keys(inputs.current).map((name) => (
+            <div key={name} className={styles.InputWrapper}>
+              <Input
+                {...inputs.current[name]}
+                desc={name}
+                onChange={changeHandler}
+                wrong={wrongInputs[name]}
+              />
+            </div>
+          ))}
+        </div>
         <div className={styles.GuestBtnSection}>
           <ButtonNeon
             txtContent={`Continue as Guest`}
             rectangular
-            blinking
+            color={'gray'}
             onClick={guestEnterHandler}
           />
         </div>
@@ -145,6 +149,9 @@ export default function SignInForm(props) {
           <ButtonNeon txtContent={`Sign Up`} rectangular onClick={toSignUp} />
         </div>
       </form>
+      <div className={styles.CloseSvgWrapper}>
+        <CloseSvg />
+      </div>
     </div>
   );
 }

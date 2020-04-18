@@ -3,6 +3,7 @@ import styles from './SignUpForm.module.scss';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import Input from '../../UI/Inputs/InputAuth/InputAuth';
 import Backend from '../../../Backend/Backend';
+import CloseSvg from '../../UI/LogoSvg/CloseSvg/CloseSvg';
 
 export default function SignUpForm(props) {
   const { backToSignIn } = props;
@@ -132,21 +133,23 @@ export default function SignUpForm(props) {
     <div className={styles.SignUp}>
       <h1>Start Your Journey</h1>
       <form onSubmit={submitHandler}>
-        {Object.keys(inputs.current).map((name) => (
-          <div key={name} className={styles.InputWrapper}>
-            <Input
-              {...inputs.current[name]}
-              desc={name}
-              addToggler={
-                inputs.current[name].type === 'password'
-                  ? 'hideShowToggler'
-                  : null
-              }
-              onChange={changeHandler}
-              wrong={wrongInputs[name]}
-            />
-          </div>
-        ))}
+        <div className={styles.InputsSection}>
+          {Object.keys(inputs.current).map((name) => (
+            <div key={name} className={styles.InputWrapper}>
+              <Input
+                {...inputs.current[name]}
+                desc={name}
+                addToggler={
+                  inputs.current[name].type === 'password'
+                    ? 'hideShowToggler'
+                    : null
+                }
+                onChange={changeHandler}
+                wrong={wrongInputs[name]}
+              />
+            </div>
+          ))}
+        </div>
         <div className={styles.BtnSection}>
           <ButtonNeon
             txtContent={`Create Account`}
@@ -160,6 +163,9 @@ export default function SignUpForm(props) {
           />
         </div>
       </form>
+      <div className={styles.CloseSvgWrapper}>
+        <CloseSvg />
+      </div>
     </div>
   );
 }
