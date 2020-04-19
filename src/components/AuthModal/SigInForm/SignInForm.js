@@ -111,11 +111,15 @@ export default function SignInForm(props) {
   };
 
   const guestEnterHandler = (e) => {
-    console.log(e.keyCode);
+    console.log(e.target);
     e.preventDefault();
 
     const guestAut = { username: 'guest', password: 'guest1' };
     sendLoginReq(guestAut);
+  };
+
+  const keyPressHandler = (e) => {
+    if (e.key === 'Enter') regularLogin(e);
   };
   const closeModalHandler = () => {
     dispatch(showAuthModal(false));
@@ -123,7 +127,7 @@ export default function SignInForm(props) {
   return (
     <div className={styles.SignIn}>
       <h1>Seen you lately?</h1>
-      <form onSubmit={regularLogin}>
+      <form onSubmit={regularLogin} onKeyPress={keyPressHandler}>
         <div className={styles.InputsSection}>
           {Object.keys(inputs.current).map((name) => (
             <div key={name} className={styles.InputWrapper}>
