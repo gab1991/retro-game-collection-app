@@ -111,7 +111,9 @@ export default function SignInForm(props) {
   };
 
   const guestEnterHandler = (e) => {
+    console.log(e.keyCode);
     e.preventDefault();
+
     const guestAut = { username: 'guest', password: 'guest1' };
     sendLoginReq(guestAut);
   };
