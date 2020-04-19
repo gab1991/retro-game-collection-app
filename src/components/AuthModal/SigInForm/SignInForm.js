@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react';
 import styles from './SignInForm.module.scss';
 import CloseSvg from '../../UI/LogoSvg/CloseSvg/CloseSvg';
-
+import { showAuthModal } from '../../../actions/actions';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import Input from '../../UI/Inputs/InputAuth/InputAuth';
 import Backend from '../../../Backend/Backend';
 import { useDispatch } from 'react-redux';
-import { signIn, profile } from '../../../actions/actions';
+import { signIn } from '../../../actions/actions';
 
 export default function SignInForm(props) {
   const { toSignUp } = props;
@@ -80,6 +80,7 @@ export default function SignInForm(props) {
       .then((res) => {
         dispatch(signIn(res.username, res.token));
         localStorage.setItem('token', res.token);
+        closeModalHandler();
       })
       .catch((err) => {
         if (err.status === 400 && err.body.field) {
@@ -114,7 +115,9 @@ export default function SignInForm(props) {
     const guestAut = { username: 'guest', password: 'guest1' };
     sendLoginReq(guestAut);
   };
-
+  const closeModalHandler = () => {
+    dispatch(showAuthModal(false));
+  };
   return (
     <div className={styles.SignIn}>
       <h1>Seen you lately?</h1>
@@ -149,7 +152,7 @@ export default function SignInForm(props) {
           <ButtonNeon txtContent={`Sign Up`} rectangular onClick={toSignUp} />
         </div>
       </form>
-      <div className={styles.CloseSvgWrapper}>
+      <div className={styles.CloseSvgWrapper} onClick={closeModalHandler}>
         <CloseSvg />
       </div>
     </div>

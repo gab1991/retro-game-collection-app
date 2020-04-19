@@ -38,20 +38,22 @@ function EbayCardDesc(props) {
   const [isWatched, setIsWatched] = useState();
 
   useEffect(() => {
-    let isSubscribed = true;
+    if (userData) {
+      let isSubscribed = true;
 
-    Backend.isWatchedEbayCard(userData.token, {
-      gameName: game,
-      platform: platform,
-      ebayItemId: itemId,
-    }).then((res) => {
-      if (res.success && isSubscribed) setIsWatched(true);
-    });
+      Backend.isWatchedEbayCard(userData.token, {
+        gameName: game,
+        platform: platform,
+        ebayItemId: itemId,
+      }).then((res) => {
+        if (res.success && isSubscribed) setIsWatched(true);
+      });
 
-    return () => {
-      isSubscribed = false;
-    };
-  }, [itemId]);
+      return () => {
+        isSubscribed = false;
+      };
+    }
+  }, [itemId, userData]);
 
   useEffect(() => {
     if (currentPrice) {
@@ -138,11 +140,13 @@ function EbayCardDesc(props) {
         txtContent={isAuction ? 'Place bid' : 'Buy It Now'}
         onClick={sendToEbay}
       />
-      <Button
-        txtContent={isWatched ? 'Stop watch' : 'Watch'}
-        pressed={isWatched ? true : false}
-        onClick={watchHandler}
-      />
+      {userData && (
+        <Button
+          txtContent={isWatched ? 'Stop watch' : 'Watch'}
+          pressed={isWatched ? true : false}
+          onClick={watchHandler}
+        />
+      )}
       <div className={styles.AcutionSection}>
         {isAuction && <p>Bids placed : {bidCount}</p>}
         {isEndingSoon && (

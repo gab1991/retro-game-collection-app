@@ -11,17 +11,24 @@ export default function ButtonNeon(props) {
     blinking,
     color,
     style,
+    disabled,
+    onDisabledClick: disableClickHandler,
+    onMouseEnter: mouseEnterHandler,
+    onMouseLeave: mouseLeaveHandler,
   } = props;
 
   return (
     <button
       name={name}
-      onClick={clickHander}
+      onClick={!disabled ? clickHander : disableClickHandler}
+      onMouseEnter={mouseEnterHandler}
+      onMouseLeave={mouseLeaveHandler}
       direction={direction}
       className={`${styles.ButtonNeon} 
       ${rectangular ? styles.Rectangular : null}
       ${color ? styles[color] : null}
       ${rectangular ? styles.Rectangular : null}
+      ${disabled ? styles.Disabled : null}
       ${blinking ? styles.Blinking : null}`}
       style={{ ...style }}>
       {txtContent}

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
+import { showAuthModal } from '../../actions/actions';
+
 import styles from './GameDetailed.module.scss';
 import Backend from '../../Backend/Backend';
 import { textMessages } from '../../configs/appConfig';
@@ -18,9 +20,10 @@ import 'react-dynamic-swiper/lib/styles.css';
 const mobileBreakPointWidth = 600;
 
 function GameDetailed(props) {
+  const dispatch = useDispatch();
   const slug = props.match.params.gameSlug;
   const platformName = props.match.params.platformName;
-  const { profileInfo } = props;
+  const { userData, profileInfo } = props;
   const [gameDetails, setGameDetails] = useState();
   const [screenshots, setScreenshots] = useState();
   const [boxArtUrl, setBoxArtUrl] = useState();
@@ -207,6 +210,11 @@ function GameDetailed(props) {
     setElmsVisibility(updVisibility);
   };
 
+  const showAuth = () => {
+    // console.log('gere');
+    dispatch(showAuthModal(true));
+  };
+
   const swiperSettings = {
     slidesPerView: 'auto',
     spaceBetween: 15,
@@ -245,19 +253,33 @@ function GameDetailed(props) {
         <div className={styles.ButtonsContainer}>
           <div className={styles.ButtonWrapper}>
             <ButtonNeon
+              disabled={userData ? false : true}
               color={isWished ? 'red' : 'green'}
               txtContent={isWished ? 'Remove from Wishlist' : 'Add to Wishlist'}
               onClick={() => toggleList(platformName, gameDetails, 'wish_list')}
             />
+            {!userData && (
+              <div className={styles.ButtonTooltip}>
+                {`Need to be logged in to add games to the lists    `}
+                <a onClick={showAuth}>GO TO LOGIN</a>
+              </div>
+            )}
           </div>
           <div className={styles.ButtonWrapper}>
             <ButtonNeon
+              disabled={userData ? false : true}
               color={isOwned ? 'red' : 'green'}
               txtContent={isOwned ? 'Remove from Owned' : 'Owned'}
               onClick={() =>
                 toggleList(platformName, gameDetails, 'owned_list')
               }
             />
+            {!userData && (
+              <div className={styles.ButtonTooltip}>
+                {`Need to be logged in to add games to the lists    `}
+                <a onClick={showAuth}>GO TO LOGIN</a>
+              </div>
+            )}
           </div>
           <div className={styles.ButtonWrapper}>
             <ButtonNeon txtContent={'Back'} onClick={getBack} color="gray" />

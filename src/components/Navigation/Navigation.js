@@ -54,6 +54,8 @@ function Navigation(props) {
   };
 
   const loggingOut = () => {
+    toPlatformSelector();
+    hideMenu();
     localStorage.removeItem('token');
     dispatch(logOut());
   };

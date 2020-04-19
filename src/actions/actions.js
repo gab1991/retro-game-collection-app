@@ -5,28 +5,35 @@ const signIn = (username, token) => {
     type: 'SIGN_IN',
     payload: {
       username,
-      token
-    }
+      token,
+    },
   };
 };
 
-const logOut = message => {
+const logOut = (message) => {
   return {
     type: 'LOG_OUT',
     payload: {
-      message: message
-    }
+      message: message,
+    },
   };
 };
 
-const profile = profileinfo => {
+const profile = (profileinfo) => {
   return {
     type: 'FILL',
     payload: {
-      ...profileinfo
-    }
+      ...profileinfo,
+    },
+  };
+};
+
+const showAuthModal = (bool) => {
+  return {
+    type: 'SHOW_AUTH',
+    payload: bool,
   };
 };
 
 export default actions;
-export { signIn, profile, logOut };
+export { signIn, profile, logOut, showAuthModal };

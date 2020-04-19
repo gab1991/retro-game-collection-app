@@ -16,6 +16,7 @@
   outline: none;
   white-space: nowrap;
   cursor: pointer;
+  animation: step-end;
 
   &.green {
     background: getBtnColor('green');
@@ -33,13 +34,22 @@
     letter-spacing: 1px;
     box-shadow: 0 0 10px $blue-shine-color, 0 0 30px $blue-shine-color,
       0 0 60px $blue-shine-color;
-    animation: step-end;
   }
   &.Rectangular {
     border-radius: 0;
   }
   &.Blinking {
     animation: blink 1.5s infinite ease-out;
+  }
+  &.Disabled {
+    transform: scale(1);
+    background: getBtnColor('disabled');
+    color: darken($font-white, 30%);
+    &:hover {
+      box-shadow: none;
+      cursor: default;
+      letter-spacing: normal;
+    }
   }
   @include respond-to(mobile) {
     &:hover {

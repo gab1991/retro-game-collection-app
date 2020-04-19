@@ -1,11 +1,13 @@
 import loggedReducer from './isLogged';
 import profileReducer from './profile';
+import showHideAuth from './showAuth';
 
 import { combineReducers } from 'redux';
 
 const appReducer = combineReducers({
   logged: loggedReducer,
-  profile: profileReducer
+  profile: profileReducer,
+  showAuth: showHideAuth,
 });
 
 const rootReducer = (state, action) => {

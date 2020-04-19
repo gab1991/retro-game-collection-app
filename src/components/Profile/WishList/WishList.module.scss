@@ -1,8 +1,6 @@
 @import '../../../configs/Variables.scss';
 
 .WishLIst {
-  @include contentWidth;
-  @include minHeight;
   display: flex;
   justify-content: center;
   align-content: flex-start;

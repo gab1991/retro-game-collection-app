@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Profile.module.scss';
 import { profile, logOut } from '../../actions/actions';
-
 import ErrorModal from '../UI/Modals/ErrorModal/ErrorModal';
 import Backend from '../../Backend/Backend';
-import AuthModal from '../AuthModal/AuthModal';
 import CollectionList from '../Profile/CollictionList/CollectionLIst';
 import WishList from '../Profile/WishList/WishList';
 import { connect, useDispatch } from 'react-redux';
@@ -75,7 +73,6 @@ function Profile(props) {
         {activeSection === 'CollecitionList' && <CollectionList />}
         {activeSection === 'WishList' && <WishList />}
       </div>
-      {!userData && <AuthModal />}
       {showError && (
         <ErrorModal
           message={showError.message}

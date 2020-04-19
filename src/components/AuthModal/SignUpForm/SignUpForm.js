@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react';
 import styles from './SignUpForm.module.scss';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
+import { useDispatch } from 'react-redux';
+import { showAuthModal } from '../../../actions/actions';
 import Input from '../../UI/Inputs/InputAuth/InputAuth';
 import Backend from '../../../Backend/Backend';
 import CloseSvg from '../../UI/LogoSvg/CloseSvg/CloseSvg';
@@ -8,7 +10,7 @@ import CloseSvg from '../../UI/LogoSvg/CloseSvg/CloseSvg';
 export default function SignUpForm(props) {
   const { backToSignIn } = props;
   const [wrongInputs, setWrongInputs] = useState({});
-
+  const dispatch = useDispatch();
   const inputs = useRef({
     username: {
       label: 'Username',
@@ -129,6 +131,9 @@ export default function SignUpForm(props) {
     }
   };
 
+  const closeModalHandler = () => {
+    dispatch(showAuthModal(false));
+  };
   return (
     <div className={styles.SignUp}>
       <h1>Start Your Journey</h1>
@@ -163,7 +168,7 @@ export default function SignUpForm(props) {
           />
         </div>
       </form>
-      <div className={styles.CloseSvgWrapper}>
+      <div className={styles.CloseSvgWrapper} onClick={closeModalHandler}>
         <CloseSvg />
       </div>
     </div>

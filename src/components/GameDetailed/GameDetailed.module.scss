@@ -152,6 +152,51 @@
       margin: 10px;
       display: flex;
       justify-content: center;
+      position: relative;
+
+      .ButtonTooltip {
+        --scale: 0;
+        $background-color: getBtnColor('disabled');
+        position: absolute;
+        top: -20px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-100%) scale(var(--scale));
+        transition: all 150ms;
+        transform-origin: bottom;
+        padding: 15px;
+        background-color: $background-color;
+        width: max-content;
+        max-width: 300px;
+        border-radius: 7px;
+
+        a {
+          cursor: pointer;
+          color: inherit;
+          font-style: normal;
+          margin-left: 15px;
+          &:hover {
+            color: getBtnColor('red');
+          }
+        }
+
+        &::after {
+          content: '';
+          display: block;
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          transform: translateX(-50%) scale(var(--scale));
+          transition: all 150ms;
+          transform-origin: top;
+          border: 15px solid transparent;
+          border-top-color: $background-color;
+        }
+      }
+      &:hover {
+        .ButtonTooltip {
+          --scale: 1;
+        }
+      }
 
       @include respond-to(tablet) {
         &:last-child {
@@ -242,3 +287,18 @@
   width: 0.8rem;
   display: inline-block;
 }
+
+// @keyframes blink {
+//   0%,
+//   100% {
+//     letter-spacing: 2px;
+//     box-shadow: none;
+//   }
+//   50% {
+//     letter-spacing: 1px;
+//     background: getBtnColor('gray');
+//     transform: scale(1.2);
+//     text-shadow: 0 0 10px $blue-shine-color, 0 0 30px $blue-shine-color,
+//       0 0 60px $blue-shine-color;
+//   }
+// }
