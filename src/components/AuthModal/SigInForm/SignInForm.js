@@ -6,7 +6,7 @@ import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import Input from '../../UI/Inputs/InputAuth/InputAuth';
 import Backend from '../../../Backend/Backend';
 import { useDispatch } from 'react-redux';
-import { signIn } from '../../../actions/actions';
+import { signIn, profile } from '../../../actions/actions';
 
 export default function SignInForm(props) {
   const { toSignUp } = props;
@@ -80,6 +80,7 @@ export default function SignInForm(props) {
       .then((res) => {
         dispatch(signIn(res.username, res.token));
         localStorage.setItem('token', res.token);
+        getProfileInfo(res.token);
         closeModalHandler();
       })
       .catch((err) => {
@@ -87,6 +88,12 @@ export default function SignInForm(props) {
           wrongListHandler(err.body.field, 'set', err.body.err_message);
         }
       });
+  };
+
+  const getProfileInfo = (token) => {
+    Backend.getProfileInfo(token).then((res) => {
+      dispatch(profile(res));
+    });
   };
 
   const regularLogin = (e) => {

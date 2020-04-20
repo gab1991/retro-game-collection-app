@@ -30,9 +30,9 @@ function GameDetailed(props) {
   const [sountrackVideo, setSountrackVideo] = useState();
   const [gameplayVideo, setGameplayVideo] = useState();
   const [elmsVisibility, setElmsVisibility] = useState({
-    sountrackVideo: true,
-    gameplayVideo: true,
-    ebaySection: true,
+    sountrackVideo: false,
+    gameplayVideo: false,
+    ebaySection: false,
   });
   const [isOwned, setisOwned] = useState(false);
   const [isWished, setisWished] = useState(false);
@@ -211,7 +211,6 @@ function GameDetailed(props) {
   };
 
   const showAuth = () => {
-    // console.log('gere');
     dispatch(showAuthModal(true));
   };
 
@@ -366,7 +365,6 @@ function GameDetailed(props) {
           )}
           <hr></hr>
         </div>
-
         {gameDetails && elmsVisibility.ebaySection && (
           <EbaySection platform={platformName} game={gameDetails.name} />
         )}

@@ -31,7 +31,7 @@ function EbayCardDesc(props) {
     sendToEbay,
     stopWatchCallBack,
   } = props;
-  const [loadShipCosts, setLoadShipCosts] = useState();
+  const [loadShipCosts, setLoadShipCosts] = useState(false);
   const [total, setTotal] = useState();
   const [finalDeliveryPrice, setDelivertPrice] = useState(deliveryPrice);
   const [notCalculated, setNotCalculated] = useState();

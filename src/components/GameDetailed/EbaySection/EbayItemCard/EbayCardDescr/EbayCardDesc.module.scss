@@ -42,7 +42,9 @@ $define-delivery-color: red;
   font-size: 0.9rem;
 
   .SpinnerContainer {
+    position: relative;
     width: 40px;
+    height: 22px;
     margin: auto;
   }
   span {
