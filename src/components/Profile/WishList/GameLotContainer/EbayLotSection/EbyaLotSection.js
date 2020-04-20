@@ -6,9 +6,11 @@ import GameBox from '../../../GameBoxContainer/GameBox/GameBox';
 import ButtonNeon from '../../../../UI/Buttons/ButtonNeon/ButtonNeon';
 import Backend from '../../../../../Backend/Backend';
 import OvalSpinner from '../../../../UI/LoadingSpinners/OvalSpinner/OvalSpinner';
+import CloseSvg from '../../../../UI/LogoSvg/CloseSvg/CloseSvg';
+import WanrModal from '../../../../UI/Modals/WarnModal/WarnModal';
 
 function EbyaLotSection(props) {
-  const { userData, gameData, platform } = props;
+  const { userData, gameData, platform, index, removeFromArray } = props;
   const watchedEbayOffers = gameData.watchedEbayOffers.map((ebayCard) => ({
     itemId: [ebayCard.id],
   }));
@@ -19,6 +21,8 @@ function EbyaLotSection(props) {
     watchedEbayOffers.length ? 'Watched' : 'New Offers'
   );
   const [loading, setLoading] = useState(false);
+  const [removing, setRemoving] = useState();
+  const [showWarn, setShowWarn] = useState();
   const swiperProps = {
     swiperOptions: {
       slidesPerView: 'auto',
@@ -36,7 +40,8 @@ function EbyaLotSection(props) {
         .then((res) => {
           if (isSubscribed) {
             setLoading(false);
-            setShowedItems(res[0].item);
+
+            setShowedItems(res[0].item ? res[0].item : []);
           }
         })
         .catch((err) => {
@@ -87,12 +92,21 @@ function EbyaLotSection(props) {
     setActiveEbaylist(desc);
   };
 
+  const removeFromWishHandler = () => {
+    setRemoving(true);
+  };
+
   const stopWatchHandler = (itemId) => {
     console.log(itemId);
   };
+  console.log(showedItems);
 
   return (
-    <div className={styles.EbyaLotSection}>
+    <div
+      className={`${styles.EbyaLotSection} ${
+        removing ? styles.Removing : null
+      }`}
+      onAnimationEnd={() => removeFromArray(index, gameData.name)}>
       <GameBox
         game={gameData}
         platform={platform}
@@ -143,6 +157,20 @@ function EbyaLotSection(props) {
           </div>
         )}
       </div>
+      <div className={styles.CloseSvgWrapper} onClick={() => setShowWarn(true)}>
+        <CloseSvg />
+      </div>
+      {showWarn && (
+        <WanrModal
+          message={`Do you really want to remove ${gameData.name}`}
+          onBackdropClick={() => setShowWarn(false)}
+          onYesClick={() => {
+            removeFromWishHandler();
+            setShowWarn(false);
+          }}
+          onNoClick={() => setShowWarn(false)}
+        />
+      )}
     </div>
   );
 }

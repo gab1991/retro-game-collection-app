@@ -13,15 +13,18 @@
   font-size: 2rem;
   text-align: center;
 
-  @include respond-to(tablet) {
-    text-align: center;
-    font-size: 1.5rem;
-  }
   h1 {
     font-family: $font-neon-lamp;
     color: rgba(255, 255, 255, 0.5);
     text-shadow: #fdfef8 0px 0px 4px, #fce660 0px 0px 10px, #fad60f 0px 0px 20px,
       #fe7b02 0px 0px 30px, #f77105 0px 0px 50px;
+  }
+  @include respond-to(tablet) {
+    text-align: center;
+    font-size: 1.5rem;
+  }
+  @include respond-to(mobile) {
+    font-size: 1rem;
   }
 }
 
@@ -33,6 +36,9 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  @include respond-to(mobile) {
+    width: 100%;
+  }
 }
 
 .Shelf {
@@ -54,6 +60,10 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
+    }
+
+    @include respond-to(mobile) {
+      width: 50%;
     }
   }
 }

@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import styles from './WishList.module.scss';
-import GameBoxContainer from './../GameBoxContainer/GameBoxContainer';
 import { images } from '../../../configs/appConfig';
-import Backend from '../../../Backend/Backend';
-import { connect, useDispatch } from 'react-redux';
-import { profile } from '../../../actions/actions';
+import { connect } from 'react-redux';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import GameLotContainer from './GameLotContainer/GameLotContainer';
-import EbaySection from '../../GameDetailed/EbaySection/EbaySection';
 
 function WishList(props) {
-  const { userData, profileInfo } = props;
+  const { profileInfo } = props;
   const [wishedList, setWishedList] = useState({ platforms: [], count: 0 });
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (profileInfo) {

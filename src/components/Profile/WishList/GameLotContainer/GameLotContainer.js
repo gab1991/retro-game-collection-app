@@ -7,30 +7,43 @@ import arrayMove from 'array-move';
 import Backend from '../../../../Backend/Backend';
 import EbyaLotSection from './EbayLotSection/EbyaLotSection';
 
-const SortableList = SortableContainer(({ games, platform }) => {
-  return (
-    <div className={styles.GameLotContainer}>
-      {games.map((game, index) => (
-        <SortableItem
-          key={`${game.name}_${platform}`}
-          index={index}
-          game={game}
-          platform={platform}
-        />
-      ))}
-    </div>
-  );
-});
+const SortableList = SortableContainer(
+  ({ games, platform, removeFromArrayHandler }) => {
+    return (
+      <div className={styles.GameLotContainer}>
+        {games.map((game, index) => {
+          return (
+            <SortableItem
+              removeFromArrayHandler={removeFromArrayHandler}
+              key={`${game.name}_${platform}`}
+              index={index}
+              ind={index}
+              game={game}
+              platform={platform}
+            />
+          );
+        })}
+      </div>
+    );
+  }
+);
 
-const SortableItem = SortableElement(({ game, platform }) => (
-  <div className={styles.GameLots}>
-    <EbyaLotSection gameData={game} platform={platform} />
-  </div>
-));
+const SortableItem = SortableElement(
+  ({ game, platform, removeFromArrayHandler, ind }) => (
+    <div className={styles.GameLots}>
+      <EbyaLotSection
+        removeFromArray={removeFromArrayHandler}
+        gameData={game}
+        platform={platform}
+        index={ind}
+      />
+    </div>
+  )
+);
 
 function GameLotContainer(props) {
   const { width } = useWindowSize();
-  const { games, platform } = props;
+  const { games, platform, userData } = props;
   const [gamesSort, setGamesSort] = useState([]);
 
   useEffect(() => {
@@ -49,8 +62,28 @@ function GameLotContainer(props) {
     });
   };
 
+  const removeFromArrayHandler = (index) => {
+    console.log({ platform, index });
+    const token = userData.token;
+    const newSortedgames = [...gamesSort];
+    const removedGame = newSortedgames.splice(index, 1)[0];
+
+    console.log([removedGame, newSortedgames]);
+    setGamesSort(newSortedgames);
+
+    Backend.updateProfile(token, {
+      action: 'removeGame',
+      list: 'wish_list',
+      platform: platform,
+      game: removedGame,
+    }).then((res) => {
+      console.log(res);
+    });
+  };
+
   return (
     <SortableList
+      removeFromArrayHandler={removeFromArrayHandler}
       onSortEnd={onSortEnd}
       games={gamesSort}
       platform={platform}

@@ -1,4 +1,5 @@
 @import '../../../../configs/Variables.scss';
+$backgorund-color-basis: getBtnColor('basic');
 
 .ButtonNeon {
   color: $font-white;
@@ -6,7 +7,7 @@
   font-size: inherit;
   text-transform: uppercase;
   text-decoration: none;
-  background: getBtnColor('basic');
+  background: $backgorund-color-basis;
   padding: 5px;
   border-radius: 5px;
   display: inline-block;
@@ -31,6 +32,7 @@
     transform: scale(0.8);
   }
   &:hover {
+    letter-spacing: 1px;
     letter-spacing: 1px;
     box-shadow: 0 0 10px $blue-shine-color, 0 0 30px $blue-shine-color,
       0 0 60px $blue-shine-color;

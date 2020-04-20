@@ -2,65 +2,97 @@
 
 .EbyaLotSection {
   @include w100v100;
-  // background-color: mediumpurple;
+  position: relative;
   display: grid;
   grid-template-areas: 'gamebox btns ebay ebay';
   grid-template-columns: auto auto 1fr 1fr;
+
+  .CloseSvgWrapper {
+    cursor: pointer;
+    opacity: 0;
+    top: 7px;
+    left: 7px;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    visibility: hidden;
+    transition: all 200ms ease-in-out;
+  }
 
   & > div:first-of-type {
     grid-area: gamebox;
     width: 200px;
   }
-}
-
-.ButtonSection {
-  grid-area: btns;
-  width: 150px;
-  height: 70%;
-  margin: auto 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  border-left: 2px solid $basic-border-gray;
-  border-right: 2px solid $basic-border-gray;
-
-  button {
-    width: 110px;
-    font-size: 0.8rem;
-  }
-}
-
-.EbaySection {
-  grid-area: ebay;
-  height: 300px;
-  width: 100%;
-  position: relative;
-
-  .NoItemToShow {
-    @include w100v100;
-    // background-color: rgba(0, 0, 0, 0.3);
-    @include flexCenter;
-    font-size: 1.4rem;
-    text-transform: uppercase;
-  }
-
-  :global .swiper-container {
-    width: 100%;
-    height: 300px;
-
-    .swiper-slide {
-      width: 390px;
-      height: 100%;
+  &:hover {
+    .CloseSvgWrapper {
+      opacity: 0.3;
+      visibility: visible;
+      &:hover {
+        opacity: 1;
+      }
     }
   }
-}
-.LoadingSvgWrapper {
-  position: absolute;
-  margin: 0 auto;
-  width: 50%;
-  height: 50%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+
+  &.Removing {
+    animation: remove 400ms ease forwards;
+  }
+
+  .ButtonSection {
+    grid-area: btns;
+    width: 150px;
+    height: 70%;
+    margin: auto 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border-left: 2px solid $basic-border-gray;
+    border-right: 2px solid $basic-border-gray;
+
+    button {
+      width: 110px;
+      font-size: 0.8rem;
+    }
+  }
+
+  .EbaySection {
+    grid-area: ebay;
+    height: 300px;
+    width: 100%;
+    position: relative;
+
+    .NoItemToShow {
+      @include w100v100;
+      @include flexCenter;
+      font-size: 1.4rem;
+      text-transform: uppercase;
+    }
+
+    :global .swiper-container {
+      width: 100%;
+      height: 300px;
+
+      .swiper-slide {
+        width: 390px;
+        height: 100%;
+      }
+    }
+  }
+  .LoadingSvgWrapper {
+    position: absolute;
+    margin: 0 auto;
+    width: 50%;
+    height: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  @keyframes remove {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
 }

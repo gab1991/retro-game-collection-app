@@ -10,4 +10,9 @@
   & > div {
     width: 150px;
   }
+  @include respond-to(mobile) {
+    & > div {
+      width: 120px;
+    }
+  }
 }
