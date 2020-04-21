@@ -8,6 +8,7 @@ import Backend from '../../../../../Backend/Backend';
 import OvalSpinner from '../../../../UI/LoadingSpinners/OvalSpinner/OvalSpinner';
 import CloseSvg from '../../../../UI/LogoSvg/CloseSvg/CloseSvg';
 import WanrModal from '../../../../UI/Modals/WarnModal/WarnModal';
+import KnobToggler from '../../../../UI/Togglers/KnobToggler/KnobToggler';
 
 function EbyaLotSection(props) {
   const { userData, gameData, platform, index, removeFromArray } = props;
@@ -134,6 +135,9 @@ function EbyaLotSection(props) {
           color={activeEbaylist === 'Relevance' ? 'gray' : false}
           onClick={toggleEbayList}
         />
+        <div className={styles.KnobTogglerWrapper}>
+          <KnobToggler width={'40px'} />
+        </div>
       </div>
       <div className={styles.EbaySection}>
         {!loading && showedItems.length > 0 && (

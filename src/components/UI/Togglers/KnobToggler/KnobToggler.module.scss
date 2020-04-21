@@ -1,0 +1,61 @@
+@import '../../../../configs/Variables.scss';
+
+.KnobToggler {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(28, 92, 92);
+  align-self: stretch;
+  text-align: center;
+
+  $input-bg-static: #ddd;
+  $input-bg-pseudo-active: getBtnColor('green');
+  $input-bg-pseudo-static: getBtnColor('basic');
+
+  //   --checkbox-width: 80px;
+  $input-width: var(--checkbox-width); // adjust only this number for dimensions
+
+  $input-radius: calc(#{$input-width} / 2);
+  $input-height: calc(#{$input-width} / 2);
+  $input-light-dims: calc(#{$input-height} / 2.5);
+
+  .knob-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  input[type='checkbox'] {
+    position: relative;
+    appearance: none;
+    width: $input-width;
+    height: $input-height;
+    background-color: $input-bg-static;
+    border-radius: $input-radius;
+    outline: none; // bad accessibility
+    transition: background 450ms ease;
+    box-shadow: 0 0 0 3px darken($input-bg-static, 7.5%);
+
+    &:before,
+    &:after {
+      position: absolute;
+      display: block;
+      content: '';
+      border-radius: 100%;
+      transition: background 450ms ease, transform 450ms ease;
+    }
+
+    &:before {
+      width: calc(#{$input-width} / 2);
+      height: $input-height;
+      background-color: $input-bg-pseudo-static;
+    }
+
+    // active state
+    &:checked {
+      &:before {
+        background-color: $input-bg-pseudo-active;
+        transform: translateX(100%);
+      }
+    }
+  }
+}
