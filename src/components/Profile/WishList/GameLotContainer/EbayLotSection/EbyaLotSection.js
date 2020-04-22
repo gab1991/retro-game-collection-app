@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import styles from './EbayLotSection.module.scss';
 import EbaySwiper from '../../../../GameDetailed/EbaySection/EbaySwiper/EbaySwiper';
@@ -9,9 +9,18 @@ import OvalSpinner from '../../../../UI/LoadingSpinners/OvalSpinner/OvalSpinner'
 import CloseSvg from '../../../../UI/LogoSvg/CloseSvg/CloseSvg';
 import WanrModal from '../../../../UI/Modals/WarnModal/WarnModal';
 import KnobToggler from '../../../../UI/Togglers/KnobToggler/KnobToggler';
+import { trimName } from '../../../../GameDetailed/GameInfoBox/GameInfoBox';
 
 function EbyaLotSection(props) {
-  const { userData, gameData, platform, index, removeFromArray } = props;
+  const {
+    userData,
+    gameData,
+    platform,
+    index,
+    removeFromArray,
+    containerRef,
+    showingEbay,
+  } = props;
   const watchedEbayOffers = gameData.watchedEbayOffers.map((ebayCard) => ({
     itemId: [ebayCard.id],
   }));
@@ -24,6 +33,8 @@ function EbyaLotSection(props) {
   const [loading, setLoading] = useState(false);
   const [removing, setRemoving] = useState();
   const [showWarn, setShowWarn] = useState();
+  const [isEbayTogglerOn, setIsEbayTogglerOn] = useState(true);
+  const ebaySectionRef = useRef();
   const swiperProps = {
     swiperOptions: {
       slidesPerView: 'auto',
@@ -32,6 +43,11 @@ function EbyaLotSection(props) {
     pagination: false,
     navigation: true,
   };
+
+  useEffect(() => {
+    console.log(containerRef.current.getBoundingClientRect());
+    showingEbay(isEbayTogglerOn);
+  }, [isEbayTogglerOn]);
 
   useEffect(() => {
     let isSubscribed = true;
@@ -100,14 +116,23 @@ function EbyaLotSection(props) {
   const stopWatchHandler = (itemId) => {
     console.log(itemId);
   };
-  console.log(showedItems);
+
+  const animationEndHandler = (e) => {
+    const animName = e.animationName;
+    if (animName.includes('remove')) removeFromArray(index, gameData.name);
+    // if (animName.includes('ebayHide'))
+  };
+  const knobEbayHandler = () => {
+    console.log(isEbayTogglerOn);
+    setIsEbayTogglerOn((prev) => !prev);
+  };
 
   return (
     <div
       className={`${styles.EbyaLotSection} ${
         removing ? styles.Removing : null
       }`}
-      onAnimationEnd={() => removeFromArray(index, gameData.name)}>
+      onAnimationEnd={animationEndHandler}>
       <GameBox
         game={gameData}
         platform={platform}
@@ -135,32 +160,47 @@ function EbyaLotSection(props) {
           color={activeEbaylist === 'Relevance' ? 'gray' : false}
           onClick={toggleEbayList}
         />
-        <div className={styles.KnobTogglerWrapper}>
-          <KnobToggler width={'40px'} />
+      </div>
+      <div className={styles.NameSection}>
+        <div className={styles.NameBadge}>{trimName(gameData.name)}</div>
+      </div>
+      <div className={styles.KnobTogglerSection}>
+        <KnobToggler
+          checked={isEbayTogglerOn}
+          width={'40px'}
+          message={'Show ebay offers'}
+          onChangeHandler={knobEbayHandler}
+        />
+      </div>
+      {/* {isEbayTogglerOn && ( */}
+      <div className={`${styles.EbaySection}`} ref={ebaySectionRef}>
+        <div
+          className={`${styles.EbaySectionWrapper}
+${isEbayTogglerOn ? styles.EbaySectionShowed : styles.EbaySectionHidden}
+        `}>
+          {!loading && showedItems.length > 0 && (
+            <EbaySwiper
+              numToShow={1}
+              platform={platform}
+              game={gameData.name}
+              itemsToShow={showedItems}
+              swiperProps={swiperProps}
+              stopWatchCallBack={stopWatchHandler}
+            />
+          )}
+          {!loading && showedItems.length === 0 && (
+            <div className={styles.NoItemToShow}>
+              <p>No item to show in this category</p>
+            </div>
+          )}
+          {loading && (
+            <div className={styles.LoadingSvgWrapper}>
+              <OvalSpinner />
+            </div>
+          )}
         </div>
       </div>
-      <div className={styles.EbaySection}>
-        {!loading && showedItems.length > 0 && (
-          <EbaySwiper
-            numToShow={3}
-            platform={platform}
-            game={gameData.name}
-            itemsToShow={showedItems}
-            swiperProps={swiperProps}
-            stopWatchCallBack={stopWatchHandler}
-          />
-        )}
-        {!loading && showedItems.length === 0 && (
-          <div className={styles.NoItemToShow}>
-            <p>No item to show in this category</p>
-          </div>
-        )}
-        {loading && (
-          <div className={styles.LoadingSvgWrapper}>
-            <OvalSpinner />
-          </div>
-        )}
-      </div>
+      {/* )} */}
       <div className={styles.CloseSvgWrapper} onClick={() => setShowWarn(true)}>
         <CloseSvg />
       </div>

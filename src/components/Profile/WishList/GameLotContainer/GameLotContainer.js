@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import useWindowSize from '../../../../CustomHooks/useWindowSize';
 import { connect } from 'react-redux';
 import styles from './GameLotContainer.module.scss';
@@ -8,12 +8,22 @@ import Backend from '../../../../Backend/Backend';
 import EbyaLotSection from './EbayLotSection/EbyaLotSection';
 
 const SortableList = SortableContainer(
-  ({ games, platform, removeFromArrayHandler }) => {
+  ({
+    games,
+    platform,
+    removeFromArrayHandler,
+    containerRef,
+    ebayshowHandler,
+    isEbayShowed,
+  }) => {
     return (
-      <div className={styles.GameLotContainer}>
+      <div className={styles.GameLotContainer} ref={containerRef}>
         {games.map((game, index) => {
           return (
             <SortableItem
+              isEbayShowed={isEbayShowed}
+              ebayshowHandler={ebayshowHandler}
+              containerRef={containerRef}
               removeFromArrayHandler={removeFromArrayHandler}
               key={`${game.name}_${platform}`}
               index={index}
@@ -29,9 +39,22 @@ const SortableList = SortableContainer(
 );
 
 const SortableItem = SortableElement(
-  ({ game, platform, removeFromArrayHandler, ind }) => (
-    <div className={styles.GameLots}>
+  ({
+    game,
+    platform,
+    removeFromArrayHandler,
+    ind,
+    containerRef,
+    ebayshowHandler,
+    isEbayShowed,
+  }) => (
+    <div
+      className={`${styles.GameLots} ${
+        isEbayShowed ? styles.EbayShowing : ''
+      }`}>
       <EbyaLotSection
+        showingEbay={ebayshowHandler}
+        containerRef={containerRef}
         removeFromArray={removeFromArrayHandler}
         gameData={game}
         platform={platform}
@@ -42,13 +65,26 @@ const SortableItem = SortableElement(
 );
 
 function GameLotContainer(props) {
+  const containerRef = useRef();
   const { width } = useWindowSize();
   const { games, platform, userData } = props;
   const [gamesSort, setGamesSort] = useState([]);
+  const [isEbayShowed, setIsEbayShowed] = useState();
+  // const [containerWidth, setContainerWidth] = useState();
 
   useEffect(() => {
     setGamesSort(games);
   }, [games]);
+
+  // const getSize = (elmRef) => {
+  //   if (elmRef.current) setContainerWidth(elmRef.current.clientWidth);
+  // };
+  // getSize(container);
+
+  const ebayshowHandler = (bool) => {
+    console.log({ ebayshowHandler, bool });
+    setIsEbayShowed(bool);
+  };
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
     const newSortedgames = arrayMove(gamesSort, oldIndex, newIndex);
@@ -81,14 +117,19 @@ function GameLotContainer(props) {
     });
   };
 
+  console.log();
+
   return (
     <SortableList
+      isEbayShowed={isEbayShowed}
+      ebayshowHandler={ebayshowHandler}
+      containerRef={containerRef}
       removeFromArrayHandler={removeFromArrayHandler}
       onSortEnd={onSortEnd}
       games={gamesSort}
       platform={platform}
       distance={5}
-      axis={'y'}
+      axis={'xy'}
     />
   );
 }

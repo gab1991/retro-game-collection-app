@@ -4,8 +4,11 @@
   @include w100v100;
   position: relative;
   display: grid;
-  grid-template-areas: 'gamebox btns ebay ebay';
-  grid-template-columns: auto auto 1fr 1fr;
+  grid-template-areas:
+    'gamebox btns ebay '
+    'name toggler ebayFooter ';
+  grid-template-columns: 200px 170px auto;
+  grid-template-rows: 300px min-content;
 
   .CloseSvgWrapper {
     cursor: pointer;
@@ -21,7 +24,6 @@
 
   & > div:first-of-type {
     grid-area: gamebox;
-    width: 200px;
   }
   &:hover {
     .CloseSvgWrapper {
@@ -39,7 +41,6 @@
 
   .ButtonSection {
     grid-area: btns;
-    width: 150px;
     height: 70%;
     margin: auto 10px;
     display: flex;
@@ -53,17 +54,48 @@
       width: 110px;
       font-size: 0.8rem;
     }
-    .KnobTogglerWrapper {
-      width: 110px;
+  }
+
+  .KnobTogglerSection {
+    grid-area: toggler;
+    height: 100%;
+    width: 100%;
+    margin-bottom: 5px;
+    @include flexCenter;
+  }
+
+  .NameSection {
+    grid-area: name;
+    width: 100%;
+    padding: 10px;
+    .NameBadge {
+      @include w100v100;
+      border-radius: 5px;
+      background-color: getBtnColor('basic');
+      text-align: center;
       @include flexCenter;
     }
   }
 
   .EbaySection {
+    // display: none;
+
     grid-area: ebay;
-    height: 300px;
-    width: 100%;
+    background-color: lightgreen;
+    overflow: hidden;
+    width: max-content;
+    // width: 300px;
     position: relative;
+
+    .EbaySectionWrapper {
+      width: 300px;
+      &.EbaySectionHidden {
+        animation: ebayHide 400ms ease forwards;
+      }
+      &.EbaySectionShowed {
+        animation: ebayShow 400ms ease forwards;
+      }
+    }
 
     .NoItemToShow {
       @include w100v100;
@@ -82,6 +114,7 @@
       }
     }
   }
+
   .LoadingSvgWrapper {
     position: absolute;
     margin: 0 auto;
@@ -97,6 +130,25 @@
     }
     100% {
       transform: translateX(-100%);
+    }
+  }
+
+  @keyframes ebayHide {
+    from {
+      // transform: translateX(0%);
+      // width: max-content;
+    }
+    to {
+      // transform: translateX(-100%);
+      width: 0px;
+    }
+  }
+  @keyframes ebayShow {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0%);
     }
   }
 }

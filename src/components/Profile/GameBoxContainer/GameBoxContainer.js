@@ -57,7 +57,7 @@ function GameBoxContainer(props) {
       games={gamesSort}
       platform={platform}
       distance={5}
-      axis={width > 800 ? 'xy' : 'y'}
+      axis={'xy'}
     />
   );
 }

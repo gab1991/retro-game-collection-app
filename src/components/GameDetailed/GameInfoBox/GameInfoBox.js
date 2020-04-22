@@ -1,13 +1,17 @@
 import React from 'react';
 import styles from './GameInfoBox.module.scss';
 
+const trimName = (name) => {
+  const regexTrim = /.+?(?=\s\()/g;
+  const needToTrim = name.match(regexTrim);
+  return needToTrim ? needToTrim[0] : name;
+};
+
 export default function GameInfoBox(props) {
   const { name, released, developers, publishers } = props.gameInfo;
   const { boxArt } = props;
 
-  const regexTrim = /.+?(?=\s\()/g;
-  const needToTrim = name.match(regexTrim);
-  const nameTrimmed = needToTrim ? needToTrim[0] : name;
+  const nameTrimmed = trimName(name);
 
   return (
     <div className={styles.GameInfoBox}>
@@ -42,3 +46,4 @@ export default function GameInfoBox(props) {
     </div>
   );
 }
+export { trimName };

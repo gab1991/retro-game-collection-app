@@ -1,8 +1,8 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import styles from '../KnobToggler/KnobToggler.module.scss';
 
 export default function KnobToggler(props) {
-  const { width = '50px' } = props;
+  const { width = '50px', message, onChangeHandler, checked } = props;
   const input = useRef();
 
   useEffect(() => {
@@ -12,8 +12,12 @@ export default function KnobToggler(props) {
 
   return (
     <div className={styles.KnobToggler}>
-      <h3>Name</h3>
-      <input ref={input} type="checkbox"></input>
+      <p>{message}</p>
+      <input
+        ref={input}
+        checked={checked}
+        type="checkbox"
+        onChange={onChangeHandler}></input>
     </div>
   );
 }
