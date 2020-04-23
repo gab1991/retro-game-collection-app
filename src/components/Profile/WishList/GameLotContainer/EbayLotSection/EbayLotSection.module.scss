@@ -87,10 +87,16 @@
 
     .EbaySectionWrapper {
       &.EbaySectionHidden {
-        animation: ebayHide 400ms ease forwards;
+        width: 0px;
       }
       &.EbaySectionShowed {
+        width: auto;
+      }
+      &.EbayOpenAnimation {
         animation: ebayShow 400ms ease forwards;
+      }
+      &.EbayCloseAnimation {
+        animation: ebayHide 400ms ease forwards;
       }
     }
 

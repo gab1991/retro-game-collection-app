@@ -34,6 +34,9 @@ function EbyaLotSection(props) {
   const [removing, setRemoving] = useState();
   const [showWarn, setShowWarn] = useState();
   const [isEbayTogglerOn, setIsEbayTogglerOn] = useState(true);
+  const [isEbayShowed, setIsEbayShowed] = useState(true);
+  const [showAnimation, setShowAnimation] = useState();
+  const [hideAnimation, setHideAnimation] = useState();
   const ebaySectionRef = useRef();
   const swiperProps = {
     swiperOptions: {
@@ -46,7 +49,6 @@ function EbyaLotSection(props) {
 
   useEffect(() => {
     showingEbay(gameData.name, isEbayTogglerOn);
-    console.log(gameData.name, isEbayTogglerOn);
   }, [isEbayTogglerOn]);
 
   useEffect(() => {
@@ -120,10 +122,26 @@ function EbyaLotSection(props) {
   const animationEndHandler = (e) => {
     const animName = e.animationName;
     if (animName.includes('remove')) removeFromArray(index, gameData.name);
+    if (animName.includes('ebayShow')) {
+      console.log(animName);
+      setShowAnimation(false);
+    }
+    if (animName.includes('ebayHide')) {
+      setHideAnimation(false);
+      setIsEbayShowed(false);
+    }
   };
   const knobEbayHandler = () => {
-    console.log(isEbayTogglerOn);
-    setIsEbayTogglerOn((prev) => !prev);
+    setIsEbayTogglerOn((prev) => {
+      if (prev === false) {
+        setIsEbayShowed(true);
+        setShowAnimation(true);
+      } else {
+        console.log('hiding');
+        setHideAnimation(true);
+      }
+      return !prev;
+    });
   };
 
   return (
@@ -171,14 +189,12 @@ function EbyaLotSection(props) {
           onChangeHandler={knobEbayHandler}
         />
       </div>
-      <div
-        className={`${styles.EbaySection} ${
-          isEbayTogglerOn ? styles.EbayShowing : ''
-        }`}
-        ref={ebaySectionRef}>
+      <div className={`${styles.EbaySection}`} ref={ebaySectionRef}>
         <div
           className={`${styles.EbaySectionWrapper}
-${isEbayTogglerOn ? styles.EbaySectionShowed : styles.EbaySectionHidden}
+          ${showAnimation ? styles.EbayOpenAnimation : ''}
+          ${hideAnimation ? styles.EbayCloseAnimation : ''}
+          ${isEbayShowed ? styles.EbaySectionShowed : styles.EbaySectionHidden}
         `}>
           {!loading && showedItems.length > 0 && (
             <EbaySwiper

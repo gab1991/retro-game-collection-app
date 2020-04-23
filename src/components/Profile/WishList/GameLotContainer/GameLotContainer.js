@@ -77,8 +77,6 @@ function GameLotContainer(props) {
   }, [games]);
 
   const ebayshowHandler = (game, bool) => {
-    console.log({ game, bool });
-
     setIsEbayShowedList((prevList) => {
       const updList = { ...prevList };
       updList[game] = bool;
