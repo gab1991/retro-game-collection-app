@@ -45,8 +45,8 @@ function EbyaLotSection(props) {
   };
 
   useEffect(() => {
-    console.log(containerRef.current.getBoundingClientRect());
-    showingEbay(isEbayTogglerOn);
+    showingEbay(gameData.name, isEbayTogglerOn);
+    console.log(gameData.name, isEbayTogglerOn);
   }, [isEbayTogglerOn]);
 
   useEffect(() => {
@@ -120,7 +120,6 @@ function EbyaLotSection(props) {
   const animationEndHandler = (e) => {
     const animName = e.animationName;
     if (animName.includes('remove')) removeFromArray(index, gameData.name);
-    // if (animName.includes('ebayHide'))
   };
   const knobEbayHandler = () => {
     console.log(isEbayTogglerOn);
@@ -172,8 +171,11 @@ function EbyaLotSection(props) {
           onChangeHandler={knobEbayHandler}
         />
       </div>
-      {/* {isEbayTogglerOn && ( */}
-      <div className={`${styles.EbaySection}`} ref={ebaySectionRef}>
+      <div
+        className={`${styles.EbaySection} ${
+          isEbayTogglerOn ? styles.EbayShowing : ''
+        }`}
+        ref={ebaySectionRef}>
         <div
           className={`${styles.EbaySectionWrapper}
 ${isEbayTogglerOn ? styles.EbaySectionShowed : styles.EbaySectionHidden}
@@ -200,7 +202,6 @@ ${isEbayTogglerOn ? styles.EbaySectionShowed : styles.EbaySectionHidden}
           )}
         </div>
       </div>
-      {/* )} */}
       <div className={styles.CloseSvgWrapper} onClick={() => setShowWarn(true)}>
         <CloseSvg />
       </div>

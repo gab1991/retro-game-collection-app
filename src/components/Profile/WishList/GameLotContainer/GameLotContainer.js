@@ -14,14 +14,14 @@ const SortableList = SortableContainer(
     removeFromArrayHandler,
     containerRef,
     ebayshowHandler,
-    isEbayShowed,
+    isEbayShowedList,
   }) => {
     return (
       <div className={styles.GameLotContainer} ref={containerRef}>
         {games.map((game, index) => {
           return (
             <SortableItem
-              isEbayShowed={isEbayShowed}
+              isEbayShowedList={isEbayShowedList}
               ebayshowHandler={ebayshowHandler}
               containerRef={containerRef}
               removeFromArrayHandler={removeFromArrayHandler}
@@ -46,12 +46,13 @@ const SortableItem = SortableElement(
     ind,
     containerRef,
     ebayshowHandler,
-    isEbayShowed,
+    isEbayShowedList,
   }) => (
     <div
       className={`${styles.GameLots} ${
-        isEbayShowed ? styles.EbayShowing : ''
+        isEbayShowedList[game.name] ? styles.EbayShowing : ''
       }`}>
+      {/* {console.log(isEbayShowedList[game.name])} */}
       <EbyaLotSection
         showingEbay={ebayshowHandler}
         containerRef={containerRef}
@@ -69,21 +70,20 @@ function GameLotContainer(props) {
   const { width } = useWindowSize();
   const { games, platform, userData } = props;
   const [gamesSort, setGamesSort] = useState([]);
-  const [isEbayShowed, setIsEbayShowed] = useState();
-  // const [containerWidth, setContainerWidth] = useState();
+  const [isEbayShowedList, setIsEbayShowedList] = useState({});
 
   useEffect(() => {
     setGamesSort(games);
   }, [games]);
 
-  // const getSize = (elmRef) => {
-  //   if (elmRef.current) setContainerWidth(elmRef.current.clientWidth);
-  // };
-  // getSize(container);
+  const ebayshowHandler = (game, bool) => {
+    console.log({ game, bool });
 
-  const ebayshowHandler = (bool) => {
-    console.log({ ebayshowHandler, bool });
-    setIsEbayShowed(bool);
+    setIsEbayShowedList((prevList) => {
+      const updList = { ...prevList };
+      updList[game] = bool;
+      return updList;
+    });
   };
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
@@ -121,7 +121,7 @@ function GameLotContainer(props) {
 
   return (
     <SortableList
-      isEbayShowed={isEbayShowed}
+      isEbayShowedList={isEbayShowedList}
       ebayshowHandler={ebayshowHandler}
       containerRef={containerRef}
       removeFromArrayHandler={removeFromArrayHandler}

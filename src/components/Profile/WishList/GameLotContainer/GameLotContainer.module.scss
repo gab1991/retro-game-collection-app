@@ -14,17 +14,8 @@
   margin-bottom: 2%;
   margin: 15px;
 
-  width: 100%;
-  height: min-content;
-  // background: linear-gradient(
-  //   90deg,
-  //   rgba(0, 0, 0, 0.5018382352941176) 0%,
-  //   rgba(0, 0, 0, 0) 50%,
-  //   rgba(255, 255, 255, 0) 100%
-  // );
-  background-color: rgba(0, 0, 0, 0.3);
-  // &.EbayShowing {
-  //   width: 100%;
-  //   background-color: pink;
-  // }
+  &.EbayShowing {
+    flex: 1;
+    flex-basis: 100%;
+  }
 }
