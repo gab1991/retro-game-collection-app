@@ -38,6 +38,8 @@ const SortableList = SortableContainer(
   }
 );
 
+const desktopBreakPoint = 900;
+
 const SortableItem = SortableElement(
   ({
     game,
@@ -68,6 +70,7 @@ const SortableItem = SortableElement(
 function GameLotContainer(props) {
   const containerRef = useRef();
   const { width } = useWindowSize();
+  const isDesktop = width > desktopBreakPoint;
   const { games, platform, userData } = props;
   const [gamesSort, setGamesSort] = useState([]);
   const [isEbayShowedList, setIsEbayShowedList] = useState({});
@@ -97,12 +100,10 @@ function GameLotContainer(props) {
   };
 
   const removeFromArrayHandler = (index) => {
-    console.log({ platform, index });
     const token = userData.token;
     const newSortedgames = [...gamesSort];
     const removedGame = newSortedgames.splice(index, 1)[0];
 
-    console.log([removedGame, newSortedgames]);
     setGamesSort(newSortedgames);
 
     Backend.updateProfile(token, {
@@ -126,8 +127,8 @@ function GameLotContainer(props) {
       onSortEnd={onSortEnd}
       games={gamesSort}
       platform={platform}
-      distance={5}
       axis={'xy'}
+      pressDelay={isDesktop ? 0 : 200}
     />
   );
 }

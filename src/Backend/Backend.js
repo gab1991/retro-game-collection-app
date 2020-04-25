@@ -273,6 +273,22 @@ const Backend = {
         .catch((err) => reject(err));
     });
   },
+  toggleEbayVisibility: (token, obj) => {
+    let url = `${api.appServer.profileUrl}/toggleEbaySection`;
+    return new Promise((resolve, reject) => {
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(obj),
+      })
+        .then((res) => res.json())
+        .then((data) => resolve(data))
+        .catch((err) => reject(err));
+    });
+  },
 };
 
 export default Backend;

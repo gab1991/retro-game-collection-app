@@ -28,6 +28,10 @@ $card-font-color: gray;
   display: flex;
   flex-direction: column;
 
+  @include respond-to(mobile) {
+    width: 150px;
+  }
+
   .SvgWrapper {
     height: 30px;
     margin-top: auto;

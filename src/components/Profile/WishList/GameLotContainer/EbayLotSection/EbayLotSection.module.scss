@@ -8,9 +8,22 @@
   display: grid;
   grid-template-areas:
     'gamebox btns ebay '
-    'name toggler ebayFooter ';
+    'name toggler ebay';
   grid-template-columns: 200px 170px auto;
   grid-template-rows: 300px min-content;
+
+  @include respond-to(tablet) {
+    grid-template-columns: 170px 170px auto;
+  }
+
+  @include respond-to(mobile) {
+    grid-template-areas:
+      'gamebox btns'
+      'name toggler'
+      'ebay ebay';
+    grid-template-columns: 60% 40%;
+    grid-template-rows: 300px min-content auto;
+  }
 
   .CloseSvgWrapper {
     cursor: pointer;
@@ -56,6 +69,15 @@
       width: 110px;
       font-size: 0.8rem;
     }
+
+    @include respond-to(mobile) {
+      height: 90%;
+
+      button {
+        width: 85%;
+        font-size: 0.7rem;
+      }
+    }
   }
 
   .KnobTogglerSection {
@@ -81,22 +103,33 @@
 
   .EbaySection {
     grid-area: ebay;
-    background-color: lightgreen;
     overflow: hidden;
     position: relative;
 
     .EbaySectionWrapper {
+      @include w100v100;
+
       &.EbaySectionHidden {
         width: 0px;
+        @include respond-to(mobile) {
+          width: auto;
+          height: 0px;
+        }
       }
       &.EbaySectionShowed {
         width: auto;
       }
       &.EbayOpenAnimation {
         animation: ebayShow 400ms ease forwards;
+        @include respond-to(mobile) {
+          animation: ebayShowMobile 400ms ease forwards;
+        }
       }
       &.EbayCloseAnimation {
         animation: ebayHide 400ms ease forwards;
+        @include respond-to(mobile) {
+          animation: ebayHideMobile 400ms ease forwards;
+        }
       }
     }
 
@@ -109,13 +142,47 @@
 
     :global .swiper-container {
       width: 100%;
-      height: 300px;
+      height: 330px;
+
+      @include respond-to(mobile) {
+        margin-top: 10px;
+        height: 270px;
+      }
+
+      .swiper-pagination {
+        position: absolute;
+        bottom: 2px;
+
+        .swiper-pagination-bullet {
+          background: white;
+          width: 12px;
+          height: 12px;
+        }
+      }
+
+      .swiper-container-horizontal > .swiper-pagination-bullets {
+        bottom: 0px;
+      }
 
       .swiper-slide {
         width: 390px;
-        height: 100%;
+        height: 280px;
+
+        @include respond-to(mobile) {
+          width: 100%;
+          height: 250px;
+        }
       }
     }
+  }
+
+  .SwiperBtn {
+    width: 10%;
+    top: 0;
+    right: 0;
+    position: absolute;
+    background-color: lightblue;
+    height: 100%;
   }
 
   .LoadingSvgWrapper {
@@ -138,20 +205,35 @@
 
   @keyframes ebayHide {
     from {
-      // transform: translateX(0%);
       width: 405px;
     }
     to {
-      // transform: translateX(-100%);
       width: 0px;
     }
   }
+
   @keyframes ebayShow {
     from {
       transform: translateX(-100%);
     }
     to {
       transform: translateX(0%);
+    }
+  }
+  @keyframes ebayShowMobile {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateX(0%);
+    }
+  }
+  @keyframes ebayHideMobile {
+    from {
+      height: 300px;
+    }
+    to {
+      height: 0px;
     }
   }
 }

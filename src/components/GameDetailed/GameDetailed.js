@@ -32,7 +32,7 @@ function GameDetailed(props) {
   const [elmsVisibility, setElmsVisibility] = useState({
     sountrackVideo: false,
     gameplayVideo: false,
-    ebaySection: false,
+    ebaySection: true,
   });
   const [isOwned, setisOwned] = useState(false);
   const [isWished, setisWished] = useState(false);

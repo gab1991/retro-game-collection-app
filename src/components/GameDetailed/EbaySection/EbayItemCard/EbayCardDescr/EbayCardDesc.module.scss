@@ -6,6 +6,7 @@ $timleft-font-color: #963e53;
 $define-delivery-color: red;
 
 .Description {
+  width: 100%;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -20,6 +21,12 @@ $define-delivery-color: red;
   }
   button {
     margin: auto;
+  }
+  @include respond-to(mobile) {
+    font-size: 0.8rem;
+    button {
+      font-size: 0.9rem;
+    }
   }
 }
 
@@ -37,7 +44,7 @@ $define-delivery-color: red;
 
 .Delivery {
   color: $card-font-color;
-  width: max-content;
+  width: 100%;
   margin: auto;
   font-size: 0.9rem;
 

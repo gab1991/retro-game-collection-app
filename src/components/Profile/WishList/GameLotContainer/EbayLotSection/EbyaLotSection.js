@@ -33,8 +33,8 @@ function EbyaLotSection(props) {
   const [loading, setLoading] = useState(false);
   const [removing, setRemoving] = useState();
   const [showWarn, setShowWarn] = useState();
-  const [isEbayTogglerOn, setIsEbayTogglerOn] = useState(true);
-  const [isEbayShowed, setIsEbayShowed] = useState(true);
+  const [isEbayTogglerOn, setIsEbayTogglerOn] = useState(gameData.isShowEbay);
+  const [isEbayShowed, setIsEbayShowed] = useState(gameData.isShowEbay);
   const [showAnimation, setShowAnimation] = useState();
   const [hideAnimation, setHideAnimation] = useState();
   const ebaySectionRef = useRef();
@@ -42,23 +42,36 @@ function EbyaLotSection(props) {
     swiperOptions: {
       slidesPerView: 'auto',
       spaceBetween: 15,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+        dynamicBullets: true,
+      },
     },
-    pagination: false,
-    navigation: true,
+    navigation: false,
   };
 
   useEffect(() => {
     showingEbay(gameData.name, isEbayTogglerOn);
+
+    const sendObj = {
+      gameName: gameData.name,
+      platform: platform,
+      isShowed: isEbayTogglerOn,
+    };
+    Backend.toggleEbayVisibility(userData.token, sendObj);
   }, [isEbayTogglerOn]);
 
   useEffect(() => {
     let isSubscribed = true;
+
     const req = (sortBy) => {
       if (isSubscribed) setLoading(true);
       Backend.getEbayItems(platform, gameData.name, sortBy)
         .then((res) => {
           if (isSubscribed) {
             setLoading(false);
+            console.log({ sortBy, res });
 
             setShowedItems(res[0].item ? res[0].item : []);
           }
@@ -67,6 +80,7 @@ function EbyaLotSection(props) {
           if (isSubscribed) setLoading(false);
         });
     };
+
     const getWatchList = () => {
       if (isSubscribed) setLoading(true);
 
@@ -85,6 +99,7 @@ function EbyaLotSection(props) {
         }
       );
     };
+
     switch (activeEbaylist) {
       case 'New Offers':
         req('StartTimeNewest');
@@ -99,8 +114,6 @@ function EbyaLotSection(props) {
         getWatchList();
         break;
     }
-    if (activeEbaylist === 'New Offers') {
-    }
     return () => {
       isSubscribed = false;
     };
@@ -109,6 +122,14 @@ function EbyaLotSection(props) {
   const toggleEbayList = (e) => {
     const desc = e.currentTarget.textContent;
     setActiveEbaylist(desc);
+
+    setIsEbayTogglerOn((prev) => {
+      if (prev === false) {
+        setIsEbayShowed(true);
+        setShowAnimation(true);
+      }
+      return true;
+    });
   };
 
   const removeFromWishHandler = () => {
@@ -198,7 +219,7 @@ function EbyaLotSection(props) {
         `}>
           {!loading && showedItems.length > 0 && (
             <EbaySwiper
-              numToShow={1}
+              numToShow={4}
               platform={platform}
               game={gameData.name}
               itemsToShow={showedItems}

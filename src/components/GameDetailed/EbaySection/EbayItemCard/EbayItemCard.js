@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import useWindowSize from '../../../../CustomHooks/useWindowSize';
 import Slider from '../../../UI/Slider/Slider';
 import EbayCardDesc from './EbayCardDescr/EbayCardDesc';
 import Backend from '../../../../Backend/Backend';
@@ -11,11 +12,15 @@ function openInNewTab(url) {
   win.focus();
 }
 
+const mobileBreakPointWidth = 600;
+
 export default function EbayItemCard(props) {
+  const { width } = useWindowSize();
   const { itemId, game, platform, stopWatchCallBack } = props;
   const [itemData, setItemData] = useState();
   const [isAuction, setIsAuction] = useState(false);
   const [isEndingSoon, setIsEndingSoon] = useState(false);
+  const isModbile = width < mobileBreakPointWidth;
 
   useEffect(() => {
     let isSubscribed = true;
@@ -64,8 +69,8 @@ export default function EbayItemCard(props) {
             <Slider
               transition="off"
               images={itemData.pictures}
-              imageWidth={200}
-              imageHeight={220}
+              imageWidth={isModbile ? 150 : 200}
+              imageHeight={isModbile ? 190 : 220}
               navDots
               imgFit={'cover'}
             />

@@ -178,11 +178,11 @@ function EbayCardDesc(props) {
           {' : '} {total} {currency}
         </p>
       </div>
-      {isEndingSoon && (
+      {/* {isEndingSoon && (
         <div className={`${styles.Ribbon} ${styles.RibbonTopLeft}`}>
           <span>ENDING SOON</span>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

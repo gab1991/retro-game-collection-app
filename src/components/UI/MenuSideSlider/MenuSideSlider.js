@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './MenuSideSlider.module.css';
+import styles from './MenuSideSlider.module.scss';
 
 export default function MenuSideSlider(props) {
   const { slideLeft, slideRight, show, list } = props;

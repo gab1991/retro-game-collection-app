@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { logOut } from '../../actions/actions';
-
+import { useDispatch, connect } from 'react-redux';
+import { logOut, showAuthModal } from '../../actions/actions';
 import styles from './Navigation.module.scss';
 import { withRouter } from 'react-router-dom';
 import Backdrop from '../UI/Backdrop/Backdrop';
 import MenuSideSlider from '../UI/MenuSideSlider/MenuSideSlider';
+import ButtonNeon from '../UI/Buttons/ButtonNeon/ButtonNeon';
 
 function Navigation(props) {
+  const { userData } = props;
   const [showMenuSlider, setShowMenuSlider] = useState(false);
   const [showProfileSlider, setProfileSlider] = useState(false);
   const [showBackdrop, setShowBackdrop] = useState(false);
@@ -21,16 +22,6 @@ function Navigation(props) {
       setShowBackdrop((prevState) => !prevState);
     }
     setShowMenuSlider((prevState) => !prevState);
-  };
-
-  const toggleProfileSlider = () => {
-    if (showMenuSlider) {
-      setShowBackdrop(true);
-      setShowMenuSlider(false);
-    } else {
-      setShowBackdrop((prevState) => !prevState);
-    }
-    setProfileSlider((prevState) => !prevState);
   };
 
   const hideMenu = () => {
@@ -48,16 +39,15 @@ function Navigation(props) {
     props.history.push('/profile');
   };
 
-  const toProfileMobile = () => {
-    props.history.push('/profile');
-    toggleProfileSlider();
-  };
-
   const loggingOut = () => {
     toPlatformSelector();
     hideMenu();
     localStorage.removeItem('token');
     dispatch(logOut());
+  };
+
+  const showAuth = () => {
+    dispatch(showAuthModal(true));
   };
 
   return (
@@ -71,25 +61,36 @@ function Navigation(props) {
               slideLeft
               show={showMenuSlider}
               list={[
-                { option: 'Select Platform', onclick: toPlatformSelector },
-                { option: 'Log Out', onclick: loggingOut },
+                { option: 'SELECT PLATFORM', onclick: toPlatformSelector },
+                { option: 'LOG OUT', onclick: loggingOut },
               ]}
             />
-            <div className={styles.ProfileMobile}>
-              <li onClick={toggleProfileSlider}>PROFILE</li>
-              <MenuSideSlider
-                slideRight
-                show={showProfileSlider}
-                list={[{ option: 'My Colletion', onclick: toProfileMobile }]}
-              />
-            </div>
-            <li onClick={toProfile} className={styles.ProfileDesctop}>
-              PROFILE
-            </li>
+            {userData && (
+              <li onClick={toProfile} className={styles.ProfileDesctop}>
+                PROFILE
+              </li>
+            )}
+            {!userData && (
+              <div className={styles.BtnSection}>
+                <ButtonNeon
+                  txtContent="Login"
+                  color={'green'}
+                  rectangular
+                  onClick={showAuth}
+                />
+              </div>
+            )}
           </ul>
         </nav>
       </div>
     </>
   );
 }
-export default withRouter(Navigation);
+
+function mapStateToProps(state) {
+  return {
+    userData: state.logged,
+    profileInfo: state.profile,
+  };
+}
+export default connect(mapStateToProps)(withRouter(Navigation));

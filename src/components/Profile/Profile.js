@@ -34,7 +34,7 @@ function Profile(props) {
     return () => {
       isSubscribed = false;
     };
-  }, [userData]);
+  }, [userData, activeSection]);
 
   const sectionToggler = (e) => {
     const name = e.target.getAttribute('desc');

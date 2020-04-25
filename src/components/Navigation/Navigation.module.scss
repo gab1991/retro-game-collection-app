@@ -31,13 +31,14 @@
   li {
     cursor: pointer;
   }
+  .BtnSection {
+    height: 70%;
+    display: flex;
 
-  @include respond-to(mobile) {
-    .ProfileDesctop {
-      display: none;
-    }
-    .ProfileMobile {
-      display: list-item;
+    button {
+      height: 100%;
+      line-height: 20px;
+      margin: 0 5px;
     }
   }
 }

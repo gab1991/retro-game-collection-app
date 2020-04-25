@@ -26,8 +26,11 @@ const SortableItem = SortableElement(({ game, platform }) => (
   <GameBox game={game} platform={platform} />
 ));
 
+const desktopBreakPoint = 900;
+
 function GameBoxContainer(props) {
   const { width } = useWindowSize();
+  const isDesktop = width > desktopBreakPoint;
   const { games, platform } = props;
   const [gamesSort, setGamesSort] = useState([]);
 
@@ -56,7 +59,7 @@ function GameBoxContainer(props) {
       onSortEnd={onSortEnd}
       games={gamesSort}
       platform={platform}
-      distance={5}
+      pressDelay={isDesktop ? 0 : 200}
       axis={'xy'}
     />
   );
