@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import useWindowSize from '../../../CustomHooks/useWindowSize';
+import useWindowSize from '../../../../CustomHooks/useWindowSize';
 import GameBox from './GameBox/GameBox';
 import { connect } from 'react-redux';
-import styles from './GameBoxContainer.module.scss';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
-import Backend from '../../../Backend/Backend';
+import Backend from '../../../../Backend/Backend';
+import sassVar from '../../../../configs/Variables.scss';
+import styles from './GameBoxContainer.module.scss';
 
 const SortableList = SortableContainer(({ games, platform }) => {
   return (
@@ -26,11 +27,11 @@ const SortableItem = SortableElement(({ game, platform }) => (
   <GameBox game={game} platform={platform} />
 ));
 
-const desktopBreakPoint = 900;
+const tabletBreakPoint = parseInt(sassVar['breakpoints-tablet']);
 
 function GameBoxContainer(props) {
   const { width } = useWindowSize();
-  const isDesktop = width > desktopBreakPoint;
+  const isPC = width > tabletBreakPoint;
   const { games, platform } = props;
   const [gamesSort, setGamesSort] = useState([]);
 
@@ -59,7 +60,8 @@ function GameBoxContainer(props) {
       onSortEnd={onSortEnd}
       games={gamesSort}
       platform={platform}
-      pressDelay={isDesktop ? 0 : 200}
+      pressDelay={isPC ? 0 : 200}
+      distance={isPC ? 5 : 0}
       axis={'xy'}
     />
   );

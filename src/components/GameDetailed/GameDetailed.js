@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { showAuthModal } from '../../actions/actions';
-
 import styles from './GameDetailed.module.scss';
 import Backend from '../../Backend/Backend';
 import { textMessages } from '../../configs/appConfig';
@@ -16,8 +15,10 @@ import ReactPlayer from 'react-player';
 import ArrowEsc from '../UI/LogoSvg/ArrowEscSvg/ArrowEsc';
 import { Swiper, Slide } from 'react-dynamic-swiper';
 import 'react-dynamic-swiper/lib/styles.css';
+import sliderArrow from '../../assets/images/ui/slider-arrow-left.svg';
+import sassVar from '../../configs/Variables.scss';
 
-const mobileBreakPointWidth = 600;
+const mobileBreakPointWidth = parseInt(sassVar['breakpoints-mobile']);
 
 function GameDetailed(props) {
   const dispatch = useDispatch();
@@ -84,26 +85,32 @@ function GameDetailed(props) {
   useEffect(() => {
     let isSubscribed = true;
     if (gameDetails) {
-      Backend.getBoxArt(platformName, gameDetails.name).then((res) => {
-        if (isSubscribed) setBoxArtUrl(res);
-      });
+      Backend.getBoxArt(platformName, gameDetails.name)
+        .then((res) => {
+          if (isSubscribed) setBoxArtUrl(res);
+        })
+        .catch((err) => console.log(err));
 
-      Backend.getVideo('sountrack', platformName, gameDetails.name).then(
-        (res) => {
-          if (isSubscribed) setSountrackVideo(res);
-        }
-      );
+      if (elmsVisibility.sountrackVideo && !sountrackVideo) {
+        Backend.getVideo('sountrack', platformName, gameDetails.name).then(
+          (res) => {
+            if (isSubscribed) setSountrackVideo(res);
+          }
+        );
+      }
 
-      Backend.getVideo('gameplay', platformName, gameDetails.name).then(
-        (res) => {
-          if (isSubscribed) setGameplayVideo(res);
-        }
-      );
+      if (elmsVisibility.gameplayVideo && !gameplayVideo) {
+        Backend.getVideo('gameplay', platformName, gameDetails.name).then(
+          (res) => {
+            if (isSubscribed) setGameplayVideo(res);
+          }
+        );
+      }
     }
     return () => {
       isSubscribed = false;
     };
-  }, [gameDetails, platformName]);
+  }, [gameDetails, platformName, elmsVisibility]);
 
   const notifierHandler = (listState, listName) => {
     if (listState === false) {
@@ -214,22 +221,39 @@ function GameDetailed(props) {
     dispatch(showAuthModal(true));
   };
 
-  const swiperSettings = {
-    slidesPerView: 'auto',
-    spaceBetween: 15,
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
+  const swiperProps = {
+    swiperOptions: {
+      slidesPerView: 'auto',
+      spaceBetween: 15,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+        dynamicBullets: true,
+      },
     },
+    loop: true,
+    pagination: false,
+
+    prevButton: () => (
+      <div className="swiper-button-prev">
+        <img src={sliderArrow} alt="prev-btn" />
+      </div>
+    ),
+    nextButton: () => (
+      <div className="swiper-button-next">
+        <img
+          src={sliderArrow}
+          alt="prev-btn"
+          style={{ transform: 'rotate(180deg)' }}
+        />
+      </div>
+    ),
   };
 
   return (
     <div className={styles.GameDetailed}>
       <div className={styles.ScreenshotSection}>
-        <Swiper
-          swiperOptions={{ ...swiperSettings }}
-          loop={true}
-          pagination={false}>
+        <Swiper {...swiperProps}>
           {screenshots &&
             screenshots.map((image, index) => (
               <Slide key={index}>

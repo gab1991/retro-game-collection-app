@@ -6,6 +6,7 @@ import { showAuthModal } from '../../../actions/actions';
 import Input from '../../UI/Inputs/InputAuth/InputAuth';
 import Backend from '../../../Backend/Backend';
 import CloseSvg from '../../UI/LogoSvg/CloseSvg/CloseSvg';
+import validate from '../../../validation/validation';
 
 export default function SignUpForm(props) {
   const { backToSignIn } = props;
@@ -62,32 +63,24 @@ export default function SignUpForm(props) {
       wrongListHandler(name, 'length 0');
     } else {
       if (name === 'username') {
-        let regex = /^[a-zA-Z0-9]+$/;
-        if (!regex.test(value)) {
-          wrongListHandler(name, 'set', 'Only numbers and letters allowed');
-        } else {
-          wrongListHandler(name, 'remove');
-        }
+        let isValid = validate('username', value);
+        if (isValid) wrongListHandler(name, 'remove');
+        else wrongListHandler(name, 'set', 'Only numbers and letters allowed');
       }
       if (name === 'password' || name === 'passConfirm') {
-        let regex = /^(?=.*\d).{4,15}$/;
-        if (!regex.test(value)) {
+        let isValid = validate('password', value);
+        if (isValid) wrongListHandler(name, 'remove');
+        else
           wrongListHandler(
             name,
             'set',
             'Pass must contain at least at least one number and contain between 4 and 15 chars'
           );
-        } else {
-          wrongListHandler(name, 'remove');
-        }
       }
       if (name === 'email') {
-        let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!regex.test(value)) {
-          wrongListHandler(name, 'set', 'Wrong email');
-        } else {
-          wrongListHandler(name, 'remove');
-        }
+        let isValid = validate('email', value);
+        if (isValid) wrongListHandler(name, 'remove');
+        else wrongListHandler(name, 'set', 'Wrong email');
       }
     }
   };

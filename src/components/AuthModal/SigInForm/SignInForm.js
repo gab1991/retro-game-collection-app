@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react';
-import styles from './SignInForm.module.scss';
+import { useDispatch } from 'react-redux';
+import { signIn, profile, showAuthModal } from '../../../actions/actions';
 import CloseSvg from '../../UI/LogoSvg/CloseSvg/CloseSvg';
-import { showAuthModal } from '../../../actions/actions';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import Input from '../../UI/Inputs/InputAuth/InputAuth';
 import Backend from '../../../Backend/Backend';
-import { useDispatch } from 'react-redux';
-import { signIn, profile } from '../../../actions/actions';
+import validate from '../../../validation/validation';
+import styles from './SignInForm.module.scss';
 
 export default function SignInForm(props) {
   const { toSignUp } = props;
@@ -32,24 +32,19 @@ export default function SignInForm(props) {
       wrongListHandler(name, 'length 0');
     } else {
       if (name === 'username') {
-        let regex = /^[a-zA-Z0-9]+$/;
-        if (!regex.test(value)) {
-          wrongListHandler(name, 'set', 'Only numbers and letters allowed');
-        } else {
-          wrongListHandler(name, 'remove');
-        }
+        let isValid = validate('username', value);
+        if (isValid) wrongListHandler(name, 'remove');
+        else wrongListHandler(name, 'set', 'Only numbers and letters allowed');
       }
-      if (name === 'password' || name === 'passConfirm') {
-        let regex = /^(?=.*\d).{4,15}$/;
-        if (!regex.test(value)) {
+      if (name === 'password') {
+        let isValid = validate('password', value);
+        if (isValid) wrongListHandler(name, 'remove');
+        else
           wrongListHandler(
             name,
             'set',
             'Pass must contain at least at least one number and contain between 4 and 15 chars'
           );
-        } else {
-          wrongListHandler(name, 'remove');
-        }
       }
     }
   };
@@ -118,7 +113,6 @@ export default function SignInForm(props) {
   };
 
   const guestEnterHandler = (e) => {
-    console.log(e.target);
     e.preventDefault();
 
     const guestAut = { username: 'guest', password: 'guest1' };

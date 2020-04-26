@@ -62,3 +62,11 @@ $basic-content-width: 1200px;
 @mixin minHeight {
   min-height: calc(100vh - #{$footer-height} - #{$nav-height});
 }
+
+:export {
+  breakpoints : {
+    tablet: map-get($breakpoints, 'tablet');
+    mobile: map-get($breakpoints, 'mobile');
+    desktop: map-get($breakpoints, 'desktop');
+  }
+}

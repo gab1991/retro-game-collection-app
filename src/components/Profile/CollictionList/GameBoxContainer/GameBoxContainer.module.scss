@@ -1,0 +1,13 @@
+@import '../../../../configs/Variables.scss';
+
+.GameBoxContainer {
+  background: rgba(0, 0, 0, 0.5);
+  margin: 2% 0;
+  border: 2px solid $basic-border-gray;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 150px);
+
+  @include respond-to(mobile) {
+    grid-template-columns: repeat(auto-fit, 120px);
+  }
+}

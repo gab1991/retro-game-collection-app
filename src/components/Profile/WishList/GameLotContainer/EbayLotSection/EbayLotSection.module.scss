@@ -118,6 +118,9 @@
       }
       &.EbaySectionShowed {
         width: auto;
+        @include respond-to(mobile) {
+          height: 280px;
+        }
       }
       &.EbayOpenAnimation {
         animation: ebayShow 400ms ease forwards;

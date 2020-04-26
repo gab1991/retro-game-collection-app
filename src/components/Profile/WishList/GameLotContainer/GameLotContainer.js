@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import useWindowSize from '../../../../CustomHooks/useWindowSize';
 import { connect } from 'react-redux';
 import styles from './GameLotContainer.module.scss';
@@ -6,24 +6,23 @@ import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import Backend from '../../../../Backend/Backend';
 import EbyaLotSection from './EbayLotSection/EbyaLotSection';
+import sassVar from '../../../../configs/Variables.scss';
 
 const SortableList = SortableContainer(
   ({
     games,
     platform,
     removeFromArrayHandler,
-    containerRef,
     ebayshowHandler,
     isEbayShowedList,
   }) => {
     return (
-      <div className={styles.GameLotContainer} ref={containerRef}>
+      <div className={styles.GameLotContainer}>
         {games.map((game, index) => {
           return (
             <SortableItem
               isEbayShowedList={isEbayShowedList}
               ebayshowHandler={ebayshowHandler}
-              containerRef={containerRef}
               removeFromArrayHandler={removeFromArrayHandler}
               key={`${game.name}_${platform}`}
               index={index}
@@ -38,7 +37,7 @@ const SortableList = SortableContainer(
   }
 );
 
-const desktopBreakPoint = 900;
+const tabletBreakPoint = parseInt(sassVar['breakpoints-tablet']);
 
 const SortableItem = SortableElement(
   ({
@@ -46,7 +45,6 @@ const SortableItem = SortableElement(
     platform,
     removeFromArrayHandler,
     ind,
-    containerRef,
     ebayshowHandler,
     isEbayShowedList,
   }) => (
@@ -54,10 +52,8 @@ const SortableItem = SortableElement(
       className={`${styles.GameLots} ${
         isEbayShowedList[game.name] ? styles.EbayShowing : ''
       }`}>
-      {/* {console.log(isEbayShowedList[game.name])} */}
       <EbyaLotSection
         showingEbay={ebayshowHandler}
-        containerRef={containerRef}
         removeFromArray={removeFromArrayHandler}
         gameData={game}
         platform={platform}
@@ -68,9 +64,8 @@ const SortableItem = SortableElement(
 );
 
 function GameLotContainer(props) {
-  const containerRef = useRef();
   const { width } = useWindowSize();
-  const isDesktop = width > desktopBreakPoint;
+  const isPC = width > tabletBreakPoint;
   const { games, platform, userData } = props;
   const [gamesSort, setGamesSort] = useState([]);
   const [isEbayShowedList, setIsEbayShowedList] = useState({});
@@ -111,24 +106,19 @@ function GameLotContainer(props) {
       list: 'wish_list',
       platform: platform,
       game: removedGame,
-    }).then((res) => {
-      console.log(res);
     });
   };
-
-  console.log();
 
   return (
     <SortableList
       isEbayShowedList={isEbayShowedList}
       ebayshowHandler={ebayshowHandler}
-      containerRef={containerRef}
       removeFromArrayHandler={removeFromArrayHandler}
       onSortEnd={onSortEnd}
       games={gamesSort}
       platform={platform}
       axis={'xy'}
-      pressDelay={isDesktop ? 0 : 200}
+      pressDelay={isPC ? 0 : 200}
     />
   );
 }

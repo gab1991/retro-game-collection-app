@@ -1,3 +1,5 @@
+const host = 'http://localhost:8000';
+
 const api = {
   platforms: {
     getPlatformsURL: 'https://api.rawg.io/api/platforms',
@@ -21,14 +23,14 @@ const api = {
     getDetailsUrl: 'https://api.rawg.io/api/games/',
   },
   appServer: {
-    boxArtworkUrl: 'http://localhost:8000/box_arts',
-    signUpUrl: 'http://localhost:8000/auth/sign_up',
-    signInUrl: 'http://localhost:8000/auth/sign_in',
-    profileUrl: 'http://localhost:8000/profile',
-    videoURL: 'http://localhost:8000/youtube',
-    ebayItemsUrl: 'http://localhost:8000/ebay/searchList',
-    ebaySingleItemUrl: 'http://localhost:8000/ebay/singleItem',
-    shippingCostsUrl: 'http://localhost:8000/ebay/shopingCosts',
+    boxArtworkUrl: `${host}/box_arts`,
+    signUpUrl: `${host}/auth/sign_up`,
+    signInUrl: `${host}/auth/sign_in`,
+    profileUrl: `${host}/profile`,
+    videoURL: `${host}/youtube`,
+    ebayItemsUrl: `${host}/ebay/searchList`,
+    ebaySingleItemUrl: `${host}/ebay/singleItem`,
+    shippingCostsUrl: `${host}/ebay/shopingCosts`,
   },
 };
 

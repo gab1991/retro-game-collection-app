@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import Backend from '../../../../Backend/Backend';
+import Backend from '../../../../../Backend/Backend';
 import styles from './GameBox.module.scss';
 
 function GameBox(props) {
@@ -28,10 +28,8 @@ function GameBox(props) {
     });
   };
 
-  const toggleDescrVisivility = () => {
-    setDescrVisibility((prevState) => {
-      return !prevState;
-    });
+  const toggleDescrVisivility = (isVisible) => {
+    setDescrVisibility(isVisible);
   };
 
   return (
@@ -41,8 +39,8 @@ function GameBox(props) {
       ${scaling ? styles.Scaling : null}
       `}
       onClick={() => openGameDetailsHandler(game.slug)}
-      onMouseEnter={() => toggleDescrVisivility()}
-      onMouseLeave={() => toggleDescrVisivility()}>
+      onMouseEnter={() => toggleDescrVisivility(true)}
+      onMouseLeave={() => toggleDescrVisivility(false)}>
       <img
         src={boxArtUrl}
         alt={boxArtUrl}

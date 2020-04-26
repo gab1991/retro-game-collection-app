@@ -1,7 +1,8 @@
-@import '../../../../configs/Variables.scss';
+@import '../../../../../configs/Variables.scss';
 $description-background: getBtnColor('basic');
 
 .GameBox {
+  color: $font-white;
   @include w100v100;
   overflow: visible;
   padding: 10px;

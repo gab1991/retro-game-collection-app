@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './ArrowEsc.module.scss';
 
 export default function ArrowEsc({ arrow }) {
-  console.log(arrow);
   return (
     <svg
       className={styles.SvgArrow}

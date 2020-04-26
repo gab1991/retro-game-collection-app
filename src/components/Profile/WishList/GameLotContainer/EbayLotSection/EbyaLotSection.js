@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import styles from './EbayLotSection.module.scss';
 import EbaySwiper from '../../../../GameDetailed/EbaySection/EbaySwiper/EbaySwiper';
-import GameBox from '../../../GameBoxContainer/GameBox/GameBox';
+import GameBox from '../../../CollictionList/GameBoxContainer/GameBox/GameBox';
 import ButtonNeon from '../../../../UI/Buttons/ButtonNeon/ButtonNeon';
 import Backend from '../../../../../Backend/Backend';
 import OvalSpinner from '../../../../UI/LoadingSpinners/OvalSpinner/OvalSpinner';
@@ -18,7 +18,6 @@ function EbyaLotSection(props) {
     platform,
     index,
     removeFromArray,
-    containerRef,
     showingEbay,
   } = props;
   const watchedEbayOffers = gameData.watchedEbayOffers.map((ebayCard) => ({
@@ -37,7 +36,6 @@ function EbyaLotSection(props) {
   const [isEbayShowed, setIsEbayShowed] = useState(gameData.isShowEbay);
   const [showAnimation, setShowAnimation] = useState();
   const [hideAnimation, setHideAnimation] = useState();
-  const ebaySectionRef = useRef();
   const swiperProps = {
     swiperOptions: {
       slidesPerView: 'auto',
@@ -64,15 +62,12 @@ function EbyaLotSection(props) {
 
   useEffect(() => {
     let isSubscribed = true;
-
     const req = (sortBy) => {
       if (isSubscribed) setLoading(true);
       Backend.getEbayItems(platform, gameData.name, sortBy)
         .then((res) => {
           if (isSubscribed) {
             setLoading(false);
-            console.log({ sortBy, res });
-
             setShowedItems(res[0].item ? res[0].item : []);
           }
         })
@@ -136,15 +131,10 @@ function EbyaLotSection(props) {
     setRemoving(true);
   };
 
-  const stopWatchHandler = (itemId) => {
-    console.log(itemId);
-  };
-
   const animationEndHandler = (e) => {
     const animName = e.animationName;
     if (animName.includes('remove')) removeFromArray(index, gameData.name);
     if (animName.includes('ebayShow')) {
-      console.log(animName);
       setShowAnimation(false);
     }
     if (animName.includes('ebayHide')) {
@@ -158,7 +148,6 @@ function EbyaLotSection(props) {
         setIsEbayShowed(true);
         setShowAnimation(true);
       } else {
-        console.log('hiding');
         setHideAnimation(true);
       }
       return !prev;
@@ -210,7 +199,7 @@ function EbyaLotSection(props) {
           onChangeHandler={knobEbayHandler}
         />
       </div>
-      <div className={`${styles.EbaySection}`} ref={ebaySectionRef}>
+      <div className={`${styles.EbaySection}`}>
         <div
           className={`${styles.EbaySectionWrapper}
           ${showAnimation ? styles.EbayOpenAnimation : ''}
@@ -224,7 +213,6 @@ function EbyaLotSection(props) {
               game={gameData.name}
               itemsToShow={showedItems}
               swiperProps={swiperProps}
-              stopWatchCallBack={stopWatchHandler}
             />
           )}
           {!loading && showedItems.length === 0 && (

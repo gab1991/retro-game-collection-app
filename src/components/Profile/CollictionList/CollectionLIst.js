@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import styles from './CollectionList.module.scss';
-import GameBoxContainer from './../GameBoxContainer/GameBoxContainer';
+import GameBoxContainer from './GameBoxContainer/GameBoxContainer';
 import { images } from '../../../configs/appConfig';
 import { connect } from 'react-redux';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
