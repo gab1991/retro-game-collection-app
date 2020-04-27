@@ -15,7 +15,7 @@ export default function WarnModal(props) {
           <div className={styles.ImgContainer}>
             <img src={warnicon} alt="warning"></img>
           </div>
-          <h2>{message}</h2>
+          <p>{message}</p>
         </div>
 
         <div className={styles.ButtonSection}>

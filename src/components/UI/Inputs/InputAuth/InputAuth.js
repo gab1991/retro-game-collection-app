@@ -12,6 +12,7 @@ export default function InputAuth(props) {
     onKeyPress,
     wrong,
     addToggler,
+    autoComplete = 'on',
   } = props;
   const [typeChanger, setTypeChanger] = useState(type);
 
@@ -27,7 +28,7 @@ export default function InputAuth(props) {
           className={`${styles.InputAuth}
         ${wrong ? styles.WrongInput : null}
         `}
-          autoComplete="on"
+          autoComplete={autoComplete}
           desc={desc}
           type={typeChanger}
           placeholder={placeholder}

@@ -3,9 +3,10 @@ import styles from './Layout.module.scss';
 import { connect } from 'react-redux';
 import Navigation from '../Navigation/Navigation';
 import AuthModal from '../AuthModal/AuthModal';
+import ErrorModal from '../../components/UI/Modals/ErrorModal/ErrorModal';
 
 function Layout(props) {
-  const { showAuth } = props;
+  const { showAuth, showErr } = props;
 
   return (
     <div className={styles.Layout}>
@@ -25,6 +26,7 @@ function Layout(props) {
         </p>
       </footer>
       {showAuth && <AuthModal />}
+      {showErr && <ErrorModal {...showErr} />}
     </div>
   );
 }
@@ -33,6 +35,7 @@ function mapStateToProps(state) {
   return {
     userData: state.logged,
     showAuth: state.showAuth,
+    showErr: state.showErr,
   };
 }
 

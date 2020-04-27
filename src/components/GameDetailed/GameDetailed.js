@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { showAuthModal } from '../../actions/actions';
+import {
+  showAuthModal,
+  showErrModal,
+  hideErrModal,
+} from '../../actions/actions';
 import styles from './GameDetailed.module.scss';
 import Backend from '../../Backend/Backend';
 import { textMessages } from '../../configs/appConfig';
@@ -33,7 +37,7 @@ function GameDetailed(props) {
   const [elmsVisibility, setElmsVisibility] = useState({
     sountrackVideo: false,
     gameplayVideo: false,
-    ebaySection: true,
+    ebaySection: false,
   });
   const [isOwned, setisOwned] = useState(false);
   const [isWished, setisWished] = useState(false);
@@ -44,6 +48,15 @@ function GameDetailed(props) {
   const wishListWarnTxt = textMessages.fromWishToOwn;
   const windowSize = useWindowSize();
   const [isMobile, setIsMobile] = useState(false);
+  let wishNotifierTimer;
+  let ownedNotifierTimer;
+
+  useEffect(() => {
+    return () => clearInterval(wishNotifierTimer);
+  }, [wishNotifierTimer]);
+  useEffect(() => {
+    return () => clearInterval(ownedNotifierTimer);
+  }, [ownedNotifierTimer]);
 
   useEffect(() => {
     if (windowSize.width < mobileBreakPointWidth) {
@@ -116,12 +129,12 @@ function GameDetailed(props) {
     if (listState === false) {
       if (listName === 'wish_list') {
         setShowWishNotifier(!showWishNotifier);
-        setTimeout(() => {
+        wishNotifierTimer = setTimeout(() => {
           setShowWishNotifier(false);
         }, 2000);
       } else if (listName === 'owned_list') {
         setShowOwnedNotifier(!showOwnedhNotifier);
-        setTimeout(() => {
+        ownedNotifierTimer = setTimeout(() => {
           setShowOwnedNotifier(false);
         }, 2000);
       }
@@ -155,10 +168,25 @@ function GameDetailed(props) {
     }
   };
 
+  const closeErrModal = () => {
+    dispatch(hideErrModal());
+  };
+
   const toggleList = (platform, gameDetails, list, action) => {
     const notifierBlock = needToShowWarning(list);
-
     const token = props.userData.token;
+    let prevState;
+
+    if (list === 'wish_list')
+      setisWished((prevWish) => {
+        prevState = prevWish;
+        return !prevWish;
+      });
+    if (list === 'owned_list')
+      setisOwned((prevOwned) => {
+        prevState = prevOwned;
+        return !prevOwned;
+      });
 
     if (!action) {
       if (list === 'owned_list') {
@@ -173,21 +201,33 @@ function GameDetailed(props) {
       list: list,
       platform: platform,
       game: gameDetails,
-    }).then((res) => {
-      if (res.success) {
+    })
+      .then((res) => {
         if (list === 'owned_list') {
-          setisOwned((prevOwned) => {
-            if (!notifierBlock) notifierHandler(prevOwned, list);
-            return !prevOwned;
-          });
+          if (!notifierBlock) notifierHandler(prevState, list);
         } else if (list === 'wish_list') {
+          if (!notifierBlock) notifierHandler(prevState, list);
+        }
+      })
+      .catch((err) => {
+        dispatch(
+          showErrModal({
+            message: 'Something wrong happened.Try again later',
+            onBackdropClick: closeErrModal,
+            onBtnClick: closeErrModal,
+          })
+        );
+        if (list === 'wish_list')
           setisWished((prevWish) => {
-            if (!notifierBlock) notifierHandler(prevWish, list);
+            prevState = prevWish;
             return !prevWish;
           });
-        }
-      }
-    });
+        if (list === 'owned_list')
+          setisOwned((prevOwned) => {
+            prevState = prevOwned;
+            return !prevOwned;
+          });
+      });
   };
 
   const getBack = () => {
@@ -336,7 +376,6 @@ function GameDetailed(props) {
             <div className={styles.PlayerWrapper}>
               <ReactPlayer
                 url={`https://www.youtube.com/watch?v=${sountrackVideo}`}
-                // url={`https://www.youtube.com/watch?v=RGCTbLMkkb4`}
                 className={styles.ReactPlayer}
                 height="100%"
                 width="100%"
@@ -364,7 +403,6 @@ function GameDetailed(props) {
             <div className={styles.PlayerWrapper}>
               <ReactPlayer
                 url={`https://www.youtube.com/watch?v=${gameplayVideo}`}
-                // url={`https://www.youtube.com/watch?v=kSmcxV35Xrg`}
                 className={styles.ReactPlayer}
                 height="100%"
                 width="100%"
