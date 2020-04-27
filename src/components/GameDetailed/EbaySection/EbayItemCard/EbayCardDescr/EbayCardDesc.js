@@ -3,25 +3,20 @@ import styles from './EbayCardDesc.module.scss';
 import Button from '../../../../UI/Buttons/Button/Button';
 import DotSpinner from '../../../../UI/LoadingSpinners/DotSpinner/DotSpinner';
 import { connect, useDispatch } from 'react-redux';
-
-import { withRouter } from 'react-router-dom';
+import { showErrModal, hideErrModal } from '../../../../../actions/actions';
 import Backend from '../../../../../Backend/Backend';
-import ErrorModal from '../../../../UI/Modals/ErrorModal/ErrorModal';
 
 function EbayCardDesc(props) {
   const {
     userData,
     itemId,
     title,
-    convertedCurrentPrice,
     game,
     platform,
     currentPrice,
     currency,
-    shipping,
     deliveryPrice,
     listingType,
-    itemUrl,
     bidCount,
     endTime: endTimeProp,
     isAuction,
@@ -29,13 +24,13 @@ function EbayCardDesc(props) {
     isEndingSoon,
     endingSoonSetter,
     sendToEbay,
-    stopWatchCallBack,
   } = props;
   const [loadShipCosts, setLoadShipCosts] = useState(false);
   const [total, setTotal] = useState();
   const [finalDeliveryPrice, setDelivertPrice] = useState(deliveryPrice);
   const [notCalculated, setNotCalculated] = useState();
   const [isWatched, setIsWatched] = useState();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (userData) {
@@ -110,6 +105,9 @@ function EbayCardDesc(props) {
     });
   };
 
+  const closeErrModal = () => {
+    dispatch(hideErrModal(false));
+  };
   const watchHandler = () => {
     if (!isWatched) {
       setIsWatched(true);
@@ -117,18 +115,31 @@ function EbayCardDesc(props) {
         gameName: game,
         platform: platform,
         ebayItemId: itemId,
-      }).then((res) => {
-        if (res.err_message) console.log(res.err_message);
+      }).catch((err) => {
+        setIsWatched(false);
+        dispatch(
+          showErrModal({
+            message: 'Something wrong happened.Try again later',
+            onBackdropClick: closeErrModal,
+            onBtnClick: closeErrModal,
+          })
+        );
       });
     } else {
-      stopWatchCallBack(itemId);
       setIsWatched(false);
       Backend.notWatchEbayCard(userData.token, {
         gameName: game,
         platform: platform,
         ebayItemId: itemId,
-      }).then((res) => {
-        if (res.err_message) console.log(res.err_message);
+      }).catch((err) => {
+        setIsWatched(true);
+        dispatch(
+          showErrModal({
+            message: 'Something wrong happened.Try again later',
+            onBackdropClick: closeErrModal,
+            onBtnClick: closeErrModal,
+          })
+        );
       });
     }
   };

@@ -233,6 +233,7 @@ function GameDetailed(props) {
   const getBack = () => {
     props.history.push(props.history.location.state.from);
   };
+  console.log(props.history.location);
 
   const hideWarning = () => {
     setShowWishListWarn(false);
@@ -297,7 +298,7 @@ function GameDetailed(props) {
           {screenshots &&
             screenshots.map((image, index) => (
               <Slide key={index}>
-                <img src={image}></img>
+                <img src={image} alt={image}></img>
               </Slide>
             ))}
         </Swiper>
@@ -324,7 +325,7 @@ function GameDetailed(props) {
             {!userData && (
               <div className={styles.ButtonTooltip}>
                 {`Need to be logged in to add games to the lists    `}
-                <a onClick={showAuth}>GO TO LOGIN</a>
+                <button onClick={showAuth}>GO TO LOGIN</button>
               </div>
             )}
           </div>
@@ -340,7 +341,7 @@ function GameDetailed(props) {
             {!userData && (
               <div className={styles.ButtonTooltip}>
                 {`Need to be logged in to add games to the lists    `}
-                <a onClick={showAuth}>GO TO LOGIN</a>
+                <button onClick={showAuth}>GO TO LOGIN</button>
               </div>
             )}
           </div>
@@ -448,7 +449,7 @@ function GameDetailed(props) {
             corner={'bottomLeft'}
             message={'Game has been added to you'}
             linkText={'Owned List'}
-            linkDir={'/profile/OwnedList'}
+            linkDir={'/profile/CollecitionList'}
             btnText={'Cancel'}
             onCancelClick={() =>
               toggleList(platformName, gameDetails, 'owned_list', 'removeGame')

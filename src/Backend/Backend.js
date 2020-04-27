@@ -218,7 +218,7 @@ const Backend = {
         },
         body: JSON.stringify(obj),
       })
-        .then((res) => res.json())
+        .then(handleErrors)
         .then((data) => resolve(data))
         .catch((err) => reject(err));
     });
@@ -252,7 +252,7 @@ const Backend = {
         },
         body: JSON.stringify(obj),
       })
-        .then((res) => res.json())
+        .then(handleErrors)
         .then((data) => resolve(data))
         .catch((err) => reject(err));
     });

@@ -202,12 +202,13 @@
         max-width: 300px;
         border-radius: 7px;
 
-        a {
+        button {
           cursor: pointer;
+          background-color: transparent;
+          border: none;
           text-decoration: underline;
           color: inherit;
           font-style: normal;
-          margin-left: 15px;
           &:hover {
             color: $nav-color;
           }

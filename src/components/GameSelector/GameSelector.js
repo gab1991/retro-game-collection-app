@@ -100,12 +100,13 @@ export default function GameSelector(props) {
     updatedOrdering.direction = direction;
     setOrdering(updatedOrdering);
   };
+  console.log(window.history);
 
   const openGameDetailsHandler = (slug) => {
     props.history.push({
       pathname: `/${platformName}/${slug}`,
       state: {
-        from: props.location.pathname,
+        from: `${props.history.location.pathname}${props.history.location.search}`,
       },
     });
   };
