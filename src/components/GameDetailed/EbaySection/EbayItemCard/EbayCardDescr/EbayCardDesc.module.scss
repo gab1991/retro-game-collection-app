@@ -1,9 +1,11 @@
 @import '../../../../../configs/Variables.scss';
 @import '../EbayItemCard.module.scss';
 
+$dark-red: #4a0f0e;
+$brigh-red: #ca0541;
 $desc-font-color: #202526;
-$timleft-font-color: #963e53;
-$define-delivery-color: red;
+$timleft-font-color: $dark-red;
+$define-delivery-color: $brigh-red;
 
 .Description {
   width: 100%;
@@ -83,13 +85,13 @@ $define-delivery-color: red;
     display: block;
     width: 260px;
     line-height: 40px;
-    background-color: #963e53;
-    color: whitesmoke;
+    background: linear-gradient(to bottom right, $brigh-red, $dark-red);
+    color: $font-white;
     text-align: center;
   }
-  .RibbonTopLeft {
-    top: -5px;
-    left: -5px;
+  &.RibbonTopLeft {
+    top: 0px;
+    left: 0px;
 
     &::before,
     &::after {
