@@ -3,6 +3,7 @@ import styles from './Layout.module.scss';
 import { connect } from 'react-redux';
 import Navigation from '../Navigation/Navigation';
 import AuthModal from '../AuthModal/AuthModal';
+import Background from '../UI/Background/Background';
 import ErrorModal from '../../components/UI/Modals/ErrorModal/ErrorModal';
 
 function Layout(props) {
@@ -25,6 +26,7 @@ function Layout(props) {
           </a>
         </p>
       </footer>
+      <Background />
       {showAuth && <AuthModal />}
       {showErr && <ErrorModal {...showErr} />}
     </div>

@@ -48,5 +48,20 @@ const hideErrModal = () => {
   };
 };
 
+const cacheGameSelector = (data) => {
+  return {
+    type: 'GAMESELECTOR_CACHE',
+    payload: { ...data },
+  };
+};
+
 export default actions;
-export { signIn, profile, logOut, showAuthModal, showErrModal, hideErrModal };
+export {
+  signIn,
+  profile,
+  logOut,
+  showAuthModal,
+  showErrModal,
+  hideErrModal,
+  cacheGameSelector,
+};

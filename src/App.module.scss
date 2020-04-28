@@ -10,11 +10,5 @@
   margin: 0;
   width: 100%;
   height: 100vh;
-  overflow: auto;
   color: $font-white;
-  background-image: url('./assets/images/background.jpg');
-  background-color: rgba(0, 0, 0, 0.6);
-  background-blend-mode: multiply;
-  background-size: cover;
-  background-position: center;
 }

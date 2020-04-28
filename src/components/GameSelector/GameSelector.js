@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import Backend from '../../Backend/Backend';
 import SearchInput from '../../components/UI/Inputs/SearchInput/SearchInput';
+import { cacheGameSelector } from '../../actions/actions';
+import { connect, useDispatch } from 'react-redux';
 import SelectBox from '../UI/SelectBox/SelectBox';
-import { images, appConfig } from '../../configs/appConfig';
+import { appConfig } from '../../configs/appConfig';
 import styles from './GameSelector.module.scss';
 import GameCard from '../GameSelector/GameCard/GameCard';
 import Paginator from '../Paginator/Paginator.js';
 import queryString from 'query-string';
 
-export default function GameSelector(props) {
+function GameSelector(props) {
+  const dispatch = useDispatch();
+  const url = `${props.history.location.pathname}${props.history.location.search}`;
+  const cache = props.dataCache.gameSelectorCache || {
+    url: 'not loaded yet',
+  };
   const { platformName } = props.match.params;
   const params = queryString.parse(props.location.search);
   const queryPage = Number(params.page);
@@ -16,9 +23,8 @@ export default function GameSelector(props) {
   const defaultOrdering = appConfig.GameSelector.defaultOrdering;
   const platformID = appConfig.platformIdList[platformName];
   const orderingOptions = appConfig.GameSelector.ordering;
-  const [platformDescription, setPlatformDescription] = useState();
-  const [gamesToShow, setGamesToShow] = useState([]);
-  const [recievedData, setRecievedData] = useState();
+  const [gamesToShow, setGamesToShow] = useState(cache ? cache.results : []);
+  const [recievedData, setRecievedData] = useState(cache);
   const [inputValue, setInputValue] = useState();
   const [noGamesFound, setNoGamesFound] = useState();
   const [currentPage, setCurrentPage] = useState(queryPage || 1);
@@ -27,10 +33,7 @@ export default function GameSelector(props) {
   );
 
   useEffect(() => {
-    Backend.getPlatformDetails(platformID).then((res) => {
-      setPlatformDescription(res);
-    });
-
+    if (url === cache.url) return;
     Backend.getGamesForPlatform({
       page: currentPage,
       page_size: appConfig.GameSelector.gamesPerRequest,
@@ -38,25 +41,23 @@ export default function GameSelector(props) {
       platforms: platformID,
     }).then((res) => {
       const games = res.results;
+      dispatch(cacheGameSelector({ ...res, url: url }));
       setGamesToShow(games);
       setRecievedData(res);
     });
   }, [currentPage, ordering, platformID]);
 
   const updateQueryStr = (arr) => {
-    console.log(arr);
     const updParams = { ...params };
     arr.forEach((el) => {
       const key = el[0];
       const value = el[1];
       updParams[key] = value;
     });
-    console.log(updParams);
     return queryString.stringify(updParams);
   };
 
   const pageChangeHandler = (pageNumber) => {
-    console.log(pageNumber);
     const stringified = updateQueryStr([['page', pageNumber]]);
     props.history.push(`${props.history.location.pathname}?${stringified}`);
     setCurrentPage(pageNumber);
@@ -100,7 +101,6 @@ export default function GameSelector(props) {
     updatedOrdering.direction = direction;
     setOrdering(updatedOrdering);
   };
-  console.log(window.history);
 
   const openGameDetailsHandler = (slug) => {
     props.history.push({
@@ -112,7 +112,8 @@ export default function GameSelector(props) {
   };
 
   return (
-    <div className={styles.GameSelector}>
+    <div
+      className={styles.GameSelector}>
       <div className={styles.Header}>
         <div className={styles.ControlsContainer}>
           <div className={styles.InputWrapper}>
@@ -161,3 +162,11 @@ export default function GameSelector(props) {
     </div>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    dataCache: state.dataCache,
+  };
+}
+
+export default connect(mapStateToProps)(GameSelector);

@@ -231,7 +231,9 @@ function GameDetailed(props) {
   };
 
   const getBack = () => {
-    props.history.push(props.history.location.state.from);
+    props.history.push({
+      pathname: props.history.location.state.from,
+    });
   };
   console.log(props.history.location);
 
