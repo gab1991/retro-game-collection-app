@@ -235,7 +235,6 @@ function GameDetailed(props) {
       pathname: props.history.location.state.from,
     });
   };
-  console.log(props.history.location);
 
   const hideWarning = () => {
     setShowWishListWarn(false);

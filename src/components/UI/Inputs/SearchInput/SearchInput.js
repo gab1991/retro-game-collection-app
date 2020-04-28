@@ -2,7 +2,16 @@ import React from 'react';
 import styles from './SearchInput.module.scss';
 
 export default function Input(props) {
-  const { type, placeholder, name, onChange, onKeyPress, onBtnClick } = props;
+  const {
+    type,
+    placeholder,
+    name,
+    onChange,
+    onKeyPress,
+    onBtnClick,
+    value,
+    isFocused,
+  } = props;
   return (
     <div className={styles.InputWrapper}>
       <input
@@ -13,6 +22,8 @@ export default function Input(props) {
         onChange={onChange}
         onKeyPress={onKeyPress}
         autoComplete="off"
+        value={value}
+        autoFocus={isFocused}
       />
       <button
         name="searchBtn"

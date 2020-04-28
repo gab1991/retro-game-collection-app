@@ -102,4 +102,10 @@ $controlsHeight: 30px;
       font-size: 0.8rem;
     }
   }
+
+  .NoGamesFound {
+    grid-column: 1 / -1;
+    text-align: center;
+    @include flexCenter;
+  }
 }

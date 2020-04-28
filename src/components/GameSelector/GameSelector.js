@@ -18,34 +18,44 @@ function GameSelector(props) {
   };
   const { platformName } = props.match.params;
   const params = queryString.parse(props.location.search);
-  const queryPage = Number(params.page);
-  const queryOrdering = { name: params.ordername, direction: params.direction };
+  const queryPage = Number(params.page) || 1;
+  const searchQuery = params.search;
   const defaultOrdering = appConfig.GameSelector.defaultOrdering;
   const platformID = appConfig.platformIdList[platformName];
   const orderingOptions = appConfig.GameSelector.ordering;
   const [gamesToShow, setGamesToShow] = useState(cache ? cache.results : []);
   const [recievedData, setRecievedData] = useState(cache);
-  const [inputValue, setInputValue] = useState();
+  const [inputValue, setInputValue] = useState(searchQuery);
   const [noGamesFound, setNoGamesFound] = useState();
-  const [currentPage, setCurrentPage] = useState(queryPage || 1);
-  const [ordering, setOrdering] = useState(
-    queryOrdering.name ? { ...queryOrdering } : { ...defaultOrdering }
-  );
+  const ordering = {
+    name: params.ordername ? params.ordername : defaultOrdering.name,
+    direction: params.direction ? params.direction : defaultOrdering.direction,
+  };
 
   useEffect(() => {
-    if (url === cache.url) return;
+    if (url !== cache.url) sendReq();
+  }, [ordering, platformID, params]);
+
+  const sendReq = () => {
     Backend.getGamesForPlatform({
-      page: currentPage,
+      page: queryPage ? queryPage : 1,
       page_size: appConfig.GameSelector.gamesPerRequest,
       ordering: `${ordering.direction === '↓' ? '-' : ''}${ordering.name}`,
       platforms: platformID,
+      search: `${searchQuery || ' '}`,
     }).then((res) => {
-      const games = res.results;
       dispatch(cacheGameSelector({ ...res, url: url }));
+
+      const games = res.results;
+      if (games.length > 0) {
+        setNoGamesFound(false);
+      } else {
+        setNoGamesFound(true);
+      }
       setGamesToShow(games);
       setRecievedData(res);
     });
-  }, [currentPage, ordering, platformID]);
+  };
 
   const updateQueryStr = (arr) => {
     const updParams = { ...params };
@@ -60,7 +70,6 @@ function GameSelector(props) {
   const pageChangeHandler = (pageNumber) => {
     const stringified = updateQueryStr([['page', pageNumber]]);
     props.history.push(`${props.history.location.pathname}?${stringified}`);
-    setCurrentPage(pageNumber);
   };
 
   const gameSearchChangeHandler = (e) => {
@@ -69,22 +78,11 @@ function GameSelector(props) {
 
   const sendRequestHandler = (e) => {
     if (e.key === 'Enter' || e.currentTarget.name === 'searchBtn') {
-      Backend.getGamesForPlatform({
-        page: 1,
-        page_size: appConfig.GameSelector.gamesPerRequest,
-        ordering: `${ordering.direction === 'desc' ? '-' : ''}${ordering.name}`,
-        platforms: platformID,
-        search: `${inputValue || ' '}`,
-      }).then((res) => {
-        const games = res.results;
-        if (games.length > 0) {
-          setNoGamesFound(false);
-        } else {
-          setNoGamesFound(true);
-        }
-        setGamesToShow(games);
-        setRecievedData(res);
-      });
+      const stringified = updateQueryStr([
+        ['search', inputValue],
+        ['page', 1],
+      ]);
+      props.history.push(`${props.history.location.pathname}?${stringified}`);
     }
   };
 
@@ -95,11 +93,6 @@ function GameSelector(props) {
       ['ordername', name],
     ]);
     props.history.push(`${props.history.location.pathname}?${stringified}`);
-
-    let updatedOrdering = { ...ordering };
-    updatedOrdering.name = name;
-    updatedOrdering.direction = direction;
-    setOrdering(updatedOrdering);
   };
 
   const openGameDetailsHandler = (slug) => {
@@ -112,8 +105,7 @@ function GameSelector(props) {
   };
 
   return (
-    <div
-      className={styles.GameSelector}>
+    <div className={styles.GameSelector}>
       <div className={styles.Header}>
         <div className={styles.ControlsContainer}>
           <div className={styles.InputWrapper}>
@@ -124,6 +116,8 @@ function GameSelector(props) {
               onChange={gameSearchChangeHandler}
               onKeyPress={sendRequestHandler}
               onBtnClick={sendRequestHandler}
+              value={inputValue}
+              isFocused={inputValue ? true : false}
             />
           </div>
           <div className={styles.Pagination}>
@@ -131,7 +125,7 @@ function GameSelector(props) {
               <Paginator
                 totalCount={recievedData.count}
                 itemsPerPage={appConfig.GameSelector.gamesPerRequest}
-                currentPage={currentPage}
+                currentPage={queryPage}
                 changeCurrentPage={pageChangeHandler}
               />
             )}
@@ -156,7 +150,9 @@ function GameSelector(props) {
             </div>
           ))}
         {noGamesFound && (
-          <h1>No results have been found! Try to change the query</h1>
+          <div className={styles.NoGamesFound}>
+            <h1>No results have been found! Try to change the query</h1>
+          </div>
         )}
       </div>
     </div>
