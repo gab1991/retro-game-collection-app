@@ -21,7 +21,7 @@
     'info controls controls'
     'video video video'
     'ebay ebay ebay';
-  grid-template-rows: auto 1fr min-content min-content min-content;
+  grid-template-rows: 250px minmax(0, 550px) auto auto;
   grid-template-columns: auto 1fr 1fr;
 
   hr {
@@ -121,12 +121,14 @@
 }
 
 .InfoSection {
+  border: 2px solid rgba(82, 82, 82, 0.9);
+  grid-row: span 3;
   grid-area: info;
-
+  max-height: 850px;
   overflow: hidden;
-  width: 320px;
-  padding: 10px;
-  padding-left: 20px;
+  width: 290px;
+  margin: 10px;
+  margin-left: 20px;
 
   @include respond-to(tablet) {
     width: 250px;
@@ -139,8 +141,8 @@
 
 .DescSection {
   grid-area: description;
+  // max-height: 505px;
   font-size: 1.3rem;
-  max-height: 500px;
   overflow: auto;
   padding: 20px;
 

@@ -1,15 +1,29 @@
+@import '../../../../configs/Variables.scss';
+
+$font-color: $font-white;
+$background-color: #434343;
+
 .CornerNotifier {
   z-index: 100;
-  position: absolute;
+  position: fixed;
   min-width: 500px;
   height: 100px;
-  background-color: #434343;
+  background-color: $background-color;
   transition: transform 300ms ease-in-out;
   padding: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 0 10px black;
+
+  p {
+    font-size: 1.3rem;
+  }
+
+  a {
+    color: $font-color;
+    margin: 0 10px;
+  }
 }
 
 .topLeft {
@@ -34,15 +48,6 @@
   bottom: 20px;
   right: 40px;
   transform: translateX(100%) translateX(60px);
-}
-
-.CornerNotifier p {
-  font-size: 1.3rem;
-}
-
-.CornerNotifier a {
-  color: white;
-  margin: 0 10px;
 }
 
 .Showing {
