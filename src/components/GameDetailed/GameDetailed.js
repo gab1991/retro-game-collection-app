@@ -52,6 +52,10 @@ function GameDetailed(props) {
   let ownedNotifierTimer;
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     return () => clearInterval(wishNotifierTimer);
   }, [wishNotifierTimer]);
   useEffect(() => {
@@ -294,76 +298,82 @@ function GameDetailed(props) {
 
   return (
     <div className={styles.GameDetailed}>
-      <div className={styles.ScreenshotSection}>
-        <Swiper {...swiperProps}>
-          {screenshots &&
-            screenshots.map((image, index) => (
-              <Slide key={index}>
-                <img src={image} alt={image}></img>
-              </Slide>
-            ))}
-        </Swiper>
-      </div>
-      <div className={styles.InfoSection}>
-        {gameDetails && boxArtUrl && (
-          <GameInfoBox gameInfo={gameDetails} boxArt={boxArtUrl} />
-        )}
-      </div>
-      <div className={styles.DescSection}>
-        <hr></hr>
-        {descriptionParsed ? descriptionParsed : null}
-      </div>
-      <div className={styles.ContorlsSection}>
-        <hr></hr>
-        <div className={styles.ButtonsContainer}>
-          <div className={styles.ButtonWrapper}>
-            <ButtonNeon
-              disabled={userData ? false : true}
-              color={isWished ? 'red' : 'green'}
-              txtContent={isWished ? 'Remove from Wishlist' : 'Add to Wishlist'}
-              onClick={() => toggleList(platformName, gameDetails, 'wish_list')}
-            />
-            {!userData && (
-              <div className={styles.ButtonTooltip}>
-                {`Need to be logged in to add games to the lists    `}
-                <button onClick={showAuth}>GO TO LOGIN</button>
-              </div>
-            )}
-          </div>
-          <div className={styles.ButtonWrapper}>
-            <ButtonNeon
-              disabled={userData ? false : true}
-              color={isOwned ? 'red' : 'green'}
-              txtContent={isOwned ? 'Remove from Owned' : 'Owned'}
-              onClick={() =>
-                toggleList(platformName, gameDetails, 'owned_list')
-              }
-            />
-            {!userData && (
-              <div className={styles.ButtonTooltip}>
-                {`Need to be logged in to add games to the lists    `}
-                <button onClick={showAuth}>GO TO LOGIN</button>
-              </div>
-            )}
-          </div>
-          <div className={styles.ButtonWrapper}>
-            <ButtonNeon txtContent={'Back'} onClick={getBack} color="gray" />
-          </div>
-          {showWishWarn && (
-            <WarnModal
-              message={wishListWarnTxt}
-              onBackdropClick={hideWarning}
-              onNoClick={hideWarning}
-              onYesClick={wishListWarnHandler}
-            />
+      <div className={styles.GameDetailGridCont}>
+        <div className={styles.ScreenshotSection}>
+          <Swiper {...swiperProps}>
+            {screenshots &&
+              screenshots.map((image, index) => (
+                <Slide key={index}>
+                  <img src={image} alt={image}></img>
+                </Slide>
+              ))}
+          </Swiper>
+        </div>
+        <div className={styles.InfoSection}>
+          {gameDetails && (
+            <GameInfoBox gameInfo={gameDetails} boxArt={boxArtUrl} />
           )}
         </div>
-        <hr></hr>
+        <div className={styles.DescSection}>
+          <hr></hr>
+          {descriptionParsed ? descriptionParsed : null}
+        </div>
+        <div className={styles.ContorlsSection}>
+          <hr></hr>
+          <div className={styles.ButtonsContainer}>
+            <div className={styles.ButtonWrapper}>
+              <ButtonNeon
+                disabled={userData ? false : true}
+                color={isWished ? 'red' : 'green'}
+                txtContent={
+                  isWished ? 'Remove from Wishlist' : 'Add to Wishlist'
+                }
+                onClick={() =>
+                  toggleList(platformName, gameDetails, 'wish_list')
+                }
+              />
+              {!userData && (
+                <div className={styles.ButtonTooltip}>
+                  {`Need to be logged in to add games to the lists    `}
+                  <button onClick={showAuth}>GO TO LOGIN</button>
+                </div>
+              )}
+            </div>
+            <div className={styles.ButtonWrapper}>
+              <ButtonNeon
+                disabled={userData ? false : true}
+                color={isOwned ? 'red' : 'green'}
+                txtContent={isOwned ? 'Remove from Owned' : 'Owned'}
+                onClick={() =>
+                  toggleList(platformName, gameDetails, 'owned_list')
+                }
+              />
+              {!userData && (
+                <div className={styles.ButtonTooltip}>
+                  {`Need to be logged in to add games to the lists    `}
+                  <button onClick={showAuth}>GO TO LOGIN</button>
+                </div>
+              )}
+            </div>
+            <div className={styles.ButtonWrapper}>
+              <ButtonNeon txtContent={'Back'} onClick={getBack} color="gray" />
+            </div>
+            {showWishWarn && (
+              <WarnModal
+                message={wishListWarnTxt}
+                onBackdropClick={hideWarning}
+                onNoClick={hideWarning}
+                onYesClick={wishListWarnHandler}
+              />
+            )}
+          </div>
+          <hr></hr>
+        </div>
       </div>
       <div className={styles.VideoSection}>
         <div className={styles.VideoSoundtrack}>
           <div className={styles.VideoLabel}>
-            <h2>Sountrack</h2>
+            <h2>Soundtrack</h2>
             {isMobile && (
               <div
                 elm="sountrackVideo"

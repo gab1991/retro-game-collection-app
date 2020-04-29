@@ -30,12 +30,13 @@
   width: 90%;
   font-size: 1.2rem;
   margin-top: 5px;
-
+  font-style: italic;
   ul {
     list-style: disc;
   }
 
   li {
+    font-style: normal;
     text-indent: 30px;
   }
 

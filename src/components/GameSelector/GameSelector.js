@@ -116,8 +116,8 @@ function GameSelector(props) {
               onChange={gameSearchChangeHandler}
               onKeyPress={sendRequestHandler}
               onBtnClick={sendRequestHandler}
-              value={inputValue}
-              isFocused={inputValue ? true : false}
+              value={inputValue || ''}
+              isFocused={inputValue}
             />
           </div>
           <div className={styles.Pagination}>

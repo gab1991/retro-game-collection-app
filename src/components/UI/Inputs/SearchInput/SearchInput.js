@@ -12,6 +12,7 @@ export default function Input(props) {
     value,
     isFocused,
   } = props;
+
   return (
     <div className={styles.InputWrapper}>
       <input

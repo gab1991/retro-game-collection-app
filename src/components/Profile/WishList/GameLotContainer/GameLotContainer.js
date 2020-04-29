@@ -18,6 +18,7 @@ const SortableList = SortableContainer(
   }) => {
     return (
       <div className={styles.GameLotContainer}>
+        <hr></hr>
         {games.map((game, index) => {
           return (
             <SortableItem

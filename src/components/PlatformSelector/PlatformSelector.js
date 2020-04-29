@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './PlatformSelector.module.scss';
 import PlatformCard from '../PlatformCard/PlatformCard';
-import ErrorModal from '../UI/Modals/ErrorModal/ErrorModal.js';
+import { connect, useDispatch } from 'react-redux';
+import { cacheGameSelector } from '../../actions/actions';
 
-export default function PlatformSelector(props) {
+function PlatformSelector(props) {
   const availablePlatforms = ['Genesis', 'PlayStation', 'NES'];
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(cacheGameSelector({}));
+  }, []);
 
   const selectPlatformHandler = (platformName) => {
     props.history.push(`/${platformName}`);
@@ -27,3 +33,11 @@ export default function PlatformSelector(props) {
     </div>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    dataCache: state.dataCache,
+  };
+}
+
+export default connect(mapStateToProps)(PlatformSelector);
