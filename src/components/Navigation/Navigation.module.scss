@@ -5,19 +5,14 @@
   position: relative;
   z-index: 25;
 
+  @include respond-to(mobile) {
+    font-size: 0.8rem;
+  }
+
   .ProfileMobile {
     display: none;
   }
 
-  nav {
-    height: 100%;
-    width: 100%;
-    font-size: 1rem;
-
-    @include respond-to(mobile) {
-      font-size: 0.8rem;
-    }
-  }
   ul {
     height: 100%;
     width: 100%;

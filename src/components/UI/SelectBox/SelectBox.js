@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './SelectBox.module.scss';
 
 export default function SelectBox(props) {
-  const { selected, options, changedSelected, height, width } = props;
+  const { selected, options, changedSelected } = props;
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedValue, setSelectedValue] = useState(selected);
 

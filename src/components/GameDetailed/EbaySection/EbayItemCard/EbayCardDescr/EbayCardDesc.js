@@ -119,7 +119,8 @@ function EbayCardDesc(props) {
         setIsWatched(false);
         dispatch(
           showErrModal({
-            message: 'Something wrong happened.Try again later',
+            message:
+              'Add game to your watch list and then you`ll be able to watch cards',
             onBackdropClick: closeErrModal,
             onBtnClick: closeErrModal,
           })

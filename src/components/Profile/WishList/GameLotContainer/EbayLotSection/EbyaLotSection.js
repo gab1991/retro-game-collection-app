@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import styles from './EbayLotSection.module.scss';
 import EbaySwiper from '../../../../GameDetailed/EbaySection/EbaySwiper/EbaySwiper';
@@ -61,6 +61,7 @@ function EbyaLotSection(props) {
   }, [isEbayTogglerOn]);
 
   useEffect(() => {
+    if (!isEbayTogglerOn) return;
     let isSubscribed = true;
     const req = (sortBy) => {
       if (isSubscribed) setLoading(true);
@@ -108,11 +109,12 @@ function EbyaLotSection(props) {
       case 'Watched':
         getWatchList();
         break;
+      default:
     }
     return () => {
       isSubscribed = false;
     };
-  }, [activeEbaylist]);
+  }, [activeEbaylist, isEbayTogglerOn, gameData.name, platform]);
 
   const toggleEbayList = (e) => {
     const desc = e.currentTarget.textContent;

@@ -53,36 +53,34 @@ function Navigation(props) {
   return (
     <>
       <Backdrop onClick={hideMenu} show={showBackdrop} />
-      <div className={styles.Navigation}>
-        <nav>
-          <ul>
-            <li onClick={toggleMenuSlider}>MENU</li>
-            <MenuSideSlider
-              slideLeft
-              show={showMenuSlider}
-              list={[
-                { option: 'SELECT PLATFORM', onclick: toPlatformSelector },
-                { option: 'LOG OUT', onclick: loggingOut },
-              ]}
-            />
-            {userData && (
-              <li onClick={toProfile} className={styles.ProfileDesctop}>
-                PROFILE
-              </li>
-            )}
-            {!userData && (
-              <div className={styles.BtnSection}>
-                <ButtonNeon
-                  txtContent="Login"
-                  color={'green'}
-                  rectangular
-                  onClick={showAuth}
-                />
-              </div>
-            )}
-          </ul>
-        </nav>
-      </div>
+      <nav className={styles.Navigation}>
+        <ul>
+          <li onClick={toggleMenuSlider}>MENU</li>
+          <MenuSideSlider
+            slideLeft
+            show={showMenuSlider}
+            list={[
+              { option: 'SELECT PLATFORM', onclick: toPlatformSelector },
+              { option: 'LOG OUT', onclick: loggingOut },
+            ]}
+          />
+          {userData && (
+            <li onClick={toProfile} className={styles.ProfileDesctop}>
+              PROFILE
+            </li>
+          )}
+          {!userData && (
+            <div className={styles.BtnSection}>
+              <ButtonNeon
+                txtContent="Login"
+                color={'green'}
+                rectangular
+                onClick={showAuth}
+              />
+            </div>
+          )}
+        </ul>
+      </nav>
     </>
   );
 }

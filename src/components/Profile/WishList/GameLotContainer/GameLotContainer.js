@@ -118,8 +118,9 @@ function GameLotContainer(props) {
       onSortEnd={onSortEnd}
       games={gamesSort}
       platform={platform}
-      axis={'xy'}
       pressDelay={isPC ? 0 : 200}
+      distance={isPC ? 5 : 0}
+      axis={'xy'}
     />
   );
 }

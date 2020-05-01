@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Backdrop.module.scss';
 
 export default function Blackdrop(props) {
-  const { show, onClick, closeIcon } = props;
+  const { show, onClick } = props;
 
   return (
     <div

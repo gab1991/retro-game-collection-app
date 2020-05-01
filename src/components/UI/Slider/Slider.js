@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import styles from './Slider.module.css';
+import styles from './Slider.module.scss';
 import sliderArrow from '../../../assets/images/ui/slider-arrow-left.svg';
 
 export default function Slider(props) {
@@ -7,7 +7,6 @@ export default function Slider(props) {
     images,
     arrows,
     navDots,
-    dynamicDots = true,
     numberOfDots,
     imgFit,
     imageHeight,

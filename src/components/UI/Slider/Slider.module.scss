@@ -12,22 +12,19 @@
 
 .Images {
   display: flex;
-}
-.Images .Active {
-  transform: scale(1);
-}
-
-.Images > div {
-  /* transform: scale(0.9); */
-  user-select: none;
-  cursor: pointer;
-}
-
-.Images > div > img {
-  object-fit: cover;
-  user-select: none;
-  height: 100%;
-  width: 100%;
+  & .Active {
+    transform: scale(1);
+  }
+  & > div {
+    user-select: none;
+    cursor: pointer;
+    img {
+      object-fit: cover;
+      user-select: none;
+      height: 100%;
+      width: 100%;
+    }
+  }
 }
 
 .Btn {
@@ -39,35 +36,33 @@
   width: 10%;
   height: 100%;
   transition: opacity 300ms ease;
-}
+  img {
+    max-width: 50px;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 
-.Btn > img {
-  max-width: 50px;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.PrevButton {
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.5746673669467788) 0%,
-    rgba(0, 0, 0, 0.07886904761904767) 100%,
-    rgba(255, 255, 255, 1) 100%
-  );
-  top: 0;
-  left: 0;
-}
-
-.NextButton {
-  background: linear-gradient(
-    266deg,
-    rgba(0, 0, 0, 0.5746673669467788) 0%,
-    rgba(0, 0, 0, 0.07886904761904767) 100%,
-    rgba(255, 255, 255, 1) 100%
-  );
-  right: 0;
-  top: 0;
+  .PrevButton {
+    background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.5746673669467788) 0%,
+      rgba(0, 0, 0, 0.07886904761904767) 100%,
+      rgba(255, 255, 255, 1) 100%
+    );
+    top: 0;
+    left: 0;
+  }
+  .NextButton {
+    background: linear-gradient(
+      266deg,
+      rgba(0, 0, 0, 0.5746673669467788) 0%,
+      rgba(0, 0, 0, 0.07886904761904767) 100%,
+      rgba(255, 255, 255, 1) 100%
+    );
+    right: 0;
+    top: 0;
+  }
 }
 
 .BtnClicked {
@@ -79,8 +74,6 @@
 }
 
 .NavDotsContainer {
-  /* position: absolute; */
-  /* background-color: blanchedalmond; */
   margin-top: 0;
   display: flex;
   justify-content: center;

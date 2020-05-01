@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import styles from './App.module.scss';
 import { useDispatch } from 'react-redux';
 import { profile, signIn } from './actions/actions';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Backend from './Backend/Backend';
 import Layout from './components/Layout/Layout';
 import PlatformSelector from './components/PlatformSelector/PlatformSelector';
@@ -32,7 +32,6 @@ function App(props) {
     <div className={styles.App}>
       <Layout>
         <Switch>
-          <Route exact path="/" component={PlatformSelector} />
           <Route exact path="/profile/:section?" component={Profile} />
           <Route exact path="/:platformName" component={GameSelector} />
           <Route
@@ -40,7 +39,8 @@ function App(props) {
             path={`/:platformName/:gameSlug`}
             component={GameDetailed}
           />
-          )}
+          <Route exact path="/" component={PlatformSelector} />
+          <Redirect to="/" />
         </Switch>
       </Layout>
     </div>

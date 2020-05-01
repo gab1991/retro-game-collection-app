@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import styles from '../KnobToggler/KnobToggler.module.scss';
 
 export default function KnobToggler(props) {
@@ -8,7 +8,7 @@ export default function KnobToggler(props) {
   useEffect(() => {
     if (input.current)
       input.current.style.setProperty('--checkbox-width', width);
-  }, [input]);
+  }, [input, width]);
 
   return (
     <div className={styles.KnobToggler}>

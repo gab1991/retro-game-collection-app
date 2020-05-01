@@ -1,4 +1,5 @@
-const host = 'http://localhost:8000';
+const host = 'http://localhost:8000/api'; // dev
+// const host = '/api'; // prod
 
 const api = {
   platforms: {
