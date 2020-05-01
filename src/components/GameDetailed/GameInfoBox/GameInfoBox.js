@@ -16,7 +16,7 @@ export default function GameInfoBox(props) {
   return (
     <div className={styles.GameInfoBox}>
       <div className={styles.ImageContainer}>
-        <img src={boxArt} alt={'boxart'}></img>
+        <img src={boxArt} alt={`${name}_boxart`}></img>
       </div>
       <div className={styles.TextContainer}>
         <h2 className={styles.Name}>{nameTrimmed}</h2>

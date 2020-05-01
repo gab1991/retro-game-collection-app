@@ -316,6 +316,15 @@
     top: 0;
     left: 0;
   }
+
+  .OvalSpinnerWrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    height: 50%;
+    width: 50%;
+  }
 }
 
 .EbaySection {

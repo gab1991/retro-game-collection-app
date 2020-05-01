@@ -1,5 +1,5 @@
-const host = 'http://localhost:8000/api'; // dev
-// const host = '/api'; // prod
+const isProduction = process.env.NODE_ENV === 'production';
+const apiEndPoint = isProduction ? '/api' : 'http://localhost:8000/api';
 
 const api = {
   platforms: {
@@ -24,14 +24,14 @@ const api = {
     getDetailsUrl: 'https://api.rawg.io/api/games/',
   },
   appServer: {
-    boxArtworkUrl: `${host}/box_arts`,
-    signUpUrl: `${host}/auth/sign_up`,
-    signInUrl: `${host}/auth/sign_in`,
-    profileUrl: `${host}/profile`,
-    videoURL: `${host}/youtube`,
-    ebayItemsUrl: `${host}/ebay/searchList`,
-    ebaySingleItemUrl: `${host}/ebay/singleItem`,
-    shippingCostsUrl: `${host}/ebay/shopingCosts`,
+    boxArtworkUrl: `${apiEndPoint}/box_arts`,
+    signUpUrl: `${apiEndPoint}/auth/sign_up`,
+    signInUrl: `${apiEndPoint}/auth/sign_in`,
+    profileUrl: `${apiEndPoint}/profile`,
+    videoURL: `${apiEndPoint}/youtube`,
+    ebayItemsUrl: `${apiEndPoint}/ebay/searchList`,
+    ebaySingleItemUrl: `${apiEndPoint}/ebay/singleItem`,
+    shippingCostsUrl: `${apiEndPoint}/ebay/shopingCosts`,
   },
 };
 

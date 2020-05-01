@@ -17,6 +17,7 @@ import CornerNotifier from '../UI/Modals/CornerNotifier/CornerNotifier';
 import EbaySection from './EbaySection/EbaySection';
 import ReactPlayer from 'react-player';
 import ArrowEsc from '../UI/LogoSvg/ArrowEscSvg/ArrowEsc';
+import OvalSpinner from '../UI/LoadingSpinners/OvalSpinner/OvalSpinner';
 import { Swiper, Slide } from 'react-dynamic-swiper';
 import 'react-dynamic-swiper/lib/styles.css';
 import sliderArrow from '../../assets/images/ui/slider-arrow-left.svg';
@@ -35,9 +36,9 @@ function GameDetailed(props) {
   const [sountrackVideo, setSountrackVideo] = useState();
   const [gameplayVideo, setGameplayVideo] = useState();
   const [elmsVisibility, setElmsVisibility] = useState({
-    sountrackVideo: false,
-    gameplayVideo: false,
-    ebaySection: false,
+    sountrackVideo: true,
+    gameplayVideo: true,
+    ebaySection: true,
   });
   const [isOwned, setisOwned] = useState(false);
   const [isWished, setisWished] = useState(false);
@@ -386,15 +387,22 @@ function GameDetailed(props) {
           </div>
           {elmsVisibility.sountrackVideo && (
             <div className={styles.PlayerWrapper}>
-              <ReactPlayer
-                url={`https://www.youtube.com/watch?v=${sountrackVideo}`}
-                className={styles.ReactPlayer}
-                height="100%"
-                width="100%"
-                controls={true}
-                playing={false}
-                light
-              />
+              {!sountrackVideo && (
+                <div className={styles.OvalSpinnerWrapper}>
+                  <OvalSpinner />
+                </div>
+              )}
+              {sountrackVideo && (
+                <ReactPlayer
+                  url={`https://www.youtube.com/watch?v=${sountrackVideo}`}
+                  className={styles.ReactPlayer}
+                  height="100%"
+                  width="100%"
+                  controls={true}
+                  playing={false}
+                  light
+                />
+              )}
             </div>
           )}
         </div>
@@ -413,15 +421,22 @@ function GameDetailed(props) {
           </div>
           {elmsVisibility.gameplayVideo && (
             <div className={styles.PlayerWrapper}>
-              <ReactPlayer
-                url={`https://www.youtube.com/watch?v=${gameplayVideo}`}
-                className={styles.ReactPlayer}
-                height="100%"
-                width="100%"
-                controls={true}
-                playing={false}
-                light
-              />
+              {!gameplayVideo && (
+                <div className={styles.OvalSpinnerWrapper}>
+                  <OvalSpinner />
+                </div>
+              )}
+              {gameplayVideo && (
+                <ReactPlayer
+                  url={`https://www.youtube.com/watch?v=${gameplayVideo}`}
+                  className={styles.ReactPlayer}
+                  height="100%"
+                  width="100%"
+                  controls={true}
+                  playing={false}
+                  light
+                />
+              )}
             </div>
           )}
         </div>

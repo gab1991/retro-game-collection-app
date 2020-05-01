@@ -5,6 +5,7 @@ import { cacheGameSelector } from '../../actions/actions';
 import { connect, useDispatch } from 'react-redux';
 import SelectBox from '../UI/SelectBox/SelectBox';
 import { appConfig } from '../../configs/appConfig';
+import DotSpinner from '../UI/LoadingSpinners/DotSpinner/DotSpinner';
 import styles from './GameSelector.module.scss';
 import GameCard from '../GameSelector/GameCard/GameCard';
 import Paginator from '../Paginator/Paginator.js';
@@ -31,30 +32,34 @@ function GameSelector(props) {
     name: params.ordername ? params.ordername : defaultOrdering.name,
     direction: params.direction ? params.direction : defaultOrdering.direction,
   };
+  const [loading, setLoading] = useState();
 
   useEffect(() => {
     if (url !== cache.url) sendReq();
   }, [ordering, platformID, params]);
 
   const sendReq = () => {
+    setLoading(true);
     Backend.getGamesForPlatform({
       page: queryPage ? queryPage : 1,
       page_size: appConfig.GameSelector.gamesPerRequest,
       ordering: `${ordering.direction === '↓' ? '-' : ''}${ordering.name}`,
       platforms: platformID,
       search: `${searchQuery || ' '}`,
-    }).then((res) => {
-      dispatch(cacheGameSelector({ ...res, url: url }));
-
-      const games = res.results;
-      if (games.length > 0) {
-        setNoGamesFound(false);
-      } else {
-        setNoGamesFound(true);
-      }
-      setGamesToShow(games);
-      setRecievedData(res);
-    });
+    })
+      .then((res) => {
+        dispatch(cacheGameSelector({ ...res, url: url }));
+        setLoading(false);
+        const games = res.results;
+        if (games.length > 0) {
+          setNoGamesFound(false);
+        } else {
+          setNoGamesFound(true);
+        }
+        setGamesToShow(games);
+        setRecievedData(res);
+      })
+      .catch((err) => setLoading(false));
   };
 
   const updateQueryStr = (arr) => {
@@ -140,6 +145,11 @@ function GameSelector(props) {
         </div>
       </div>
       <div className={styles.GamePicker}>
+        {loading && !gamesToShow && (
+          <div className={styles.DotSpinnerWrapper}>
+            <DotSpinner />
+          </div>
+        )}
         {gamesToShow &&
           gamesToShow.map((game) => (
             <div className={styles.GameCardWrapper} key={game.slug}>

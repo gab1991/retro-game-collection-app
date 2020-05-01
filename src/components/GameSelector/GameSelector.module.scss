@@ -8,9 +8,9 @@ $controlsHeight: 30px;
   background-color: $content-underlayer-color;
   display: flex;
   flex-direction: column;
+  padding-top: 10px;
 
   @include respond-to(tablet) {
-    margin: 10px 0;
     grid-template-areas:
       'search  sort'
       'pagination pagination';
@@ -101,6 +101,15 @@ $controlsHeight: 30px;
       left: 0;
       font-size: 0.8rem;
     }
+  }
+
+  .DotSpinnerWrapper {
+    position: relative;
+    grid-column: 1/-1;
+    justify-self: center;
+    width: 30%;
+    height: 20vh;
+    color: $basic-border-gray;
   }
 
   .NoGamesFound {
