@@ -5,6 +5,7 @@ import CloseSvg from '../../UI/LogoSvg/CloseSvg/CloseSvg';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import Input from '../../UI/Inputs/InputAuth/InputAuth';
 import Backend from '../../../Backend/Backend';
+import OvalSpinner from '../../UI/LoadingSpinners/OvalSpinner/OvalSpinner';
 import validate from '../../../validation/validation';
 import styles from './SignInForm.module.scss';
 
@@ -12,6 +13,8 @@ export default function SignInForm(props) {
   const { toSignUp } = props;
   const [wrongInputs, setWrongInputs] = useState({});
   const dispatch = useDispatch();
+  const [isSending, setIsSending] = useState(false);
+
   const inputs = useRef({
     username: {
       label: 'Username',
@@ -71,16 +74,19 @@ export default function SignInForm(props) {
   };
 
   const sendLoginReq = (sendObj) => {
+    setIsSending(true);
     Backend.postSignIn(sendObj)
       .then((res) => {
         dispatch(signIn(res.username, res.token));
         localStorage.setItem('token', res.token);
         getProfileInfo(res.token);
+        setIsSending(false);
         closeModalHandler();
       })
       .catch((err) => {
         if (err.status === 400 && err.body.field) {
           wrongListHandler(err.body.field, 'set', err.body.err_message);
+          setIsSending(false);
         }
       });
   };
@@ -162,6 +168,13 @@ export default function SignInForm(props) {
       <div className={styles.CloseSvgWrapper} onClick={closeModalHandler}>
         <CloseSvg />
       </div>
+      {isSending && (
+        <div className={styles.SendingBackdrop}>
+          <div className={styles.OvalSpinnerWrapper}>
+            <OvalSpinner />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -3,7 +3,11 @@ import styles from './EbayCardDesc.module.scss';
 import Button from '../../../../UI/Buttons/Button/Button';
 import DotSpinner from '../../../../UI/LoadingSpinners/DotSpinner/DotSpinner';
 import { connect, useDispatch } from 'react-redux';
-import { showErrModal, hideErrModal } from '../../../../../actions/actions';
+import {
+  showInfoModal,
+  hideInfoModal,
+  showErrModal,
+} from '../../../../../actions/actions';
 import Backend from '../../../../../Backend/Backend';
 
 function EbayCardDesc(props) {
@@ -106,7 +110,7 @@ function EbayCardDesc(props) {
   };
 
   const closeErrModal = () => {
-    dispatch(hideErrModal(false));
+    dispatch(hideInfoModal(false));
   };
   const watchHandler = () => {
     if (!isWatched) {
@@ -118,9 +122,9 @@ function EbayCardDesc(props) {
       }).catch((err) => {
         setIsWatched(false);
         dispatch(
-          showErrModal({
-            message:
-              'Add game to your watch list and then you`ll be able to watch cards',
+          showInfoModal({
+            message: 'Add game to your WishList at first',
+            btnTxtContent: 'got it',
             onBackdropClick: closeErrModal,
             onBtnClick: closeErrModal,
           })

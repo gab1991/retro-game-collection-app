@@ -41,7 +41,6 @@ function WishList(props) {
                 onClick={() => toGameSelector(platform.name)}>
                 <img src={images[platform.name].logo.src} alt={platform.name} />
               </div>
-
               <GameLotContainer
                 platform={platform.name}
                 games={platform.games}

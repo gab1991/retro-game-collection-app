@@ -16,6 +16,10 @@ $cont-padding: 15px;
 
   @include respond-to(mobile) {
     flex-direction: column;
+
+    hr {
+      margin: 0px;
+    }
   }
 }
 

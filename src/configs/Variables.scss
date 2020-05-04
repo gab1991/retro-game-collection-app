@@ -63,7 +63,7 @@ $basic-content-width: 1200px;
   min-height: calc(100vh - #{$footer-height} - #{$nav-height});
 }
 
-@mixin customScrollBar($width) {
+@mixin customScrollBar($width, $custom-color...) {
   &::-webkit-scrollbar {
     width: $width;
   }
@@ -71,7 +71,12 @@ $basic-content-width: 1200px;
     background-color: rgba(0, 0, 0, 0.1);
   }
   &::-webkit-scrollbar-thumb {
-    background-color: rgb(82, 82, 82);
+    @if length($custom-color) != 0 {
+      background-color: $custom-color;
+    } @else {
+      background-color: rgb(82, 82, 82);
+    }
+
     border-radius: 4px;
   }
 }

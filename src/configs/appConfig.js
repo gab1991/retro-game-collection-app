@@ -96,7 +96,7 @@ const images = {
 
 const textMessages = {
   fromWishToOwn:
-    'You added game to your own list. Do you want to remove it from Wishlist?',
+    'You added game to Collection. Do you want to remove it from WishList?',
 };
 export default appConfig;
 export { images, appConfig, textMessages };

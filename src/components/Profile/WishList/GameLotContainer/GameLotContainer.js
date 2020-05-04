@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import useWindowSize from '../../../../CustomHooks/useWindowSize';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
+import { removeGameFromList } from '../../../../actions/actions';
 import styles from './GameLotContainer.module.scss';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
@@ -70,6 +71,7 @@ function GameLotContainer(props) {
   const { games, platform, userData } = props;
   const [gamesSort, setGamesSort] = useState([]);
   const [isEbayShowedList, setIsEbayShowedList] = useState({});
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setGamesSort(games);
@@ -108,6 +110,8 @@ function GameLotContainer(props) {
       platform: platform,
       game: removedGame,
     });
+
+    dispatch(removeGameFromList('wish_list', platform, removedGame.name));
   };
 
   return (

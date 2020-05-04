@@ -36,6 +36,56 @@ $section-height: 320px;
       width: 390px;
       height: 280px;
     }
+    .swiper-button-prev,
+    .swiper-button-next {
+      transition: all 300ms ease;
+      opacity: 0;
+      visibility: hidden;
+      background-color: rgba(0, 0, 0, 0.3);
+      background-image: none;
+      margin-top: 0;
+      position: absolute;
+      top: 0;
+      width: 5%;
+      min-width: 60px;
+
+      height: 100%;
+      z-index: 10;
+      cursor: pointer;
+      @include flexCenter;
+
+      img {
+        max-width: 50px;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+    .swiper-button-prev {
+      left: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.5746673669467788) 0%,
+        rgba(0, 0, 0, 0.07886904761904767) 100%,
+        rgba(255, 255, 255, 1) 100%
+      );
+    }
+    .swiper-button-next {
+      right: 0;
+      background: linear-gradient(
+        266deg,
+        rgba(0, 0, 0, 0.5746673669467788) 0%,
+        rgba(0, 0, 0, 0.07886904761904767) 100%,
+        rgba(255, 255, 255, 1) 100%
+      );
+    }
+    &:hover {
+      .swiper-button-prev,
+      .swiper-button-next {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
   }
 
   @include respond-to(mobile) {

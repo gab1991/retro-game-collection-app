@@ -1,5 +1,3 @@
-const actions = () => {};
-
 const signIn = (username, token) => {
   return {
     type: 'SIGN_IN',
@@ -28,6 +26,17 @@ const profile = (profileinfo) => {
   };
 };
 
+const removeGameFromList = (list, platform, gameName) => {
+  return {
+    type: 'REMOVE_GAME_FROM_LIST',
+    payload: {
+      list: list,
+      platform: platform,
+      gameName: gameName,
+    },
+  };
+};
+
 const showAuthModal = (bool) => {
   return {
     type: 'SHOW_AUTH',
@@ -48,6 +57,32 @@ const hideErrModal = () => {
   };
 };
 
+const showInfoModal = (modalProps) => {
+  return {
+    type: 'SHOW_INFO',
+    payload: { ...modalProps },
+  };
+};
+const hideInfoModal = () => {
+  return {
+    type: 'SHOW_INFO',
+    payload: false,
+  };
+};
+
+const showCornerNotifier = (modalProps) => {
+  return {
+    type: 'SHOW_CORN_NOT',
+    payload: { ...modalProps },
+  };
+};
+const hideCornerNotifier = () => {
+  return {
+    type: 'HIDE_CORN_NOT',
+    payload: false,
+  };
+};
+
 const cacheGameSelector = (data) => {
   return {
     type: 'GAMESELECTOR_CACHE',
@@ -55,7 +90,6 @@ const cacheGameSelector = (data) => {
   };
 };
 
-export default actions;
 export {
   signIn,
   profile,
@@ -64,4 +98,9 @@ export {
   showErrModal,
   hideErrModal,
   cacheGameSelector,
+  showInfoModal,
+  hideInfoModal,
+  showCornerNotifier,
+  hideCornerNotifier,
+  removeGameFromList,
 };

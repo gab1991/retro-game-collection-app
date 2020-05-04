@@ -1,9 +1,9 @@
 @import '../../../../configs/Variables.scss';
 
-$error-color: rgb(209, 124, 124);
+$info-color: rgb(124, 182, 209);
 $modal-color: rgb(153, 153, 153);
 
-.ErrorModal {
+.InfoModal {
   z-index: 26;
   position: fixed;
   width: 100%;
@@ -15,16 +15,23 @@ $modal-color: rgb(153, 153, 153);
   @include flexCenter;
 }
 
-.ErrorModalMain {
+.InfoModalMain {
   z-index: 27;
   width: 350px;
   height: 250px;
   background-color: $modal-color;
 
-  .ErrorSvgContainer {
+  .InfoSvgContainer {
     position: relative;
-    background-color: $error-color;
+    background-color: $info-color;
     height: 50%;
+    svg {
+      height: 80%;
+      width: 80%;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+    }
   }
   .MessageSection {
     height: 50%;

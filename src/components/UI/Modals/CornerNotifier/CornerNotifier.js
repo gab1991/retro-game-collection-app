@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import styles from './CornerNotifier.module.scss';
+import { hideCornerNotifier } from '../../../../actions/actions';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ButtonNeon from '../../../UI/Buttons/ButtonNeon/ButtonNeon';
+import styles from './CornerNotifier.module.scss';
 
 export default function CornerNotifier(props) {
   const {
@@ -12,13 +14,26 @@ export default function CornerNotifier(props) {
     onCancelClick,
     corner,
     show,
+    removeTime,
   } = props;
   const [showing, setShowing] = useState();
   const [grabbed, setGrabbed] = useState();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setShowing(show);
   }, [show]);
+
+  useEffect(() => {
+    if (removeTime && show) {
+      let interval;
+      interval = setTimeout(() => {
+        setShowing(false);
+        dispatch(hideCornerNotifier());
+      }, removeTime);
+      return () => clearInterval(interval);
+    }
+  }, [removeTime, show]);
 
   const hide = () => {
     setShowing(false);
@@ -39,14 +54,16 @@ export default function CornerNotifier(props) {
       <p>
         {message}
         {linkDir && <Link to={linkDir}>{linkText}</Link>}
-        <ButtonNeon
-          txtContent={btnText}
-          color="red"
-          onClick={() => {
-            onCancelClick();
-            hide();
-          }}
-        />
+        {btnText && (
+          <ButtonNeon
+            txtContent={btnText}
+            color="red"
+            onClick={() => {
+              onCancelClick();
+              hide();
+            }}
+          />
+        )}
       </p>
     </div>
   );

@@ -2,15 +2,24 @@ import React, { useState, useRef } from 'react';
 import styles from './SignUpForm.module.scss';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import { useDispatch } from 'react-redux';
-import { showAuthModal } from '../../../actions/actions';
+import { showAuthModal, showCornerNotifier } from '../../../actions/actions';
+import useWindowSize from '../../../CustomHooks/useWindowSize';
+
 import Input from '../../UI/Inputs/InputAuth/InputAuth';
+import OvalSpinner from '../../UI/LoadingSpinners/OvalSpinner/OvalSpinner';
 import Backend from '../../../Backend/Backend';
 import CloseSvg from '../../UI/LogoSvg/CloseSvg/CloseSvg';
 import validate from '../../../validation/validation';
+import sassVar from '../../../configs/Variables.scss';
+
+const mobileBreakPointWidth = parseInt(sassVar['breakpoints-mobile']);
 
 export default function SignUpForm(props) {
   const { backToSignIn } = props;
   const [wrongInputs, setWrongInputs] = useState({});
+  const [isSending, setIsSending] = useState(false);
+  const { width } = useWindowSize();
+  const isMobile = mobileBreakPointWidth > width;
   const dispatch = useDispatch();
   const inputs = useRef({
     username: {
@@ -74,7 +83,7 @@ export default function SignUpForm(props) {
           wrongListHandler(
             name,
             'set',
-            'Pass must contain at least at least one number and contain between 4 and 15 chars'
+            'Password must contain at least one number and 4 to 15 chars'
           );
       }
       if (name === 'email') {
@@ -114,10 +123,26 @@ export default function SignUpForm(props) {
         if (name !== 'passConfirm') sendObj[name] = inputs.current[name].value;
       });
 
+      setIsSending(true);
+
       Backend.postSignUp(sendObj)
-        .then((res) => backToSignIn())
+        .then((res) => {
+          setIsSending(false);
+          backToSignIn();
+          if (!isMobile) {
+            dispatch(
+              showCornerNotifier({
+                message: 'Account is successfully created',
+                corner: 'bottomLeft',
+                show: true,
+                removeTime: 1000,
+              })
+            );
+          }
+        })
         .catch((err) => {
           if (err.status === 400 && err.body.field) {
+            setIsSending(false);
             wrongListHandler(err.body.field, 'set', err.body.err_message);
           }
         });
@@ -128,7 +153,7 @@ export default function SignUpForm(props) {
     dispatch(showAuthModal(false));
   };
   return (
-    <div className={styles.SignUp}>
+    <div className={`${styles.SignUp}`}>
       <h1>Start Your Journey</h1>
       <form onSubmit={submitHandler}>
         <div className={styles.InputsSection}>
@@ -144,6 +169,7 @@ export default function SignUpForm(props) {
                 }
                 onChange={changeHandler}
                 wrong={wrongInputs[name]}
+                disabled={isSending}
               />
             </div>
           ))}
@@ -164,6 +190,13 @@ export default function SignUpForm(props) {
       <div className={styles.CloseSvgWrapper} onClick={closeModalHandler}>
         <CloseSvg />
       </div>
+      {isSending && (
+        <div className={styles.SendingBackdrop}>
+          <div className={styles.OvalSpinnerWrapper}>
+            <OvalSpinner />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

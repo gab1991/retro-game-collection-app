@@ -236,9 +236,7 @@ function GameDetailed(props) {
   };
 
   const getBack = () => {
-    props.history.push({
-      pathname: props.history.location.state.from,
-    });
+    props.history.goBack();
   };
 
   const hideWarning = () => {
@@ -373,13 +371,13 @@ function GameDetailed(props) {
       </div>
       <div className={styles.VideoSection}>
         <div className={styles.VideoSoundtrack}>
-          <div className={styles.VideoLabel}>
+          <div
+            className={styles.VideoLabel}
+            elm="sountrackVideo"
+            onClick={(e) => toggleBlockVisibilty(e)}>
             <h2>Soundtrack</h2>
             {isMobile && (
-              <div
-                elm="sountrackVideo"
-                className={styles.DropDownSvgContainer}
-                onClick={(e) => toggleBlockVisibilty(e)}>
+              <div className={styles.DropDownSvgContainer}>
                 <ArrowEsc arrow={!elmsVisibility.sountrackVideo} />
               </div>
             )}
@@ -407,13 +405,13 @@ function GameDetailed(props) {
           )}
         </div>
         <div className={styles.VideoGameplay}>
-          <div className={styles.VideoLabel}>
+          <div
+            className={styles.VideoLabel}
+            onClick={(e) => toggleBlockVisibilty(e)}
+            elm="gameplayVideo">
             <h2>Gameplay</h2>
             {isMobile && (
-              <div
-                elm="gameplayVideo"
-                className={styles.DropDownSvgContainer}
-                onClick={(e) => toggleBlockVisibilty(e)}>
+              <div className={styles.DropDownSvgContainer}>
                 <ArrowEsc arrow={!elmsVisibility.gameplayVideo} />
               </div>
             )}
@@ -442,13 +440,13 @@ function GameDetailed(props) {
         </div>
       </div>
       <div className={styles.EbaySection}>
-        <div className={styles.EbayLabel}>
+        <div
+          className={styles.EbayLabel}
+          elm="ebaySection"
+          onClick={(e) => toggleBlockVisibilty(e)}>
           <h2>Ebay Offers</h2>
           {isMobile && (
-            <div
-              elm="ebaySection"
-              className={styles.DropDownSvgContainer}
-              onClick={(e) => toggleBlockVisibilty(e)}>
+            <div className={styles.DropDownSvgContainer}>
               <ArrowEsc arrow={!elmsVisibility.ebaySection} />
             </div>
           )}

@@ -11,7 +11,7 @@ function Profile(props) {
   const { userData } = props;
   const { section } = props.match.params;
   const [activeSection, setActiveSection] = useState(
-    section || 'CollecitionList'
+    section || 'CollectionList'
   );
   const [showError, setShowError] = useState(false);
   const dispatch = useDispatch();
@@ -52,12 +52,12 @@ function Profile(props) {
       <div className={styles.NavTabs}>
         <ul>
           <li
-            desc={'CollecitionList'}
+            desc={'CollectionList'}
             onClick={sectionToggler}
             className={
-              activeSection === 'CollecitionList' ? styles.active : undefined
+              activeSection === 'CollectionList' ? styles.active : undefined
             }>
-            My Colletction
+            My Collection
           </li>
           <li
             desc={'WishList'}
@@ -70,7 +70,7 @@ function Profile(props) {
         </ul>
       </div>
       <div className={styles.Content}>
-        {activeSection === 'CollecitionList' && <CollectionList />}
+        {activeSection === 'CollectionList' && <CollectionList />}
         {activeSection === 'WishList' && <WishList />}
       </div>
       {showError && (

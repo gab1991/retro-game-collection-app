@@ -3,6 +3,7 @@ import styles from './EbaySection.module.scss';
 import EbaySwiper from './EbaySwiper/EbaySwiper';
 import Backend from '../../../Backend/Backend';
 import DotSpinner from '../../UI/LoadingSpinners/DotSpinner/DotSpinner';
+import sliderArrow from '../../../assets/images/ui/slider-arrow-left.svg';
 
 export default function EbaySection(props) {
   const { game, platform } = props;
@@ -37,7 +38,20 @@ export default function EbaySection(props) {
         dynamicBullets: true,
       },
     },
-    navigation: false,
+    prevButton: () => (
+      <div className="swiper-button-prev">
+        <img src={sliderArrow} alt="prev-btn" />
+      </div>
+    ),
+    nextButton: () => (
+      <div className="swiper-button-next">
+        <img
+          src={sliderArrow}
+          alt="prev-btn"
+          style={{ transform: 'rotate(180deg)' }}
+        />
+      </div>
+    ),
   };
 
   return (

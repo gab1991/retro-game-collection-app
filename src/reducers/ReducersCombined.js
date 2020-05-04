@@ -1,7 +1,11 @@
 import loggedReducer from './isLogged';
 import profileReducer from './profile';
-import showHideAuth from './showAuth';
-import showHideErr from './showErr';
+import {
+  showHideErr,
+  showHideInfo,
+  showHideAuth,
+  showHideCornerNotifier,
+} from './showModals';
 import dataCache from './dataCache';
 
 import { combineReducers } from 'redux';
@@ -11,6 +15,8 @@ const appReducer = combineReducers({
   profile: profileReducer,
   showAuth: showHideAuth,
   showErr: showHideErr,
+  showInfo: showHideInfo,
+  showCornNotifier: showHideCornerNotifier,
   dataCache: dataCache,
 });
 

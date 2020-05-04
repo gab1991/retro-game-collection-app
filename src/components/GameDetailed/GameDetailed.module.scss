@@ -1,5 +1,6 @@
 @import '../../configs/Variables.scss';
 
+$custom-scrollbar-color: rgba(168, 168, 168, 0.9);
 @mixin section-header {
   h2 {
     text-align: center;
@@ -61,8 +62,6 @@
       width: 300px;
       height: 225px;
 
-      background-color: rgb(83, 83, 70);
-
       img {
         width: 100%;
         height: 100%;
@@ -80,6 +79,7 @@
       margin-top: 0;
       position: absolute;
       top: 0;
+      min-width: 50px;
       width: 10%;
       height: 100%;
       z-index: 10;
@@ -125,7 +125,7 @@
   border: 2px solid rgba(82, 82, 82, 0.9);
   grid-area: info;
   overflow: auto;
-  @include customScrollBar(5px);
+  @include customScrollBar(6px, $custom-scrollbar-color);
   width: 290px;
   margin: 10px;
   margin-left: 20px;
@@ -145,7 +145,7 @@
   grid-area: description;
   font-size: 1.3rem;
   overflow: auto;
-  @include customScrollBar(10px);
+  @include customScrollBar(10px, $custom-scrollbar-color);
   padding: 20px;
 
   @include respond-to(mobile) {
@@ -210,7 +210,16 @@
         max-width: 300px;
         border-radius: 7px;
 
+        @include respond-to(mobile) {
+          max-width: 170px;
+          left: 30%;
+
+          font-size: 0.8rem;
+        }
+
         button {
+          min-width: auto;
+          display: inline-block;
           cursor: pointer;
           background-color: transparent;
           border: none;
@@ -302,6 +311,8 @@
   }
 
   .VideoLabel {
+    cursor: pointer;
+
     margin-bottom: 15px;
     position: relative;
   }
@@ -345,6 +356,7 @@
     font-size: 0.8rem;
   }
   .EbayLabel {
+    cursor: pointer;
     grid-area: label;
     position: relative;
     margin: 0 20px;

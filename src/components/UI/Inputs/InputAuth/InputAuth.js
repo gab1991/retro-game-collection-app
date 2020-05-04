@@ -6,7 +6,9 @@ export default function InputAuth(props) {
   const {
     type,
     label,
+    value,
     placeholder,
+    disabled,
     desc,
     onChange,
     onKeyPress,
@@ -34,6 +36,8 @@ export default function InputAuth(props) {
           placeholder={placeholder}
           onChange={(e) => onChange(e, desc)}
           onKeyPress={onKeyPress}
+          disabled={disabled}
+          value={value}
         />
         {addToggler === 'hideShowToggler' && (
           <div
