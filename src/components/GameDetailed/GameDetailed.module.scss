@@ -135,7 +135,7 @@ $custom-scrollbar-color: rgba(168, 168, 168, 0.9);
     width: 250px;
   }
   @include respond-to(mobile) {
-    width: 170px;
+    width: 140px;
     margin: 5px;
     padding: 0px;
   }
@@ -179,9 +179,10 @@ $custom-scrollbar-color: rgba(168, 168, 168, 0.9);
     }
 
     @include respond-to(mobile) {
-      width: 100%;
-
-      grid-template-areas: initial;
+      grid-template-areas:
+        'row'
+        'row'
+        'row';
       grid-template-columns: auto;
       grid-template-rows: repeat(3, 1fr);
     }
