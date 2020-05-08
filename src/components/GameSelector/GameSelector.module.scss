@@ -121,3 +121,12 @@ $controlsHeight: 30px;
     @include flexCenter;
   }
 }
+
+.BottomPagination {
+  margin: 0 auto;
+  width: 40%;
+
+  @include respond-to(tablet) {
+    width: 100%;
+  }
+}

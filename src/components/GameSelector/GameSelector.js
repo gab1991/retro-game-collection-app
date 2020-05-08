@@ -84,7 +84,7 @@ function GameSelector(props) {
   const sendRequestHandler = (e) => {
     if (e.key === 'Enter' || e.currentTarget.name === 'searchBtn') {
       const stringified = updateQueryStr([
-        ['search', inputValue],
+        ['search', encodeURI(inputValue)],
         ['page', 1],
       ]);
       props.history.push(`${props.history.location.pathname}?${stringified}`);
@@ -163,6 +163,16 @@ function GameSelector(props) {
           <div className={styles.NoGamesFound}>
             <h1>No results have been found! Try to change the query</h1>
           </div>
+        )}
+      </div>
+      <div className={styles.BottomPagination}>
+        {recievedData && (
+          <Paginator
+            totalCount={recievedData.count}
+            itemsPerPage={appConfig.GameSelector.gamesPerRequest}
+            currentPage={queryPage}
+            changeCurrentPage={pageChangeHandler}
+          />
         )}
       </div>
     </div>
