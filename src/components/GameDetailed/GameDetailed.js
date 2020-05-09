@@ -478,7 +478,7 @@ function GameDetailed(props) {
             corner={'bottomLeft'}
             message={'Game has been added to you'}
             linkText={'Owned List'}
-            linkDir={'/profile/CollecitionList'}
+            linkDir={'/profile/CollectionList'}
             btnText={'Cancel'}
             onCancelClick={() =>
               toggleList(platformName, gameDetails, 'owned_list', 'removeGame')
