@@ -6,7 +6,7 @@ import DotSpinner from '../../UI/LoadingSpinners/DotSpinner/DotSpinner';
 import sliderArrow from '../../../assets/images/ui/slider-arrow-left.svg';
 
 export default function EbaySection(props) {
-  const { game, platform } = props;
+  const { game, platform, isMobile } = props;
   const [ebayItems, setEbayItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -38,6 +38,8 @@ export default function EbaySection(props) {
         dynamicBullets: true,
       },
     },
+    navigation: isMobile ? false : true,
+
     prevButton: () => (
       <div className="swiper-button-prev">
         <img src={sliderArrow} alt="prev-btn" />

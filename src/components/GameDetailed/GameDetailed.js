@@ -278,6 +278,7 @@ function GameDetailed(props) {
     },
     loop: true,
     pagination: false,
+    navigation: isMobile ? false : true,
 
     prevButton: () => (
       <div className="swiper-button-prev">
@@ -453,7 +454,11 @@ function GameDetailed(props) {
           <hr></hr>
         </div>
         {gameDetails && elmsVisibility.ebaySection && (
-          <EbaySection platform={platformName} game={gameDetails.name} />
+          <EbaySection
+            platform={platformName}
+            game={gameDetails.name}
+            isMobile={isMobile}
+          />
         )}
       </div>
       {!isMobile && (
