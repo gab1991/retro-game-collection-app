@@ -27,9 +27,15 @@ $cont-padding: 15px;
   overflow: hidden;
   margin-bottom: 2%;
   margin: $cont-padding;
+  background-clip: black;
 
   &.EbayShowing {
-    flex: 1;
     flex-basis: 100%;
+  }
+
+  @include respond-to(mobile) {
+    &.EbayShowing {
+      flex: 1;
+    }
   }
 }

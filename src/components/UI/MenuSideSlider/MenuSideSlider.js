@@ -13,12 +13,15 @@ export default function MenuSideSlider(props) {
     ${show && slideLeft && styles.SlideLeft} 
     ${show && slideRight && styles.SlideRight}`}>
       <ul>
-        {list.map((item) => (
-          <li key={item.option} onClick={item.onclick}>
-            <span></span>
-            {item.option}
-          </li>
-        ))}
+        {list.map(({ option, onClick }) => {
+          if (!option) return null;
+          return (
+            <li key={option} onClick={onClick}>
+              <span></span>
+              {option}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

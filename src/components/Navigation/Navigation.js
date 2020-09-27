@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import { useDispatch, connect } from 'react-redux';
 import { logOut, showAuthModal } from '../../actions/actions';
-import styles from './Navigation.module.scss';
-import { withRouter } from 'react-router-dom';
 import Backdrop from '../UI/Backdrop/Backdrop';
 import MenuSideSlider from '../UI/MenuSideSlider/MenuSideSlider';
 import ButtonNeon from '../UI/Buttons/ButtonNeon/ButtonNeon';
+import styles from './Navigation.module.scss';
 
 function Navigation(props) {
   const { userData } = props;
@@ -60,8 +60,8 @@ function Navigation(props) {
             slideLeft
             show={showMenuSlider}
             list={[
-              { option: 'SELECT PLATFORM', onclick: toPlatformSelector },
-              { option: 'LOG OUT', onclick: loggingOut },
+              { option: 'SELECT PLATFORM', onClick: toPlatformSelector },
+              userData && { option: 'LOG OUT', onClick: loggingOut },
             ]}
           />
           {userData && (
