@@ -1,12 +1,12 @@
-import loggedReducer from './isLogged';
-import profileReducer from './profile';
+import loggedReducer from './loginReducer';
+import profileReducer from './profileReducer';
 import {
   showHideErr,
   showHideInfo,
   showHideAuth,
   showHideCornerNotifier,
-} from './showModals';
-import dataCache from './dataCache';
+} from './modalReducer';
+import dataCache from './cacheReducer';
 
 import { combineReducers } from 'redux';
 

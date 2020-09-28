@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { profile, signIn } from './Actions/actions';
+import { profile, signIn } from './Store/Actions/actions';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import Backend from './Backend/Backend';
 import Layout from './Components/Layout/Layout';

@@ -4,7 +4,7 @@ import {
   showAuthModal,
   showErrModal,
   hideErrModal,
-} from '../../Actions/actions';
+} from '../../Store/Actions/actions';
 import styles from './GameDetailed.module.scss';
 import Backend from '../../Backend/Backend';
 import { textMessages } from '../../Сonfigs/appConfig';

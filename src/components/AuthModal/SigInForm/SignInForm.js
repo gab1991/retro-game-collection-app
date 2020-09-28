@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { signIn, profile, showAuthModal } from '../../../Actions/actions';
+import { signIn, profile, showAuthModal } from '../../../Store/Actions/actions';
 import CloseSvg from '../../UI/LogoSvg/CloseSvg/CloseSvg';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import Input from '../../UI/Inputs/InputAuth/InputAuth';

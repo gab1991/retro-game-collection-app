@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import styles from './PlatformSelector.module.scss';
 import PlatformCard from '../PlatformCard/PlatformCard';
 import { connect, useDispatch } from 'react-redux';
-import { cacheGameSelector } from '../../Actions/actions';
+import { cacheGameSelector } from '../../Store/Actions/actions';
 
 function PlatformSelector(props) {
   const availablePlatforms = ['Genesis', 'PlayStation', 'NES'];

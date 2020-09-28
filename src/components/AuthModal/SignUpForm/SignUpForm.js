@@ -2,7 +2,10 @@ import React, { useState, useRef } from 'react';
 import styles from './SignUpForm.module.scss';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import { useDispatch } from 'react-redux';
-import { showAuthModal, showCornerNotifier } from '../../../Actions/actions';
+import {
+  showAuthModal,
+  showCornerNotifier,
+} from '../../../Store/Actions/actions';
 import useWindowSize from '../../../CustomHooks/useWindowSize';
 
 import Input from '../../UI/Inputs/InputAuth/InputAuth';

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import useWindowSize from '../../../../CustomHooks/useWindowSize';
 import { connect, useDispatch } from 'react-redux';
-import { removeGameFromList } from '../../../../Actions/actions';
+import { removeGameFromList } from '../../../../Store/Actions/actions';
 import styles from './GameLotContainer.module.scss';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';

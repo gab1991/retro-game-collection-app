@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Backend from '../../Backend/Backend';
 import SearchInput from '../../Components/UI/Inputs/SearchInput/SearchInput';
-import { cacheGameSelector } from '../../Actions/actions';
+import { cacheGameSelector } from '../../Store/Actions/actions';
 import { connect, useDispatch } from 'react-redux';
 import SelectBox from '../UI/SelectBox/SelectBox';
 import { appConfig } from '../../Сonfigs/appConfig';
