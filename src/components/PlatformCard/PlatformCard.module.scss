@@ -1,4 +1,4 @@
-@import '../../configs/Variables.scss';
+@import '../../Сonfigs/Variables.scss';
 
 .PlatformCard {
   background-color: rgba(0, 0, 0, 0.3);
@@ -16,7 +16,7 @@
     cursor: pointer;
     box-shadow: 0 0 10px $blue-shine-color, 0 0 30px $blue-shine-color,
       0 0 60px $blue-shine-color;
-    background: url('../../assets/images/blue_noise.jpg');
+    background: url('../../Assets/images/blue_noise.jpg');
     background-position: center;
   }
   .Logo {

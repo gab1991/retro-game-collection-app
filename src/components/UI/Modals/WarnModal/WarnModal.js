@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './WarnModal.module.scss';
 import Backdrop from '../../../UI/Backdrop/Backdrop';
 import ButtonNeon from '../../../UI/Buttons/ButtonNeon/ButtonNeon';
-import warnicon from '../../../../assets/images/ui/warning.svg';
+import warnicon from '../../../../Assets/images/ui/warning.svg';
 
 export default function WarnModal(props) {
   const { message, onBackdropClick, onYesClick, onNoClick } = props;

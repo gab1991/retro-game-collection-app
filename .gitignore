@@ -23,5 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 #assets
-/src/assets_quality
-/src/assets
+/src/Assets_quality
+/src/Assets

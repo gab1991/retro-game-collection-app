@@ -4,10 +4,10 @@ import {
   showAuthModal,
   showErrModal,
   hideErrModal,
-} from '../../actions/actions';
+} from '../../Actions/actions';
 import styles from './GameDetailed.module.scss';
 import Backend from '../../Backend/Backend';
-import { textMessages } from '../../configs/appConfig';
+import { textMessages } from '../../Сonfigs/appConfig';
 import useWindowSize from '../../CustomHooks/useWindowSize';
 import ReactHtmlParser from 'react-html-parser';
 import GameInfoBox from './GameInfoBox/GameInfoBox';
@@ -20,8 +20,8 @@ import ArrowEsc from '../UI/LogoSvg/ArrowEscSvg/ArrowEsc';
 import OvalSpinner from '../UI/LoadingSpinners/OvalSpinner/OvalSpinner';
 import { Swiper, Slide } from 'react-dynamic-swiper';
 import 'react-dynamic-swiper/lib/styles.css';
-import sliderArrow from '../../assets/images/ui/slider-arrow-left.svg';
-import sassVar from '../../configs/Variables.scss';
+import sliderArrow from '../../Assets/images/ui/slider-arrow-left.svg';
+import sassVar from '../../Сonfigs/Variables.scss';
 
 const mobileBreakPointWidth = parseInt(sassVar['breakpoints-mobile']);
 

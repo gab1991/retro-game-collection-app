@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { hideCornerNotifier } from '../../../../actions/actions';
+import { hideCornerNotifier } from '../../../../Actions/actions';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ButtonNeon from '../../../UI/Buttons/ButtonNeon/ButtonNeon';

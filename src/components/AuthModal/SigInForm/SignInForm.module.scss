@@ -1,4 +1,4 @@
-@import '../../../configs/Variables.scss';
+@import '../../../Сonfigs/Variables.scss';
 @mixin flexColSA {
   display: flex;
   flex-direction: column;
@@ -10,7 +10,7 @@
   @include flexColSA;
   position: absolute;
   align-items: center;
-  background-image: url('../../../assets/images/backgrounds/signin_back.jpg');
+  background-image: url('../../../Assets/images/backgrounds/signin_back.jpg');
   background-position: center;
   background-size: cover;
   background-color: rgba(0, 0, 0, 0.445);

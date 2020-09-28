@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import Backend from '../../../../Backend/Backend';
-import sassVar from '../../../../configs/Variables.scss';
+import sassVar from '../../../../Сonfigs/Variables.scss';
 import styles from './GameBoxContainer.module.scss';
 
 const SortableList = SortableContainer(({ games, platform }) => {

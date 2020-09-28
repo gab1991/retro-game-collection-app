@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Backend from '../../Backend/Backend';
-import SearchInput from '../../components/UI/Inputs/SearchInput/SearchInput';
-import { cacheGameSelector } from '../../actions/actions';
+import SearchInput from '../../Components/UI/Inputs/SearchInput/SearchInput';
+import { cacheGameSelector } from '../../Actions/actions';
 import { connect, useDispatch } from 'react-redux';
 import SelectBox from '../UI/SelectBox/SelectBox';
-import { appConfig } from '../../configs/appConfig';
+import { appConfig } from '../../Сonfigs/appConfig';
 import DotSpinner from '../UI/LoadingSpinners/DotSpinner/DotSpinner';
 import styles from './GameSelector.module.scss';
 import GameCard from '../GameSelector/GameCard/GameCard';

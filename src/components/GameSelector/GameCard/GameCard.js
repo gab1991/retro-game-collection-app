@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './GameCard.module.scss';
-import { images } from '../../../configs/appConfig';
+import { images } from '../../../Сonfigs/appConfig';
 
 export default function GameCard(props) {
   const { slug, name, background_image: background } = props.gameInfo;

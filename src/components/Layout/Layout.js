@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import Navigation from '../Navigation/Navigation';
 import AuthModal from '../AuthModal/AuthModal';
 import Background from '../UI/Background/Background';
-import ErrorModal from '../../components/UI/Modals/ErrorModal/ErrorModal';
-import InfoModal from '../../components/UI/Modals/InfoModal/InfoModal';
+import ErrorModal from '../../Components/UI/Modals/ErrorModal/ErrorModal';
+import InfoModal from '../../Components/UI/Modals/InfoModal/InfoModal';
 import CornerNotifier from '../UI/Modals/CornerNotifier/CornerNotifier';
 
 function Layout(props) {

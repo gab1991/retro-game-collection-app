@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import styles from './WishList.module.scss';
-import { images } from '../../../configs/appConfig';
+import { images } from '../../../Сonfigs/appConfig';
 import { connect } from 'react-redux';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import GameLotContainer from './GameLotContainer/GameLotContainer';

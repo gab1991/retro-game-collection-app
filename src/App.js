@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
-import styles from './App.module.scss';
 import { useDispatch } from 'react-redux';
-import { profile, signIn } from './actions/actions';
+import { profile, signIn } from './Actions/actions';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import Backend from './Backend/Backend';
-import Layout from './components/Layout/Layout';
-import PlatformSelector from './components/PlatformSelector/PlatformSelector';
-import GameSelector from './components/GameSelector/GameSelector';
-import GameDetailed from './components/GameDetailed/GameDetailed';
-import Profile from './components/Profile/Profile';
+import Layout from './Components/Layout/Layout';
+import PlatformSelector from './Components/PlatformSelector/PlatformSelector';
+import GameSelector from './Components/GameSelector/GameSelector';
+import GameDetailed from './Components/GameDetailed/GameDetailed';
+import Profile from './Components/Profile/Profile';
+
+import styles from './App.module.scss';
 
 function App(props) {
   const dispatch = useDispatch();

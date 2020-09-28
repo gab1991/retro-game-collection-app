@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import useWindowSize from '../../../../CustomHooks/useWindowSize';
 import { connect, useDispatch } from 'react-redux';
-import { removeGameFromList } from '../../../../actions/actions';
+import { removeGameFromList } from '../../../../Actions/actions';
 import styles from './GameLotContainer.module.scss';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import Backend from '../../../../Backend/Backend';
 import EbyaLotSection from './EbayLotSection/EbyaLotSection';
-import sassVar from '../../../../configs/Variables.scss';
+import sassVar from '../../../../Сonfigs/Variables.scss';
 
 const SortableList = SortableContainer(
   ({

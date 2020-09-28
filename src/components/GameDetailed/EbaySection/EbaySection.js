@@ -3,7 +3,7 @@ import styles from './EbaySection.module.scss';
 import EbaySwiper from './EbaySwiper/EbaySwiper';
 import Backend from '../../../Backend/Backend';
 import DotSpinner from '../../UI/LoadingSpinners/DotSpinner/DotSpinner';
-import sliderArrow from '../../../assets/images/ui/slider-arrow-left.svg';
+import sliderArrow from '../../../Assets/images/ui/slider-arrow-left.svg';
 
 export default function EbaySection(props) {
   const { game, platform, isMobile } = props;

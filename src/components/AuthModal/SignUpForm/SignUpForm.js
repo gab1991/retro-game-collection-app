@@ -2,15 +2,15 @@ import React, { useState, useRef } from 'react';
 import styles from './SignUpForm.module.scss';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import { useDispatch } from 'react-redux';
-import { showAuthModal, showCornerNotifier } from '../../../actions/actions';
+import { showAuthModal, showCornerNotifier } from '../../../Actions/actions';
 import useWindowSize from '../../../CustomHooks/useWindowSize';
 
 import Input from '../../UI/Inputs/InputAuth/InputAuth';
 import OvalSpinner from '../../UI/LoadingSpinners/OvalSpinner/OvalSpinner';
 import Backend from '../../../Backend/Backend';
 import CloseSvg from '../../UI/LogoSvg/CloseSvg/CloseSvg';
-import validate from '../../../validation/validation';
-import sassVar from '../../../configs/Variables.scss';
+import validate from '../../../Validation/validation';
+import sassVar from '../../../Сonfigs/Variables.scss';
 
 const mobileBreakPointWidth = parseInt(sassVar['breakpoints-mobile']);
 

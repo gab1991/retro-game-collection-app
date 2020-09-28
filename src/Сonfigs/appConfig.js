@@ -75,22 +75,22 @@ const appConfig = {
 
 const images = {
   Genesis: {
-    gamepad: { src: require('../assets/images/icons/Sega Genesis.png') },
+    gamepad: { src: require('../Assets/images/icons/Sega Genesis.png') },
     logo: {
-      src: require('../assets/images/platform logos/sega_genesis_logo.png'),
+      src: require('../Assets/images/platform logos/sega_genesis_logo.png'),
     },
   },
   NES: {
-    gamepad: { src: require('../assets/images/icons/Nintendo NES.png') },
-    logo: { src: require('../assets/images/platform logos/nes_logo.png') },
+    gamepad: { src: require('../Assets/images/icons/Nintendo NES.png') },
+    logo: { src: require('../Assets/images/platform logos/nes_logo.png') },
   },
 
   PlayStation: {
-    gamepad: { src: require('../assets/images/icons/Sony Playstation.png') },
-    logo: { src: require('../assets/images/platform logos/ps_logo.png') },
+    gamepad: { src: require('../Assets/images/icons/Sony Playstation.png') },
+    logo: { src: require('../Assets/images/platform logos/ps_logo.png') },
   },
   noPicture: {
-    background: { src: require('../assets/images/no_img.png') },
+    background: { src: require('../Assets/images/no_img.png') },
   },
 };
 

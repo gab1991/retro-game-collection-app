@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import styles from '../KnobToggler/KnobToggler.module.scss';
+import styles from './KnobToggler.module.scss';
 
 export default function KnobToggler(props) {
   const { width = '50px', message, onChangeHandler, checked } = props;

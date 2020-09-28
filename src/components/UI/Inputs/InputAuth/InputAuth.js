@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './InputAuth.module.scss';
-import eyeicon from '../../../../assets/images/ui/eye-regular.svg';
+import eyeicon from '../../../../Assets/images/ui/eye-regular.svg';
 
 export default function InputAuth(props) {
   const {
