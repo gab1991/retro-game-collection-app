@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Profile.module.scss';
-import { logOut } from '../../Store/Actions/actions';
+import { logOut } from '../../Store/Actions/authActions';
 import { getProfileInfo } from '../../Store/Actions/profileActions';
 import ErrorModal from '../UI/Modals/ErrorModal/ErrorModal';
 import CollectionList from '../Profile/CollictionList/CollectionLIst';

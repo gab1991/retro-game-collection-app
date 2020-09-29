@@ -1,20 +1,20 @@
 import React from 'react';
-import styles from './Layout.module.scss';
 import { connect } from 'react-redux';
-import Navigation from '../Navigation/Navigation';
+import Header from '../Header/Header';
 import AuthModal from '../AuthModal/AuthModal';
 import Background from '../UI/Background/Background';
 import ErrorModal from '../../Components/UI/Modals/ErrorModal/ErrorModal';
 import InfoModal from '../../Components/UI/Modals/InfoModal/InfoModal';
 import CornerNotifier from '../UI/Modals/CornerNotifier/CornerNotifier';
+import styles from './Layout.module.scss';
 
 function Layout(props) {
   const { showAuth, showErr, showInfo, showCornNotifier } = props;
 
   return (
     <div className={styles.Layout}>
-      <Navigation />
-      {props.children}
+      <Header />
+      <main> {props.children}</main>
       <footer className={styles.Footer}>
         <p>
           <a href="https://rawg.io/" rel="noopener noreferrer" target="_blank">

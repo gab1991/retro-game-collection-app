@@ -1,23 +1,14 @@
-const signIn = (username, token) => {
-  localStorage.setItem('username', username);
-  localStorage.setItem('token', token);
-  return {
-    type: 'SIGN_IN',
-    payload: {
-      username,
-      token,
-    },
-  };
-};
-
-const logOut = (message) => {
-  return {
-    type: 'LOG_OUT',
-    payload: {
-      message: message,
-    },
-  };
-};
+// const signIn = (username, token) => {
+//   localStorage.setItem('username', username);
+//   localStorage.setItem('token', token);
+//   return {
+//     type: 'SIGN_IN',
+//     payload: {
+//       username,
+//       token,
+//     },
+//   };
+// };
 
 // const profile = (profileinfo) => {
 //   return {
@@ -93,9 +84,9 @@ const cacheGameSelector = (data) => {
 };
 
 export {
-  signIn,
+  // signIn,
   // profile,
-  logOut,
+  // logOut,
   showAuthModal,
   showErrModal,
   hideErrModal,

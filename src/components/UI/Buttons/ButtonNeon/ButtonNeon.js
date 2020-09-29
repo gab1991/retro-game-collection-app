@@ -15,6 +15,7 @@ export default function ButtonNeon(props) {
     onDisabledClick: disableClickHandler,
     onMouseEnter: mouseEnterHandler,
     onMouseLeave: mouseLeaveHandler,
+    className,
   } = props;
 
   return (
@@ -29,7 +30,8 @@ export default function ButtonNeon(props) {
       ${color ? styles[color] : null}
       ${rectangular ? styles.Rectangular : null}
       ${disabled ? styles.Disabled : null}
-      ${blinking ? styles.Blinking : null}`}
+      ${blinking ? styles.Blinking : null}
+      ${className}`}
       style={{ ...style }}>
       {txtContent}
     </button>

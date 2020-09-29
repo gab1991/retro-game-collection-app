@@ -1,0 +1,32 @@
+@import '../../Сonfigs/Variables.scss';
+
+.Header {
+  .Nav {
+    height: 100%;
+    background-color: $nav-color;
+    position: relative;
+    z-index: 25;
+
+    @include respond-to(mobile) {
+      font-size: 0.8rem;
+    }
+
+    .List {
+      height: 100%;
+      width: 100%;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 15px;
+    }
+
+    .ListItem {
+      cursor: pointer;
+    }
+  }
+
+  .Btn {
+    min-width: 110px;
+  }
+}
