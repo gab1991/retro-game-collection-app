@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { signIn, profile, showAuthModal } from '../../../Store/Actions/actions';
+import { signIn, showAuthModal } from '../../../Store/Actions/actions';
 import CloseSvg from '../../UI/LogoSvg/CloseSvg/CloseSvg';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import Input from '../../UI/Inputs/InputAuth/InputAuth';
@@ -78,8 +78,7 @@ export default function SignInForm(props) {
     Backend.postSignIn(sendObj)
       .then((res) => {
         dispatch(signIn(res.username, res.token));
-        localStorage.setItem('token', res.token);
-        getProfileInfo(res.token);
+        // getProfileInfo(res.token);
         setIsSending(false);
         closeModalHandler();
       })
@@ -91,11 +90,11 @@ export default function SignInForm(props) {
       });
   };
 
-  const getProfileInfo = (token) => {
-    Backend.getProfileInfo(token).then((res) => {
-      dispatch(profile(res));
-    });
-  };
+  // const getProfileInfo = (token) => {
+  //   Backend.getProfileInfo(token).then((res) => {
+  //     dispatch(profile(res));
+  //   });
+  // };
 
   const regularLogin = (e) => {
     e.preventDefault();

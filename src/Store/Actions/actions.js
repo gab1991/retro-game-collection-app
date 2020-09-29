@@ -1,4 +1,6 @@
 const signIn = (username, token) => {
+  localStorage.setItem('username', username);
+  localStorage.setItem('token', token);
   return {
     type: 'SIGN_IN',
     payload: {
@@ -17,14 +19,14 @@ const logOut = (message) => {
   };
 };
 
-const profile = (profileinfo) => {
-  return {
-    type: 'FILL',
-    payload: {
-      ...profileinfo,
-    },
-  };
-};
+// const profile = (profileinfo) => {
+//   return {
+//     type: 'FILL',
+//     payload: {
+//       ...profileinfo,
+//     },
+//   };
+// };
 
 const removeGameFromList = (list, platform, gameName) => {
   return {
@@ -92,7 +94,7 @@ const cacheGameSelector = (data) => {
 
 export {
   signIn,
-  profile,
+  // profile,
   logOut,
   showAuthModal,
   showErrModal,

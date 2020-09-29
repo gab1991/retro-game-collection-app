@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Profile.module.scss';
-import { profile, logOut } from '../../Store/Actions/actions';
+import { logOut } from '../../Store/Actions/actions';
+import { getProfileInfo } from '../../Store/Actions/profileActions';
 import ErrorModal from '../UI/Modals/ErrorModal/ErrorModal';
-import Backend from '../../Backend/Backend';
 import CollectionList from '../Profile/CollictionList/CollectionLIst';
 import WishList from '../Profile/WishList/WishList';
 import { connect, useDispatch } from 'react-redux';
@@ -19,17 +19,7 @@ function Profile(props) {
   useEffect(() => {
     let isSubscribed = true;
     if (userData) {
-      Backend.getProfileInfo(userData.token)
-        .then((res) => {
-          dispatch(profile(res));
-        })
-        .catch((err) => {
-          if (isSubscribed)
-            setShowError({
-              message: `Couldn't get your profile info. Try to relog`,
-            });
-          console.log({ Profile_err: err });
-        });
+      dispatch(getProfileInfo());
     }
     return () => {
       isSubscribed = false;

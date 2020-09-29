@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { profile, signIn } from './Store/Actions/actions';
+import { useDispatch, connect } from 'react-redux';
+import { checkCredentials } from './Store/Actions/authActions';
+import { getProfileInfo } from './Store/Actions/profileActions';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import Backend from './Backend/Backend';
 import Layout from './Components/Layout/Layout';
 import PlatformSelector from './Components/PlatformSelector/PlatformSelector';
 import GameSelector from './Components/GameSelector/GameSelector';
@@ -12,22 +12,17 @@ import Profile from './Components/Profile/Profile';
 import styles from './App.module.scss';
 
 function App(props) {
+  const { isLogged } = props;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const token = localStorage.token;
-    if (token) {
-      Backend.getProfileInfo(token)
-        .then((res) => {
-          dispatch(signIn(res.username, token));
-          dispatch(profile(res));
-        })
-        .catch((err) => {
-          if (err.status === 400) localStorage.removeItem('token');
-          console.log({ ...err });
-        });
-    }
+    dispatch(checkCredentials());
   }, []);
+
+  useEffect(() => {
+    if (!isLogged) return;
+    dispatch(getProfileInfo());
+  }, [isLogged]);
 
   return (
     <div className={styles.App}>
@@ -48,4 +43,10 @@ function App(props) {
   );
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    isLogged: state.logged,
+  };
+}
+
+export default connect(mapStateToProps)(App);

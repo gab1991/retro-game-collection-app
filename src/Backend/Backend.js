@@ -1,10 +1,17 @@
+import axios_base from 'axios';
 import api from './api_config';
+import { server_adress } from '../Сonfigs/server.config';
+
+const axios = axios_base.create({
+  baseURL: server_adress,
+  timeout: 4000,
+});
 
 function queryParamBuilder(params) {
   if (typeof params === 'string') return params;
 
-  let result = [];
-  for (var key in params) {
+  const result = [];
+  for (let key in params) {
     if (params.hasOwnProperty(key)) {
       result.push(
         `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
@@ -119,20 +126,49 @@ const Backend = {
         .catch((err) => reject(err));
     });
   },
-
-  getProfileInfo: (token) => {
-    let url = `${api.appServer.profileUrl}`;
+  checkCredentials: (token, username) => {
     return new Promise((resolve, reject) => {
-      fetch(url, {
-        method: 'GET',
+      axios({
+        url: `/api/auth/check_credentials`,
+        method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
+          authorization: `Bearer ${token}`,
+        },
+        data: {
+          username,
         },
       })
-        .then(handleErrors)
-        .then((data) => resolve(data))
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => reject(err));
+    });
+  },
+  getProfileInfo: (token) => {
+    // let url = `${api.appServer.profileUrl}`;
+    return new Promise((resolve, reject) => {
+      //   fetch(url, {
+      //     method: 'GET',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //       Accept: 'application/json',
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   })
+      //     .then(handleErrors)
+      //     .then((data) => resolve(data))
+      //     .catch((err) => reject(err));
+      // });
+      axios({
+        url: `/api/profile`,
+        method: 'GET',
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => {
+          resolve(res);
+        })
         .catch((err) => reject(err));
     });
   },

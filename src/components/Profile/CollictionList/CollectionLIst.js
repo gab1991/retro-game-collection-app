@@ -12,7 +12,7 @@ function CollectionLIst(props) {
 
   useEffect(() => {
     if (profileInfo) {
-      const platformsOwned = profileInfo.owned_list.platforms;
+      const platformsOwned = profileInfo?.owned_list?.platforms || [];
       setOwnedList({ platforms: platformsOwned, count: platformsOwned.length });
     } else {
       setOwnedList({ platforms: [], count: 0 });

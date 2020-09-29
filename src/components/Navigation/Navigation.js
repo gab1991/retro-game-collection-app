@@ -43,6 +43,7 @@ function Navigation(props) {
     toPlatformSelector();
     hideMenu();
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
     dispatch(logOut());
   };
 
