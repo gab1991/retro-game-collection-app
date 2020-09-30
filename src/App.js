@@ -29,12 +29,12 @@ function App(props) {
       <Layout>
         <Switch>
           <Route exact path="/profile/:section?" component={Profile} />
-          <Route exact path="/:platformName" component={GameSelector} />
           <Route
             exact
             path={`/:platformName/:gameSlug`}
             component={GameDetailed}
           />
+          <Route exact path="/:platformName" component={GameSelector} />
           <Route exact path="/" component={PlatformSelector} />
           <Redirect to="/" />
         </Switch>

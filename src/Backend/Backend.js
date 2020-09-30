@@ -54,9 +54,13 @@ const Backend = {
     let paramsStr = queryParamBuilder(params);
     let url = `${api.games.getGamesUrl}${paramsStr}`;
     return new Promise((resolve, reject) => {
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => resolve(data))
+      axios({
+        url,
+        method: 'GET',
+      })
+        .then((res) => {
+          resolve(res);
+        })
         .catch((err) => reject(err));
     });
   },
@@ -145,20 +149,7 @@ const Backend = {
     });
   },
   getProfileInfo: (token) => {
-    // let url = `${api.appServer.profileUrl}`;
     return new Promise((resolve, reject) => {
-      //   fetch(url, {
-      //     method: 'GET',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //       Accept: 'application/json',
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   })
-      //     .then(handleErrors)
-      //     .then((data) => resolve(data))
-      //     .catch((err) => reject(err));
-      // });
       axios({
         url: `/api/profile`,
         method: 'GET',

@@ -1,5 +1,6 @@
 import loggedReducer from './loginReducer';
 import profileReducer from './profileReducer';
+import gameSelectorReducer from './gameSelectorReducer';
 import {
   showHideErr,
   showHideInfo,
@@ -17,7 +18,8 @@ const appReducer = combineReducers({
   showErr: showHideErr,
   showInfo: showHideInfo,
   showCornNotifier: showHideCornerNotifier,
-  dataCache: dataCache,
+  gameSelector: gameSelectorReducer,
+  // dataCache: dataCache,
 });
 
 const rootReducer = (state, action) => {
