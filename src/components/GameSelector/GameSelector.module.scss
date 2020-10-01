@@ -3,6 +3,7 @@
 $controlsHeight: 30px;
 
 .GameSelector {
+  height: 100%;
   background-color: $content-underlayer-color;
   display: flex;
   flex-direction: column;
@@ -37,13 +38,14 @@ $controlsHeight: 30px;
     grid-template-columns: 50% 50%;
   }
   @include respond-to(mobile) {
-    margin: 1;
+    margin: 5px;
   }
 
   .InputWrapper {
     grid-area: search;
     height: $controlsHeight;
     width: 80%;
+
     @include respond-to(mobile) {
       width: 100%;
     }
@@ -70,35 +72,36 @@ $controlsHeight: 30px;
 
 .GamePicker {
   display: grid;
-  grid-template-columns: repeat(3, 33%);
+  grid-template-columns: repeat(3, 1fr);
+  padding: 1%;
 
   @include respond-to(mobile) {
-    grid-template-columns: repeat(2, 50%);
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .GameCardWrapper {
-    position: relative;
-    margin: 4% 8%;
+  .GameCard {
+    // position: relative;
+    // margin: 4% 8%;
     @include respond-to(tablet) {
       margin: 3%;
     }
     @include respond-to(tablet) {
       margin: 2%;
     }
-    &:before {
-      display: block;
-      content: '';
-      width: 100%;
-      padding-top: 100%;
-    }
-    & > div {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      font-size: 0.8rem;
-    }
+    // &:before {
+    //   display: block;
+    //   content: '';
+    //   width: 100%;
+    //   padding-top: 100%;
+    // }
+    // & > a {
+    //   position: absolute;
+    //   top: 0;
+    //   right: 0;
+    //   bottom: 0;
+    //   left: 0;
+    //   font-size: 0.8rem;
+    // }
     p {
       font-size: 0.9rem;
     }
@@ -121,7 +124,7 @@ $controlsHeight: 30px;
 }
 
 .BottomPagination {
-  margin: 0 auto;
+  margin: auto auto 0;
   width: 40%;
 
   @include respond-to(tablet) {

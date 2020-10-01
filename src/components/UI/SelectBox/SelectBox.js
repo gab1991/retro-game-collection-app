@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './SelectBox.module.scss';
 
 export default function SelectBox(props) {
-  const { selected, options, changedSelected } = props;
+  const { selected, options, changedSelected, className } = props;
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedValue, setSelectedValue] = useState(selected);
 
@@ -19,13 +19,16 @@ export default function SelectBox(props) {
   };
 
   useEffect(() => {
+    if (selectedValue !== selected) setSelectedValue(selected);
+  }, [selected]);
+
+  useEffect(() => {
     if (selectedValue !== selected) changedSelected(selectedValue);
   }, [selectedValue]);
 
   return (
     <div
-      className={`${styles.SelectBox} 
-    `}
+      className={`${styles.SelectBox} ${className}`}
       onClick={clickHandler}
       onMouseLeave={leaveHandler}>
       <div className={`${styles.Selection} ${showDropdown && styles.ListOpen}`}>

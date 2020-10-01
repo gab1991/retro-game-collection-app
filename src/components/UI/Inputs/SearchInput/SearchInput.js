@@ -11,10 +11,11 @@ export default function Input(props) {
     onBtnClick,
     value,
     isFocused,
+    className,
   } = props;
 
   return (
-    <div className={styles.InputWrapper}>
+    <div className={`${styles.InputWrapper} ${className}`}>
       <input
         className={styles.Input}
         type={type}

@@ -3,13 +3,6 @@ import Backend from '../../Backend/Backend';
 import { history } from '../../index';
 import { parseQueryString, stringifyQuery } from '../../Utils/queryStrUtils';
 
-const getHistoryObj = (history) => {
-  return {
-    type: 'GET_HISTORY_OBJ',
-    payload: history,
-  };
-};
-
 const setIsLoading = (bool) => {
   return {
     type: 'SET_IS_LOADING',
@@ -31,9 +24,9 @@ const setGamesToShow = (arrOfGames) => {
   };
 };
 
-const cacheGameSelector = (data) => {
+const writePageData = (data) => {
   return {
-    type: 'CACHE_GAME_SELECTOR',
+    type: 'WRITE_PAGE_DATA',
     payload: { ...data },
   };
 };
@@ -41,30 +34,30 @@ const cacheGameSelector = (data) => {
 const getGamesForPlatform = (platformName) => {
   return async (dispatch, getState) => {
     const state = getState();
-    const { params } = state.gameSelector.query;
-    const { ordering } = state.gameSelector;
+    const { page, direction, ordername, search } = state.gameSelector.query;
     const platformID = appConfig.platformIdList[platformName];
-    const url = `${history.location.pathname}${history.location.search}`;
 
     const req = {
-      page: params?.page || 1,
+      page: page || 1,
       page_size: appConfig.GameSelector.gamesPerRequest,
-      ordering: `${ordering.direction === '↓' ? '-' : ''}${ordering.name}`,
+      ordering: `${direction === '↓' ? '-' : ''}${ordername}`,
       platforms: platformID,
-      search: `${params?.search || ' '}`,
+      search: `${search || ' '}`,
     };
 
     dispatch(setIsLoading(true));
 
     try {
       const { data } = await Backend.getGamesForPlatform(req);
-      dispatch(cacheGameSelector({ ...data, url }));
+      dispatch(writePageData({ ...data }));
       dispatch(setIsLoading(false));
 
       const { results: games } = data;
 
       if (!games?.length) {
         dispatch(setNoGamesFound(true));
+      } else {
+        dispatch(setNoGamesFound(false));
       }
       dispatch(setGamesToShow(games));
     } catch (err) {
@@ -73,57 +66,65 @@ const getGamesForPlatform = (platformName) => {
   };
 };
 
-const updateQueryParams = (params) => {
-  const currentParams = parseQueryString(history.location.search);
-  const combinedParams = { ...currentParams, ...params };
-
-  if (combinedParams.page) {
-    combinedParams.page = Number(params.page);
-  }
-  history.push(
-    `${history.location.pathname}?${stringifyQuery(combinedParams)}`
-  );
-
-  return {
-    type: 'UPDATE_QUERY_PARAMS',
-    payload: combinedParams,
+const changePage = (pagenum) => {
+  return (dispatch) => {
+    dispatch({
+      type: 'CHANGE_PAGE',
+      payload: pagenum,
+    });
+    dispatch(updateQueryParams());
   };
 };
 
-const changePage = (pagenum) => {
+const changeSearchStr = (str) => {
   return (dispatch) => {
-    dispatch(updateQueryParams({ page: pagenum }));
+    dispatch({
+      type: 'CHANGE_SEARCH_STR',
+      payload: str,
+    });
+    dispatch(updateQueryParams());
   };
 };
 
 const startNewSearch = (searchStr) => {
   return (dispatch) => {
-    dispatch(updateQueryParams({ page: 1, search: searchStr }));
+    dispatch(changeSearchStr(searchStr));
+    dispatch(changePage(1));
+    dispatch(updateQueryParams());
   };
 };
 
 const setNewOrdering = (option) => {
   const [ordername, direction] = option.split(' ');
   return (dispatch) => {
-    dispatch(updateQueryParams({ ordername, direction }));
+    // dispatch(updateQueryParams({ ordername, direction }));
     dispatch({
       type: 'SET_NEW_ORDERING',
       payload: {
-        name: ordername,
+        ordername,
         direction,
       },
     });
+    dispatch(updateQueryParams());
   };
 };
 
-const parseQueryParams = ({ match }) => {
-  const { platformName } = match?.params || {};
-  const url = `${history.location.pathname}${history.location.search}`;
-  const params = parseQueryString(history.location.search);
-  if (params.page) {
-    params.page = Number(params.page);
-  }
-  return (dispatch) => dispatch(updateQueryParams(params));
+const updateQueryParams = () => {
+  return (dispatch, getstate) => {
+    const state = getstate();
+    const { query } = state.gameSelector;
+    history.push(`${history.location.pathname}?${stringifyQuery(query)}`);
+  };
+};
+
+const parseQueryParams = (searchStr = {}) => {
+  return (dispatch) => {
+    const currentParams = parseQueryString(searchStr);
+    dispatch({
+      type: 'CHANGE_QUERY_PARAMS',
+      payload: currentParams,
+    });
+  };
 };
 
 const setSearchInputValue = (value) => {
@@ -135,7 +136,6 @@ const setSearchInputValue = (value) => {
 
 export {
   getGamesForPlatform,
-  // getHistoryObj,
   changePage,
   parseQueryParams,
   setSearchInputValue,

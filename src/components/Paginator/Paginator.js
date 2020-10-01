@@ -36,6 +36,7 @@ export default function Paginator({
   itemsPerPage,
   currentPage,
   changeCurrentPage,
+  className,
 }) {
   const pageCount = Math.ceil(totalCount / itemsPerPage);
   const buttons = [];
@@ -99,7 +100,7 @@ export default function Paginator({
   }
 
   return (
-    <div className={styles.Paginator}>
+    <div className={`${styles.Paginator} ${className}`}>
       {pageCount > 1 && (
         <button data-page={'<<'} onClick={buttonClick}>
           {'<<'}

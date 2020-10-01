@@ -10,6 +10,7 @@ $transition: all 200ms ease-in-out;
 
 .TextSection {
   @include flexCenter;
+  height: 100%;
   transition: all 100ms ease;
   text-transform: capitalize;
   background-color: getBtnColor('basic');
@@ -43,7 +44,7 @@ $transition: all 200ms ease-in-out;
 }
 
 .Options {
-  width: inherit;
+  width: 100%;
   z-index: 10;
   position: absolute;
 

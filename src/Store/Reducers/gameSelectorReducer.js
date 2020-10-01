@@ -6,44 +6,75 @@ const initial = {
   isLoading: false,
   noGamesFound: false,
   gamesToShow: [],
-  ordering: {
-    name: defaultOrdering.name,
+  query: {
+    page: 1,
+    search: '',
+    ordername: defaultOrdering.name,
     direction: defaultOrdering.direction,
   },
-  query: { search: '', params: { page: 1 } },
 };
 
 const gameSelectorReducer = (state = initial, { type, payload }) => {
   switch (type) {
-    // case 'GET_HISTORY_OBJ':
-    //   return { ...state, history: payload };
     case 'SET_IS_LOADING':
       return { ...state, isLoading: payload };
     case 'SET_NO_GAMES_FOUND':
       return { ...state, noGamesFound: payload };
     case 'SET_GAMES_TO_SHOW':
       return { ...state, gamesToShow: payload };
-    case 'CACHE_GAME_SELECTOR':
-      return { ...state, cache: { ...payload } };
+    case 'WRITE_PAGE_DATA':
+      return { ...state, pageData: { ...payload } };
     case 'CHANGE_PAGE': {
-      const newPageNum = payload;
-      console.log(newPageNum);
-
-      return { ...state };
+      const newPageNum = Number(payload);
+      if (!newPageNum) newPageNum = 1;
+      return { ...state, query: { ...state.query, page: newPageNum } };
     }
-    case 'UPDATE_QUERY_PARAMS': {
-      return {
-        ...state,
-        query: {
-          ...state.query,
-          params: { ...state.query.params, ...payload },
-        },
-      };
+    case 'SET_NEW_ORDERING': {
+      const { ordername, direction } = payload || {};
+      const query = { ...state.query };
+      query.ordername = ordername;
+      query.direction = direction;
+      return { ...state, query };
+    }
+    case 'CHANGE_SEARCH_STR': {
+      const str = payload;
+      const query = { ...state.query };
+      query.search = encodeURI(str);
+      return { ...state, query };
+    }
+    case 'CHANGE_QUERY_PARAMS': {
+      const newParams = payload;
+      const query = { ...state.query };
+
+      for (let param in query) {
+        //negative cases fallback to default
+        if (!newParams[param]) {
+          if (param === 'page') {
+            query.page = 1;
+          } else if (param === 'search') {
+            query.search = '';
+          } else if (param === 'direction') {
+            query.direction = defaultOrdering.direction;
+          } else if (param === 'ordername') {
+            query.direction = defaultOrdering.direction;
+          }
+        }
+        //postitive cases
+        if (newParams[param]) {
+          if (param === 'page') {
+            query.page = Number(newParams[param]) || 1;
+          } else if (param === 'search') {
+            query.search = encodeURI(newParams[param]);
+          } else {
+            query[param] = newParams[param];
+          }
+        }
+      }
+      return { ...state, query, searchInputValue: query.search };
     }
     case 'SET_SEARCH_INPUT_VALUE':
       return { ...state, searchInputValue: payload };
-    case 'SET_NEW_ORDERING':
-      return { ...state, ordering: { ...state.ordering, ...payload } };
+
     default:
       return state;
   }
