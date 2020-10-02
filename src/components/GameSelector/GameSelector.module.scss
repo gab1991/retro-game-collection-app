@@ -71,39 +71,40 @@ $controlsHeight: 30px;
 }
 
 .GamePicker {
+  flex: 1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  padding: 1%;
 
   @include respond-to(mobile) {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .GameCard {
-    // position: relative;
-    // margin: 4% 8%;
+  .GameCardWrapper {
+    position: relative;
+    margin: 4% 8%;
+
     @include respond-to(tablet) {
       margin: 3%;
     }
     @include respond-to(tablet) {
       margin: 2%;
     }
-    // &:before {
-    //   display: block;
-    //   content: '';
-    //   width: 100%;
-    //   padding-top: 100%;
-    // }
-    // & > a {
-    //   position: absolute;
-    //   top: 0;
-    //   right: 0;
-    //   bottom: 0;
-    //   left: 0;
-    //   font-size: 0.8rem;
-    // }
+    &:before {
+      display: block;
+      content: '';
+      width: 100%;
+      padding-top: 100%;
+    }
+    & > a {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      font-size: 0.8rem;
+    }
     p {
-      font-size: 0.9rem;
+      font-size: 1rem;
     }
   }
 
@@ -117,6 +118,8 @@ $controlsHeight: 30px;
   }
 
   .NoGamesFound {
+    font-size: 2rem;
+    margin: 10% 2% 0;
     grid-column: 1 / -1;
     text-align: center;
     @include flexCenter;

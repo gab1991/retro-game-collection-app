@@ -2,11 +2,9 @@ import React from 'react';
 import styles from './Paginator.module.scss';
 
 function pagination(currentPage, pageCount, delta) {
-  let left = currentPage - delta,
-    right = currentPage + delta + 1,
-    result = [];
-
-  result = Array.from({ length: pageCount }, (v, k) => k + 1).filter(
+  const left = currentPage - delta;
+  const right = currentPage + delta + 1;
+  const result = Array.from({ length: pageCount }, (v, k) => k + 1).filter(
     (i) => i && i >= left && i < right
   );
 
@@ -40,7 +38,7 @@ export default function Paginator({
 }) {
   const pageCount = Math.ceil(totalCount / itemsPerPage);
   const buttons = [];
-  let delta = 1;
+  const delta = 1;
 
   const buttonClick = (e) => {
     const lastPage = pageCount;

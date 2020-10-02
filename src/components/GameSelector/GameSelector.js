@@ -101,31 +101,25 @@ function GameSelector(props) {
         )}
         {!!gamesToShow.length &&
           gamesToShow.map((game) => (
-            // <div className={styles.GameCardWrapper} key={game.slug}>
-            <GameCard
-              {...game}
-              platformName={platformName}
-              className={styles.GameCard}
-              key={game.slug}
-            />
-            // </div>
+            <div className={styles.GameCardWrapper} key={game.slug}>
+              <GameCard {...game} platformName={platformName} key={game.slug} />
+            </div>
           ))}
         {noGamesFound && (
-          <div className={styles.NoGamesFound}>
-            <h1>No results have been found! Try to change the query</h1>
-          </div>
+          <h1 className={styles.NoGamesFound}>
+            No results have been found! Try to change the query
+          </h1>
         )}
       </div>
-      <div className={styles.BottomPagination}>
-        {pageData && (
-          <Paginator
-            totalCount={pageData.count}
-            itemsPerPage={appConfig.GameSelector.gamesPerRequest}
-            currentPage={queryPage}
-            changeCurrentPage={pageChangeHandler}
-          />
-        )}
-      </div>
+      {pageData && (
+        <Paginator
+          totalCount={pageData.count}
+          itemsPerPage={appConfig.GameSelector.gamesPerRequest}
+          currentPage={queryPage}
+          changeCurrentPage={pageChangeHandler}
+          className={styles.BottomPagination}
+        />
+      )}
     </section>
   );
 }
@@ -133,8 +127,10 @@ function GameSelector(props) {
 function mapStateToProps(state) {
   return {
     gamesToShow: state.gameSelector.gamesToShow,
+    // gamesToShow: [],
     isLoading: state.gameSelector.isLoading,
     noGamesFound: state.gameSelector.noGamesFound,
+    // noGamesFound: true,
     pageData: state.gameSelector.pageData,
     queryPage: state.gameSelector.query.page,
     searchQuery: state.gameSelector.query.search,
