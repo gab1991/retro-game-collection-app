@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { trimName } from '../../../../../Utils/helperFunctions';
 import { connect } from 'react-redux';
 import styles from './EbayLotSection.module.scss';
 import EbaySwiper from '../../../../GameDetailed/EbaySection/EbaySwiper/EbaySwiper';
@@ -9,7 +10,6 @@ import OvalSpinner from '../../../../UI/LoadingSpinners/OvalSpinner/OvalSpinner'
 import CloseSvg from '../../../../UI/LogoSvg/CloseSvg/CloseSvg';
 import WanrModal from '../../../../UI/Modals/WarnModal/WarnModal';
 import KnobToggler from '../../../../UI/Togglers/KnobToggler/KnobToggler';
-import { trimName } from '../../../../GameDetailed/GameInfoBox/GameInfoBox';
 
 function EbyaLotSection(props) {
   const {
