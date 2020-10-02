@@ -1,13 +1,14 @@
 import loggedReducer from './loginReducer';
 import profileReducer from './profileReducer';
 import gameSelectorReducer from './gameSelectorReducer';
+import gameDetailedReducer from './gameDetailedReducer';
+import appStateReducer from './appStateReducer';
 import {
   showHideErr,
   showHideInfo,
   showHideAuth,
   showHideCornerNotifier,
 } from './modalReducer';
-import dataCache from './cacheReducer';
 
 import { combineReducers } from 'redux';
 
@@ -19,7 +20,8 @@ const appReducer = combineReducers({
   showInfo: showHideInfo,
   showCornNotifier: showHideCornerNotifier,
   gameSelector: gameSelectorReducer,
-  // dataCache: dataCache,
+  gameDetailed: gameDetailedReducer,
+  appState: appStateReducer,
 });
 
 const rootReducer = (state, action) => {

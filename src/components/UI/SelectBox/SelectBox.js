@@ -46,20 +46,20 @@ export default function SelectBox(props) {
         </div>
       </div>
       {showDropdown && (
-        <div className={styles.Options}>
+        <ul className={styles.Options}>
           {options.map((option) => {
             if (option !== selectedValue) {
               return (
-                <div
+                <li
                   key={option}
                   onClick={changeHandler}
                   className={styles.TextSection}>
                   {option}
-                </div>
+                </li>
               );
             }
           })}
-        </div>
+        </ul>
       )}
     </div>
   );

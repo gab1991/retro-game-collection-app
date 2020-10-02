@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, connect } from 'react-redux';
+import useWindowSize from './CustomHooks/useWindowSize';
 import { checkCredentials } from './Store/Actions/authActions';
+import { setIsMobile } from './Store/Actions/appStateActions';
 import { getProfileInfo } from './Store/Actions/profileActions';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import Layout from './Components/Layout/Layout';
@@ -8,11 +10,14 @@ import PlatformSelector from './Components/PlatformSelector/PlatformSelector';
 import GameSelector from './Components/GameSelector/GameSelector';
 import GameDetailed from './Components/GameDetailed/GameDetailed';
 import Profile from './Components/Profile/Profile';
-
+import sassVars from './Сonfigs/Variables.scss';
 import styles from './App.module.scss';
+
+const mobileBreakPointWidth = parseInt(sassVars['breakpoints-mobile']);
 
 function App(props) {
   const { isLogged } = props;
+  const { width } = useWindowSize();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -23,6 +28,15 @@ function App(props) {
     if (!isLogged) return;
     dispatch(getProfileInfo());
   }, [isLogged]);
+
+  useEffect(() => {
+    if (width < mobileBreakPointWidth) {
+      console.log('here')
+      dispatch(setIsMobile(true));
+    } else {
+      dispatch(setIsMobile(false));
+    }
+  }, [width]);
 
   return (
     <div className={styles.App}>

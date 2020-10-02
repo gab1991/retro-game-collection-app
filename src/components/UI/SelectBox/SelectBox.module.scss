@@ -48,11 +48,12 @@ $transition: all 200ms ease-in-out;
   z-index: 10;
   position: absolute;
 
-  div {
+  li {
     border: 1px solid $basic-border-gray;
     border-top: none;
   }
 }
+
 .SvgContainer {
   height: 100%;
   width: 18px;

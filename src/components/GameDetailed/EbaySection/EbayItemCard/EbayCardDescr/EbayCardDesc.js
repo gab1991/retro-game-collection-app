@@ -7,7 +7,7 @@ import {
   showInfoModal,
   hideInfoModal,
   showErrModal,
-} from '../../../../../Store/Actions/actions';
+} from '../../../../../Store/Actions/modalActions';
 import Backend from '../../../../../Backend/Backend';
 
 function EbayCardDesc(props) {

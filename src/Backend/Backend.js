@@ -66,35 +66,42 @@ const Backend = {
   },
 
   getGameDetails: (slug) => {
-    let url = `${api.game.getDetailsUrl}${slug}`;
     return new Promise((resolve, reject) => {
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => resolve(data))
+      axios({
+        url: `${api.game.getDetailsUrl}${slug}`,
+        method: 'GET',
+      })
+        .then((res) => {
+          resolve(res);
+        })
         .catch((err) => reject(err));
     });
   },
 
   getScreenshots: (slug) => {
-    let url = `${api.game.getDetailsUrl}${slug}/screenshots`;
     return new Promise((resolve, reject) => {
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => resolve(data))
+      axios({
+        url: `${api.game.getDetailsUrl}${slug}/screenshots`,
+        method: 'GET',
+      })
+        .then((res) => {
+          resolve(res);
+        })
         .catch((err) => reject(err));
     });
   },
 
   getBoxArt: (platform, slug) => {
-    let url = `${api.appServer.boxArtworkUrl}/${platform}/${encodeURIComponent(
-      slug
-    )}`;
     return new Promise((resolve, reject) => {
-      fetch(url)
+      axios({
+        url: `${api.appServer.boxArtworkUrl}/${platform}/${encodeURIComponent(
+          slug
+        )}`,
+        method: 'GET',
+      })
         .then((res) => {
-          return res.json();
+          resolve(res);
         })
-        .then((data) => resolve(data))
         .catch((err) => reject(err));
     });
   },
@@ -182,15 +189,22 @@ const Backend = {
   },
 
   getVideo: (videoType, platform, gameName) => {
-    let url = `${
-      api.appServer.videoURL
-    }/${videoType}/${platform}/${encodeURIComponent(gameName)}`;
-    console.log(url);
     return new Promise((resolve, reject) => {
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-          resolve(data);
+      //   fetch(url)
+      //     .then((res) => res.json())
+      //     .then((data) => {
+      //       resolve(data);
+      //     })
+      //     .catch((err) => reject(err));
+      // });
+      axios({
+        url: `${
+          api.appServer.videoURL
+        }/${videoType}/${platform}/${encodeURIComponent(gameName)}`,
+        method: 'GET',
+      })
+        .then((res) => {
+          resolve(res);
         })
         .catch((err) => reject(err));
     });

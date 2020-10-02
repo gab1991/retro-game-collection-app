@@ -37,19 +37,6 @@ const showAuthModal = (bool) => {
   };
 };
 
-const showErrModal = (modalProps) => {
-  return {
-    type: 'SHOW_ERR',
-    payload: { ...modalProps },
-  };
-};
-const hideErrModal = () => {
-  return {
-    type: 'SHOW_ERR',
-    payload: false,
-  };
-};
-
 const showInfoModal = (modalProps) => {
   return {
     type: 'SHOW_INFO',
@@ -88,8 +75,8 @@ export {
   // profile,
   // logOut,
   showAuthModal,
-  showErrModal,
-  hideErrModal,
+  // showErrModal,
+  // hideErrModal,
   cacheGameSelector,
   showInfoModal,
   hideInfoModal,
