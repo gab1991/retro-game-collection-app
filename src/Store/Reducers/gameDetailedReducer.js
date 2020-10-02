@@ -8,7 +8,7 @@ const initial = {
   uploadableElms: {
     soundtrackVideo: { show: false, url: '' },
     gameplayVideo: { show: false, url: '' },
-    ebaySection: { show: false, url: '' },
+    ebaySection: { show: true, url: '' },
   },
   showOwnedNotifier: false,
   showWishNotifier: false,

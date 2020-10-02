@@ -1,6 +1,8 @@
 @import '../../Сonfigs/Variables.scss';
 
 $custom-scrollbar-color: rgba(168, 168, 168, 0.9);
+$block-borderline-color: rgba(82, 82, 82, 0.9);
+
 @mixin section-header {
   h2 {
     text-align: center;
@@ -11,12 +13,9 @@ $custom-scrollbar-color: rgba(168, 168, 168, 0.9);
 }
 
 .GameDetailed {
-  @include contentWidth;
-  @include minHeight;
-  background-color: $content-underlayer-color;
   padding: 20px 0;
   hr {
-    border: 1px solid rgba(82, 82, 82, 0.9);
+    border: 1px solid $block-borderline-color;
   }
 }
 
@@ -36,9 +35,6 @@ $custom-scrollbar-color: rgba(168, 168, 168, 0.9);
       'info controls'
       'screenshots screenshots';
     grid-template-rows: 1fr auto auto;
-    grid-template-columns: auto 1fr 1fr;
-    justify-items: center;
-    max-width: 100%;
     grid-template-columns: auto 1fr;
   }
 }
@@ -122,7 +118,7 @@ $custom-scrollbar-color: rgba(168, 168, 168, 0.9);
 }
 
 .InfoSection {
-  border: 2px solid rgba(82, 82, 82, 0.9);
+  border: 2px solid $block-borderline-color;
   grid-area: info;
   overflow: auto;
   @include customScrollBar(6px, $custom-scrollbar-color);
@@ -186,13 +182,14 @@ $custom-scrollbar-color: rgba(168, 168, 168, 0.9);
       grid-template-columns: auto;
       grid-template-rows: repeat(3, 1fr);
     }
-    .ButtonWrapper {
-      margin: 10px;
-      display: flex;
-      justify-content: center;
-      position: relative;
 
-      button {
+    .ButtonNeonWrapper {
+      position: relative;
+      align-self: center;
+      justify-self: center;
+      margin: 10px;
+
+      .ButtonNeon {
         min-width: 110px;
       }
 

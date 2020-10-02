@@ -8,13 +8,13 @@ const trimName = (name) => {
 };
 
 export default function GameInfoBox(props) {
-  const { name, released, developers, publishers } = props.gameInfo;
+  const { name, released, developers, publishers, className } = props.gameInfo;
   const { boxArt } = props;
 
   const nameTrimmed = trimName(name);
 
   return (
-    <div className={styles.GameInfoBox}>
+    <div className={`${styles.GameInfoBox} ${className}`}>
       <div className={styles.ImageContainer}>
         <img src={boxArt} alt={`${name}_boxart`}></img>
       </div>

@@ -12,6 +12,7 @@
     & > * {
       @include contentWidth;
       @include minHeight;
+      background-color: $content-underlayer-color;
     }
   }
 }

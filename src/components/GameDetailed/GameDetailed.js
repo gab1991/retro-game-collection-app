@@ -169,8 +169,71 @@ function GameDetailed(props) {
     ),
   };
 
+  const buttons = [
+    {
+      name: 'wishListBtn',
+      disabled: userData ? false : true,
+      color: isWished ? 'red' : 'green',
+      txtContent: isWished ? 'Remove from Wishlist' : 'Add to Wishlist',
+      onClick: () => toggleList(platformName, gameDetails, 'wish_list'),
+      tooltip: !userData && {
+        txtContent: `Need to be logged in to add games to the lists `,
+        btnOnclick: showAuth,
+      },
+    },
+    {
+      name: 'ownedListBtn',
+      disabled: userData ? false : true,
+      color: isOwned ? 'red' : 'green',
+      txtContent: isOwned ? 'Remove from Owned' : 'Owned',
+      onClick: () => toggleList(platformName, gameDetails, 'owned_list'),
+      tooltip: !userData && {
+        txtContent: `Need to be logged in to add games to the lists `,
+        btnOnclick: showAuth,
+      },
+    },
+    {
+      name: 'backBtn',
+      color: 'gray',
+      txtContent: 'Back',
+      onClick: getBack,
+    },
+  ];
+
+  const videoElms = [
+    {
+      className: styles.VideoSoundtrack,
+      elm: 'soundtrackVideo',
+      heading: 'Soundtrack',
+      video: soundtrackVideo,
+    },
+    {
+      className: styles.VideoGameplay,
+      elm: 'gameplayVideo',
+      heading: 'Gameplay',
+      video: gameplayVideo,
+    },
+  ];
+
+  const cornerNotifiers = [
+    {
+      linkText: 'Wish List',
+      linkDir: '/profile/WishList',
+      onCancelClick: () =>
+        toggleList(platformName, gameDetails, 'wish_list', 'removeGame'),
+      show: showWishNotifier,
+    },
+    {
+      linkText: 'Owned List',
+      linkDir: '/profile/CollectionList',
+      onCancelClick: () =>
+        toggleList(platformName, gameDetails, 'owned_list', 'removeGame'),
+      show: showOwnedNotifier,
+    },
+  ];
+
   return (
-    <div className={styles.GameDetailed}>
+    <section className={styles.GameDetailed}>
       <div className={styles.GameDetailGridCont}>
         <div className={styles.ScreenshotSection}>
           <Swiper {...swiperProps}>
@@ -189,129 +252,79 @@ function GameDetailed(props) {
         </div>
         <div className={styles.DescSection}>
           <hr></hr>
-          {descriptionParsed ? descriptionParsed : null}
+          {!!descriptionParsed && descriptionParsed}
         </div>
         <div className={styles.ContorlsSection}>
           <hr></hr>
           <div className={styles.ButtonsContainer}>
-            <div className={styles.ButtonWrapper}>
-              <ButtonNeon
-                disabled={userData ? false : true}
-                color={isWished ? 'red' : 'green'}
-                txtContent={
-                  isWished ? 'Remove from Wishlist' : 'Add to Wishlist'
-                }
-                onClick={() =>
-                  toggleList(platformName, gameDetails, 'wish_list')
-                }
-              />
-              {!userData && (
-                <div className={styles.ButtonTooltip}>
-                  {`Need to be logged in to add games to the lists    `}
-                  <button onClick={showAuth}>GO TO LOGIN</button>
+            {buttons.map(
+              ({ disabled, color, txtContent, onClick, tooltip }) => (
+                <div className={styles.ButtonNeonWrapper}>
+                  <ButtonNeon
+                    className={styles.ButtonNeon}
+                    disabled={disabled}
+                    color={color}
+                    txtContent={txtContent}
+                    onClick={onClick}
+                  />
+                  {tooltip && (
+                    <div className={styles.ButtonTooltip}>
+                      {tooltip.txtContent}
+                      <button onClick={tooltip.btnOnclick}>GO TO LOGIN</button>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-            <div className={styles.ButtonWrapper}>
-              <ButtonNeon
-                disabled={userData ? false : true}
-                color={isOwned ? 'red' : 'green'}
-                txtContent={isOwned ? 'Remove from Owned' : 'Owned'}
-                onClick={() =>
-                  toggleList(platformName, gameDetails, 'owned_list')
-                }
-              />
-              {!userData && (
-                <div className={styles.ButtonTooltip}>
-                  {`Need to be logged in to add games to the lists    `}
-                  <button onClick={showAuth}>GO TO LOGIN</button>
-                </div>
-              )}
-            </div>
-            <div className={styles.ButtonWrapper}>
-              <ButtonNeon txtContent={'Back'} onClick={getBack} color="gray" />
-            </div>
-            {showWishListWarn && (
-              <WarnModal
-                message={textMessages?.fromWishToOwn}
-                onBackdropClick={hideWarning}
-                onNoClick={hideWarning}
-                onYesClick={warnYesClickHandler}
-              />
+              )
             )}
           </div>
+          {showWishListWarn && (
+            <WarnModal
+              message={textMessages?.fromWishToOwn}
+              onBackdropClick={hideWarning}
+              onNoClick={hideWarning}
+              onYesClick={warnYesClickHandler}
+            />
+          )}
           <hr></hr>
         </div>
       </div>
       <div className={styles.VideoSection}>
-        <div className={styles.VideoSoundtrack}>
-          <div
-            className={styles.VideoLabel}
-            elm="soundtrackVideo"
-            onClick={(e) => toggleBlockVisibilty(e)}>
-            <h2>Soundtrack</h2>
-            {isMobile && (
-              <div className={styles.DropDownSvgContainer}>
-                <ArrowEsc arrow={!soundtrackVideo.show} />
-              </div>
-            )}
-            <hr></hr>
-          </div>
-          {soundtrackVideo.show && (
-            <div className={styles.PlayerWrapper}>
-              {!soundtrackVideo.url && (
-                <div className={styles.OvalSpinnerWrapper}>
-                  <OvalSpinner />
+        {videoElms.map(({ className, elm, heading, video }) => (
+          <div className={className}>
+            <div
+              className={styles.VideoLabel}
+              elm={elm}
+              onClick={(e) => toggleBlockVisibilty(e)}>
+              <h2>{heading}</h2>
+              {isMobile && (
+                <div className={styles.DropDownSvgContainer}>
+                  <ArrowEsc arrow={!video.show} />
                 </div>
               )}
-              {soundtrackVideo.url && (
-                <ReactPlayer
-                  url={soundtrackVideo.url}
-                  className={styles.ReactPlayer}
-                  height="100%"
-                  width="100%"
-                  controls={true}
-                  playing={false}
-                  light
-                />
-              )}
+              <hr></hr>
             </div>
-          )}
-        </div>
-        <div className={styles.VideoGameplay}>
-          <div
-            className={styles.VideoLabel}
-            onClick={(e) => toggleBlockVisibilty(e)}
-            elm="gameplayVideo">
-            <h2>Gameplay</h2>
-            {isMobile && (
-              <div className={styles.DropDownSvgContainer}>
-                <ArrowEsc arrow={!gameplayVideo.show} />
+            {video.show && (
+              <div className={styles.PlayerWrapper}>
+                {!video.url && (
+                  <div className={styles.OvalSpinnerWrapper}>
+                    <OvalSpinner />
+                  </div>
+                )}
+                {video.url && (
+                  <ReactPlayer
+                    url={video.url}
+                    className={styles.ReactPlayer}
+                    height="100%"
+                    width="100%"
+                    controls={true}
+                    playing={false}
+                    light
+                  />
+                )}
               </div>
             )}
-            <hr></hr>
           </div>
-          {gameplayVideo.show && (
-            <div className={styles.PlayerWrapper}>
-              {!gameplayVideo.url && (
-                <div className={styles.OvalSpinnerWrapper}>
-                  <OvalSpinner />
-                </div>
-              )}
-              {gameplayVideo.url && (
-                <ReactPlayer
-                  url={gameplayVideo.url}
-                  className={styles.ReactPlayer}
-                  height="100%"
-                  width="100%"
-                  controls={true}
-                  playing={false}
-                  light
-                />
-              )}
-            </div>
-          )}
-        </div>
+        ))}
       </div>
       <div className={styles.EbaySection}>
         <div
@@ -334,33 +347,19 @@ function GameDetailed(props) {
           />
         )}
       </div>
-      {!isMobile && (
-        <>
+      {!isMobile &&
+        cornerNotifiers.map(({ linkText, linkDir, onCancelClick, show }) => (
           <CornerNotifier
             corner={'bottomLeft'}
-            message={'Game has been added to you'}
-            linkText={'Wish List'}
-            linkDir={'/profile/WishList'}
+            message={'Game has been added to your'}
+            linkText={linkText}
+            linkDir={linkDir}
             btnText={'Cancel'}
-            onCancelClick={() =>
-              toggleList(platformName, gameDetails, 'wish_list', 'removeGame')
-            }
-            show={showWishNotifier}
+            onCancelClick={onCancelClick}
+            show={show}
           />
-          <CornerNotifier
-            corner={'bottomLeft'}
-            message={'Game has been added to you'}
-            linkText={'Owned List'}
-            linkDir={'/profile/CollectionList'}
-            btnText={'Cancel'}
-            onCancelClick={() =>
-              toggleList(platformName, gameDetails, 'owned_list', 'removeGame')
-            }
-            show={showOwnedNotifier}
-          />
-        </>
-      )}
-    </div>
+        ))}
+    </section>
   );
 }
 
