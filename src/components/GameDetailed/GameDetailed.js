@@ -259,7 +259,7 @@ function GameDetailed(props) {
           <div className={styles.ButtonsContainer}>
             {buttons.map(
               ({ disabled, color, txtContent, onClick, tooltip }) => (
-                <div className={styles.ButtonNeonWrapper}>
+                <div className={styles.ButtonNeonWrapper} key={txtContent}>
                   <ButtonNeon
                     className={styles.ButtonNeon}
                     disabled={disabled}
@@ -277,20 +277,12 @@ function GameDetailed(props) {
               )
             )}
           </div>
-          {showWishListWarn && (
-            <WarnModal
-              message={textMessages?.fromWishToOwn}
-              onBackdropClick={hideWarning}
-              onNoClick={hideWarning}
-              onYesClick={warnYesClickHandler}
-            />
-          )}
           <hr></hr>
         </div>
       </div>
       <div className={styles.VideoSection}>
         {videoElms.map(({ className, elm, heading, video }) => (
-          <div className={className}>
+          <div className={className} key={elm}>
             <div
               className={styles.VideoLabel}
               elm={elm}
@@ -310,6 +302,7 @@ function GameDetailed(props) {
                     <OvalSpinner />
                   </div>
                 )}
+
                 {video.url && (
                   <ReactPlayer
                     url={video.url}
@@ -350,6 +343,7 @@ function GameDetailed(props) {
       {!isMobile &&
         cornerNotifiers.map(({ linkText, linkDir, onCancelClick, show }) => (
           <CornerNotifier
+            key={linkDir}
             corner={'bottomLeft'}
             message={'Game has been added to your'}
             linkText={linkText}
@@ -359,6 +353,14 @@ function GameDetailed(props) {
             show={show}
           />
         ))}
+      {showWishListWarn && (
+        <WarnModal
+          message={textMessages?.fromWishToOwn}
+          onBackdropClick={hideWarning}
+          onNoClick={hideWarning}
+          onYesClick={warnYesClickHandler}
+        />
+      )}
     </section>
   );
 }

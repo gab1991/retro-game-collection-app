@@ -206,6 +206,35 @@ const addGame = (gameDetails, list, platform) => {
   };
 };
 
+const setEbaySectionLoading = (bool) => {
+  return {
+    type: 'SET_EBAY_SECTION_LOADING',
+    payload: bool,
+  };
+};
+
+const setEbayItems = (items) => {
+  return {
+    type: 'SET_EBAY_ITEMS',
+    payload: items,
+  };
+};
+
+const getEbayItems = (platform, game) => {
+  return async (dispatch) => {
+    try {
+      dispatch(setEbaySectionLoading(true));
+
+      const [res] = await Backend.getEbayItems(platform, game);
+      const { item: items } = res;
+      dispatch(setEbayItems(items));
+      dispatch(setEbaySectionLoading(false));
+    } catch (err) {
+      dispatch(setEbaySectionLoading(false));
+    }
+  };
+};
+
 export {
   getGameDetails,
   getScreenShots,
@@ -217,4 +246,5 @@ export {
   removeGame,
   addGame,
   setShowWisListWarn,
+  getEbayItems,
 };

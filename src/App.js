@@ -22,21 +22,20 @@ function App(props) {
 
   useEffect(() => {
     dispatch(checkCredentials());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (!isLogged) return;
     dispatch(getProfileInfo());
-  }, [isLogged]);
+  }, [isLogged, dispatch]);
 
   useEffect(() => {
     if (width < mobileBreakPointWidth) {
-      console.log('here')
       dispatch(setIsMobile(true));
     } else {
       dispatch(setIsMobile(false));
     }
-  }, [width]);
+  }, [width, dispatch]);
 
   return (
     <div className={styles.App}>

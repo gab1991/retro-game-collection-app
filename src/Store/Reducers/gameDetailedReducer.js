@@ -8,7 +8,7 @@ const initial = {
   uploadableElms: {
     soundtrackVideo: { show: false, url: '' },
     gameplayVideo: { show: false, url: '' },
-    ebaySection: { show: true, url: '' },
+    ebaySection: { show: true, items: [], isLoading: true },
   },
   showOwnedNotifier: false,
   showWishNotifier: false,
@@ -62,6 +62,30 @@ const gameDetailedReducer = (state = initial, { type, payload }) => {
       return { ...state, showWishNotifier: payload };
     case 'SET_SHOW_WISH_LIST_WARNING':
       return { ...state, showWishListWarn: payload };
+    case 'SET_EBAY_SECTION_LOADING': {
+      return {
+        ...state,
+        uploadableElms: {
+          ...state.uploadableElms,
+          ebaySection: {
+            ...state.uploadableElms.ebaySection,
+            isLoading: payload,
+          },
+        },
+      };
+    }
+    case 'SET_EBAY_ITEMS': {
+      return {
+        ...state,
+        uploadableElms: {
+          ...state.uploadableElms,
+          ebaySection: {
+            ...state.uploadableElms.ebaySection,
+            items: payload,
+          },
+        },
+      };
+    }
     default:
       return state;
   }
