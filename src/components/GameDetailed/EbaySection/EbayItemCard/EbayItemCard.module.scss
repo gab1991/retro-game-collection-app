@@ -33,9 +33,14 @@ $card-font-color: gray;
   }
 
   .SvgWrapper {
+    color: $card-font-color;
     height: 30px;
     margin-top: auto;
     position: relative;
+    transition: all 300ms ease;
+    &:hover {
+      transform: scale(1.1);
+    }
   }
 }
 

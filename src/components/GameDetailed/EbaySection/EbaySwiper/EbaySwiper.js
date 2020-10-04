@@ -3,14 +3,7 @@ import EbayItemCard from '../../EbaySection/EbayItemCard/EbayItemCard';
 import Swiper from '../../../UI/SwiperConfigured/SwiperConfigured';
 
 export default function EbaySwiper(props) {
-  const {
-    platform,
-    game,
-    numToShow = 1,
-    itemsToShow,
-    stopWatchCallBack,
-    swiperProps,
-  } = props;
+  const { platform, game, numToShow = 1, ebayItems, swiperProps } = props;
   const [showedItems, setShowedItems] = useState([]);
   const [swiperIndex, setSwiperIndex] = useState(0);
   const counterInitial = {
@@ -21,10 +14,10 @@ export default function EbaySwiper(props) {
   const counter = useRef(counterInitial);
 
   useEffect(() => {
-    if (itemsToShow) {
+    if (ebayItems) {
       fillShowedItems(counter.current.current, counter.current.initial, true);
     }
-  }, [itemsToShow]);
+  }, [ebayItems]);
 
   const fillShowedItems = (current, numToAdd, initialFill) => {
     if (initialFill) {
@@ -35,19 +28,19 @@ export default function EbaySwiper(props) {
     if (current === counter.current.last) return;
     let updShowedItems = initialFill ? [] : [...showedItems];
     for (let i = current; i < current + numToAdd; i++) {
-      if (itemsToShow[i])
+      if (ebayItems[i])
         updShowedItems.push(
           <EbayItemCard
             platform={platform}
             game={game}
-            stopWatchCallBack={stopWatchCallBack}
-            itemId={itemsToShow[i].itemId[0]}
+            // itemId={ebayItems[i].itemId[0]}
+            index={i}
           />
         );
     }
     let updCounter = { ...counter.current };
     updCounter.current = current + numToAdd;
-    updCounter.last = itemsToShow.length;
+    updCounter.last = ebayItems.length;
     counter.current = { ...updCounter };
 
     setShowedItems(updShowedItems);

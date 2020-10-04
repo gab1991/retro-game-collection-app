@@ -1,6 +1,7 @@
 import ReactHtmlParser from 'react-html-parser';
 import Backend from '../../Backend/Backend';
 import { showErrModal } from '../Actions/modalActions';
+import { setEbayItems } from '../Actions/ebayItemsActions';
 
 const setGameDetails = (gameDetailsObj) => {
   return {
@@ -212,12 +213,6 @@ const setEbaySectionLoading = (bool) => {
   };
 };
 
-const setEbayItems = (items) => {
-  return {
-    type: 'SET_EBAY_ITEMS',
-    payload: items,
-  };
-};
 
 const getEbayItems = (platform, game) => {
   return async (dispatch) => {

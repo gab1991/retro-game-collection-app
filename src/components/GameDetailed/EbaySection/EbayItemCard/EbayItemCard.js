@@ -1,65 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import useWindowSize from '../../../../CustomHooks/useWindowSize';
+import React, { useEffect } from 'react';
+import { useDispatch, connect, useSelector } from 'react-redux';
+import { getEbaySingleItem } from '../../../../Store/Actions/ebayItemsActions';
 import Slider from '../../../UI/Slider/Slider';
 import EbayCardDesc from './EbayCardDescr/EbayCardDesc';
-import Backend from '../../../../Backend/Backend';
 import EbayLogo from '../../../UI/LogoSvg/EbayLogo/EbayLogo';
 import OvalSpinner from '../../../UI/LoadingSpinners/OvalSpinner/OvalSpinner';
 import styles from './EbayItemCard.module.scss';
 
-function openInNewTab(url) {
-  const win = window.open(url, '_blank');
-  win.focus();
-}
-
-const mobileBreakPointWidth = 600;
-
-export default function EbayItemCard(props) {
-  const { width } = useWindowSize();
-  const { itemId, game, platform, stopWatchCallBack } = props;
-  const [itemData, setItemData] = useState();
-  const [isAuction, setIsAuction] = useState(false);
-  const [isEndingSoon, setIsEndingSoon] = useState(false);
-  const isModbile = width < mobileBreakPointWidth;
+function EbayItemCard(props) {
+  const dispatch = useDispatch();
+  const { isMobile, game, platform, index } = props;
+  const card = useSelector((state) => state.ebayItems[index]);
+  const {
+    itemData,
+    isWatched,
+    isAuction,
+    shippingCost,
+    isLoadingShippingCosts = false,
+    totalPrice,
+    contactSeller,
+  } = card;
+  const { itemId } = itemData || {};
 
   useEffect(() => {
-    let isSubscribed = true;
-    Backend.getEbaySingleItem(itemId).then((res) => {
-      const item = res.Item;
-      if (!item) return;
-      const itemData = {
-        pictures: item.PictureURL,
-        title: item.Title,
-        convertedCurrentPrice: item.ConvertedCurrentPrice,
-        currentPrice: Number(item.ConvertedCurrentPrice.Value).toFixed(2),
-        currency: item.ConvertedCurrentPrice.CurrencyID,
-        shipping: item.ShippingCostSummary,
-        deliveryPrice: item.ShippingServiceCost
-          ? item.ShippingServiceCost.Value
-          : '',
-        listingType: item.ListingType,
-        itemUrl: item.ViewItemURLForNaturalSearch,
-        bidCount: item.BidCount,
-        endTime: item.EndTime,
-      };
-      if (isSubscribed) setItemData(itemData);
-    });
-    return () => {
-      isSubscribed = false;
-    };
-  }, [itemId]);
-
-  const sendToEbay = () => {
-    openInNewTab(itemData.itemUrl);
-  };
-
-  const auctionSetter = (bool) => {
-    setIsAuction(bool);
-  };
-
-  const endingSoonSetter = (val) => {
-    setIsEndingSoon(val);
-  };
+    dispatch(getEbaySingleItem(index));
+  }, [index]);
 
   return (
     <div className={styles.EbayItemCard}>
@@ -69,26 +34,35 @@ export default function EbayItemCard(props) {
             <Slider
               transition="off"
               images={itemData.pictures}
-              imageWidth={isModbile ? 150 : 200}
-              imageHeight={isModbile ? 190 : 220}
+              imageWidth={isMobile ? 150 : 200}
+              imageHeight={isMobile ? 190 : 220}
               navDots
               imgFit={'cover'}
             />
-            <div className={styles.SvgWrapper} onClick={sendToEbay}>
+            <a
+              className={styles.SvgWrapper}
+              href={itemData.itemUrl}
+              rel="noopener noreferrer"
+              target="_blank">
               <EbayLogo />
-            </div>
+            </a>
           </div>
           <EbayCardDesc
             {...itemData}
+            shippingCost={shippingCost}
+            isWatched={isWatched}
+            isAuction={isAuction}
             game={game}
             platform={platform}
+            index={index}
             itemId={itemId}
-            isAuction={isAuction}
-            isEndingSoon={isEndingSoon}
-            sendToEbay={sendToEbay}
-            auctionSetter={auctionSetter}
-            endingSoonSetter={endingSoonSetter}
-            stopWatchCallBack={stopWatchCallBack}
+            isLoadingShippingCosts={isLoadingShippingCosts}
+            totalPrice={totalPrice}
+            contactSeller={contactSeller}
+            // isAuction={isAuction}
+            // isEndingSoon={isEndingSoon}
+            // auctionSetter={auctionSetter}
+            // endingSoonSetter={endingSoonSetter}
           />
         </>
       )}
@@ -100,3 +74,11 @@ export default function EbayItemCard(props) {
     </div>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    isMobile: state.appState.isMobile,
+  };
+}
+
+export default connect(mapStateToProps)(EbayItemCard);

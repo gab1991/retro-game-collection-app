@@ -1,67 +1,52 @@
 import React, { useState, useEffect } from 'react';
+import { useDipatch } from 'react-redux';
+import {
+  checkIfCardIsWatched,
+  watchEbayCard,
+  notWatchEbayCard,
+  getShippingCosts,
+  calculateTotalPrice,
+} from '../../../../../Store/Actions/ebayItemsActions';
 import styles from './EbayCardDesc.module.scss';
 import Button from '../../../../UI/Buttons/Button/Button';
 import DotSpinner from '../../../../UI/LoadingSpinners/DotSpinner/DotSpinner';
 import { connect, useDispatch } from 'react-redux';
-import {
-  showInfoModal,
-  hideInfoModal,
-  showErrModal,
-} from '../../../../../Store/Actions/modalActions';
-import Backend from '../../../../../Backend/Backend';
 
 function EbayCardDesc(props) {
   const {
     userData,
-    itemId,
+    index,
     title,
     game,
     platform,
     currentPrice,
     currency,
     deliveryPrice,
-    listingType,
+    itemId,
+    // listingType,
     bidCount,
     endTime: endTimeProp,
-    isAuction,
-    auctionSetter,
-    isEndingSoon,
-    endingSoonSetter,
     sendToEbay,
+    isWatched,
+    isAuction,
+    shippingCost,
+    isLoadingShippingCosts,
+    totalPrice,
+    contactSeller,
   } = props;
-  const [loadShipCosts, setLoadShipCosts] = useState(false);
-  const [total, setTotal] = useState();
-  const [finalDeliveryPrice, setDelivertPrice] = useState(deliveryPrice);
-  const [notCalculated, setNotCalculated] = useState();
-  const [isWatched, setIsWatched] = useState();
+  // const [notCalculated, setNotCalculated] = useState();
+  const [isEndingSoon, setIsEndingSoon] = useState(false);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (userData) {
-      let isSubscribed = true;
-
-      Backend.isWatchedEbayCard(userData.token, {
-        gameName: game,
-        platform: platform,
-        ebayItemId: itemId,
-      }).then((res) => {
-        if (res.success && isSubscribed) setIsWatched(true);
-      });
-
-      return () => {
-        isSubscribed = false;
-      };
-    }
-  }, [itemId, userData]);
+  console.log(contactSeller, shippingCost);
 
   useEffect(() => {
-    if (currentPrice) {
-      const updTotal = (
-        Number(finalDeliveryPrice) + Number(currentPrice)
-      ).toFixed(2);
-      setTotal(updTotal);
-    }
-  }, [finalDeliveryPrice, currentPrice]);
+    dispatch(checkIfCardIsWatched(game, platform, index));
+  }, [game, platform, index]);
+
+  useEffect(() => {
+    dispatch(calculateTotalPrice(index));
+  }, [shippingCost, currentPrice]);
 
   useEffect(() => {
     if (endTimeProp) {
@@ -89,63 +74,19 @@ function EbayCardDesc(props) {
     }
   }, [endTimeProp]);
 
-  useEffect(() => {
-    if (listingType !== 'FixedPriceItem') auctionSetter(true);
-  }, [listingType]);
-
-  const getShippingCosts = () => {
-    setLoadShipCosts(true);
-    Backend.getShippingCosts(itemId).then((res) => {
-      if (res.ShippingCostSummary) {
-        const shippingCost = Number(
-          res.ShippingCostSummary.ShippingServiceCost.Value
-        ).toFixed(2);
-        setDelivertPrice(shippingCost);
-      } else {
-        setDelivertPrice('');
-        setNotCalculated('Contact seller');
-      }
-      setLoadShipCosts(false);
-    });
+  const defineShippingCosts = () => {
+    dispatch(getShippingCosts(itemId, index));
   };
 
-  const closeErrModal = () => {
-    dispatch(hideInfoModal(false));
+  const endingSoonSetter = (val) => {
+    setIsEndingSoon(val);
   };
+
   const watchHandler = () => {
     if (!isWatched) {
-      setIsWatched(true);
-      Backend.watchEbayCard(userData.token, {
-        gameName: game,
-        platform: platform,
-        ebayItemId: itemId,
-      }).catch((err) => {
-        setIsWatched(false);
-        dispatch(
-          showInfoModal({
-            message: 'Add game to your WishList at first',
-            btnTxtContent: 'got it',
-            onBackdropClick: closeErrModal,
-            onBtnClick: closeErrModal,
-          })
-        );
-      });
+      dispatch(watchEbayCard(game, platform, itemId, index));
     } else {
-      setIsWatched(false);
-      Backend.notWatchEbayCard(userData.token, {
-        gameName: game,
-        platform: platform,
-        ebayItemId: itemId,
-      }).catch((err) => {
-        setIsWatched(true);
-        dispatch(
-          showErrModal({
-            message: 'Something wrong happened.Try again later',
-            onBackdropClick: closeErrModal,
-            onBtnClick: closeErrModal,
-          })
-        );
-      });
+      dispatch(notWatchEbayCard(game, platform, itemId, index));
     }
   };
 
@@ -176,22 +117,21 @@ function EbayCardDesc(props) {
         <strong>{isAuction ? 'Bid' : 'PRICE'}</strong>
         {`${' : '} ${currentPrice} ${currency}`}
         <div className={styles.Delivery}>
-          {!finalDeliveryPrice && !loadShipCosts && !notCalculated && (
-            <span onClick={getShippingCosts}>Define shipping costs</span>
+          {!shippingCost && !isLoadingShippingCosts && !contactSeller && (
+            <span onClick={defineShippingCosts}>Define shipping costs</span>
           )}
-          {!finalDeliveryPrice && loadShipCosts && (
+          {!shippingCost && isLoadingShippingCosts && (
             <div className={styles.SpinnerContainer}>
               <DotSpinner />
             </div>
           )}
-          {!finalDeliveryPrice && notCalculated && `${notCalculated}`}
-          {finalDeliveryPrice &&
-            `${'+ Shipping'} ${finalDeliveryPrice} ${currency}`}
+          {!shippingCost && contactSeller && `Contact seller`}
+          {shippingCost && `${'+ Shipping'} ${shippingCost} ${currency}`}
         </div>
         <hr></hr>
         <p className={styles.Total}>
           <strong>TOTAL</strong>
-          {' : '} {total} {currency}
+          {' : '} {totalPrice} {currency}
         </p>
       </div>
       {isEndingSoon && (

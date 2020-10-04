@@ -9,4 +9,10 @@ const composeEnhancer =
 
 const store = createStore(rootReducer, composeEnhancer(applyMiddleware(thunk)));
 
+const getToken = () => {
+  const state = store.getState();
+  return state.logged.token;
+};
+
 export default store;
+export { getToken };

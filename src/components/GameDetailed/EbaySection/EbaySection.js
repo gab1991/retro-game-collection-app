@@ -40,9 +40,9 @@ function EbaySection(props) {
         <EbaySwiper
           platform={platform}
           game={game}
-          itemsToShow={ebayItems}
+          ebayItems={ebayItems}
           swiperProps={swiperProps}
-          numToShow={4}
+          numToShow={1}
         />
       )}
       {!isLoading && ebayItems.length === 0 && (
@@ -60,7 +60,7 @@ function EbaySection(props) {
 function mapStateToProps(state) {
   return {
     isLoading: state.gameDetailed.uploadableElms.ebaySection.isLoading,
-    ebayItems: state.gameDetailed.uploadableElms.ebaySection.items,
+    ebayItems: state.ebayItems,
   };
 }
 

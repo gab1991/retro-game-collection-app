@@ -1,4 +1,5 @@
 import axios_base from 'axios';
+import { getToken } from '../Store/store';
 import api from './api_config';
 import { server_adress } from '../Сonfigs/server.config';
 
@@ -190,13 +191,6 @@ const Backend = {
 
   getVideo: (videoType, platform, gameName) => {
     return new Promise((resolve, reject) => {
-      //   fetch(url)
-      //     .then((res) => res.json())
-      //     .then((data) => {
-      //       resolve(data);
-      //     })
-      //     .catch((err) => reject(err));
-      // });
       axios({
         url: `${
           api.appServer.videoURL
@@ -237,64 +231,67 @@ const Backend = {
   },
 
   getShippingCosts: (itemId) => {
-    let url = `${api.appServer.shippingCostsUrl}/${itemId}`;
     return new Promise((resolve, reject) => {
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-          resolve(data);
+      axios({
+        url: `${api.appServer.shippingCostsUrl}/${itemId}`,
+        method: 'GET',
+      })
+        .then((res) => {
+          resolve(res);
         })
         .catch((err) => reject(err));
     });
   },
 
-  watchEbayCard: (token, obj) => {
-    let url = `${api.appServer.profileUrl}/addEbayCard`;
+  watchEbayCard: (obj) => {
     return new Promise((resolve, reject) => {
-      fetch(url, {
+      axios({
+        url: `${api.appServer.profileUrl}/addEbayCard`,
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          authorization: `Bearer ${getToken()}`,
         },
-        body: JSON.stringify(obj),
+        data: {
+          ...obj,
+        },
       })
-        .then(handleErrors)
-        .then((data) => resolve(data))
+        .then((res) => {
+          resolve(res);
+        })
         .catch((err) => reject(err));
     });
   },
 
-  isWatchedEbayCard: (token, obj) => {
-    let url = `${api.appServer.profileUrl}/isWatchedEbayCard`;
+  isWatchedEbayCard: (obj) => {
     return new Promise((resolve, reject) => {
-      fetch(url, {
+      axios({
+        url: `${api.appServer.profileUrl}/isWatchedEbayCard`,
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          authorization: `Bearer ${getToken()}`,
         },
-        body: JSON.stringify(obj),
+        data: obj,
       })
-        .then((res) => res.json())
-        .then((data) => resolve(data))
+        .then((res) => {
+          resolve(res);
+        })
         .catch((err) => reject(err));
     });
   },
 
-  notWatchEbayCard: (token, obj) => {
-    let url = `${api.appServer.profileUrl}/removeEbayCard`;
+  notWatchEbayCard: (obj) => {
     return new Promise((resolve, reject) => {
-      fetch(url, {
+      axios({
+        url: `${api.appServer.profileUrl}/removeEbayCard`,
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          authorization: `Bearer ${getToken()}`,
         },
-        body: JSON.stringify(obj),
+        data: obj,
       })
-        .then(handleErrors)
-        .then((data) => resolve(data))
+        .then((res) => {
+          resolve(res);
+        })
         .catch((err) => reject(err));
     });
   },

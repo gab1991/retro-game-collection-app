@@ -3,6 +3,7 @@ import profileReducer from './profileReducer';
 import gameSelectorReducer from './gameSelectorReducer';
 import gameDetailedReducer from './gameDetailedReducer';
 import appStateReducer from './appStateReducer';
+import ebayItemsReducer from './ebayItemsReducer';
 import {
   showHideErr,
   showHideInfo,
@@ -21,6 +22,7 @@ const appReducer = combineReducers({
   showCornNotifier: showHideCornerNotifier,
   gameSelector: gameSelectorReducer,
   gameDetailed: gameDetailedReducer,
+  ebayItems: ebayItemsReducer,
   appState: appStateReducer,
 });
 

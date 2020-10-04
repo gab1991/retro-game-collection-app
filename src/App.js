@@ -49,7 +49,6 @@ function App(props) {
           />
           <Route exact path="/:platformName" component={GameSelector} />
           <Route exact path="/" component={PlatformSelector} />
-          <Redirect to="/" />
         </Switch>
       </Layout>
     </div>

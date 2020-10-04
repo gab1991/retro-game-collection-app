@@ -8,7 +8,7 @@ const initial = {
   uploadableElms: {
     soundtrackVideo: { show: false, url: '' },
     gameplayVideo: { show: false, url: '' },
-    ebaySection: { show: true, items: [], isLoading: true },
+    ebaySection: { show: true, isLoading: true },
   },
   showOwnedNotifier: false,
   showWishNotifier: false,
@@ -41,7 +41,6 @@ const gameDetailedReducer = (state = initial, { type, payload }) => {
           url,
         };
       }
-      console.log(newUploadble);
       return { ...state, uploadableElms: newUploadble };
     }
     case 'TOGGLE_ELM_VISIBILITY': {
@@ -71,18 +70,6 @@ const gameDetailedReducer = (state = initial, { type, payload }) => {
           ebaySection: {
             ...state.uploadableElms.ebaySection,
             isLoading: payload,
-          },
-        },
-      };
-    }
-    case 'SET_EBAY_ITEMS': {
-      return {
-        ...state,
-        uploadableElms: {
-          ...state.uploadableElms,
-          ebaySection: {
-            ...state.uploadableElms.ebaySection,
-            items: payload,
           },
         },
       };
