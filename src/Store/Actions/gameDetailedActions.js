@@ -31,7 +31,6 @@ const setBoxArtUrl = (url) => {
 };
 
 const setVideoUrl = (type, url) => {
-  console.log(type, url);
   return {
     type: 'SET_VIDEO_URL',
     payload: { type, url },
@@ -227,6 +226,7 @@ const getEbayItems = (platform, game) => {
 
       const [res] = await Backend.getEbayItems(platform, game);
       const { item: items } = res;
+
       dispatch(setEbayItems(items));
       dispatch(setEbaySectionLoading(false));
     } catch (err) {

@@ -7,7 +7,7 @@ export default function DotSpinner(props) {
       height="100%"
       viewBox="0 0 120 30"
       xmlns="http://www.w3.org/2000/svg"
-      style={{ position: 'absolute', top: 0, left: 0 }}
+      style={{ position: 'absolute' }}
       fill="currentColor">
       <circle cx="15" cy="15" r="15">
         <animate

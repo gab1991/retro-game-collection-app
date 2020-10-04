@@ -20,8 +20,6 @@ export default function CornerNotifier(props) {
   const [grabbed, setGrabbed] = useState();
   const dispatch = useDispatch();
 
-  console.log(show);
-
   useEffect(() => {
     setShowing(show);
   }, [show]);

@@ -7,7 +7,7 @@ import sliderArrow from '../../../Assets/images/ui/slider-arrow-left.svg';
 import styles from './EbaySection.module.scss';
 
 function EbaySection(props) {
-  const { game, platform, isMobile, ebayItems, isLoading } = props;
+  const { game, platform, ebayItems, isLoading } = props;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -15,16 +15,8 @@ function EbaySection(props) {
   }, [platform, game]);
 
   const swiperProps = {
-    swiperOptions: {
-      slidesPerView: 'auto',
-      spaceBetween: 15,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-        dynamicBullets: true,
-      },
-    },
-    navigation: isMobile ? false : true,
+    loop: false,
+    pagination: true,
 
     prevButton: () => (
       <div className="swiper-button-prev">
@@ -54,15 +46,11 @@ function EbaySection(props) {
         />
       )}
       {!isLoading && ebayItems.length === 0 && (
-        <div className={styles.NoItems}>
-          <h1>No lots have been found</h1>
-        </div>
+        <h3 className={styles.NoItems}>No lots have been found</h3>
       )}
       {isLoading && (
-        <div className={styles.LoadingSpinner}>
-          <div className={styles.LoadingSvgWrapper}>
-            <DotSpinner />
-          </div>
+        <div className={styles.LoadingSvgWrapper}>
+          <DotSpinner />
         </div>
       )}
     </div>

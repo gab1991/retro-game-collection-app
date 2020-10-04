@@ -31,16 +31,17 @@ const gameDetailedReducer = (state = initial, { type, payload }) => {
 
       if (type === 'soundtrack') {
         newUploadble.soundtrackVideo = {
-          ...newUploadble,
-          soundtrackVideo: { ...newUploadble.soundtrackVideo, url },
+          ...newUploadble.soundtrackVideo,
+          url,
         };
       }
       if (type === 'gameplay') {
         newUploadble.gameplayVideo = {
-          ...newUploadble,
-          gameplayVideo: { ...newUploadble.gameplayVideo, url },
+          ...newUploadble.gameplayVideo,
+          url,
         };
       }
+      console.log(newUploadble);
       return { ...state, uploadableElms: newUploadble };
     }
     case 'TOGGLE_ELM_VISIBILITY': {

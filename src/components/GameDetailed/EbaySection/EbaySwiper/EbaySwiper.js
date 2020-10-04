@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import EbayItemCard from '../../EbaySection/EbayItemCard/EbayItemCard';
-import { Swiper, Slide } from 'react-dynamic-swiper';
-import 'react-dynamic-swiper/lib/styles.css';
+import Swiper from '../../../UI/SwiperConfigured/SwiperConfigured';
 
 export default function EbaySwiper(props) {
   const {
@@ -9,8 +8,8 @@ export default function EbaySwiper(props) {
     game,
     numToShow = 1,
     itemsToShow,
-    swiperProps,
     stopWatchCallBack,
+    swiperProps,
   } = props;
   const [showedItems, setShowedItems] = useState([]);
   const [swiperIndex, setSwiperIndex] = useState(0);
@@ -36,7 +35,15 @@ export default function EbaySwiper(props) {
     if (current === counter.current.last) return;
     let updShowedItems = initialFill ? [] : [...showedItems];
     for (let i = current; i < current + numToAdd; i++) {
-      if (itemsToShow[i]) updShowedItems.push(itemsToShow[i]);
+      if (itemsToShow[i])
+        updShowedItems.push(
+          <EbayItemCard
+            platform={platform}
+            game={game}
+            stopWatchCallBack={stopWatchCallBack}
+            itemId={itemsToShow[i].itemId[0]}
+          />
+        );
     }
     let updCounter = { ...counter.current };
     updCounter.current = current + numToAdd;
@@ -55,26 +62,13 @@ export default function EbaySwiper(props) {
     }
   };
 
-  const addEbayCardToWishList = (itemId) => {
-    console.log(platform, game, itemId);
-  };
-
   return (
-    <Swiper {...swiperProps}>
-      {showedItems &&
-        showedItems.map((item, index) =>
-          item ? (
-            <Slide onActive={(swiper) => appendSlide(swiper)} key={index}>
-              <EbayItemCard
-                platform={platform}
-                game={game}
-                itemId={item.itemId[0]}
-                addToWish={addEbayCardToWishList}
-                stopWatchCallBack={stopWatchCallBack}
-              />
-            </Slide>
-          ) : null
-        )}
-    </Swiper>
+    <Swiper
+      customSwiperProps={swiperProps}
+      reactElms={showedItems}
+      onActive={(swiper) => {
+        appendSlide(swiper);
+      }}
+    />
   );
 }

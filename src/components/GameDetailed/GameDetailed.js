@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import ReactPlayer from 'react-player';
-import { Swiper, Slide } from 'react-dynamic-swiper';
 import { showAuthModal } from '../../Store/Actions/modalActions';
 import {
   getGameDetails,
@@ -16,6 +15,7 @@ import {
   setShowWisListWarn,
 } from '../../Store/Actions/gameDetailedActions';
 import { textMessages } from '../../Сonfigs/appConfig';
+import Swiper from '../UI/SwiperConfigured/SwiperConfigured';
 import GameInfoBox from './GameInfoBox/GameInfoBox';
 import ButtonNeon from '../UI/Buttons/ButtonNeon/ButtonNeon';
 import WarnModal from '../UI/Modals/WarnModal/WarnModal';
@@ -23,9 +23,7 @@ import CornerNotifier from '../UI/Modals/CornerNotifier/CornerNotifier';
 import EbaySection from './EbaySection/EbaySection';
 import ArrowEsc from '../UI/LogoSvg/ArrowEscSvg/ArrowEsc';
 import OvalSpinner from '../UI/LoadingSpinners/OvalSpinner/OvalSpinner';
-import sliderArrow from '../../Assets/images/ui/slider-arrow-left.svg';
 import styles from './GameDetailed.module.scss';
-import 'react-dynamic-swiper/lib/styles.css';
 
 function GameDetailed(props) {
   const dispatch = useDispatch();
@@ -132,41 +130,12 @@ function GameDetailed(props) {
 
   const toggleBlockVisibilty = (e) => {
     const elm = e.currentTarget.getAttribute('elm');
+    console.log(elm);
     dispatch(toggleElmVisibility(elm));
   };
 
   const showAuth = () => {
     dispatch(showAuthModal(true));
-  };
-
-  const swiperProps = {
-    swiperOptions: {
-      slidesPerView: 'auto',
-      spaceBetween: 15,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-        dynamicBullets: true,
-      },
-    },
-    loop: true,
-    pagination: false,
-    navigation: isMobile ? false : true,
-
-    prevButton: () => (
-      <div className="swiper-button-prev">
-        <img src={sliderArrow} alt="prev-btn" />
-      </div>
-    ),
-    nextButton: () => (
-      <div className="swiper-button-next">
-        <img
-          src={sliderArrow}
-          alt="prev-btn"
-          style={{ transform: 'rotate(180deg)' }}
-        />
-      </div>
-    ),
   };
 
   const buttons = [
@@ -236,14 +205,7 @@ function GameDetailed(props) {
     <section className={styles.GameDetailed}>
       <div className={styles.GameDetailGridCont}>
         <div className={styles.ScreenshotSection}>
-          <Swiper {...swiperProps}>
-            {screenshots &&
-              screenshots.map((image, index) => (
-                <Slide key={index}>
-                  <img src={image} alt={image}></img>
-                </Slide>
-              ))}
-          </Swiper>
+          <Swiper slides={screenshots} isMobile={isMobile} />
         </div>
         <div className={styles.InfoSection}>
           {gameDetails.name && (
@@ -284,7 +246,7 @@ function GameDetailed(props) {
         {videoElms.map(({ className, elm, heading, video }) => (
           <div className={className} key={elm}>
             <div
-              className={styles.VideoLabel}
+              className={`${styles.VideoLabel}`}
               elm={elm}
               onClick={(e) => toggleBlockVisibilty(e)}>
               <h2>{heading}</h2>
@@ -302,7 +264,6 @@ function GameDetailed(props) {
                     <OvalSpinner />
                   </div>
                 )}
-
                 {video.url && (
                   <ReactPlayer
                     url={video.url}
@@ -332,7 +293,7 @@ function GameDetailed(props) {
           )}
           <hr></hr>
         </div>
-        {gameDetails && ebaySection.show && (
+        {gameDetails.name && ebaySection.show && (
           <EbaySection
             platform={platformName}
             game={gameDetails.name}
