@@ -6,6 +6,7 @@ import {
   notWatchEbayCard,
   getShippingCosts,
   calculateTotalPrice,
+  setEndingSoon,
 } from '../../../../../Store/Actions/ebayItemsActions';
 import styles from './EbayCardDesc.module.scss';
 import Button from '../../../../UI/Buttons/Button/Button';
@@ -21,9 +22,7 @@ function EbayCardDesc(props) {
     platform,
     currentPrice,
     currency,
-    deliveryPrice,
     itemId,
-    // listingType,
     bidCount,
     endTime: endTimeProp,
     sendToEbay,
@@ -33,12 +32,10 @@ function EbayCardDesc(props) {
     isLoadingShippingCosts,
     totalPrice,
     contactSeller,
+    // endingSoon,
   } = props;
-  // const [notCalculated, setNotCalculated] = useState();
-  const [isEndingSoon, setIsEndingSoon] = useState(false);
+  const [endingSoon, setIsEndingSoon] = useState(false);
   const dispatch = useDispatch();
-
-  console.log(contactSeller, shippingCost);
 
   useEffect(() => {
     dispatch(checkIfCardIsWatched(game, platform, index));
@@ -56,14 +53,21 @@ function EbayCardDesc(props) {
       const days = Math.floor(diffMs / 86400);
 
       let interval;
-      if (days < 1) {
+      if (days < 10) {
         interval = setInterval(() => {
           const currentTime = new Date();
           const diffMs = Math.abs(endTime - currentTime) / 1000;
           const hours = Math.floor(diffMs / 3600) % 24;
           const minutes = Math.floor(diffMs / 60) % 60;
           const seconds = Math.floor(diffMs % 60);
-          endingSoonSetter({
+          // dispatch(
+          //   setEndingSoon(index, {
+          //     hours: `${hours < 10 ? '0' : ''}${hours}`,
+          //     minutes: `${minutes < 10 ? '0' : ''}${minutes}`,
+          //     seconds: `${seconds < 10 ? '0' : ''}${seconds}`,
+          //   })
+          // );
+          setIsEndingSoon({
             hours: `${hours < 10 ? '0' : ''}${hours}`,
             minutes: `${minutes < 10 ? '0' : ''}${minutes}`,
             seconds: `${seconds < 10 ? '0' : ''}${seconds}`,
@@ -76,10 +80,6 @@ function EbayCardDesc(props) {
 
   const defineShippingCosts = () => {
     dispatch(getShippingCosts(itemId, index));
-  };
-
-  const endingSoonSetter = (val) => {
-    setIsEndingSoon(val);
   };
 
   const watchHandler = () => {
@@ -106,13 +106,12 @@ function EbayCardDesc(props) {
       )}
       <div className={styles.AcutionSection}>
         {isAuction && <p>Bids placed : {bidCount}</p>}
-        {isEndingSoon && (
+        {endingSoon && (
           <p className={styles.TimeLeft}>
-            {`Time Left : ${isEndingSoon.hours}:${isEndingSoon.minutes}:${isEndingSoon.seconds}`}
+            {`Time Left : ${endingSoon.hours}:${endingSoon.minutes}:${endingSoon.seconds}`}
           </p>
         )}
       </div>
-
       <div className={styles.PriceSection}>
         <strong>{isAuction ? 'Bid' : 'PRICE'}</strong>
         {`${' : '} ${currentPrice} ${currency}`}
@@ -134,7 +133,7 @@ function EbayCardDesc(props) {
           {' : '} {totalPrice} {currency}
         </p>
       </div>
-      {isEndingSoon && (
+      {endingSoon && (
         <div className={`${styles.Ribbon} ${styles.RibbonTopLeft}`}>
           <span>ENDING SOON</span>
         </div>

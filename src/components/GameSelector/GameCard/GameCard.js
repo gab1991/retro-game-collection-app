@@ -9,8 +9,7 @@ export default function GameCard(props) {
   return (
     <a
       href={`/${platformName}/${slug}`}
-      className={`${styles.GameCard} ${className}`}
-      onClick={() => props.openGameDetails(slug)}>
+      className={`${styles.GameCard} ${className}`}>
       <div className={styles.ImgContainer}>
         <img src={background || images.noPicture.background.src} alt={slug} />
       </div>

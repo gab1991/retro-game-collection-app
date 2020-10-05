@@ -66,6 +66,16 @@ const ebayItemsReducer = (state = [], { type, payload }) => {
 
       return [...newEbayItems];
     }
+    case 'SET_EBAY_LOT_ENDING_SOON': {
+      // const { hours, minutes, seconds, index } = payload;
+      // const newEbayItems = [...state];
+      // newEbayItems[index] = {
+      //   ...newEbayItems[index],
+      //   endingSoon: { hours, minutes, seconds },
+      // };
+      // // console.log(newEbayItems[index]);s
+      // return [...newEbayItems];
+    }
     default:
       return state;
   }

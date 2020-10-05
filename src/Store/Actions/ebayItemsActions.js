@@ -45,8 +45,6 @@ const getEbaySingleItem = (index) => {
     } catch (err) {
       //error handling
     }
-
-    console.log(itemId);
   };
 };
 
@@ -205,6 +203,13 @@ const calculateTotalPrice = (index) => {
   };
 };
 
+const setEndingSoon = (index, { hours, minutes, seconds }) => {
+  return {
+    type: 'SET_EBAY_LOT_ENDING_SOON',
+    payload: { hours, minutes, seconds, index },
+  };
+};
+
 export {
   setEbayItems,
   getEbaySingleItem,
@@ -213,4 +218,5 @@ export {
   notWatchEbayCard,
   getShippingCosts,
   calculateTotalPrice,
+  setEndingSoon,
 };

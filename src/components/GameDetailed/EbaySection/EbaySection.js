@@ -42,7 +42,7 @@ function EbaySection(props) {
           game={game}
           ebayItems={ebayItems}
           swiperProps={swiperProps}
-          numToShow={1}
+          numToShow={4}
         />
       )}
       {!isLoading && ebayItems.length === 0 && (

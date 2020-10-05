@@ -30,12 +30,7 @@ export default function EbaySwiper(props) {
     for (let i = current; i < current + numToAdd; i++) {
       if (ebayItems[i])
         updShowedItems.push(
-          <EbayItemCard
-            platform={platform}
-            game={game}
-            // itemId={ebayItems[i].itemId[0]}
-            index={i}
-          />
+          <EbayItemCard platform={platform} game={game} index={i} />
         );
     }
     let updCounter = { ...counter.current };

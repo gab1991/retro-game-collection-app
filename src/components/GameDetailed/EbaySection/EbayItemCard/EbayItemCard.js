@@ -19,6 +19,7 @@ function EbayItemCard(props) {
     isLoadingShippingCosts = false,
     totalPrice,
     contactSeller,
+    endingSoon,
   } = card;
   const { itemId } = itemData || {};
 
@@ -59,6 +60,7 @@ function EbayItemCard(props) {
             isLoadingShippingCosts={isLoadingShippingCosts}
             totalPrice={totalPrice}
             contactSeller={contactSeller}
+            endingSoon={endingSoon}
             // isAuction={isAuction}
             // isEndingSoon={isEndingSoon}
             // auctionSetter={auctionSetter}
