@@ -1,10 +1,17 @@
 import React, { useEffect } from 'react';
 import { useDispatch, connect } from 'react-redux';
 import { getEbayItems } from '../../../Store/Actions/gameDetailedActions';
-import EbaySwiper from './EbaySwiper/EbaySwiper';
+import EbayItemCard from '../EbaySection/EbayItemCard/EbayItemCard';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { Navigation, Pagination, Lazy } from 'swiper';
+import 'swiper/swiper.scss';
+import 'swiper/components/lazy/lazy.scss';
+import 'swiper/components/pagination/pagination.scss';
+import './EbaySectionSwiper.scss';
 import DotSpinner from '../../UI/LoadingSpinners/DotSpinner/DotSpinner';
-import sliderArrow from '../../../Assets/images/ui/slider-arrow-left.svg';
 import styles from './EbaySection.module.scss';
+
+SwiperCore.use([Navigation, Pagination, Lazy]);
 
 function EbaySection(props) {
   const { game, platform, ebayItems, isLoading } = props;
@@ -14,37 +21,31 @@ function EbaySection(props) {
     dispatch(getEbayItems(platform, game));
   }, [platform, game]);
 
-  const swiperProps = {
-    loop: false,
-    pagination: true,
-
-    prevButton: () => (
-      <div className="swiper-button-prev">
-        <img src={sliderArrow} alt="prev-btn" />
-      </div>
-    ),
-    nextButton: () => (
-      <div className="swiper-button-next">
-        <img
-          src={sliderArrow}
-          alt="prev-btn"
-          style={{ transform: 'rotate(180deg)' }}
-        />
-      </div>
-    ),
-  };
-
   return (
     <div className={styles.EbaySection}>
-      {!isLoading && ebayItems.length > 0 && (
-        <EbaySwiper
-          platform={platform}
-          game={game}
-          ebayItems={ebayItems}
-          swiperProps={swiperProps}
-          numToShow={4}
-        />
-      )}
+      <Swiper
+        className={`${isLoading ? styles.SwiperHidden : ''} ${styles.Swiper}`}
+        spaceBetween={15}
+        slidesPerView={'auto'}
+        watchSlidesVisibility
+        navigation
+        pagination={{
+          clickable: true,
+          dynamicMainBullets: true,
+          dynamicBullets: 4,
+        }}>
+        {ebayItems.map((item, index) => (
+          <SwiperSlide key={index}>
+            {({ isVisible }) => (
+              <EbayItemCard
+                platform={platform}
+                game={game}
+                isVisible={isVisible}
+                index={index}></EbayItemCard>
+            )}
+          </SwiperSlide>
+        ))}
+      </Swiper>
       {!isLoading && ebayItems.length === 0 && (
         <h3 className={styles.NoItems}>No lots have been found</h3>
       )}

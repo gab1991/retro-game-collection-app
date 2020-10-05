@@ -9,7 +9,7 @@ import styles from './EbayItemCard.module.scss';
 
 function EbayItemCard(props) {
   const dispatch = useDispatch();
-  const { isMobile, game, platform, index } = props;
+  const { isMobile, game, platform, index, isVisible } = props;
   const card = useSelector((state) => state.ebayItems[index]);
   const {
     itemData,
@@ -24,8 +24,9 @@ function EbayItemCard(props) {
   const { itemId } = itemData || {};
 
   useEffect(() => {
+    if (!isVisible) return;
     dispatch(getEbaySingleItem(index));
-  }, [index]);
+  }, [index, isVisible]);
 
   return (
     <div className={styles.EbayItemCard}>

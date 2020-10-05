@@ -205,7 +205,7 @@ function GameDetailed(props) {
     <section className={styles.GameDetailed}>
       <div className={styles.GameDetailGridCont}>
         <div className={styles.ScreenshotSection}>
-          <Swiper slides={screenshots} isMobile={isMobile} />
+          {/* <Swiper slides={screenshots} isMobile={isMobile} /> */}
         </div>
         <div className={styles.InfoSection}>
           {gameDetails.name && (
