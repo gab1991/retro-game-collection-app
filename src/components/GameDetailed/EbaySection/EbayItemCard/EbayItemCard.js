@@ -61,10 +61,6 @@ function EbayItemCard(props) {
             totalPrice={totalPrice}
             contactSeller={contactSeller}
             endingSoon={endingSoon}
-            // isAuction={isAuction}
-            // isEndingSoon={isEndingSoon}
-            // auctionSetter={auctionSetter}
-            // endingSoonSetter={endingSoonSetter}
           />
         </>
       )}

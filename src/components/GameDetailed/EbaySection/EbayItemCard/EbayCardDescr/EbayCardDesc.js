@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useDipatch } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import {
   checkIfCardIsWatched,
   watchEbayCard,
   notWatchEbayCard,
   getShippingCosts,
   calculateTotalPrice,
-  setEndingSoon,
 } from '../../../../../Store/Actions/ebayItemsActions';
-import styles from './EbayCardDesc.module.scss';
 import Button from '../../../../UI/Buttons/Button/Button';
 import DotSpinner from '../../../../UI/LoadingSpinners/DotSpinner/DotSpinner';
-import { connect, useDispatch } from 'react-redux';
+import styles from './EbayCardDesc.module.scss';
 
 function EbayCardDesc(props) {
   const {
@@ -25,14 +23,13 @@ function EbayCardDesc(props) {
     itemId,
     bidCount,
     endTime: endTimeProp,
-    sendToEbay,
+    itemUrl,
     isWatched,
     isAuction,
     shippingCost,
     isLoadingShippingCosts,
     totalPrice,
     contactSeller,
-    // endingSoon,
   } = props;
   const [endingSoon, setIsEndingSoon] = useState(false);
   const dispatch = useDispatch();
@@ -60,13 +57,6 @@ function EbayCardDesc(props) {
           const hours = Math.floor(diffMs / 3600) % 24;
           const minutes = Math.floor(diffMs / 60) % 60;
           const seconds = Math.floor(diffMs % 60);
-          // dispatch(
-          //   setEndingSoon(index, {
-          //     hours: `${hours < 10 ? '0' : ''}${hours}`,
-          //     minutes: `${minutes < 10 ? '0' : ''}${minutes}`,
-          //     seconds: `${seconds < 10 ? '0' : ''}${seconds}`,
-          //   })
-          // );
           setIsEndingSoon({
             hours: `${hours < 10 ? '0' : ''}${hours}`,
             minutes: `${minutes < 10 ? '0' : ''}${minutes}`,
@@ -88,6 +78,10 @@ function EbayCardDesc(props) {
     } else {
       dispatch(notWatchEbayCard(game, platform, itemId, index));
     }
+  };
+
+  const sendToEbay = () => {
+    return window.open(itemUrl, '_blank');
   };
 
   return (
