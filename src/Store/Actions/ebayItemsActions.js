@@ -203,6 +203,22 @@ const calculateTotalPrice = (index) => {
   };
 };
 
+const getEbayItems = (platform, game, sortOrder) => {
+  return async (dispatch) => {
+    try {
+      // dispatch(setEbaySectionLoading(true));
+
+      const [res] = await Backend.getEbayItems(platform, game, sortOrder);
+      const { item: items } = res;
+
+      dispatch(setEbayItems(items));
+      // dispatch(setEbaySectionLoading(false));
+    } catch (err) {
+      // dispatch(setEbaySectionLoading(false));
+    }
+  };
+};
+
 export {
   setEbayItems,
   getEbaySingleItem,
@@ -211,4 +227,5 @@ export {
   notWatchEbayCard,
   getShippingCosts,
   calculateTotalPrice,
+  getEbayItems,
 };

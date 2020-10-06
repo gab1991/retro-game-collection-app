@@ -23,8 +23,6 @@ const gameDetailedReducer = (state = initial, { type, payload }) => {
       return { ...state, screenshots: payload };
     case 'SET_DESCRIPTION_PARSED':
       return { ...state, descriptionParsed: payload };
-    case 'SET_BOX_ART_URL':
-      return { ...state, boxArtUrl: payload };
     case 'SET_VIDEO_URL': {
       const { type, url } = payload;
       const newUploadble = { ...state.uploadableElms };

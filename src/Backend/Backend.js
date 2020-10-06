@@ -115,18 +115,19 @@ const Backend = {
     });
   },
 
-  postSignIn: (obj) => {
-    let url = `${api.appServer.signInUrl}`;
+  postSignIn: (username, password) => {
     return new Promise((resolve, reject) => {
-      fetch(url, {
+      axios({
+        url: `${api.appServer.signInUrl}`,
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+        data: {
+          username,
+          password,
         },
-        body: JSON.stringify(obj),
       })
-        // .then(handleErrors)
-        .then((data) => resolve(data))
+        .then((res) => {
+          resolve(res);
+        })
         .catch((err) => reject(err));
     });
   },
@@ -164,19 +165,19 @@ const Backend = {
     });
   },
 
-  updateProfile: (token, obj) => {
-    let url = `${api.appServer.profileUrl}/update`;
+  updateProfile: (obj) => {
     return new Promise((resolve, reject) => {
-      fetch(url, {
+      axios({
+        url: `${api.appServer.profileUrl}/update`,
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          authorization: `Bearer ${getToken()}`,
         },
-        body: JSON.stringify(obj),
+        data: obj,
       })
-        // .then(handleErrors)
-        .then((data) => resolve(data))
+        .then((res) => {
+          resolve(res);
+        })
         .catch((err) => reject(err));
     });
   },
@@ -289,7 +290,6 @@ const Backend = {
   },
 
   getGameWatchedCards: (token, platform, game) => {
-    console.log({ token, platform, game });
     let url = `${api.appServer.profileUrl}/getGameWatchedCards/${platform}/${game}`;
     return new Promise((resolve, reject) => {
       fetch(url, {

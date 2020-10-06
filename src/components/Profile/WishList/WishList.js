@@ -1,52 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import styles from './WishList.module.scss';
-import { images } from '../../../Сonfigs/appConfig';
 import { connect } from 'react-redux';
+import PlatformBadge from '../../PlatformBadge/PlatformBadge';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import GameLotContainer from './GameLotContainer/GameLotContainer';
+import styles from './WishList.module.scss';
 
 function WishList(props) {
   const { profileInfo } = props;
-  const [wishedList, setWishedList] = useState({ platforms: [], count: 0 });
+  const [wishedList, setWishedList] = useState([]);
 
   useEffect(() => {
     if (profileInfo) {
-      const platformsWished = profileInfo.wish_list.platforms;
-      setWishedList({
-        platforms: platformsWished,
-        count: platformsWished.length,
-      });
+      setWishedList(profileInfo?.wish_list?.platforms || []);
+    } else {
+      setWishedList([]);
     }
   }, [profileInfo]);
 
   const toPlatfromSelecor = () => {
     props.history.push('/');
   };
-  const toGameSelector = (platform) => {
-    props.history.push(`/${platform}`);
-  };
 
   return (
     <div className={styles.WishLIst}>
-      <div className={styles.SectionName}>
-        <h1>Wish List</h1>
-      </div>
+      <h1 className={styles.SectionName}>Wish List</h1>
       <div className={styles.ShelvesContainer}>
-        {wishedList &&
-          wishedList.platforms.map((platform) => (
-            <div key={platform.name} className={styles.Shelf}>
-              <div
-                className={styles.PlatformLogo}
-                onClick={() => toGameSelector(platform.name)}>
-                <img src={images[platform.name].logo.src} alt={platform.name} />
-              </div>
-              <GameLotContainer
-                platform={platform.name}
-                games={platform.games}
-              />
-            </div>
-          ))}
+        {wishedList.map(({ name: platformName, games }) => (
+          <div key={platformName} className={styles.Shelf}>
+            <PlatformBadge
+              className={styles.PlatformLogo}
+              platformName={platformName}
+            />
+            <GameLotContainer platform={platformName} games={games} />
+          </div>
+        ))}
         <div className={styles.EmptyList}>
           <h1>Wanna add some?</h1>
           <ButtonNeon

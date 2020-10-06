@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import useWindowSize from '../../../../CustomHooks/useWindowSize';
-import GameBox from './GameBox/GameBox';
-import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { connect, useDispatch } from 'react-redux';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
-import Backend from '../../../../Backend/Backend';
-import sassVar from '../../../../Сonfigs/Variables.scss';
+import { reorderGames } from '../../../../Store/Actions/profileActions';
+import GameBox from './GameBox/GameBox';
 import styles from './GameBoxContainer.module.scss';
 
-const SortableList = SortableContainer(({ games, platform }) => {
+const SortableList = SortableContainer(({ games, platform, isSorting }) => {
   return (
     <div className={styles.GameBoxContainer}>
       {games.map((game, index) => (
@@ -16,6 +14,7 @@ const SortableList = SortableContainer(({ games, platform }) => {
           key={`${game.name}_${platform}`}
           index={index}
           game={game}
+          isSorting={isSorting}
           platform={platform}
         />
       ))}
@@ -23,45 +22,40 @@ const SortableList = SortableContainer(({ games, platform }) => {
   );
 });
 
-const SortableItem = SortableElement(({ game, platform }) => (
-  <GameBox game={game} platform={platform} />
+const SortableItem = SortableElement(({ game, platform, isSorting }) => (
+  <GameBox
+    game={game}
+    platform={platform}
+    showDesc={isSorting ? false : true}
+  />
 ));
 
-const tabletBreakPoint = parseInt(sassVar['breakpoints-tablet']);
-
 function GameBoxContainer(props) {
-  const { width } = useWindowSize();
-  const isPC = width > tabletBreakPoint;
-  const { games, platform } = props;
-  const [gamesSort, setGamesSort] = useState([]);
+  const dispatch = useDispatch();
+  const { games, platform, isMobile } = props;
+  const [gamesSort, setGamesSort] = useState(games || []);
+  const [isSorting, setisSorting] = useState(false);
 
-  useEffect(() => {
-    let isSubscribed = true;
-    if (isSubscribed) setGamesSort(games);
-    return () => {
-      isSubscribed = false;
-    };
-  }, [games]);
-
-  const onSortEnd = ({ oldIndex, newIndex }) => {
+  const reorderSorted = ({ oldIndex, newIndex }) => {
     const newSortedgames = arrayMove(gamesSort, oldIndex, newIndex);
     setGamesSort(newSortedgames);
-
-    Backend.updateProfile(props.userData.token, {
-      sortedGames: newSortedgames,
-      platform: platform,
-      list: 'owned_list',
-      action: 'reorder',
-    });
+    dispatch(reorderGames(newSortedgames, platform, 'owned_list'));
   };
 
   return (
     <SortableList
-      onSortEnd={onSortEnd}
+      onSortStart={() => {
+        setisSorting(true);
+      }}
+      onSortEnd={(settings) => {
+        setisSorting(false);
+        reorderSorted(settings);
+      }}
+      isSorting={isSorting}
       games={gamesSort}
       platform={platform}
-      pressDelay={isPC ? 0 : 200}
-      distance={isPC ? 5 : 0}
+      pressDelay={isMobile ? 200 : 0}
+      distance={isMobile ? 0 : 5}
       axis={'xy'}
     />
   );
@@ -71,6 +65,7 @@ function mapStateToProps(state) {
   return {
     userData: state.logged,
     profileInfo: state.profile,
+    isMobile: state.appState.isMobile,
   };
 }
 

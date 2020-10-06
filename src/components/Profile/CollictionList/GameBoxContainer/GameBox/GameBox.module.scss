@@ -8,7 +8,9 @@ $description-background: getBtnColor('basic');
   padding: 10px;
   cursor: pointer;
   position: relative;
+
   &.Scaling:hover {
+    transition: all 200ms ease;
     transform: scale(1.2);
     z-index: 2;
   }
@@ -22,6 +24,7 @@ $description-background: getBtnColor('basic');
 }
 
 .Desctiprion {
+  z-index: 1;
   width: 100%;
   border-radius: 5px;
   display: none;

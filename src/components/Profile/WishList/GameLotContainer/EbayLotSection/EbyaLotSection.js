@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { trimName } from '../../../../../Utils/helperFunctions';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
+import { getEbayItems } from '../../../../../Store/Actions/gameDetailedActions';
+import SwiperConfigured from '../../../../UI/SwiperConfigured/SwiperConfigured';
+import EbayItemCard from '../../../../GameDetailed/EbaySection/EbayItemCard/EbayItemCard';
 import styles from './EbayLotSection.module.scss';
 import GameBox from '../../../CollictionList/GameBoxContainer/GameBox/GameBox';
 import ButtonNeon from '../../../../UI/Buttons/ButtonNeon/ButtonNeon';
@@ -11,9 +14,11 @@ import WanrModal from '../../../../UI/Modals/WarnModal/WarnModal';
 import KnobToggler from '../../../../UI/Togglers/KnobToggler/KnobToggler';
 
 function EbyaLotSection(props) {
+  const dispatch = useDispatch();
   const {
     userData,
     gameData,
+    gameData: { name: gameName },
     platform,
     index,
     removeFromArray,
@@ -35,18 +40,6 @@ function EbyaLotSection(props) {
   const [isEbayShowed, setIsEbayShowed] = useState(gameData.isShowEbay);
   const [showAnimation, setShowAnimation] = useState();
   const [hideAnimation, setHideAnimation] = useState();
-  const swiperProps = {
-    swiperOptions: {
-      slidesPerView: 'auto',
-      spaceBetween: 15,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-        dynamicBullets: true,
-      },
-    },
-    navigation: false,
-  };
 
   useEffect(() => {
     showingEbay(gameData.name, isEbayTogglerOn);
@@ -60,59 +53,61 @@ function EbyaLotSection(props) {
   }, [isEbayTogglerOn]);
 
   useEffect(() => {
-    if (!isEbayTogglerOn) return;
-    let isSubscribed = true;
-    const req = (sortBy) => {
-      if (isSubscribed) setLoading(true);
-      Backend.getEbayItems(platform, gameData.name, sortBy)
-        .then((res) => {
-          if (isSubscribed) {
-            setLoading(false);
-            setShowedItems(res[0].item ? res[0].item : []);
-          }
-        })
-        .catch((err) => {
-          if (isSubscribed) setLoading(false);
-        });
-    };
+    // if (!isEbayTogglerOn) return;
+    // let isSubscribed = true;
+    // const req = (sortBy) => {
+    //   if (isSubscribed) setLoading(true);
+    //   Backend.getEbayItems(platform, gameData.name, sortBy)
+    //     .then((res) => {
+    //       if (isSubscribed) {
+    //         setLoading(false);
+    //         setShowedItems(res[0].item ? res[0].item : []);
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       if (isSubscribed) setLoading(false);
+    //     });
+    // };
 
-    const getWatchList = () => {
-      if (isSubscribed) setLoading(true);
+    // const getWatchList = () => {
+    //   if (isSubscribed) setLoading(true);
 
-      Backend.getGameWatchedCards(userData.token, platform, gameData.name).then(
-        (res) => {
-          if (res.success) {
-            const watchedEbayOffers = res.success.map((ebayCard) => ({
-              itemId: [ebayCard.id],
-            }));
-            if (isSubscribed) {
-              setShowedItems(watchedEbayOffers);
-              setLoading(false);
-            }
-          } else setShowedItems([]);
-          if (isSubscribed) setLoading(false);
-        }
-      );
-    };
+    //   Backend.getGameWatchedCards(userData.token, platform, gameData.name).then(
+    //     (res) => {
+    //       if (res.success) {
+    //         const watchedEbayOffers = res.success.map((ebayCard) => ({
+    //           itemId: [ebayCard.id],
+    //         }));
+    //         if (isSubscribed) {
+    //           setShowedItems(watchedEbayOffers);
+    //           setLoading(false);
+    //         }
+    //       } else setShowedItems([]);
+    //       if (isSubscribed) setLoading(false);
+    //     }
+    //   );
+    // };
 
     switch (activeEbaylist) {
       case 'New Offers':
-        req('StartTimeNewest');
+        dispatch(getEbayItems(platform, gameName, 'StartTimeNewest'));
+        // req('StartTimeNewest');
         break;
       case 'Relevance':
-        req('BestMatch');
+        dispatch(getEbayItems(platform, gameName, 'BestMatch'));
+
+        // req('BestMatch');
         break;
       case 'Lowest Price':
-        req('PricePlusShippingLowest');
+        dispatch(getEbayItems(platform, gameName, 'PricePlusShippingLowest'));
+
+        // req('PricePlusShippingLowest');
         break;
       case 'Watched':
-        getWatchList();
+        // getWatchList();
         break;
       default:
     }
-    return () => {
-      isSubscribed = false;
-    };
   }, [activeEbaylist, isEbayTogglerOn, gameData.name, platform]);
 
   const toggleEbayList = (e) => {
@@ -207,7 +202,8 @@ function EbyaLotSection(props) {
           ${hideAnimation ? styles.EbayCloseAnimation : ''}
           ${isEbayShowed ? styles.EbaySectionShowed : styles.EbaySectionHidden}
         `}>
-          {/* {!loading && showedItems.length > 0 && (
+          {
+            !loading && showedItems.length > 0 && null
             // <EbaySwiper
             //   numToShow={4}
             //   platform={platform}
@@ -215,7 +211,7 @@ function EbyaLotSection(props) {
             //   itemsToShow={showedItems}
             //   swiperProps={swiperProps}
             // />
-          )} */}
+          }
           {!loading && showedItems.length === 0 && (
             <div className={styles.NoItemToShow}>
               <p>No item to show in this category</p>

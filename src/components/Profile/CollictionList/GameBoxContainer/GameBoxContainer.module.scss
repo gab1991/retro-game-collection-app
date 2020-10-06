@@ -3,6 +3,7 @@
 .GameBoxContainer {
   background: rgba(0, 0, 0, 0.5);
   margin: 2% 0;
+  padding: 0 1%;
   border: 2px solid $basic-border-gray;
   display: grid;
   grid-template-columns: repeat(auto-fit, 150px);

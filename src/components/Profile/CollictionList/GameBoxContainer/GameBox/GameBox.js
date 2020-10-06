@@ -1,60 +1,51 @@
 import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
-import Backend from '../../../../../Backend/Backend';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getBoxArt } from '../../../../../Store/Actions/contentActions';
 import styles from './GameBox.module.scss';
 
 function GameBox(props) {
-  const { game, platform, transition, desc = true, scaling = true } = props;
-  const [boxArtUrl, setBoxArtUrl] = useState();
+  const dispatch = useDispatch();
+  const {
+    game: { slug, name: gameName },
+    platform,
+    showDesc = true,
+    scaling = true,
+  } = props;
+  const boxArtUrl = useSelector(
+    (state) => state.content.boxArts?.[platform]?.[gameName]
+  );
   const [descrVisibility, setDescrVisibility] = useState(false);
 
   useEffect(() => {
-    let isSubscribed = true;
+    dispatch(getBoxArt(platform, gameName));
+  }, [platform, gameName, dispatch]);
 
-    Backend.getBoxArt(platform, game.name).then((res) => {
-      if (isSubscribed) setBoxArtUrl(res);
-    });
-    return () => {
-      isSubscribed = false;
-    };
-  }, [platform, game.name]);
-
-  const openGameDetailsHandler = (slug) => {
-    props.history.push({
-      pathname: `/${platform}/${slug}`,
-      state: {
-        from: props.location.pathname,
-      },
-    });
-  };
-
-  const toggleDescrVisivility = (isVisible) => {
-    setDescrVisibility(isVisible);
+  const toggleDescrVisivility = (bool) => {
+    setDescrVisibility(bool);
   };
 
   return (
-    <div
-      className={`${styles.GameBox}
-      ${transition ? styles.Transition : null}
-      ${scaling ? styles.Scaling : null}
-      `}
-      onClick={() => openGameDetailsHandler(game.slug)}
+    <Link
+      to={`/${platform}/${slug}`}
+      className={`${styles.GameBox} ${scaling ? styles.Scaling : ''}`}
       onMouseEnter={() => toggleDescrVisivility(true)}
-      onMouseLeave={() => toggleDescrVisivility(false)}>
+      onMouseLeave={() => toggleDescrVisivility(false)}
+      draggable="false">
       <img
         src={boxArtUrl}
         alt={boxArtUrl}
         className={styles.BoxArtImg}
         draggable="false"
       />
-      {desc && (
+      {showDesc && (
         <div
           className={`${styles.Desctiprion} 
             ${descrVisibility ? styles.DesctiprionVisible : null}`}>
-          {game.name}
+          {gameName}
         </div>
       )}
-    </div>
+    </Link>
   );
 }
-export default withRouter(GameBox);
+export default GameBox;

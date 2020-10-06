@@ -1,4 +1,5 @@
 import Backend from '../../Backend/Backend';
+import { showErrModal } from './modalActions';
 
 const fillProfile = (profile) => {
   return {
@@ -21,4 +22,55 @@ const getProfileInfo = () => async (dispatch, getState) => {
   }
 };
 
-export { getProfileInfo };
+const reorderGames = (newSortedGames, platform, list) => async (dispatch) => {
+  try {
+    await Backend.updateProfile({
+      sortedGames: newSortedGames,
+      platform,
+      list,
+      action: 'reorder',
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const removeGame = (gameDetails, list, platform) => {
+  return async (dispatch) => {
+    try {
+      await Backend.updateProfile({
+        action: 'removeGame',
+        list,
+        platform,
+        game: gameDetails,
+      });
+    } catch (err) {
+      dispatch(
+        showErrModal({
+          message: 'Something wrong happened.Try again later',
+        })
+      );
+    }
+  };
+};
+
+const addGame = (gameDetails, list, platform) => {
+  return async (dispatch) => {
+    try {
+      await Backend.updateProfile({
+        action: 'addGame',
+        list,
+        platform,
+        game: gameDetails,
+      });
+    } catch (err) {
+      dispatch(
+        showErrModal({
+          message: 'Something wrong happened.Try again later',
+        })
+      );
+    }
+  };
+};
+
+export { getProfileInfo, reorderGames, removeGame, addGame };

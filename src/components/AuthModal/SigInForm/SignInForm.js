@@ -74,21 +74,24 @@ export default function SignInForm(props) {
     validityChecker(name, currentValue);
   };
 
-  const sendLoginReq = (sendObj) => {
+  const sendLoginReq = async ({ username, password }) => {
     setIsSending(true);
-    Backend.postSignIn(sendObj)
-      .then((res) => {
-        dispatch(signIn(res.username, res.token));
-        // getProfileInfo(res.token);
-        setIsSending(false);
-        closeModalHandler();
-      })
-      .catch((err) => {
-        if (err.status === 400 && err.body.field) {
-          wrongListHandler(err.body.field, 'set', err.body.err_message);
-          setIsSending(false);
-        }
-      });
+    try {
+      const {
+        data: { token },
+      } = await Backend.postSignIn(username, password);
+      if (token && username) {
+        dispatch(signIn(username, token));
+      }
+      setIsSending(false);
+      closeModalHandler();
+    } catch (err) {
+      // if (err.status === 400 && err.body.field) {
+      // wrongListHandler(err.body.field, 'set', err.body.err_message);
+      console.log({ err });
+      setIsSending(false);
+      // }
+    }
   };
 
   // const getProfileInfo = (token) => {

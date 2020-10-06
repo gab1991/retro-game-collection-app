@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import useWindowSize from '../../../../CustomHooks/useWindowSize';
+import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { removeGameFromList } from '../../../../Store/Actions/actions';
-import styles from './GameLotContainer.module.scss';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
-import Backend from '../../../../Backend/Backend';
+import {
+  reorderGames,
+  removeGame,
+} from '../../../../Store/Actions/profileActions';
 import EbyaLotSection from './EbayLotSection/EbyaLotSection';
-import sassVar from '../../../../Сonfigs/Variables.scss';
+import styles from './GameLotContainer.module.scss';
 
 const SortableList = SortableContainer(
   ({
@@ -39,8 +39,6 @@ const SortableList = SortableContainer(
   }
 );
 
-const tabletBreakPoint = parseInt(sassVar['breakpoints-tablet']);
-
 const SortableItem = SortableElement(
   ({
     game,
@@ -66,16 +64,10 @@ const SortableItem = SortableElement(
 );
 
 function GameLotContainer(props) {
-  const { width } = useWindowSize();
-  const isPC = width > tabletBreakPoint;
-  const { games, platform, userData } = props;
-  const [gamesSort, setGamesSort] = useState([]);
-  const [isEbayShowedList, setIsEbayShowedList] = useState({});
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    setGamesSort(games);
-  }, [games]);
+  const { games, platform, userData, isMobile } = props;
+  const [gamesSort, setGamesSort] = useState(games || []);
+  const [isEbayShowedList, setIsEbayShowedList] = useState({});
 
   const ebayshowHandler = (game, bool) => {
     setIsEbayShowedList((prevList) => {
@@ -85,16 +77,10 @@ function GameLotContainer(props) {
     });
   };
 
-  const onSortEnd = ({ oldIndex, newIndex }) => {
+  const reorderSorted = ({ oldIndex, newIndex }) => {
     const newSortedgames = arrayMove(gamesSort, oldIndex, newIndex);
     setGamesSort(newSortedgames);
-
-    Backend.updateProfile(props.userData.token, {
-      sortedGames: newSortedgames,
-      platform: platform,
-      list: 'wish_list',
-      action: 'reorder',
-    });
+    dispatch(reorderGames(newSortedgames, platform, 'wish_list'));
   };
 
   const removeFromArrayHandler = (index) => {
@@ -103,15 +89,7 @@ function GameLotContainer(props) {
     const removedGame = newSortedgames.splice(index, 1)[0];
 
     setGamesSort(newSortedgames);
-
-    Backend.updateProfile(token, {
-      action: 'removeGame',
-      list: 'wish_list',
-      platform: platform,
-      game: removedGame,
-    });
-
-    dispatch(removeGameFromList('wish_list', platform, removedGame.name));
+    dispatch(removeGame(removedGame, 'wish_list', platform));
   };
 
   return (
@@ -119,11 +97,11 @@ function GameLotContainer(props) {
       isEbayShowedList={isEbayShowedList}
       ebayshowHandler={ebayshowHandler}
       removeFromArrayHandler={removeFromArrayHandler}
-      onSortEnd={onSortEnd}
+      onSortEnd={reorderSorted}
       games={gamesSort}
       platform={platform}
-      pressDelay={isPC ? 0 : 200}
-      distance={isPC ? 5 : 0}
+      pressDelay={isMobile ? 200 : 0}
+      distance={isMobile ? 0 : 5}
       axis={'xy'}
     />
   );
@@ -133,6 +111,7 @@ function mapStateToProps(state) {
   return {
     userData: state.logged,
     profileInfo: state.profile,
+    isMobile: state.appState.isMobile,
   };
 }
 

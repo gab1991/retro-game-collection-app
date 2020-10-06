@@ -1,11 +1,7 @@
 @import '../../Сonfigs/Variables.scss';
+
 $box-shadow: 0px 1px 0px #fdfef8, 0px 2px 0px #fce660, 0px 4px 10px #f77105;
-@mixin nav-tab-border {
-  border: 1px solid $basic-border-gray;
-  border-bottom: none;
-  border-top-left-radius: 7px;
-  border-top-right-radius: 7px;
-}
+
 @mixin nav-tab-active {
   border-color: $basic-border-gray;
   background-color: $content-underlayer-color;
@@ -13,8 +9,6 @@ $box-shadow: 0px 1px 0px #fdfef8, 0px 2px 0px #fce660, 0px 4px 10px #f77105;
 }
 
 .Profile {
-  @include contentWidth;
-  @include minHeight;
   background-color: $content-underlayer-color;
   display: flex;
   flex-direction: column;
@@ -23,6 +17,7 @@ $box-shadow: 0px 1px 0px #fdfef8, 0px 2px 0px #fce660, 0px 4px 10px #f77105;
 .Content {
   flex: 1;
 }
+
 .NavTabs {
   display: flex;
   background-color: rgba(0, 0, 0, 0.3);
@@ -43,7 +38,10 @@ $box-shadow: 0px 1px 0px #fdfef8, 0px 2px 0px #fce660, 0px 4px 10px #f77105;
     width: max-content;
     margin-right: 1%;
     padding: 10px;
-    @include nav-tab-border;
+    border: 1px solid $basic-border-gray;
+    border-bottom: none;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
     border-color: transparent;
     transition: all 200ms ease-in-out;
 

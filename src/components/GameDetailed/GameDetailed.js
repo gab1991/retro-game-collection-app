@@ -1,19 +1,19 @@
 import React, { useEffect } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import ReactPlayer from 'react-player';
 import { showAuthModal } from '../../Store/Actions/modalActions';
 import {
   getGameDetails,
   getScreenShots,
-  getBoxArt,
   getVideo,
   toggleElmVisibility,
   setIsOwned,
   setIsWished,
-  removeGame,
   addGame,
   setShowWisListWarn,
 } from '../../Store/Actions/gameDetailedActions';
+import { removeGame } from '../../Store/Actions/profileActions';
+import { getBoxArt } from '../../Store/Actions/contentActions';
 import { textMessages } from '../../Сonfigs/appConfig';
 import Swiper from '../UI/SwiperConfigured/SwiperConfigured';
 import GameInfoBox from './GameInfoBox/GameInfoBox';
@@ -35,7 +35,6 @@ function GameDetailed(props) {
     screenshots,
     descriptionParsed,
     gameDetails,
-    boxArtUrl,
     soundtrackVideo,
     gameplayVideo,
     ebaySection,
@@ -45,6 +44,9 @@ function GameDetailed(props) {
     showWishNotifier,
     showWishListWarn,
   } = props;
+  const boxArtUrl = useSelector(
+    (state) => state.content.boxArts?.[platformName]?.[gameDetails.name]
+  );
 
   useEffect(() => {
     window.scrollTo(0, 0);

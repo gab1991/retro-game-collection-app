@@ -4,6 +4,7 @@ import gameSelectorReducer from './gameSelectorReducer';
 import gameDetailedReducer from './gameDetailedReducer';
 import appStateReducer from './appStateReducer';
 import ebayItemsReducer from './ebayItemsReducer';
+import contentReducer from './contentReducer';
 import {
   showHideErr,
   showHideInfo,
@@ -22,6 +23,7 @@ const appReducer = combineReducers({
   showCornNotifier: showHideCornerNotifier,
   gameSelector: gameSelectorReducer,
   gameDetailed: gameDetailedReducer,
+  content: contentReducer,
   ebayItems: ebayItemsReducer,
   appState: appStateReducer,
 });

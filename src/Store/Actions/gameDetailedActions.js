@@ -1,6 +1,8 @@
 import ReactHtmlParser from 'react-html-parser';
 import Backend from '../../Backend/Backend';
+import { addGame as addGameTopProfile } from '../../Store/Actions/profileActions';
 import { showErrModal } from '../Actions/modalActions';
+import { getEbayItems } from '../Actions/ebayItemsActions';
 import { setEbayItems } from '../Actions/ebayItemsActions';
 
 const setGameDetails = (gameDetailsObj) => {
@@ -21,13 +23,6 @@ const setScreenshots = (screenshots) => {
   return {
     type: 'SET_SCREENSHOTS',
     payload: screenshots,
-  };
-};
-
-const setBoxArtUrl = (url) => {
-  return {
-    type: 'SET_BOX_ART_URL',
-    payload: url,
   };
 };
 
@@ -58,20 +53,6 @@ const getScreenShots = (slug) => {
 
       data.results.forEach((obj) => screenshotsUrls.push(obj.image));
       dispatch(setScreenshots(screenshotsUrls));
-    } catch (err) {
-      // need to add error handling;
-    }
-  };
-};
-
-const getBoxArt = (platformName, gameName) => {
-  return async (dispatch) => {
-    try {
-      const { data: boxArtUrl } = await Backend.getBoxArt(
-        platformName,
-        gameName
-      );
-      dispatch(setBoxArtUrl(boxArtUrl));
     } catch (err) {
       // need to add error handling;
     }
@@ -154,54 +135,38 @@ const showWishedNotifierForTime = (bool, time) => {
   };
 };
 
-const removeGame = (gameDetails, list, platform) => {
-  return async (dispatch, getState) => {
-    const {
-      logged: { token },
-    } = getState();
-    try {
-      await Backend.updateProfile(token, {
-        action: 'removeGame',
-        list,
-        platform,
-        game: gameDetails,
-      });
-    } catch (err) {
-      dispatch(
-        showErrModal({
-          message: 'Something wrong happened.Try again later',
-        })
-      );
-    }
-  };
-};
+// const removeGame = (gameDetails, list, platform) => {
+//   return async (dispatch) => {
+//     try {
+//       await Backend.updateProfile({
+//         action: 'removeGame',
+//         list,
+//         platform,
+//         game: gameDetails,
+//       });
+//     } catch (err) {
+//       dispatch(
+//         showErrModal({
+//           message: 'Something wrong happened.Try again later',
+//         })
+//       );
+//     }
+//   };
+// };
 
 const addGame = (gameDetails, list, platform) => {
   return async (dispatch, getState) => {
+    dispatch(addGameTopProfile(gameDetails, list, platform));
     const {
-      logged: { token },
       gameDetailed: { isWished },
     } = getState();
-    try {
-      await Backend.updateProfile(token, {
-        action: 'addGame',
-        list,
-        platform,
-        game: gameDetails,
-      });
-      if (list === 'wish_list') {
-        dispatch(showWishedNotifierForTime(true, 2000));
-      } else if (list === 'owned_list') {
-        isWished
-          ? dispatch(setShowWisListWarn(true))
-          : dispatch(showOwnedNotifierForTime(true, 2000));
-      }
-    } catch (err) {
-      dispatch(
-        showErrModal({
-          message: 'Something wrong happened.Try again later',
-        })
-      );
+
+    if (list === 'wish_list') {
+      dispatch(showWishedNotifierForTime(true, 2000));
+    } else if (list === 'owned_list') {
+      isWished
+        ? dispatch(setShowWisListWarn(true))
+        : dispatch(showOwnedNotifierForTime(true, 2000));
     }
   };
 };
@@ -213,15 +178,16 @@ const setEbaySectionLoading = (bool) => {
   };
 };
 
-const getEbayItems = (platform, game) => {
+const getEbayItemsGameDetailed = (platform, game, sortOrder) => {
   return async (dispatch) => {
     try {
       dispatch(setEbaySectionLoading(true));
 
-      const [res] = await Backend.getEbayItems(platform, game);
-      const { item: items } = res;
+      dispatch(getEbayItems());
+      // const [res] = await Backend.getEbayItems(platform, game, sortOrder);
+      // const { item: items } = res;
 
-      dispatch(setEbayItems(items));
+      // dispatch(setEbayItems(items));
       dispatch(setEbaySectionLoading(false));
     } catch (err) {
       dispatch(setEbaySectionLoading(false));
@@ -232,13 +198,11 @@ const getEbayItems = (platform, game) => {
 export {
   getGameDetails,
   getScreenShots,
-  getBoxArt,
   getVideo,
   toggleElmVisibility,
   setIsOwned,
   setIsWished,
-  removeGame,
   addGame,
   setShowWisListWarn,
-  getEbayItems,
+  getEbayItemsGameDetailed as getEbayItems,
 };
