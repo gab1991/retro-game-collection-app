@@ -51,19 +51,47 @@ function GameDetailed(props) {
   }, []);
 
   useEffect(() => {
-    if (profileInfo && gameDetails) isInListChecker();
-  }, [profileInfo, gameDetails]);
+    if (profileInfo && gameDetails) {
+      const isInListChecker = () => {
+        const listToCheck = ['owned_list', 'wish_list'];
+
+        for (let i = 0; i < listToCheck.length; i++) {
+          const currentList = listToCheck[i];
+          const userPlatforms = profileInfo[currentList].platforms;
+          let chosenPlatform;
+          for (let i = 0; i < userPlatforms.length; i++) {
+            if (platformName === userPlatforms[i].name) {
+              chosenPlatform = userPlatforms[i];
+            }
+          }
+          if (chosenPlatform) {
+            const games = chosenPlatform.games;
+            for (let i = 0; i < games.length; i++) {
+              if (gameDetails.name === games[i].name) {
+                if (currentList === 'owned_list') {
+                  dispatch(setIsOwned(true));
+                } else if (currentList === 'wish_list') {
+                  dispatch(setIsWished(true));
+                }
+              }
+            }
+          }
+        }
+      };
+      isInListChecker();
+    }
+  }, [profileInfo, gameDetails, platformName, dispatch]);
 
   useEffect(() => {
     dispatch(getGameDetails(slug));
     dispatch(getScreenShots(slug));
-  }, [slug]);
+  }, [slug, dispatch]);
 
   useEffect(() => {
     if (gameDetails.name) {
       dispatch(getBoxArt(platformName, gameDetails.name));
     }
-  }, [gameDetails, platformName]);
+  }, [gameDetails, platformName, dispatch]);
 
   useEffect(() => {
     if (soundtrackVideo.show && !soundtrackVideo.url) {
@@ -72,34 +100,7 @@ function GameDetailed(props) {
     if (gameplayVideo.show && !gameplayVideo.url) {
       dispatch(getVideo('gameplay', platformName, gameDetails.name));
     }
-  }, [soundtrackVideo, gameplayVideo]);
-
-  const isInListChecker = () => {
-    const listToCheck = ['owned_list', 'wish_list'];
-
-    for (let i = 0; i < listToCheck.length; i++) {
-      const currentList = listToCheck[i];
-      const userPlatforms = profileInfo[currentList].platforms;
-      let chosenPlatform;
-      for (let i = 0; i < userPlatforms.length; i++) {
-        if (platformName === userPlatforms[i].name) {
-          chosenPlatform = userPlatforms[i];
-        }
-      }
-      if (chosenPlatform) {
-        const games = chosenPlatform.games;
-        for (let i = 0; i < games.length; i++) {
-          if (gameDetails.name === games[i].name) {
-            if (currentList === 'owned_list') {
-              dispatch(setIsOwned(true));
-            } else if (currentList === 'wish_list') {
-              dispatch(setIsWished(true));
-            }
-          }
-        }
-      }
-    }
-  };
+  }, [soundtrackVideo, gameplayVideo, gameDetails, platformName, dispatch]);
 
   const toggleList = (platform, gameDetails, list) => {
     if (list === 'wish_list') {
@@ -205,7 +206,16 @@ function GameDetailed(props) {
     <section className={styles.GameDetailed}>
       <div className={styles.GameDetailGridCont}>
         <div className={styles.ScreenshotSection}>
-          {/* <Swiper slides={screenshots} isMobile={isMobile} /> */}
+          <Swiper
+            images={screenshots}
+            isMobile={isMobile}
+            customSwiperProps={{
+              pagination: false,
+              spaceBetween: 0,
+              loop: true,
+              loopedSlides: 3,
+            }}
+          />
         </div>
         <div className={styles.InfoSection}>
           {gameDetails.name && (
@@ -294,11 +304,7 @@ function GameDetailed(props) {
           <hr></hr>
         </div>
         {gameDetails.name && ebaySection.show && (
-          <EbaySection
-            platform={platformName}
-            game={gameDetails.name}
-            isMobile={isMobile}
-          />
+          <EbaySection platform={platformName} game={gameDetails.name} />
         )}
       </div>
       {!isMobile &&

@@ -5,8 +5,9 @@
   height: 300px;
 
   .swiper-pagination {
-    position: absolute;
-    bottom: 2px;
+    .swiper-pagination-bullets {
+      bottom: 0px;
+    }
 
     .swiper-pagination-bullet {
       background: white;
@@ -15,22 +16,16 @@
     }
   }
 
-  .swiper-container-horizontal > .swiper-pagination-bullets {
-    bottom: 0px;
-  }
-
   .swiper-slide {
     width: 390px;
     height: 280px;
   }
+
   .swiper-button-prev,
   .swiper-button-next {
     transition: all 300ms ease;
     opacity: 0;
     visibility: hidden;
-    background-color: rgba(0, 0, 0, 0.3);
-    background-color: darkorchid;
-    background-image: none;
     margin-top: 0;
     position: absolute;
     top: 0;
@@ -40,7 +35,6 @@
     height: 100%;
     z-index: 10;
     cursor: pointer;
-    @include flexCenter;
 
     &::after {
       position: absolute;
@@ -59,8 +53,7 @@
     background: linear-gradient(
       90deg,
       rgba(0, 0, 0, 0.5746673669467788) 0%,
-      rgba(0, 0, 0, 0.247) 100%,
-      rgba(255, 255, 255, 1) 100%
+      rgba(0, 0, 0, 0.247) 100%
     );
   }
   .swiper-button-next {
@@ -68,8 +61,7 @@
     background: linear-gradient(
       270deg,
       rgba(0, 0, 0, 0.5746673669467788) 0%,
-      rgba(0, 0, 0, 0.247) 100%,
-      rgba(255, 255, 255, 1) 100%
+      rgba(0, 0, 0, 0.247) 100%
     );
     &::after {
       transform: rotate(180deg);
@@ -82,17 +74,19 @@
       visibility: visible;
     }
   }
+  @include respond-to(mobile) {
+    :global .swiper-container {
+      width: 100%;
+      height: 280px;
+
+      .swiper-slide {
+        width: 100%;
+        height: 250px;
+      }
+    }
+  }
 }
 
-// .LoadingSvgWrapper {
-//   position: relative;
-//   height: 100%;
-//   width: 100%;
-//   svg {
-//     position: absolute;
-//     height: 20%;
-//     width: 20%;
-//     top: 50%;
-//     left: 50%;
-//     transform: translate(-50%, -50%);
-//   }
+.swiper-container-horizontal > .swiper-pagination-bullets {
+  bottom: 0px;
+}

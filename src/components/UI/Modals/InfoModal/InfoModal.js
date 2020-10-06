@@ -8,7 +8,7 @@ import styles from './InfoModal.module.scss';
 
 export default function InfoModal(props) {
   const dispatch = useDispatch();
-  const { message, btnTxtContent = 'OK', onBackdropClick, onBtnClick } = props;
+  const { message, btnTxtContent = 'OK' } = props;
 
   const hideModal = () => {
     dispatch(hideInfoModal());

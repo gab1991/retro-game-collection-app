@@ -54,7 +54,7 @@ export default function Slider(props) {
       };
       dotsDynamicCalc(images.length, numberOfDots);
     }
-  }, [images]);
+  }, [images, numberOfDots]);
 
   const setToCurrent = () => {
     sliderContainer.current.style.transform = `translateX(-${
@@ -69,7 +69,7 @@ export default function Slider(props) {
       let ifMatch = navDynamic.indexOf(currentImg);
       if (ifMatch !== -1) setNavActive(ifMatch);
     }
-  }, [currentImg, imageWidth]);
+  }, [currentImg, imageWidth, navDynamic]);
 
   const onClickHandler = (e) => {
     const curAtrb = e.target.getAttribute('desc');

@@ -160,7 +160,7 @@ const removeGame = (gameDetails, list, platform) => {
       logged: { token },
     } = getState();
     try {
-      const res = await Backend.updateProfile(token, {
+      await Backend.updateProfile(token, {
         action: 'removeGame',
         list,
         platform,
@@ -212,7 +212,6 @@ const setEbaySectionLoading = (bool) => {
     payload: bool,
   };
 };
-
 
 const getEbayItems = (platform, game) => {
   return async (dispatch) => {

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { trimName } from '../../../../../Utils/helperFunctions';
 import { connect } from 'react-redux';
 import styles from './EbayLotSection.module.scss';
-import EbaySwiper from '../../../../GameDetailed/EbaySection/EbaySwiper/EbaySwiper';
 import GameBox from '../../../CollictionList/GameBoxContainer/GameBox/GameBox';
 import ButtonNeon from '../../../../UI/Buttons/ButtonNeon/ButtonNeon';
 import Backend from '../../../../../Backend/Backend';
@@ -208,15 +207,15 @@ function EbyaLotSection(props) {
           ${hideAnimation ? styles.EbayCloseAnimation : ''}
           ${isEbayShowed ? styles.EbaySectionShowed : styles.EbaySectionHidden}
         `}>
-          {!loading && showedItems.length > 0 && (
-            <EbaySwiper
-              numToShow={4}
-              platform={platform}
-              game={gameData.name}
-              itemsToShow={showedItems}
-              swiperProps={swiperProps}
-            />
-          )}
+          {/* {!loading && showedItems.length > 0 && (
+            // <EbaySwiper
+            //   numToShow={4}
+            //   platform={platform}
+            //   game={gameData.name}
+            //   itemsToShow={showedItems}
+            //   swiperProps={swiperProps}
+            // />
+          )} */}
           {!loading && showedItems.length === 0 && (
             <div className={styles.NoItemToShow}>
               <p>No item to show in this category</p>

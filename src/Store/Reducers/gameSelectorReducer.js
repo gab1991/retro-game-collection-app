@@ -25,7 +25,7 @@ const gameSelectorReducer = (state = initial, { type, payload }) => {
     case 'WRITE_PAGE_DATA':
       return { ...state, pageData: { ...payload } };
     case 'CHANGE_PAGE': {
-      const newPageNum = Number(payload);
+      let newPageNum = Number(payload);
       if (!newPageNum) newPageNum = 1;
       return { ...state, query: { ...state.query, page: newPageNum } };
     }

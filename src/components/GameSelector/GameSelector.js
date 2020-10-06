@@ -29,22 +29,23 @@ function GameSelector(props) {
     ordername,
     direction,
     searchInputValue,
+    history,
   } = props;
   const { platformName } = props?.match?.params;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(parseQueryParams(props.history.location.search));
+    dispatch(parseQueryParams(history.location.search));
 
-    const unlisten = props.history.listen((location) => {
+    const unlisten = history.listen((location) => {
       dispatch(parseQueryParams(location.search));
     });
     return () => unlisten();
-  }, []);
+  }, [dispatch, history]);
 
   useEffect(() => {
     dispatch(getGamesForPlatform(platformName));
-  }, [queryPage, searchQuery, ordername, direction]);
+  }, [queryPage, searchQuery, ordername, direction, platformName, dispatch]);
 
   const pageChangeHandler = (pageNumber) => dispatch(changePage(pageNumber));
 
@@ -127,10 +128,8 @@ function GameSelector(props) {
 function mapStateToProps(state) {
   return {
     gamesToShow: state.gameSelector.gamesToShow,
-    // gamesToShow: [],
     isLoading: state.gameSelector.isLoading,
     noGamesFound: state.gameSelector.noGamesFound,
-    // noGamesFound: true,
     pageData: state.gameSelector.pageData,
     queryPage: state.gameSelector.query.page,
     searchQuery: state.gameSelector.query.search,

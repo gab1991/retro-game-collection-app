@@ -36,11 +36,11 @@ function EbayCardDesc(props) {
 
   useEffect(() => {
     dispatch(checkIfCardIsWatched(game, platform, index));
-  }, [game, platform, index]);
+  }, [game, platform, index, dispatch]);
 
   useEffect(() => {
     dispatch(calculateTotalPrice(index));
-  }, [shippingCost, currentPrice]);
+  }, [shippingCost, currentPrice, index, dispatch]);
 
   useEffect(() => {
     if (endTimeProp) {

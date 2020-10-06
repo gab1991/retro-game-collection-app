@@ -21,14 +21,6 @@ function queryParamBuilder(params) {
   }
   return `?${result.join('&')}`;
 }
-async function handleErrors(res) {
-  if (!res.ok) {
-    const status = res.status;
-    const body = await res.json();
-    throw { status, body };
-  }
-  return res.json();
-}
 
 const Backend = {
   getAllPlatfroms: () => {
@@ -117,7 +109,7 @@ const Backend = {
         },
         body: JSON.stringify(obj),
       })
-        .then(handleErrors)
+        // .then(handleErrors)
         .then((data) => resolve(data))
         .catch((err) => reject(err));
     });
@@ -133,7 +125,7 @@ const Backend = {
         },
         body: JSON.stringify(obj),
       })
-        .then(handleErrors)
+        // .then(handleErrors)
         .then((data) => resolve(data))
         .catch((err) => reject(err));
     });
@@ -183,7 +175,7 @@ const Backend = {
         },
         body: JSON.stringify(obj),
       })
-        .then(handleErrors)
+        // .then(handleErrors)
         .then((data) => resolve(data))
         .catch((err) => reject(err));
     });
@@ -308,7 +300,7 @@ const Backend = {
           Authorization: `Bearer ${token}`,
         },
       })
-        .then(handleErrors)
+        // .then(handleErrors)
         .then((data) => resolve(data))
         .catch((err) => reject(err));
     });

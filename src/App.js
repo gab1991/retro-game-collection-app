@@ -4,7 +4,7 @@ import useWindowSize from './CustomHooks/useWindowSize';
 import { checkCredentials } from './Store/Actions/authActions';
 import { setIsMobile } from './Store/Actions/appStateActions';
 import { getProfileInfo } from './Store/Actions/profileActions';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Layout from './Components/Layout/Layout';
 import PlatformSelector from './Components/PlatformSelector/PlatformSelector';
 import GameSelector from './Components/GameSelector/GameSelector';

@@ -1,63 +1,41 @@
 import React from 'react';
-import { Swiper, Slide } from 'react-dynamic-swiper';
-import sliderArrow from '../../../Assets/images/ui/slider-arrow-left.svg';
-import styles from './SwiperConfigured.module.scss';
-import 'react-dynamic-swiper/lib/styles.css';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { Navigation, Pagination } from 'swiper';
+import 'swiper/swiper.scss';
+import 'swiper/components/pagination/pagination.scss';
+import './SwiperConfigured.scss';
+
+SwiperCore.use([Navigation, Pagination]);
 
 export default function SwiperConfigured(props) {
   const {
     slides = [],
-    isMobile = false,
+    images = [],
     customSwiperProps = {},
-    reactElms = [],
-    onActive,
     className,
+    isMobile,
   } = props;
 
-  const swiperProps = {
-    swiperOptions: {
-      slidesPerView: 'auto',
-      spaceBetween: 15,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-        dynamicBullets: true,
-      },
-    },
-    loop: true,
-    pagination: false,
-    navigation: isMobile ? false : true,
-
-    prevButton: () => (
-      <div className="swiper-button-prev">
-        <img src={sliderArrow} alt="prev-btn" />
-      </div>
-    ),
-    nextButton: () => (
-      <div className="swiper-button-next">
-        <img
-          src={sliderArrow}
-          alt="prev-btn"
-          style={{ transform: 'rotate(180deg)' }}
-        />
-      </div>
-    ),
-    onTouchMove: () => console.log('asd'),
-  };
-
-  const combinedProps = { ...swiperProps, ...customSwiperProps };
-
   return (
-    <Swiper {...combinedProps} className={`${styles.Swiper} ${className}`}>
-      {reactElms.map(({ type: Elm, props }, index) => (
-        <Slide key={index} onActive={onActive}>
-          <Elm {...props} />
-        </Slide>
+    <Swiper
+      className={className}
+      spaceBetween={15}
+      slidesPerView={'auto'}
+      watchSlidesVisibility
+      navigation={isMobile ? false : true}
+      pagination={{
+        clickable: true,
+        dynamicMainBullets: true,
+        dynamicBullets: 4,
+      }}
+      {...customSwiperProps}>
+      {slides.map((item, index) => (
+        <SwiperSlide key={index}>{item}</SwiperSlide>
       ))}
-      {slides.map((image, index) => (
-        <Slide key={index} onActive={onActive}>
-          <img src={image} alt={image}></img>
-        </Slide>
+      {images.map((item, index) => (
+        <SwiperSlide key={index}>
+          <img src={item} alt={item} />
+        </SwiperSlide>
       ))}
     </Swiper>
   );

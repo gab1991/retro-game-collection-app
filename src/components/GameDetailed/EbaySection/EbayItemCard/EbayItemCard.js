@@ -26,7 +26,7 @@ function EbayItemCard(props) {
   useEffect(() => {
     if (!isVisible) return;
     dispatch(getEbaySingleItem(index));
-  }, [index, isVisible]);
+  }, [index, isVisible, dispatch]);
 
   return (
     <div className={styles.EbayItemCard}>

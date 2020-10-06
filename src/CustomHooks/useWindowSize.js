@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 
+function getSize(isClient) {
+  return {
+    width: isClient ? window.innerWidth : undefined,
+    height: isClient ? window.innerHeight : undefined,
+  };
+}
+
 export default function useWindowSize() {
   const isClient = typeof window === 'object';
 
-  function getSize() {
-    return {
-      width: isClient ? window.innerWidth : undefined,
-      height: isClient ? window.innerHeight : undefined,
-    };
-  }
-
-  const [windowSize, setWindowSize] = useState(getSize);
+  const [windowSize, setWindowSize] = useState(getSize(isClient));
 
   useEffect(() => {
     if (!isClient) {
@@ -18,11 +18,11 @@ export default function useWindowSize() {
     }
 
     function handleResize() {
-      setWindowSize(getSize());
+      setWindowSize(getSize(isClient));
     }
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [isClient]);
   return windowSize;
 }

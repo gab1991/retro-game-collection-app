@@ -17,14 +17,10 @@ function Profile(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    let isSubscribed = true;
     if (userData) {
       dispatch(getProfileInfo());
     }
-    return () => {
-      isSubscribed = false;
-    };
-  }, [userData, activeSection]);
+  }, [userData, activeSection, dispatch]);
 
   const sectionToggler = (e) => {
     const name = e.target.getAttribute('desc');

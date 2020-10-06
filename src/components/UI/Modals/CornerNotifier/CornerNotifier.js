@@ -33,7 +33,7 @@ export default function CornerNotifier(props) {
       }, removeTime);
       return () => clearInterval(interval);
     }
-  }, [removeTime, show]);
+  }, [removeTime, show, dispatch]);
 
   const hide = () => {
     setShowing(false);

@@ -5,6 +5,7 @@ $section-height: 320px;
   width: 100%;
   height: $section-height;
   padding: 10px 0;
+  position: relative;
 
   .NoItems {
     widows: 100%;
@@ -37,6 +38,19 @@ $section-height: 320px;
   opacity: 0;
 }
 
-// .Swiper {
-//   :global ;
-// }
+.LoadingSvgWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+
+  svg {
+    position: absolute;
+    height: 20%;
+    width: 20%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
