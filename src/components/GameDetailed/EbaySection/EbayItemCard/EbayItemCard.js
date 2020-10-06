@@ -9,18 +9,9 @@ import styles from './EbayItemCard.module.scss';
 
 function EbayItemCard(props) {
   const dispatch = useDispatch();
-  const { isMobile, game, platform, index, isVisible } = props;
+  const { isMobile, index, isVisible } = props;
   const card = useSelector((state) => state.ebayItems[index]);
-  const {
-    itemData,
-    isWatched,
-    isAuction,
-    shippingCost,
-    isLoadingShippingCosts = false,
-    totalPrice,
-    contactSeller,
-    endingSoon,
-  } = card;
+  const { itemData } = card;
   const { itemId } = itemData || {};
 
   useEffect(() => {
@@ -49,20 +40,7 @@ function EbayItemCard(props) {
               <EbayLogo />
             </a>
           </div>
-          <EbayCardDesc
-            {...itemData}
-            shippingCost={shippingCost}
-            isWatched={isWatched}
-            isAuction={isAuction}
-            game={game}
-            platform={platform}
-            index={index}
-            itemId={itemId}
-            isLoadingShippingCosts={isLoadingShippingCosts}
-            totalPrice={totalPrice}
-            contactSeller={contactSeller}
-            endingSoon={endingSoon}
-          />
+          <EbayCardDesc {...itemData} {...card} index={index} itemId={itemId} />
         </>
       )}
       {!itemData && (

@@ -3,8 +3,13 @@ import styles from './GameCard.module.scss';
 import { images } from '../../../Сonfigs/appConfig';
 
 export default function GameCard(props) {
-  const { slug, name, background_image: background, className } = props;
-  const { platformName } = props;
+  const {
+    slug,
+    name,
+    background_image: background,
+    className,
+    platformName,
+  } = props;
 
   return (
     <a

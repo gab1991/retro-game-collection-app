@@ -12,6 +12,7 @@ import DotSpinner from '../../../../UI/LoadingSpinners/DotSpinner/DotSpinner';
 import styles from './EbayCardDesc.module.scss';
 
 function EbayCardDesc(props) {
+  const dispatch = useDispatch();
   const {
     userData,
     index,
@@ -32,7 +33,6 @@ function EbayCardDesc(props) {
     contactSeller,
   } = props;
   const [endingSoon, setIsEndingSoon] = useState(false);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(checkIfCardIsWatched(game, platform, index));

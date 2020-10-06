@@ -12,6 +12,7 @@ export default function SelectBox(props) {
 
   const changeHandler = (e) => {
     setSelectedValue(e.target.textContent);
+    changedSelected(e.target.textContent);
   };
 
   const leaveHandler = (e) => {
@@ -21,10 +22,6 @@ export default function SelectBox(props) {
   useEffect(() => {
     if (selectedValue !== selected) setSelectedValue(selected);
   }, [selected, selectedValue]);
-
-  // useEffect(() => {
-  //   if (selectedValue !== selected){ changedSelected(selectedValue);}
-  // }, [selectedValue, selected]);
 
   return (
     <div
@@ -52,11 +49,13 @@ export default function SelectBox(props) {
               return (
                 <li
                   key={option}
-                  onClick={changedSelected}
+                  onClick={changeHandler}
                   className={styles.TextSection}>
                   {option}
                 </li>
               );
+            } else {
+              return null;
             }
           })}
         </ul>
