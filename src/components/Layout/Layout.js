@@ -8,12 +8,12 @@ import CornerNotifier from '../UI/Modals/CornerNotifier/CornerNotifier';
 import styles from './Layout.module.scss';
 
 function Layout(props) {
-  const { showAuth, showErr, showInfo, showCornNotifier } = props;
+  const { showAuth, showErr, showInfo, showCornNotifier, children } = props;
 
   return (
     <div className={styles.Layout}>
       <Header />
-      <main> {props.children}</main>
+      <main> {children}</main>
       <footer className={styles.Footer}>
         <p>
           <a href="https://rawg.io/" rel="noopener noreferrer" target="_blank">

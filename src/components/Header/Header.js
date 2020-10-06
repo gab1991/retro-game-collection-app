@@ -85,7 +85,9 @@ function Header(props) {
             ]}
           />
           {userData ? (
-            <li onClick={toProfile} className={styles.ProfileDesctop}>
+            <li
+              onClick={toProfile}
+              className={`${styles.ProfileDesctop} ${styles.ListItem}`}>
               PROFILE
             </li>
           ) : (
