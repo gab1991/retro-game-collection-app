@@ -2,7 +2,6 @@ import ReactHtmlParser from 'react-html-parser';
 import Backend from '../../Backend/Backend';
 import { addGame as addGameTopProfile } from '../../Store/Actions/profileActions';
 import { showErrModal } from '../Actions/modalActions';
-import { getEbayItems } from '../Actions/ebayItemsActions';
 import { setEbayItems } from '../Actions/ebayItemsActions';
 
 const setGameDetails = (gameDetailsObj) => {
@@ -135,25 +134,6 @@ const showWishedNotifierForTime = (bool, time) => {
   };
 };
 
-// const removeGame = (gameDetails, list, platform) => {
-//   return async (dispatch) => {
-//     try {
-//       await Backend.updateProfile({
-//         action: 'removeGame',
-//         list,
-//         platform,
-//         game: gameDetails,
-//       });
-//     } catch (err) {
-//       dispatch(
-//         showErrModal({
-//           message: 'Something wrong happened.Try again later',
-//         })
-//       );
-//     }
-//   };
-// };
-
 const addGame = (gameDetails, list, platform) => {
   return async (dispatch, getState) => {
     dispatch(addGameTopProfile(gameDetails, list, platform));
@@ -178,16 +158,15 @@ const setEbaySectionLoading = (bool) => {
   };
 };
 
-const getEbayItemsGameDetailed = (platform, game, sortOrder) => {
+const getEbayItems = (platform, game, sortOrder) => {
   return async (dispatch) => {
     try {
       dispatch(setEbaySectionLoading(true));
 
-      dispatch(getEbayItems());
-      // const [res] = await Backend.getEbayItems(platform, game, sortOrder);
-      // const { item: items } = res;
+      const [res] = await Backend.getEbayItems(platform, game, sortOrder);
+      const { item: items } = res;
 
-      // dispatch(setEbayItems(items));
+      dispatch(setEbayItems(items, platform, game, sortOrder));
       dispatch(setEbaySectionLoading(false));
     } catch (err) {
       dispatch(setEbaySectionLoading(false));
@@ -204,5 +183,5 @@ export {
   setIsWished,
   addGame,
   setShowWisListWarn,
-  getEbayItemsGameDetailed as getEbayItems,
+  getEbayItems,
 };

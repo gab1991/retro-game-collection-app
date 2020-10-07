@@ -1,27 +1,44 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, connect } from 'react-redux';
+import { useDispatch, connect, useSelector } from 'react-redux';
 import { getEbayItems } from '../../../Store/Actions/gameDetailedActions';
+import { getEbayItems as getEbayItemsWishList } from '../../../Store/Actions/wishListActions';
 import SwiperConfigured from '../../UI/SwiperConfigured/SwiperConfigured';
 import EbayItemCard from '../EbaySection/EbayItemCard/EbayItemCard';
 import DotSpinner from '../../UI/LoadingSpinners/DotSpinner/DotSpinner';
 import styles from './EbaySection.module.scss';
 
 function EbaySection(props) {
-  const { game, platform, ebayItems, isLoading, isMobile } = props;
+  const {
+    game,
+    platform,
+    isLoading,
+    isMobile,
+    fromComponent,
+    sortOrder = 'BestMatch',
+  } = props;
+  const ebayItems =
+    useSelector((state) => state.ebayItems?.[platform]?.[game]?.[sortOrder]) ||
+    [];
   const [slides, setSlides] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getEbayItems(platform, game));
+    if (fromComponent === 'WishList') {
+      dispatch(getEbayItemsWishList(platform, game, sortOrder));
+    } else {
+      dispatch(getEbayItems(platform, game, sortOrder));
+    }
   }, [platform, game, dispatch]);
 
   useEffect(() => {
+    if (!ebayItems.length) return;
     setSlides(
       ebayItems.map((item, index) => ({ isVisible }) => (
         <EbayItemCard
           platform={platform}
           game={game}
           isVisible={isVisible}
+          sortOrder={sortOrder}
           index={index}></EbayItemCard>
       ))
     );
@@ -49,7 +66,6 @@ function EbaySection(props) {
 function mapStateToProps(state) {
   return {
     isLoading: state.gameDetailed.uploadableElms.ebaySection.isLoading,
-    ebayItems: state.ebayItems,
     isMobile: state.appState.isMobile,
   };
 }

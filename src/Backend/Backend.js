@@ -289,35 +289,34 @@ const Backend = {
     });
   },
 
-  getGameWatchedCards: (token, platform, game) => {
-    let url = `${api.appServer.profileUrl}/getGameWatchedCards/${platform}/${game}`;
+  getGameWatchedCards: (platform, game) => {
     return new Promise((resolve, reject) => {
-      fetch(url, {
+      axios({
+        url: `${api.appServer.profileUrl}/getGameWatchedCards/${platform}/${game}`,
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
+          authorization: `Bearer ${getToken()}`,
         },
       })
-        // .then(handleErrors)
-        .then((data) => resolve(data))
+        .then((res) => {
+          resolve(res);
+        })
         .catch((err) => reject(err));
     });
   },
-  toggleEbayVisibility: (token, obj) => {
-    let url = `${api.appServer.profileUrl}/toggleEbaySection`;
+  toggleEbayVisibility: (gameName, platform, isShowed) => {
     return new Promise((resolve, reject) => {
-      fetch(url, {
+      axios({
+        url: `${api.appServer.profileUrl}/toggleEbaySection`,
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          authorization: `Bearer ${getToken()}`,
         },
-        body: JSON.stringify(obj),
+        data: { gameName, platform, isShowed },
       })
-        .then((res) => res.json())
-        .then((data) => resolve(data))
+        .then((res) => {
+          resolve(res);
+        })
         .catch((err) => reject(err));
     });
   },

@@ -73,4 +73,24 @@ const addGame = (gameDetails, list, platform) => {
   };
 };
 
-export { getProfileInfo, reorderGames, removeGame, addGame };
+const toggleEbayVisibility = (gameName, platform, isShowed) => {
+  return async (dispatch) => {
+    try {
+      await Backend.toggleEbayVisibility(gameName, platform, isShowed);
+    } catch (err) {
+      dispatch(
+        showErrModal({
+          message: 'Something wrong happened.Try again later',
+        })
+      );
+    }
+  };
+};
+
+export {
+  getProfileInfo,
+  reorderGames,
+  removeGame,
+  addGame,
+  toggleEbayVisibility,
+};

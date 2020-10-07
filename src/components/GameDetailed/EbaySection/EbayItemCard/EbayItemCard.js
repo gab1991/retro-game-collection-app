@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, connect, useSelector } from 'react-redux';
-import { getEbaySingleItem } from '../../../../Store/Actions/ebayItemsActions';
+import { getEbaySingleItemByIndex } from '../../../../Store/Actions/ebayItemsActions';
 import Slider from '../../../UI/Slider/Slider';
 import EbayCardDesc from './EbayCardDescr/EbayCardDesc';
 import EbayLogo from '../../../UI/LogoSvg/EbayLogo/EbayLogo';
@@ -9,15 +9,25 @@ import styles from './EbayItemCard.module.scss';
 
 function EbayItemCard(props) {
   const dispatch = useDispatch();
-  const { isMobile, index, isVisible } = props;
-  const card = useSelector((state) => state.ebayItems[index]);
+  const {
+    isMobile,
+    index,
+    isVisible,
+    platform,
+    game,
+    sortOrder = 'BestMatch',
+  } = props;
+  const card =
+    useSelector(
+      (state) => state.ebayItems?.[platform]?.[game]?.[sortOrder]?.[index]
+    ) || {};
   const { itemData } = card;
   const { itemId } = itemData || {};
 
   useEffect(() => {
     if (!isVisible) return;
-    dispatch(getEbaySingleItem(index));
-  }, [index, isVisible, dispatch]);
+    dispatch(getEbaySingleItemByIndex(platform, game, index, sortOrder));
+  }, [index, isVisible, platform, game, dispatch]);
 
   return (
     <div className={styles.EbayItemCard}>
@@ -40,7 +50,13 @@ function EbayItemCard(props) {
               <EbayLogo />
             </a>
           </div>
-          <EbayCardDesc {...itemData} {...card} index={index} itemId={itemId} />
+          <EbayCardDesc
+            {...props}
+            {...itemData}
+            {...card}
+            index={index}
+            itemId={itemId}
+          />
         </>
       )}
       {!itemData && (

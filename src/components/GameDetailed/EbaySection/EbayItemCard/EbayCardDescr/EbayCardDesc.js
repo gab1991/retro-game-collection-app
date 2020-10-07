@@ -31,15 +31,16 @@ function EbayCardDesc(props) {
     isLoadingShippingCosts,
     totalPrice,
     contactSeller,
+    sortOrder,
   } = props;
   const [endingSoon, setIsEndingSoon] = useState(false);
 
   useEffect(() => {
-    dispatch(checkIfCardIsWatched(game, platform, index));
+    dispatch(checkIfCardIsWatched(game, platform, index, sortOrder));
   }, [game, platform, index, dispatch]);
 
   useEffect(() => {
-    dispatch(calculateTotalPrice(index));
+    dispatch(calculateTotalPrice(platform, game, index, sortOrder));
   }, [shippingCost, currentPrice, index, dispatch]);
 
   useEffect(() => {
@@ -69,7 +70,7 @@ function EbayCardDesc(props) {
   }, [endTimeProp]);
 
   const defineShippingCosts = () => {
-    dispatch(getShippingCosts(itemId, index));
+    dispatch(getShippingCosts(game, platform, itemId, index, sortOrder));
   };
 
   const watchHandler = () => {

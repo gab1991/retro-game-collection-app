@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { trimName } from '../../../../../Utils/helperFunctions';
-import { connect, useDispatch } from 'react-redux';
-import { getEbayItems } from '../../../../../Store/Actions/gameDetailedActions';
+import EbaySection from '../../../../GameDetailed/EbaySection/EbaySection';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { toggleEbayVisibility } from '../../../../../Store/Actions/profileActions';
+import { getEbayItems } from '../../../../../Store/Actions/wishListActions';
 import SwiperConfigured from '../../../../UI/SwiperConfigured/SwiperConfigured';
 import EbayItemCard from '../../../../GameDetailed/EbaySection/EbayItemCard/EbayItemCard';
 import styles from './EbayLotSection.module.scss';
@@ -13,6 +15,13 @@ import CloseSvg from '../../../../UI/LogoSvg/CloseSvg/CloseSvg';
 import WanrModal from '../../../../UI/Modals/WarnModal/WarnModal';
 import KnobToggler from '../../../../UI/Togglers/KnobToggler/KnobToggler';
 
+const btnTxtToSortedRulesMap = {
+  Watched: 'Watched',
+  'Lowest Price': 'PricePlusShippingLowest',
+  'New Offers': 'StartTimeNewest',
+  Relevance: 'BestMatch',
+};
+
 function EbyaLotSection(props) {
   const dispatch = useDispatch();
   const {
@@ -20,95 +29,26 @@ function EbyaLotSection(props) {
     gameData,
     gameData: { name: gameName },
     platform,
+    game,
     index,
     removeFromArray,
     showingEbay,
   } = props;
+
   const watchedEbayOffers = gameData.watchedEbayOffers.map((ebayCard) => ({
     itemId: [ebayCard.id],
   }));
-  const [showedItems, setShowedItems] = useState(
-    watchedEbayOffers.length ? watchedEbayOffers : []
-  );
+
   const [activeEbaylist, setActiveEbaylist] = useState(
-    watchedEbayOffers.length ? 'Watched' : 'New Offers'
+    watchedEbayOffers.length ? 'New Offers' : 'New Offers'
   );
-  const [loading, setLoading] = useState(false);
   const [removing, setRemoving] = useState();
   const [showWarn, setShowWarn] = useState();
   const [isEbayTogglerOn, setIsEbayTogglerOn] = useState(gameData.isShowEbay);
-  const [isEbayShowed, setIsEbayShowed] = useState(gameData.isShowEbay);
-  const [showAnimation, setShowAnimation] = useState();
-  const [hideAnimation, setHideAnimation] = useState();
 
   useEffect(() => {
-    showingEbay(gameData.name, isEbayTogglerOn);
-
-    const sendObj = {
-      gameName: gameData.name,
-      platform: platform,
-      isShowed: isEbayTogglerOn,
-    };
-    Backend.toggleEbayVisibility(userData.token, sendObj);
+    dispatch(toggleEbayVisibility(gameData.name, platform, isEbayTogglerOn));
   }, [isEbayTogglerOn]);
-
-  useEffect(() => {
-    // if (!isEbayTogglerOn) return;
-    // let isSubscribed = true;
-    // const req = (sortBy) => {
-    //   if (isSubscribed) setLoading(true);
-    //   Backend.getEbayItems(platform, gameData.name, sortBy)
-    //     .then((res) => {
-    //       if (isSubscribed) {
-    //         setLoading(false);
-    //         setShowedItems(res[0].item ? res[0].item : []);
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       if (isSubscribed) setLoading(false);
-    //     });
-    // };
-
-    // const getWatchList = () => {
-    //   if (isSubscribed) setLoading(true);
-
-    //   Backend.getGameWatchedCards(userData.token, platform, gameData.name).then(
-    //     (res) => {
-    //       if (res.success) {
-    //         const watchedEbayOffers = res.success.map((ebayCard) => ({
-    //           itemId: [ebayCard.id],
-    //         }));
-    //         if (isSubscribed) {
-    //           setShowedItems(watchedEbayOffers);
-    //           setLoading(false);
-    //         }
-    //       } else setShowedItems([]);
-    //       if (isSubscribed) setLoading(false);
-    //     }
-    //   );
-    // };
-
-    switch (activeEbaylist) {
-      case 'New Offers':
-        dispatch(getEbayItems(platform, gameName, 'StartTimeNewest'));
-        // req('StartTimeNewest');
-        break;
-      case 'Relevance':
-        dispatch(getEbayItems(platform, gameName, 'BestMatch'));
-
-        // req('BestMatch');
-        break;
-      case 'Lowest Price':
-        dispatch(getEbayItems(platform, gameName, 'PricePlusShippingLowest'));
-
-        // req('PricePlusShippingLowest');
-        break;
-      case 'Watched':
-        // getWatchList();
-        break;
-      default:
-    }
-  }, [activeEbaylist, isEbayTogglerOn, gameData.name, platform]);
 
   const toggleEbayList = (e) => {
     const desc = e.currentTarget.textContent;
@@ -116,8 +56,6 @@ function EbyaLotSection(props) {
 
     setIsEbayTogglerOn((prev) => {
       if (prev === false) {
-        setIsEbayShowed(true);
-        setShowAnimation(true);
       }
       return true;
     });
@@ -131,23 +69,13 @@ function EbyaLotSection(props) {
     const animName = e.animationName;
     if (animName.includes('remove')) removeFromArray(index, gameData.name);
     if (animName.includes('ebayShow')) {
-      setShowAnimation(false);
     }
     if (animName.includes('ebayHide')) {
-      setHideAnimation(false);
-      setIsEbayShowed(false);
     }
   };
+
   const knobEbayHandler = () => {
-    setIsEbayTogglerOn((prev) => {
-      if (prev === false) {
-        setIsEbayShowed(true);
-        setShowAnimation(true);
-      } else {
-        setHideAnimation(true);
-      }
-      return !prev;
-    });
+    setIsEbayTogglerOn((prev) => !prev);
   };
 
   return (
@@ -198,29 +126,21 @@ function EbyaLotSection(props) {
       <div className={`${styles.EbaySection}`}>
         <div
           className={`${styles.EbaySectionWrapper}
-          ${showAnimation ? styles.EbayOpenAnimation : ''}
-          ${hideAnimation ? styles.EbayCloseAnimation : ''}
-          ${isEbayShowed ? styles.EbaySectionShowed : styles.EbaySectionHidden}
-        `}>
-          {
-            !loading && showedItems.length > 0 && null
-            // <EbaySwiper
-            //   numToShow={4}
-            //   platform={platform}
-            //   game={gameData.name}
-            //   itemsToShow={showedItems}
-            //   swiperProps={swiperProps}
-            // />
+          ${
+            isEbayTogglerOn
+              ? styles.EbayOpenAnimation
+              : styles.EbayCloseAnimation
           }
-          {!loading && showedItems.length === 0 && (
-            <div className={styles.NoItemToShow}>
-              <p>No item to show in this category</p>
-            </div>
-          )}
-          {loading && (
-            <div className={styles.LoadingSvgWrapper}>
-              <OvalSpinner />
-            </div>
+          ${isEbayTogglerOn ? styles.EbaySectionShowed : ''}
+        `}>
+          {isEbayTogglerOn && (
+            <EbaySection
+              game={gameName}
+              platform={platform}
+              isLoading={false}
+              isMobile={false}
+              sortOrder={btnTxtToSortedRulesMap[activeEbaylist]}
+            />
           )}
         </div>
       </div>
