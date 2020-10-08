@@ -1,16 +1,16 @@
 @import '../../../../../Сonfigs/Variables.scss';
 
 .EbyaLotSection {
-  background-color: rgba(0, 0, 0, 0.3);
-  color: $font-white;
   @include w100v100;
+  color: $font-white;
+  background-color: rgba(0, 0, 0, 0.3);
   position: relative;
   display: grid;
   grid-template-areas:
     'gamebox btns ebay '
     'name toggler ebay';
   grid-template-columns: 200px 170px auto;
-  grid-template-rows: 300px min-content;
+  grid-template-rows: 300px auto;
 
   @include respond-to(tablet) {
     grid-template-columns: 170px 170px auto;
@@ -25,21 +25,6 @@
     grid-template-rows: 200px min-content auto;
   }
 
-  .CloseSvgWrapper {
-    cursor: pointer;
-    opacity: 0;
-    top: 7px;
-    left: 7px;
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    visibility: hidden;
-    transition: all 200ms ease-in-out;
-  }
-
-  & > div:first-of-type {
-    grid-area: gamebox;
-  }
   &:hover {
     .CloseSvgWrapper {
       opacity: 0.3;
@@ -54,189 +39,114 @@
     animation: remove 400ms ease forwards;
   }
 
-  .ButtonSection {
-    grid-area: btns;
-    height: 70%;
-    margin: auto 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    border-left: 2px solid $basic-border-gray;
-    border-right: 2px solid $basic-border-gray;
+  .Gamebox {
+    grid-area: gamebox;
+  }
+}
+
+.ButtonSection {
+  grid-area: btns;
+  height: 70%;
+  margin: auto 10px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  border-left: 2px solid $basic-border-gray;
+  border-right: 2px solid $basic-border-gray;
+
+  button {
+    width: 110px;
+    font-size: 0.8rem;
+  }
+
+  @include respond-to(mobile) {
+    height: 90%;
 
     button {
-      width: 110px;
-      font-size: 0.8rem;
+      width: 85%;
+      font-size: 0.7rem;
     }
+  }
+}
+
+.NameSection {
+  grid-area: name;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+
+  .NameBadge {
+    user-select: none;
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: getBtnColor('basic');
+    text-align: center;
+    @include flexCenter;
 
     @include respond-to(mobile) {
-      height: 90%;
-
-      button {
-        width: 85%;
-        font-size: 0.7rem;
-      }
+      font-size: 0.9rem;
     }
   }
+}
 
-  .KnobTogglerSection {
-    grid-area: toggler;
-    height: 100%;
-    width: 100%;
-    margin-bottom: 5px;
+.KnobTogglerSection {
+  @include w100v100;
+  grid-area: toggler;
+  @include flexCenter;
+  padding: 10px 0;
+  label {
+    font-size: 0.8rem;
+  }
+}
+
+.EbaySection {
+  grid-area: ebay;
+  @include w100v100;
+  overflow: hidden;
+  position: relative;
+
+  .NoItemToShow {
+    @include w100v100;
     @include flexCenter;
+    font-size: 1.4rem;
+    text-transform: uppercase;
   }
 
-  .NameSection {
-    grid-area: name;
-    width: 100%;
-    padding: 10px;
-    .NameBadge {
-      @include w100v100;
-      border-radius: 5px;
-      background-color: getBtnColor('basic');
-      text-align: center;
-      @include flexCenter;
-    }
-  }
+  .EbaySectionSwiper {
+    padding: 0px;
+    height: 300px;
 
-  .EbaySection {
-    grid-area: ebay;
-    overflow: hidden;
-    position: relative;
-
-    .EbaySectionWrapper {
-      @include w100v100;
-
-      &.EbaySectionHidden {
-        width: 0px;
-        @include respond-to(mobile) {
-          width: auto;
-          height: 0px;
-        }
-      }
-      &.EbaySectionShowed {
-        width: auto;
-        @include respond-to(mobile) {
-          height: 280px;
-        }
-      }
-      &.EbayOpenAnimation {
-        animation: ebayShow 400ms ease forwards;
-        @include respond-to(mobile) {
-          animation: ebayShowMobile 400ms ease forwards;
-        }
-      }
-      &.EbayCloseAnimation {
-        animation: ebayHide 400ms ease forwards;
-        @include respond-to(mobile) {
-          animation: ebayHideMobile 400ms ease forwards;
-        }
-      }
-    }
-
-    .NoItemToShow {
-      @include w100v100;
-      @include flexCenter;
-      font-size: 1.4rem;
-      text-transform: uppercase;
+    @include respond-to(mobile) {
+      height: 250px;
     }
 
     :global .swiper-container {
-      width: 100%;
-      height: 330px;
-
-      @include respond-to(mobile) {
-        margin-top: 10px;
-        height: 270px;
-      }
-
-      .swiper-pagination {
-        position: absolute;
-        bottom: 2px;
-
-        .swiper-pagination-bullet {
-          background: white;
-          width: 12px;
-          height: 12px;
-        }
-      }
-
-      .swiper-container-horizontal > .swiper-pagination-bullets {
-        bottom: 0px;
-      }
+      height: 100%;
 
       .swiper-slide {
         width: 390px;
-        height: 280px;
+        height: 100%;
 
         @include respond-to(mobile) {
           width: 100%;
-          height: 250px;
         }
       }
     }
   }
+}
 
-  .SwiperBtn {
-    width: 10%;
-    top: 0;
-    right: 0;
-    position: absolute;
-    background-color: lightblue;
-    height: 100%;
-  }
-
-  .LoadingSvgWrapper {
-    position: absolute;
-    margin: 0 auto;
-    width: 50%;
-    height: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  @keyframes remove {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-100%);
-    }
-  }
-
-  @keyframes ebayHide {
-    from {
-      width: 600px;
-    }
-    to {
-      width: 0px;
-    }
-  }
-
-  @keyframes ebayShow {
-    from {
-      transform: translateX(-100%);
-    }
-    to {
-      transform: translateX(0%);
-    }
-  }
-  @keyframes ebayShowMobile {
-    from {
-      transform: translateY(-100%);
-    }
-    to {
-      transform: translateX(0%);
-    }
-  }
-  @keyframes ebayHideMobile {
-    from {
-      height: 300px;
-    }
-    to {
-      height: 0px;
-    }
-  }
+.CloseSvgWrapper {
+  cursor: pointer;
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  width: 30px;
+  height: 30px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 200ms ease-in-out;
 }

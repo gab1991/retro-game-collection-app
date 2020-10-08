@@ -11,6 +11,7 @@ import {
   setIsWished,
   addGame,
   setShowWisListWarn,
+  flushGameDetailed,
 } from '../../Store/Actions/gameDetailedActions';
 import { removeGame } from '../../Store/Actions/profileActions';
 import { getBoxArt } from '../../Store/Actions/contentActions';
@@ -40,6 +41,7 @@ function GameDetailed(props) {
     ebaySection,
     isOwned,
     isWished,
+    isEbayLoading,
     showOwnedNotifier,
     showWishNotifier,
     showWishListWarn,
@@ -50,6 +52,7 @@ function GameDetailed(props) {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    return () => dispatch(flushGameDetailed());
   }, []);
 
   useEffect(() => {
@@ -133,7 +136,6 @@ function GameDetailed(props) {
 
   const toggleBlockVisibilty = (e) => {
     const elm = e.currentTarget.getAttribute('elm');
-    console.log(elm);
     dispatch(toggleElmVisibility(elm));
   };
 
@@ -306,7 +308,12 @@ function GameDetailed(props) {
           <hr></hr>
         </div>
         {gameDetails.name && ebaySection.show && (
-          <EbaySection platform={platformName} game={gameDetails.name} />
+          <EbaySection
+            platform={platformName}
+            game={gameDetails.name}
+            isLoading={isEbayLoading}
+            className={styles.EbaySectionContent}
+          />
         )}
       </div>
       {!isMobile &&
@@ -349,6 +356,7 @@ function mapStateToProps(state) {
     isOwned: state.gameDetailed.isOwned,
     isWished: state.gameDetailed.isWished,
     showOwnedNotifier: state.gameDetailed.showOwnedNotifier,
+    isEbayLoading: state.gameDetailed.uploadableElms.ebaySection.isLoading,
     showWishNotifier: state.gameDetailed.showWishNotifier,
     showWishListWarn: state.gameDetailed.showWishListWarn,
   };

@@ -53,7 +53,6 @@ const ebayItemsReducer = createReducer({}, (builder) => {
     .addCase('CALCULATE_TOTAL_PRICE', (state, { payload }) => {
       const { platform, game, sortOrder = 'BestMatch', index } = payload;
       if (!game || !platform || (!index && index !== 0)) return;
-      console.log(platform, game, sortOrder, index);
       const {
         shippingCost,
         itemData: { currentPrice },

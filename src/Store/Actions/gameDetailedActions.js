@@ -174,6 +174,12 @@ const getEbayItems = (platform, game, sortOrder) => {
   };
 };
 
+const flushGameDetailed = () => {
+  return {
+    type: 'FLUSH_GAME_DETAILED',
+  };
+};
+
 export {
   getGameDetails,
   getScreenShots,
@@ -184,4 +190,5 @@ export {
   addGame,
   setShowWisListWarn,
   getEbayItems,
+  flushGameDetailed,
 };

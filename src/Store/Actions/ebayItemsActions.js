@@ -6,8 +6,6 @@ const sortOrder = 'BestMatch';
 const getCardItemId = (store, { platform, game, sortOrder, index }) => {
   if (!store || !platform || !game || !sortOrder) return null;
   const { ebayItems } = store;
-  console.log(platform, game, sortOrder, index);
-  console.log(store);
   const { itemId: itemIdArr } = ebayItems?.[platform]?.[game]?.[sortOrder]?.[
     index
   ];
@@ -36,10 +34,6 @@ const getEbaySingleItemByIndex = (
 ) => {
   return async (dispatch, getState) => {
     try {
-      // const { ebayItems } = getState();
-      // const { itemId: itemIdArr } = ebayItems?.[platform]?.[game]?.[
-      //   sortOrder
-      // ]?.[index];
       const itemId = getCardItemId(getState(), {
         platform,
         game,

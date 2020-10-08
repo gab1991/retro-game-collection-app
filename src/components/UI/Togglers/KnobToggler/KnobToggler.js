@@ -1,8 +1,10 @@
 import React, { useRef, useEffect } from 'react';
+import uniqueId from 'lodash/uniqueId';
 import styles from './KnobToggler.module.scss';
 
 export default function KnobToggler(props) {
-  const { width = '50px', message, onChangeHandler, checked } = props;
+  const { width = '50px', labelTxt, onChangeHandler, checked } = props;
+  const id = uniqueId('knob_id');
   const input = useRef();
 
   useEffect(() => {
@@ -12,8 +14,9 @@ export default function KnobToggler(props) {
 
   return (
     <div className={styles.KnobToggler}>
-      <p>{message}</p>
+      <label htmlFor={id}>{labelTxt}</label>
       <input
+        id={id}
         ref={input}
         checked={checked}
         type="checkbox"

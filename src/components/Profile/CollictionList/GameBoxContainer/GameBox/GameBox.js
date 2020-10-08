@@ -7,6 +7,7 @@ import styles from './GameBox.module.scss';
 function GameBox(props) {
   const dispatch = useDispatch();
   const {
+    className,
     game: { slug, name: gameName },
     platform,
     showDesc = true,
@@ -28,7 +29,9 @@ function GameBox(props) {
   return (
     <Link
       to={`/${platform}/${slug}`}
-      className={`${styles.GameBox} ${scaling ? styles.Scaling : ''}`}
+      className={`${styles.GameBox} ${
+        scaling ? styles.Scaling : ''
+      } ${className}`}
       onMouseEnter={() => toggleDescrVisivility(true)}
       onMouseLeave={() => toggleDescrVisivility(false)}
       draggable="false">

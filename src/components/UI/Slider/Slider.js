@@ -89,7 +89,6 @@ export default function Slider(props) {
 
   const onDotClickHandler = (e) => {
     const index = Number(e.target.getAttribute('val'));
-    console.log(index);
     setCurrentImg(index);
   };
 

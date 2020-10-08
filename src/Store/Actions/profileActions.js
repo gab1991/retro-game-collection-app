@@ -1,5 +1,6 @@
 import Backend from '../../Backend/Backend';
 import { showErrModal } from './modalActions';
+import { setEbayItems } from './ebayItemsActions';
 
 const fillProfile = (profile) => {
   return {
@@ -16,7 +17,27 @@ const getProfileInfo = () => async (dispatch, getState) => {
     const { token } = logged;
 
     const { data: profile } = await Backend.getProfileInfo(token);
-    return dispatch(fillProfile(profile));
+
+    dispatch(fillProfile(profile));
+
+    //fill possible ebayCards
+    const {
+      wish_list: { platforms: platfromsInWishList },
+    } = profile;
+
+    for (let platform of platfromsInWishList) {
+      const { name: platformName, games } = platform || {};
+
+      for (let game of games) {
+        const { name: gameName, watchedEbayOffers } = game || {};
+        const ebayItems = watchedEbayOffers.map((ebayItem) => ({
+          itemId: [ebayItem.id],
+        }));
+        dispatch(setEbayItems(ebayItems, platformName, gameName, 'Watched'));
+      }
+    }
+
+    return;
   } catch (err) {
     console.log(err);
   }

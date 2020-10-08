@@ -12,18 +12,6 @@ const setEbaySectionLoading = (platform, game, bool) => {
   };
 };
 
-// const setEbayItems = (items, platform, game, sortOrder) => {
-//   return {
-//     type: 'WISH_LIST_SET_EBAY_ITEMS_BY_SORT_ORDER',
-//     payload: {
-//       items,
-//       platform,
-//       game,
-//       sortOrder,
-//     },
-//   };
-// };
-
 const getEbayItems = (platform, game, sortOrder) => {
   return async (dispatch, getState) => {
     const { ebayItems } = getState();

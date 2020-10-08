@@ -72,6 +72,8 @@ const gameDetailedReducer = (state = initial, { type, payload }) => {
         },
       };
     }
+    case 'FLUSH_GAME_DETAILED':
+      return initial;
     default:
       return state;
   }

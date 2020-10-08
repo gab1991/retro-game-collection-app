@@ -18,7 +18,6 @@ const getBoxArt = (platformName, gameName) => {
     } = getState();
 
     if (boxArts?.[platformName]?.[gameName]) {
-      console.log('no need to upload');
       //no need to request a url. It's already in reducer;
       return;
     }

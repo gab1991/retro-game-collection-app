@@ -9,12 +9,14 @@ import styles from './EbaySection.module.scss';
 
 function EbaySection(props) {
   const {
+    className,
     game,
     platform,
     isLoading,
     isMobile,
     fromComponent,
     sortOrder = 'BestMatch',
+    customSwiperProps,
   } = props;
   const ebayItems =
     useSelector((state) => state.ebayItems?.[platform]?.[game]?.[sortOrder]) ||
@@ -28,7 +30,7 @@ function EbaySection(props) {
     } else {
       dispatch(getEbayItems(platform, game, sortOrder));
     }
-  }, [platform, game, dispatch]);
+  }, [platform, game, sortOrder, dispatch]);
 
   useEffect(() => {
     if (!ebayItems.length) return;
@@ -45,12 +47,15 @@ function EbaySection(props) {
   }, [ebayItems, game, platform]);
 
   return (
-    <div className={styles.EbaySection}>
-      <SwiperConfigured
-        className={`${isLoading ? styles.SwiperHidden : ''} ${styles.Swiper}`}
-        slides={slides}
-        isMobile={isMobile}
-      />
+    <div className={`${styles.EbaySection} ${className}`}>
+      {!isLoading && ebayItems.length > 0 && (
+        <SwiperConfigured
+          className={`${isLoading ? styles.SwiperHidden : ''} ${styles.Swiper}`}
+          slides={slides}
+          isMobile={isMobile}
+          customSwiperProps={customSwiperProps}
+        />
+      )}
       {!isLoading && ebayItems.length === 0 && (
         <h3 className={styles.NoItems}>No lots have been found</h3>
       )}
@@ -65,7 +70,6 @@ function EbaySection(props) {
 
 function mapStateToProps(state) {
   return {
-    isLoading: state.gameDetailed.uploadableElms.ebaySection.isLoading,
     isMobile: state.appState.isMobile,
   };
 }
