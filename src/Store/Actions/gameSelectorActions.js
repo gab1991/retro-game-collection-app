@@ -47,22 +47,23 @@ const getGamesForPlatform = (platformName) => {
 
     dispatch(setIsLoading(true));
 
-    try {
-      const { data } = await Backend.getGamesForPlatform(req);
-      dispatch(writePageData({ ...data }));
+    const { data } = await Backend.getGamesForPlatform(req, () => {
+      //error handling cb
       dispatch(setIsLoading(false));
+    });
 
-      const { results: games } = data;
+    dispatch(writePageData({ ...data }));
+    dispatch(setIsLoading(false));
 
-      if (!games?.length) {
-        dispatch(setNoGamesFound(true));
-      } else {
-        dispatch(setNoGamesFound(false));
-      }
-      dispatch(setGamesToShow(games));
-    } catch (err) {
-      dispatch(setIsLoading(false));
+    const { results: games } = data;
+
+    if (!games?.length) {
+      dispatch(setNoGamesFound(true));
+    } else {
+      dispatch(setNoGamesFound(false));
     }
+
+    dispatch(setGamesToShow(games));
   };
 };
 

@@ -94,11 +94,7 @@ export default function SignInForm(props) {
     }
   };
 
-  // const getProfileInfo = (token) => {
-  //   Backend.getProfileInfo(token).then((res) => {
-  //     dispatch(profile(res));
-  //   });
-  // };
+
 
   const regularLogin = (e) => {
     e.preventDefault();

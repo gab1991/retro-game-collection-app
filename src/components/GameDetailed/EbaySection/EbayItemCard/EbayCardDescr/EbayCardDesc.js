@@ -137,6 +137,12 @@ function EbayCardDesc(props) {
   );
 }
 
+EbayCardDesc.propTypes = {};
+
+EbayCardDesc.defaultProps = {
+  index: 0,
+};
+
 function mapStateToProps(state) {
   return {
     userData: state.logged,

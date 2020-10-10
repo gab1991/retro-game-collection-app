@@ -22,15 +22,14 @@ const getBoxArt = (platformName, gameName) => {
       return;
     }
 
-    try {
-      const { data: boxArtUrl } = await Backend.getBoxArt(
-        platformName,
-        gameName
-      );
-      dispatch(setBoxArtUrl(boxArtUrl, platformName, gameName));
-    } catch (err) {
-      // need to add error handling;
-    }
+    const { data: boxArtUrl = { boxArtUrl: null } } = await Backend.getBoxArt(
+      platformName,
+      gameName
+    );
+
+    if (!boxArtUrl) return;
+
+    dispatch(setBoxArtUrl(boxArtUrl, platformName, gameName));
   };
 };
 

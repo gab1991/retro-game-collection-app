@@ -8,7 +8,7 @@ const axios = axios_base.create({
   timeout: 4000,
 });
 
-function queryParamBuilder(params) {
+const queryParamBuilder = (params) => {
   if (typeof params === 'string') return params;
 
   const result = [];
@@ -20,120 +20,102 @@ function queryParamBuilder(params) {
     }
   }
   return `?${result.join('&')}`;
-}
+};
+
+const axiosExecute = async (options = {}, errCb) => {
+  try {
+    const res = await axios(options);
+    const {
+      data: { Ack: ebayApiError },
+    } = res;
+
+    if (ebayApiError === 'Failure') {
+      throw res;
+    }
+
+    return res;
+  } catch (err) {
+    console.log('ERROR', err);
+
+    if (typeof errCb === 'function') errCb(err);
+
+    return { ...err };
+  }
+};
 
 const Backend = {
-  getAllPlatfroms: () => {
-    const url = api.platforms.getPlatformsURL;
-    return new Promise((resolve, reject) => {
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => resolve(data))
-        .catch((err) => reject(err));
-    });
-  },
-
-  getPlatformDetails: (platformId) => {
-    const url = `${api.platforms.getPlatformsURL}/${platformId}`;
-    return new Promise((resolve, reject) => {
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => resolve(data))
-        .catch((err) => reject(err));
-    });
-  },
-
-  getGamesForPlatform: (params) => {
+  getGamesForPlatform: (params, errCb) => {
     let paramsStr = queryParamBuilder(params);
     let url = `${api.games.getGamesUrl}${paramsStr}`;
-    return new Promise((resolve, reject) => {
-      axios({
+    return axiosExecute(
+      {
         url,
         method: 'GET',
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+      },
+      errCb
+    );
   },
 
-  getGameDetails: (slug) => {
-    return new Promise((resolve, reject) => {
-      axios({
+  getGameDetails: (slug, errCb) => {
+    return axiosExecute(
+      {
         url: `${api.game.getDetailsUrl}${slug}`,
         method: 'GET',
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+      },
+      errCb
+    );
   },
 
-  getScreenshots: (slug) => {
-    return new Promise((resolve, reject) => {
-      axios({
+  getScreenshots: (slug, errCb) => {
+    return axiosExecute(
+      {
         url: `${api.game.getDetailsUrl}${slug}/screenshots`,
         method: 'GET',
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+      },
+      errCb
+    );
   },
 
-  getBoxArt: (platform, slug) => {
-    return new Promise((resolve, reject) => {
-      axios({
+  getBoxArt: (platform, slug, errCb) => {
+    return axiosExecute(
+      {
         url: `${api.appServer.boxArtworkUrl}/${platform}/${encodeURIComponent(
           slug
         )}`,
         method: 'GET',
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+      },
+      errCb
+    );
   },
 
-  postSignUp: (obj) => {
-    let url = `${api.appServer.signUpUrl}`;
-    return new Promise((resolve, reject) => {
-      fetch(url, {
+  postSignUp: (data, errCb) => {
+    return axiosExecute(
+      {
+        url: `${api.appServer.signUpUrl}`,
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(obj),
-      })
-        // .then(handleErrors)
-        .then((data) => resolve(data))
-        .catch((err) => reject(err));
-    });
+        data: data,
+      },
+      errCb
+    );
   },
 
-  postSignIn: (username, password) => {
-    return new Promise((resolve, reject) => {
-      axios({
+  postSignIn: (username, password, errCb) => {
+    return axiosExecute(
+      {
         url: `${api.appServer.signInUrl}`,
         method: 'POST',
         data: {
           username,
           password,
         },
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+      },
+      errCb
+    );
   },
-  checkCredentials: (token, username) => {
-    return new Promise((resolve, reject) => {
-      axios({
+
+  checkCredentials: (token, username, errCb) => {
+    return axiosExecute(
+      {
         url: `/api/auth/check_credentials`,
         method: 'POST',
         headers: {
@@ -142,103 +124,85 @@ const Backend = {
         data: {
           username,
         },
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+      },
+      errCb
+    );
   },
-  getProfileInfo: (token) => {
-    return new Promise((resolve, reject) => {
-      axios({
+
+  getProfileInfo: (errCb) => {
+    return axiosExecute(
+      {
         url: `/api/profile`,
         method: 'GET',
         headers: {
-          authorization: `Bearer ${token}`,
+          authorization: `Bearer ${getToken()}`,
         },
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+      },
+      errCb
+    );
   },
 
-  updateProfile: (obj) => {
-    return new Promise((resolve, reject) => {
-      axios({
+  updateProfile: (obj, errCb) => {
+    return axiosExecute(
+      {
         url: `${api.appServer.profileUrl}/update`,
         method: 'POST',
         headers: {
           authorization: `Bearer ${getToken()}`,
         },
         data: obj,
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+      },
+      errCb
+    );
   },
 
-  getVideo: (videoType, platform, gameName) => {
-    return new Promise((resolve, reject) => {
-      axios({
+  getVideo: (videoType, platform, gameName, errCb) => {
+    return axiosExecute(
+      {
         url: `${
           api.appServer.videoURL
         }/${videoType}/${platform}/${encodeURIComponent(gameName)}`,
         method: 'GET',
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+      },
+      errCb
+    );
   },
 
-  getEbayItems: (platform, gameName, sortOrder) => {
-    let url = `${api.appServer.ebayItemsUrl}/${platform}/${encodeURIComponent(
-      gameName
-    )}/${sortOrder}`;
-    return new Promise((resolve, reject) => {
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-          resolve(data);
-        })
-        .catch((err) => reject(err));
-    });
+  getEbayItems: (platform, gameName, sortOrder, errCb) => {
+    return axiosExecute(
+      {
+        url: `${api.appServer.ebayItemsUrl}/${platform}/${encodeURIComponent(
+          gameName
+        )}/${sortOrder}`,
+        method: 'GET',
+      },
+      errCb
+    );
   },
 
-  getEbaySingleItem: (id) => {
-    let url = `${api.appServer.ebaySingleItemUrl}/${id}`;
-    return new Promise((resolve, reject) => {
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-          resolve(data);
-        })
-        .catch((err) => reject(err));
-    });
+  getEbaySingleItem: (id, errCb) => {
+    return axiosExecute(
+      {
+        url: `${api.appServer.ebaySingleItemUrl}/${id}`,
+        method: 'GET',
+      },
+      errCb
+    );
   },
 
-  getShippingCosts: (itemId) => {
-    return new Promise((resolve, reject) => {
-      axios({
+  getShippingCosts: (itemId, errCb) => {
+    return axiosExecute(
+      {
         url: `${api.appServer.shippingCostsUrl}/${itemId}`,
         method: 'GET',
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+      },
+      errCb
+    );
   },
 
-  watchEbayCard: (obj) => {
-    return new Promise((resolve, reject) => {
-      axios({
+  watchEbayCard: (obj, errCb) => {
+    return axiosExecute(
+      {
         url: `${api.appServer.profileUrl}/addEbayCard`,
         method: 'POST',
         headers: {
@@ -247,78 +211,68 @@ const Backend = {
         data: {
           ...obj,
         },
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+      },
+      errCb
+    );
   },
 
-  isWatchedEbayCard: (obj) => {
-    return new Promise((resolve, reject) => {
-      axios({
+  isWatchedEbayCard: (obj, errCb) => {
+    return axiosExecute(
+      {
         url: `${api.appServer.profileUrl}/isWatchedEbayCard`,
         method: 'POST',
         headers: {
           authorization: `Bearer ${getToken()}`,
         },
-        data: obj,
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+        data: {
+          ...obj,
+        },
+      },
+      errCb
+    );
   },
 
-  notWatchEbayCard: (obj) => {
-    return new Promise((resolve, reject) => {
-      axios({
+  notWatchEbayCard: (obj, errCb) => {
+    return axiosExecute(
+      {
         url: `${api.appServer.profileUrl}/removeEbayCard`,
         method: 'POST',
         headers: {
           authorization: `Bearer ${getToken()}`,
         },
-        data: obj,
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+        data: {
+          ...obj,
+        },
+      },
+      errCb
+    );
   },
 
-  getGameWatchedCards: (platform, game) => {
-    return new Promise((resolve, reject) => {
-      axios({
+  getGameWatchedCards: (platform, game, errCb) => {
+    return axiosExecute(
+      {
         url: `${api.appServer.profileUrl}/getGameWatchedCards/${platform}/${game}`,
         method: 'GET',
         headers: {
           authorization: `Bearer ${getToken()}`,
         },
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+      },
+      errCb
+    );
   },
-  toggleEbayVisibility: (gameName, platform, isShowed) => {
-    return new Promise((resolve, reject) => {
-      axios({
+
+  toggleEbayVisibility: (gameName, platform, isShowed, errCb) => {
+    return axiosExecute(
+      {
         url: `${api.appServer.profileUrl}/toggleEbaySection`,
         method: 'POST',
         headers: {
           authorization: `Bearer ${getToken()}`,
         },
         data: { gameName, platform, isShowed },
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+      },
+      errCb
+    );
   },
 };
 

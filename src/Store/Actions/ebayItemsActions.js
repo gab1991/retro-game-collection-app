@@ -33,68 +33,48 @@ const getEbaySingleItemByIndex = (
   sortOrder = 'BestMatch'
 ) => {
   return async (dispatch, getState) => {
-    try {
-      const itemId = getCardItemId(getState(), {
-        platform,
-        game,
-        sortOrder,
-        index,
-      });
+    const itemId = getCardItemId(getState(), {
+      platform,
+      game,
+      sortOrder,
+      index,
+    });
 
-      const itemData = await getEbaySingleItem(itemId);
+    const itemData = await getEbaySingleItem(itemId, dispatch);
 
-      dispatch(
-        setEbaySingleItemData(platform, game, index, itemData, sortOrder)
-      );
-    } catch (err) {
-      dispatch(
-        showErrModal({
-          message: 'Something wrong happened.Try again later',
-        })
-      );
-    }
+    if (!itemData) return;
+
+    dispatch(setEbaySingleItemData(platform, game, index, itemData, sortOrder));
   };
 };
 
-const getEbaySingleItemByItemId = (itemId) => {
-  return async (dispatch) => {
-    try {
-      const itemData = await getEbaySingleItem(itemId);
+const getEbaySingleItem = async (itemId, dispatch) => {
+  const {
+    data: { Item: item } = { Item: null },
+  } = await Backend.getEbaySingleItem(itemId, () => {
+    dispatch(
+      showErrModal({ message: 'Something wrong happened.Try again later' })
+    );
+  });
 
-      // dispatch(setEbaySingleItemData(index, itemData));
-    } catch (err) {
-      dispatch(
-        showErrModal({
-          message: 'Something wrong happened.Try again later',
-        })
-      );
-    }
+  if (!item) return null;
+
+  return {
+    pictures: item?.PictureURL,
+    title: item?.Title,
+    convertedCurrentPrice: item?.ConvertedCurrentPrice,
+    currentPrice: Number(item?.ConvertedCurrentPrice.Value).toFixed(2),
+    currency: item?.ConvertedCurrentPrice.CurrencyID,
+    shipping: item?.ShippingCostSummary,
+    deliveryPrice: item?.ShippingServiceCost
+      ? item?.ShippingServiceCost.Value
+      : '',
+    listingType: item?.ListingType,
+    itemUrl: item?.ViewItemURLForNaturalSearch,
+    bidCount: item?.BidCount,
+    endTime: item?.EndTime,
+    itemId: itemId,
   };
-};
-
-const getEbaySingleItem = async (itemId) => {
-  try {
-    const { Item: item } = await Backend.getEbaySingleItem(itemId);
-
-    return {
-      pictures: item?.PictureURL,
-      title: item?.Title,
-      convertedCurrentPrice: item?.ConvertedCurrentPrice,
-      currentPrice: Number(item?.ConvertedCurrentPrice.Value).toFixed(2),
-      currency: item?.ConvertedCurrentPrice.CurrencyID,
-      shipping: item?.ShippingCostSummary,
-      deliveryPrice: item?.ShippingServiceCost
-        ? item?.ShippingServiceCost.Value
-        : '',
-      listingType: item?.ListingType,
-      itemUrl: item?.ViewItemURLForNaturalSearch,
-      bidCount: item?.BidCount,
-      endTime: item?.EndTime,
-      itemId: itemId,
-    };
-  } catch (err) {
-    //error handling
-  }
 };
 
 const setIsWatchedEbayCard = (platform, game, sortOrder, index, bool) => {
@@ -117,24 +97,26 @@ const checkIfCardIsWatched = (
       sortOrder,
       index,
     });
-    try {
-      const {
-        data: { success },
-      } = await Backend.isWatchedEbayCard({
+    const {
+      data: { success } = { success: null },
+    } = await Backend.isWatchedEbayCard(
+      {
         gameName,
         platform,
         ebayItemId: itemId,
-      });
-      if (success) {
-        dispatch(
-          setIsWatchedEbayCard(platform, gameName, sortOrder, index, true)
-        );
-      } else {
+      },
+      () => {
         dispatch(
           setIsWatchedEbayCard(platform, gameName, sortOrder, index, false)
         );
       }
-    } catch (err) {
+    );
+
+    if (success) {
+      dispatch(
+        setIsWatchedEbayCard(platform, gameName, sortOrder, index, true)
+      );
+    } else {
       dispatch(
         setIsWatchedEbayCard(platform, gameName, sortOrder, index, false)
       );
@@ -144,23 +126,9 @@ const checkIfCardIsWatched = (
 
 const watchEbayCard = (gameName, platform, ebayItemId, index) => {
   return async (dispatch) => {
-    try {
-      dispatch(
-        setIsWatchedEbayCard(platform, gameName, sortOrder, index, true)
-      );
+    dispatch(setIsWatchedEbayCard(platform, gameName, sortOrder, index, true));
 
-      const { status } = await Backend.watchEbayCard({
-        gameName,
-        platform,
-        ebayItemId,
-      });
-
-      if (status !== 200) {
-        dispatch(
-          setIsWatchedEbayCard(platform, gameName, sortOrder, index, false)
-        );
-      }
-    } catch (err) {
+    const errorCallback = (err) => {
       if (err?.response?.data?.show_modal) {
         dispatch(
           showInfoModal({
@@ -178,23 +146,30 @@ const watchEbayCard = (gameName, platform, ebayItemId, index) => {
       dispatch(
         setIsWatchedEbayCard(platform, gameName, sortOrder, index, false)
       );
+    };
+
+    const { status } = await Backend.watchEbayCard(
+      {
+        gameName,
+        platform,
+        ebayItemId,
+      },
+      errorCallback
+    );
+
+    if (status !== 200) {
+      dispatch(
+        setIsWatchedEbayCard(platform, gameName, sortOrder, index, false)
+      );
     }
   };
 };
 
 const notWatchEbayCard = (gameName, platform, ebayItemId, index) => {
   return async (dispatch) => {
-    try {
-      dispatch(
-        setIsWatchedEbayCard(platform, gameName, sortOrder, index, false)
-      );
+    dispatch(setIsWatchedEbayCard(platform, gameName, sortOrder, index, false));
 
-      const res = await Backend.notWatchEbayCard({
-        gameName,
-        platform,
-        ebayItemId,
-      });
-    } catch (err) {
+    const errHandler = () => {
       dispatch(
         setIsWatchedEbayCard(platform, gameName, sortOrder, index, true)
       );
@@ -203,7 +178,16 @@ const notWatchEbayCard = (gameName, platform, ebayItemId, index) => {
           message: 'Something wrong happened.Try again later',
         })
       );
-    }
+    };
+
+    await Backend.notWatchEbayCard(
+      {
+        gameName,
+        platform,
+        ebayItemId,
+      },
+      errHandler
+    );
   };
 };
 
@@ -254,44 +238,32 @@ const getShippingCosts = (
   sortOrder = 'BestMatch'
 ) => {
   return async (dispatch) => {
-    try {
-      dispatch(
-        setEbayItemShippingLoading(game, platform, sortOrder, index, true)
-      );
+    dispatch(
+      setEbayItemShippingLoading(game, platform, sortOrder, index, true)
+    );
 
-      const { ShippingCostSummary } = await Backend.getShippingCosts(itemId);
-      const { Value: value } = ShippingCostSummary?.ShippingServiceCost || {};
-      const costinNumber = Number(value);
-
-      dispatch(
-        setEbayItemShippingLoading(game, platform, sortOrder, index, false)
-      );
-
-      if (costinNumber) {
+    const { ShippingCostSummary } = await Backend.getShippingCosts(
+      itemId,
+      () => {
         dispatch(
-          setEbayItemShippingCost(
-            game,
-            platform,
-            sortOrder,
-            index,
-            costinNumber
-          )
+          setEbayItemShippingLoading(game, platform, sortOrder, index, false)
         );
-      } else {
-        dispatch(
-          setEbayItemShippingCost(game, platform, sortOrder, index, null)
-        );
-        dispatch(setContactSeller(game, platform, sortOrder, index, true));
       }
-    } catch (err) {
+    );
+    const { Value: value } = ShippingCostSummary?.ShippingServiceCost || {};
+    const costinNumber = Number(value);
+
+    dispatch(
+      setEbayItemShippingLoading(game, platform, sortOrder, index, false)
+    );
+
+    if (costinNumber) {
       dispatch(
-        setEbayItemShippingLoading(game, platform, sortOrder, index, false)
+        setEbayItemShippingCost(game, platform, sortOrder, index, costinNumber)
       );
-      dispatch(
-        showErrModal({
-          message: 'Something wrong happened.Try again later',
-        })
-      );
+    } else {
+      dispatch(setEbayItemShippingCost(game, platform, sortOrder, index, null));
+      dispatch(setContactSeller(game, platform, sortOrder, index, true));
     }
   };
 };
@@ -304,17 +276,41 @@ const calculateTotalPrice = (platform, game, index, sortOrder) => {
 };
 
 const getEbayItems = (platform, game, sortOrder) => {
-  return async (dispatch) => {
-    try {
-      if (sortOrder === 'Watched') {
-        await Backend.getGameWatchedCards();
-      }
-      const [res] = await Backend.getEbayItems(platform, game, sortOrder);
-      const { item: items } = res;
+  return async (dispatch, getState) => {
+    const { ebayItems } = getState();
 
+    //check if these ebay cards are already in reducer
+    if (ebayItems?.[platform]?.[game]?.[sortOrder]) return;
+    let items = [];
+
+    const errHandler = () => {
+      dispatch(
+        showErrModal({ message: 'Cannot fetch ebay cards! Try again later' })
+      );
+    };
+
+    if (sortOrder === 'Watched') {
+      const {
+        data: ebayItems = { ebayItems: [] },
+      } = await Backend.getGameWatchedCards(platform, game, errHandler);
+
+      items = ebayItems.map((ebayItem) => ({ itemId: [ebayItem.id] }));
+    } else {
+      const { data = null } = await Backend.getEbayItems(
+        platform,
+        game,
+        sortOrder,
+        errHandler
+      );
+
+      if (data && data[0]) {
+        const { item: ebayitems = [] } = data[0];
+        items = ebayitems;
+      }
+    }
+
+    if (items.length) {
       dispatch(setEbayItems(items, platform, game, sortOrder));
-    } catch (err) {
-      //error handling
     }
   };
 };

@@ -2,7 +2,7 @@ import ReactHtmlParser from 'react-html-parser';
 import Backend from '../../Backend/Backend';
 import { addGame as addGameTopProfile } from '../../Store/Actions/profileActions';
 import { showErrModal } from '../Actions/modalActions';
-import { setEbayItems } from '../Actions/ebayItemsActions';
+import { getEbayItems as getEbayItemsCore } from '../Actions/ebayItemsActions';
 
 const setGameDetails = (gameDetailsObj) => {
   return {
@@ -34,43 +34,48 @@ const setVideoUrl = (type, url) => {
 
 const getGameDetails = (slug) => {
   return async (dispatch) => {
-    try {
-      const { data: gameDetails } = await Backend.getGameDetails(slug);
-      dispatch(setGameDetails(gameDetails));
-      dispatch(setDescriptionParsed(gameDetails.description));
-    } catch (err) {
-      // need to add error handling;
-    }
+    const { data: gameDetails } = await Backend.getGameDetails(slug, () =>
+      //error handling cb
+      dispatch(
+        showErrModal({ message: 'Something wrong happens! Try again later' })
+      )
+    );
+    if (!gameDetails) return;
+
+    dispatch(setGameDetails(gameDetails));
+    dispatch(setDescriptionParsed(gameDetails.description));
   };
 };
 
 const getScreenShots = (slug) => {
   return async (dispatch) => {
-    try {
-      const { data } = await Backend.getScreenshots(slug);
-      const screenshotsUrls = [];
+    const {
+      data: { results } = { results: [] },
+    } = await Backend.getScreenshots(slug, () => {
+      dispatch(
+        showErrModal({
+          message: `Couldnt fetch screenshots.Try again if you wish`,
+        })
+      );
+    });
+    const screenshotsUrls = [];
 
-      data.results.forEach((obj) => screenshotsUrls.push(obj.image));
-      dispatch(setScreenshots(screenshotsUrls));
-    } catch (err) {
-      // need to add error handling;
-    }
+    results.forEach((obj) => screenshotsUrls.push(obj.image));
+    dispatch(setScreenshots(screenshotsUrls));
   };
 };
 
 const getVideo = (type, platformName, gameName) => {
   return async (dispatch) => {
-    try {
-      const { data: url } = await Backend.getVideo(
-        type,
-        platformName,
-        gameName
-      );
-      const combinedUrl = `https://www.youtube.com/watch?v=${url}`;
-      dispatch(setVideoUrl(type, combinedUrl));
-    } catch (err) {
-      // need to add error handling;
-    }
+    const { data: url = { url: null } } = await Backend.getVideo(
+      type,
+      platformName,
+      gameName
+    );
+    if (!url) return;
+
+    const combinedUrl = `https://www.youtube.com/watch?v=${url}`;
+    dispatch(setVideoUrl(type, combinedUrl));
   };
 };
 
@@ -160,17 +165,11 @@ const setEbaySectionLoading = (bool) => {
 
 const getEbayItems = (platform, game, sortOrder) => {
   return async (dispatch) => {
-    try {
-      dispatch(setEbaySectionLoading(true));
-
-      const [res] = await Backend.getEbayItems(platform, game, sortOrder);
-      const { item: items } = res;
-
-      dispatch(setEbayItems(items, platform, game, sortOrder));
-      dispatch(setEbaySectionLoading(false));
-    } catch (err) {
-      dispatch(setEbaySectionLoading(false));
-    }
+    dispatch(setEbaySectionLoading(true));
+    console.log('here');
+    dispatch(getEbayItemsCore(platform, game, sortOrder));
+    console.log('after');
+    dispatch(setEbaySectionLoading(false));
   };
 };
 

@@ -26,20 +26,16 @@ const checkCredentials = () => async (dispatch) => {
   const { token, username } = storageHandler.getItems(['token', 'username']);
   if (!token || !username) return;
 
-  try {
-    const { status } = await Backend.checkCredentials(token, username);
-
-    if (status === 200) {
-      dispatch(signIn(username, token));
-    }
-  } catch (err) {
+  const { status } = await Backend.checkCredentials(token, username, (err) => {
     const { status } = err?.response || {};
 
     if (status === 400 || status === 401) {
       storageHandler.removeItems(['username', 'token']);
-    } else {
-      console.log(err);
     }
+  });
+
+  if (status === 200) {
+    dispatch(signIn(username, token));
   }
 };
 
