@@ -1,3 +1,18 @@
+import {
+  SET_GAME_DETAILS,
+  SET_DESCRIPTION_PARSED,
+  SET_SCREENSHOTS,
+  SET_VIDEO_URL,
+  TOGGLE_ELM_VISIBILITY,
+  SET_IS_OWNED,
+  SET_IS_WISHED,
+  SET_SHOW_OWNED_NOTIFIER,
+  SET_SHOW_WISH_NOTIFIER,
+  SET_SHOW_WISH_LIST_WARNING,
+  SET_EBAY_SECTION_LOADING,
+  FLUSH_GAME_DETAILED,
+} from '../Actions/gameDetailedActions';
+
 const initial = {
   isOwned: false,
   isWished: false,
@@ -17,13 +32,13 @@ const initial = {
 
 const gameDetailedReducer = (state = initial, { type, payload }) => {
   switch (type) {
-    case 'SET_GAME_DETAILS':
+    case SET_GAME_DETAILS:
       return { ...state, gameDetails: payload };
-    case 'SET_SCREENSHOTS':
+    case SET_SCREENSHOTS:
       return { ...state, screenshots: payload };
-    case 'SET_DESCRIPTION_PARSED':
+    case SET_DESCRIPTION_PARSED:
       return { ...state, descriptionParsed: payload };
-    case 'SET_VIDEO_URL': {
+    case SET_VIDEO_URL: {
       const { type, url } = payload;
       const newUploadble = { ...state.uploadableElms };
 
@@ -41,7 +56,7 @@ const gameDetailedReducer = (state = initial, { type, payload }) => {
       }
       return { ...state, uploadableElms: newUploadble };
     }
-    case 'TOGGLE_ELM_VISIBILITY': {
+    case TOGGLE_ELM_VISIBILITY: {
       const elm = payload;
       const newUploadble = { ...state.uploadableElms };
       newUploadble[elm] = {
@@ -50,17 +65,17 @@ const gameDetailedReducer = (state = initial, { type, payload }) => {
       };
       return { ...state, uploadableElms: newUploadble };
     }
-    case 'SET_IS_OWNED':
+    case SET_IS_OWNED:
       return { ...state, isOwned: payload };
-    case 'SET_IS_WISHED':
+    case SET_IS_WISHED:
       return { ...state, isWished: payload };
-    case 'SET_SHOW_OWNED_NOTIFIER':
+    case SET_SHOW_OWNED_NOTIFIER:
       return { ...state, showOwnedNotifier: payload };
-    case 'SET_SHOW_WISH_NOTIFIER':
+    case SET_SHOW_WISH_NOTIFIER:
       return { ...state, showWishNotifier: payload };
-    case 'SET_SHOW_WISH_LIST_WARNING':
+    case SET_SHOW_WISH_LIST_WARNING:
       return { ...state, showWishListWarn: payload };
-    case 'SET_EBAY_SECTION_LOADING': {
+    case SET_EBAY_SECTION_LOADING: {
       return {
         ...state,
         uploadableElms: {
@@ -72,7 +87,7 @@ const gameDetailedReducer = (state = initial, { type, payload }) => {
         },
       };
     }
-    case 'FLUSH_GAME_DETAILED':
+    case FLUSH_GAME_DETAILED:
       return initial;
     default:
       return state;

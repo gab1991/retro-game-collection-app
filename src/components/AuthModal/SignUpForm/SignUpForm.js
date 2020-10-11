@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import {
   showAuthModal,
   showCornerNotifier,
-} from '../../../Store/Actions/actions';
+} from '../../../Store/Actions/appStateActions';
 import useWindowSize from '../../../CustomHooks/useWindowSize';
 
 import Input from '../../UI/Inputs/InputAuth/InputAuth';

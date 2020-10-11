@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { showAuthModal } from '../../../Store/Actions/actions';
+import { showAuthModal } from '../../../Store/Actions/appStateActions';
 import { signIn } from '../../../Store/Actions/authActions';
 import CloseSvg from '../../UI/LogoSvg/CloseSvg/CloseSvg';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
@@ -93,8 +93,6 @@ export default function SignInForm(props) {
       // }
     }
   };
-
-
 
   const regularLogin = (e) => {
     e.preventDefault();

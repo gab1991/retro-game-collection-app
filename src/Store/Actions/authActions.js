@@ -1,10 +1,13 @@
 import Backend from '../../Backend/Backend';
 import { storageHandler } from '../../Utils/localStorage';
 
+const LOG_OUT = 'LOG_OUT';
+const SIGN_IN = 'SIGN_IN';
+
 const logOut = () => {
   storageHandler.removeItems(['username', 'token']);
   return {
-    type: 'LOG_OUT',
+    type: LOG_OUT,
   };
 };
 
@@ -14,7 +17,7 @@ const signIn = (username, token) => {
     ['token', token],
   ]);
   return {
-    type: 'SIGN_IN',
+    type: SIGN_IN,
     payload: {
       username,
       token,
@@ -39,4 +42,4 @@ const checkCredentials = () => async (dispatch) => {
   }
 };
 
-export { checkCredentials, logOut, signIn };
+export { LOG_OUT, SIGN_IN, checkCredentials, logOut, signIn };

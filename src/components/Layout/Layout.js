@@ -41,10 +41,10 @@ function Layout(props) {
 function mapStateToProps(state) {
   return {
     userData: state.logged,
-    showAuth: state.showAuth,
-    showErr: state.showErr,
-    showInfo: state.showInfo,
-    showCornNotifier: state.showCornNotifier,
+    showAuth: state.appState.showAuthModal,
+    showErr: state.appState.showErrorModal,
+    showInfo: state.appState.showInfoModal,
+    showCornNotifier: state.showCornerNotifier,
   };
 }
 

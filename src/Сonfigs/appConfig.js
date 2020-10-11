@@ -71,6 +71,10 @@ const appConfig = {
       'rating ↑',
     ],
   },
+
+  EbayCards: {
+    defaultSortOrder: 'BestMatch',
+  },
 };
 
 const images = {

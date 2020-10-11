@@ -1,10 +1,12 @@
 import Backend from '../../Backend/Backend';
-import { showErrModal } from './modalActions';
+import { showErrModal } from './appStateActions';
 import { setEbayItems } from './ebayItemsActions';
+
+const FILL_PROFILE = 'FILL_PROFILE';
 
 const fillProfile = (profile) => {
   return {
-    type: 'FILL_PROFILE',
+    type: FILL_PROFILE,
     payload: {
       ...profile,
     },
@@ -110,3 +112,4 @@ export {
   addGame,
   toggleEbayVisibility,
 };
+export { FILL_PROFILE };

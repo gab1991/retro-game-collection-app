@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { hideInfoModal } from '../../../../Store/Actions/modalActions';
+import { hideInfoModal } from '../../../../Store/Actions/appStateActions';
 import InfoSvg from '../../LogoSvg/InfoSvg/InfoSvg';
 import Backdrop from '../../../UI/Backdrop/Backdrop';
 import ButtonNeon from '../../../UI/Buttons/ButtonNeon/ButtonNeon';

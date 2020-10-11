@@ -6,22 +6,13 @@ import appStateReducer from './appStateReducer';
 import ebayItemsReducer from './ebayItemsReducer';
 import contentReducer from './contentReducer';
 import wishListReducer from './wishListReducer';
-import {
-  showHideErr,
-  showHideInfo,
-  showHideAuth,
-  showHideCornerNotifier,
-} from './modalReducer';
+import { LOG_OUT } from '../Actions/authActions';
 
 import { combineReducers } from 'redux';
 
 const appReducer = combineReducers({
   logged: loggedReducer,
   profile: profileReducer,
-  showAuth: showHideAuth,
-  showErr: showHideErr,
-  showInfo: showHideInfo,
-  showCornNotifier: showHideCornerNotifier,
   gameSelector: gameSelectorReducer,
   gameDetailed: gameDetailedReducer,
   wishList: wishListReducer,
@@ -31,7 +22,7 @@ const appReducer = combineReducers({
 });
 
 const rootReducer = (state, action) => {
-  if (action.type === 'LOG_OUT') {
+  if (action.type === LOG_OUT) {
     state = undefined;
   }
 

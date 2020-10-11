@@ -1,27 +1,39 @@
 import Backend from '../../Backend/Backend';
-import { showInfoModal, showErrModal } from '../Actions/modalActions';
+import { appConfig } from '../../Сonfigs/appConfig';
+import { showInfoModal, showErrModal } from './appStateActions';
 
-const sortOrder = 'BestMatch';
+const DEFAULT_SORT_ORDER = appConfig.EbayCards.defaultSortOrder;
+
+const SET_EBAY_ITEMS = 'SET_EBAY_ITEMS';
+const SET_EBAY_SINGLE_ITEM_DATA = 'SET_EBAY_SINGLE_ITEM_DATA';
+const SET_IS_WATCHED_EBAY_CARD = 'SET_IS_WATCHED_EBAY_CARD';
+const SET_EBAY_ITEM_SHIPPING_COST = 'SET_EBAY_ITEM_SHIPPING_COST';
+const SET_EBAY_ITEM_SHIPPING_COST_LOADING =
+  'SET_EBAY_ITEM_SHIPPING_COST_LOADING';
+const SET_EBAY_ITEM_SHIPPING_CONTACT_SELLER =
+  'SET_EBAY_ITEM_SHIPPING_CONTACT_SELLER';
+const CALCULATE_TOTAL_PRICE = 'CALCULATE_TOTAL_PRICE';
 
 const getCardItemId = (store, { platform, game, sortOrder, index }) => {
   if (!store || !platform || !game || !sortOrder) return null;
   const { ebayItems } = store;
-  const { itemId: itemIdArr } = ebayItems?.[platform]?.[game]?.[sortOrder]?.[
-    index
-  ];
+  const { itemId: itemIdArr = { itemId: null } } = ebayItems?.[platform]?.[
+    game
+  ]?.[sortOrder]?.[index];
+  if (!itemIdArr || !itemIdArr[0]) return null;
   return itemIdArr[0];
 };
 
 const setEbayItems = (items, platform, game, sortOrder) => {
   return {
-    type: 'SET_EBAY_ITEMS',
+    type: SET_EBAY_ITEMS,
     payload: { items, platform, game, sortOrder },
   };
 };
 
 const setEbaySingleItemData = (platform, game, index, itemData, sortOrder) => {
   return {
-    type: 'SET_EBAY_SINGLE_ITEM_DATA',
+    type: SET_EBAY_SINGLE_ITEM_DATA,
     payload: { platform, game, index, itemData, sortOrder },
   };
 };
@@ -30,7 +42,7 @@ const getEbaySingleItemByIndex = (
   platform,
   game,
   index,
-  sortOrder = 'BestMatch'
+  sortOrder = DEFAULT_SORT_ORDER
 ) => {
   return async (dispatch, getState) => {
     const itemId = getCardItemId(getState(), {
@@ -79,7 +91,7 @@ const getEbaySingleItem = async (itemId, dispatch) => {
 
 const setIsWatchedEbayCard = (platform, game, sortOrder, index, bool) => {
   return {
-    type: 'SET_IS_WATCHED_EBAY_CARD',
+    type: SET_IS_WATCHED_EBAY_CARD,
     payload: { platform, game, sortOrder, index, bool },
   };
 };
@@ -88,7 +100,7 @@ const checkIfCardIsWatched = (
   gameName,
   platform,
   index,
-  sortOrder = 'BestMatch'
+  sortOrder = DEFAULT_SORT_ORDER
 ) => {
   return async (dispatch, getState) => {
     const itemId = getCardItemId(getState(), {
@@ -124,7 +136,13 @@ const checkIfCardIsWatched = (
   };
 };
 
-const watchEbayCard = (gameName, platform, ebayItemId, index) => {
+const watchEbayCard = (
+  gameName,
+  platform,
+  ebayItemId,
+  index,
+  sortOrder = DEFAULT_SORT_ORDER
+) => {
   return async (dispatch) => {
     dispatch(setIsWatchedEbayCard(platform, gameName, sortOrder, index, true));
 
@@ -165,7 +183,13 @@ const watchEbayCard = (gameName, platform, ebayItemId, index) => {
   };
 };
 
-const notWatchEbayCard = (gameName, platform, ebayItemId, index) => {
+const notWatchEbayCard = (
+  gameName,
+  platform,
+  ebayItemId,
+  index,
+  sortOrder = DEFAULT_SORT_ORDER
+) => {
   return async (dispatch) => {
     dispatch(setIsWatchedEbayCard(platform, gameName, sortOrder, index, false));
 
@@ -193,7 +217,7 @@ const notWatchEbayCard = (gameName, platform, ebayItemId, index) => {
 
 const setEbayItemShippingCost = (game, platform, sortOrder, index, value) => {
   return {
-    type: 'SET_EBAY_ITEM_SHIPPING_COST',
+    type: SET_EBAY_ITEM_SHIPPING_COST,
     payload: {
       game,
       platform,
@@ -206,7 +230,7 @@ const setEbayItemShippingCost = (game, platform, sortOrder, index, value) => {
 
 const setEbayItemShippingLoading = (game, platform, sortOrder, index, bool) => {
   return {
-    type: 'SET_EBAY_ITEM_SHIPPING_COST_LOADING',
+    type: SET_EBAY_ITEM_SHIPPING_COST_LOADING,
     payload: {
       game,
       platform,
@@ -219,7 +243,7 @@ const setEbayItemShippingLoading = (game, platform, sortOrder, index, bool) => {
 
 const setContactSeller = (game, platform, sortOrder, index, bool) => {
   return {
-    type: 'SET_EBAY_ITEM_SHIPPING_CONTACT_SELLER',
+    type: SET_EBAY_ITEM_SHIPPING_CONTACT_SELLER,
     payload: {
       game,
       platform,
@@ -235,7 +259,7 @@ const getShippingCosts = (
   platform,
   itemId,
   index,
-  sortOrder = 'BestMatch'
+  sortOrder = DEFAULT_SORT_ORDER
 ) => {
   return async (dispatch) => {
     dispatch(
@@ -270,12 +294,12 @@ const getShippingCosts = (
 
 const calculateTotalPrice = (platform, game, index, sortOrder) => {
   return {
-    type: 'CALCULATE_TOTAL_PRICE',
+    type: CALCULATE_TOTAL_PRICE,
     payload: { platform, game, index, sortOrder },
   };
 };
 
-const getEbayItems = (platform, game, sortOrder) => {
+const getEbayItems = (platform, game, sortOrder = DEFAULT_SORT_ORDER) => {
   return async (dispatch, getState) => {
     const { ebayItems } = getState();
 
@@ -325,4 +349,15 @@ export {
   getShippingCosts,
   calculateTotalPrice,
   getEbayItems,
+};
+
+export {
+  SET_EBAY_ITEMS,
+  SET_EBAY_SINGLE_ITEM_DATA,
+  SET_IS_WATCHED_EBAY_CARD,
+  SET_EBAY_ITEM_SHIPPING_COST,
+  SET_EBAY_ITEM_SHIPPING_COST_LOADING,
+  SET_EBAY_ITEM_SHIPPING_CONTACT_SELLER,
+  CALCULATE_TOTAL_PRICE,
+  DEFAULT_SORT_ORDER,
 };

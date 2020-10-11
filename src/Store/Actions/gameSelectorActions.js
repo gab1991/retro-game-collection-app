@@ -3,30 +3,40 @@ import Backend from '../../Backend/Backend';
 import { history } from '../../index';
 import { parseQueryString, stringifyQuery } from '../../Utils/queryStrUtils';
 
+const SET_IS_LOADING = 'SET_IS_LOADING';
+const SET_NO_GAMES_FOUND = 'SET_NO_GAMES_FOUND';
+const SET_GAMES_TO_SHOW = 'SET_GAMES_TO_SHOW';
+const WRITE_PAGE_DATA = 'WRITE_PAGE_DATA';
+const CHANGE_PAGE = 'CHANGE_PAGE';
+const CHANGE_SEARCH_STR = 'CHANGE_SEARCH_STR';
+const SET_NEW_ORDERING = 'SET_NEW_ORDERING';
+const CHANGE_QUERY_PARAMS = 'CHANGE_QUERY_PARAMS';
+const SET_SEARCH_INPUT_VALUE = 'SET_SEARCH_INPUT_VALUE';
+
 const setIsLoading = (bool) => {
   return {
-    type: 'SET_IS_LOADING',
+    type: SET_IS_LOADING,
     payload: bool,
   };
 };
 
 const setNoGamesFound = (bool) => {
   return {
-    type: 'SET_NO_GAMES_FOUND',
+    type: SET_NO_GAMES_FOUND,
     payload: bool,
   };
 };
 
 const setGamesToShow = (arrOfGames) => {
   return {
-    type: 'SET_GAMES_TO_SHOW',
+    type: SET_GAMES_TO_SHOW,
     payload: arrOfGames,
   };
 };
 
 const writePageData = (data) => {
   return {
-    type: 'WRITE_PAGE_DATA',
+    type: WRITE_PAGE_DATA,
     payload: { ...data },
   };
 };
@@ -70,7 +80,7 @@ const getGamesForPlatform = (platformName) => {
 const changePage = (pagenum) => {
   return (dispatch) => {
     dispatch({
-      type: 'CHANGE_PAGE',
+      type: CHANGE_PAGE,
       payload: pagenum,
     });
     dispatch(updateQueryParams());
@@ -80,7 +90,7 @@ const changePage = (pagenum) => {
 const changeSearchStr = (str) => {
   return (dispatch) => {
     dispatch({
-      type: 'CHANGE_SEARCH_STR',
+      type: CHANGE_SEARCH_STR,
       payload: str,
     });
     dispatch(updateQueryParams());
@@ -98,9 +108,8 @@ const startNewSearch = (searchStr) => {
 const setNewOrdering = (option) => {
   const [ordername, direction] = option.split(' ');
   return (dispatch) => {
-    // dispatch(updateQueryParams({ ordername, direction }));
     dispatch({
-      type: 'SET_NEW_ORDERING',
+      type: SET_NEW_ORDERING,
       payload: {
         ordername,
         direction,
@@ -122,7 +131,7 @@ const parseQueryParams = (searchStr = {}) => {
   return (dispatch) => {
     const currentParams = parseQueryString(searchStr);
     dispatch({
-      type: 'CHANGE_QUERY_PARAMS',
+      type: CHANGE_QUERY_PARAMS,
       payload: currentParams,
     });
   };
@@ -130,7 +139,7 @@ const parseQueryParams = (searchStr = {}) => {
 
 const setSearchInputValue = (value) => {
   return {
-    type: 'SET_SEARCH_INPUT_VALUE',
+    type: SET_SEARCH_INPUT_VALUE,
     payload: value,
   };
 };
@@ -142,4 +151,16 @@ export {
   setSearchInputValue,
   startNewSearch,
   setNewOrdering,
+};
+
+export {
+  SET_IS_LOADING,
+  SET_NO_GAMES_FOUND,
+  SET_GAMES_TO_SHOW,
+  WRITE_PAGE_DATA,
+  CHANGE_PAGE,
+  CHANGE_SEARCH_STR,
+  SET_NEW_ORDERING,
+  CHANGE_QUERY_PARAMS,
+  SET_SEARCH_INPUT_VALUE,
 };

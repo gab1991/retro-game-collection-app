@@ -1,33 +1,46 @@
 import ReactHtmlParser from 'react-html-parser';
 import Backend from '../../Backend/Backend';
 import { addGame as addGameTopProfile } from '../../Store/Actions/profileActions';
-import { showErrModal } from '../Actions/modalActions';
+import { showErrModal } from './appStateActions';
 import { getEbayItems as getEbayItemsCore } from '../Actions/ebayItemsActions';
+
+const SET_GAME_DETAILS = 'SET_GAME_DETAILS';
+const SET_DESCRIPTION_PARSED = 'SET_DESCRIPTION_PARSED';
+const SET_SCREENSHOTS = 'SET_SCREENSHOTS';
+const SET_VIDEO_URL = 'SET_VIDEO_URL';
+const TOGGLE_ELM_VISIBILITY = 'TOGGLE_ELM_VISIBILITY';
+const SET_IS_OWNED = 'SET_IS_OWNED';
+const SET_IS_WISHED = 'SET_IS_WISHED';
+const SET_SHOW_OWNED_NOTIFIER = 'SET_SHOW_OWNED_NOTIFIER';
+const SET_SHOW_WISH_NOTIFIER = 'SET_SHOW_WISH_NOTIFIER';
+const SET_SHOW_WISH_LIST_WARNING = 'SET_SHOW_WISH_LIST_WARNING';
+const SET_EBAY_SECTION_LOADING = 'SET_EBAY_SECTION_LOADING';
+const FLUSH_GAME_DETAILED = 'FLUSH_GAME_DETAILED';
 
 const setGameDetails = (gameDetailsObj) => {
   return {
-    type: 'SET_GAME_DETAILS',
+    type: SET_GAME_DETAILS,
     payload: gameDetailsObj,
   };
 };
 
 const setDescriptionParsed = (html) => {
   return {
-    type: 'SET_DESCRIPTION_PARSED',
+    type: SET_DESCRIPTION_PARSED,
     payload: ReactHtmlParser(html),
   };
 };
 
 const setScreenshots = (screenshots) => {
   return {
-    type: 'SET_SCREENSHOTS',
+    type: SET_SCREENSHOTS,
     payload: screenshots,
   };
 };
 
 const setVideoUrl = (type, url) => {
   return {
-    type: 'SET_VIDEO_URL',
+    type: SET_VIDEO_URL,
     payload: { type, url },
   };
 };
@@ -81,42 +94,42 @@ const getVideo = (type, platformName, gameName) => {
 
 const toggleElmVisibility = (elm) => {
   return {
-    type: 'TOGGLE_ELM_VISIBILITY',
+    type: TOGGLE_ELM_VISIBILITY,
     payload: elm,
   };
 };
 
 const setIsOwned = (bool) => {
   return {
-    type: 'SET_IS_OWNED',
+    type: SET_IS_OWNED,
     payload: bool,
   };
 };
 
 const setIsWished = (bool) => {
   return {
-    type: 'SET_IS_WISHED',
+    type: SET_IS_WISHED,
     payload: bool,
   };
 };
 
 const setShowOwnedNotifier = (bool) => {
   return {
-    type: 'SET_SHOW_OWNED_NOTIFIER',
+    type: SET_SHOW_OWNED_NOTIFIER,
     payload: bool,
   };
 };
 
 const setShowWishNotifier = (bool) => {
   return {
-    type: 'SET_SHOW_WISH_NOTIFIER',
+    type: SET_SHOW_WISH_NOTIFIER,
     payload: bool,
   };
 };
 
 const setShowWisListWarn = (bool) => {
   return {
-    type: 'SET_SHOW_WISH_LIST_WARNING',
+    type: SET_SHOW_WISH_LIST_WARNING,
     payload: bool,
   };
 };
@@ -158,7 +171,7 @@ const addGame = (gameDetails, list, platform) => {
 
 const setEbaySectionLoading = (bool) => {
   return {
-    type: 'SET_EBAY_SECTION_LOADING',
+    type: SET_EBAY_SECTION_LOADING,
     payload: bool,
   };
 };
@@ -175,7 +188,7 @@ const getEbayItems = (platform, game, sortOrder) => {
 
 const flushGameDetailed = () => {
   return {
-    type: 'FLUSH_GAME_DETAILED',
+    type: FLUSH_GAME_DETAILED,
   };
 };
 
@@ -190,4 +203,19 @@ export {
   setShowWisListWarn,
   getEbayItems,
   flushGameDetailed,
+};
+
+export {
+  SET_GAME_DETAILS,
+  SET_DESCRIPTION_PARSED,
+  SET_SCREENSHOTS,
+  SET_VIDEO_URL,
+  TOGGLE_ELM_VISIBILITY,
+  SET_IS_OWNED,
+  SET_IS_WISHED,
+  SET_SHOW_OWNED_NOTIFIER,
+  SET_SHOW_WISH_NOTIFIER,
+  SET_SHOW_WISH_LIST_WARNING,
+  SET_EBAY_SECTION_LOADING,
+  FLUSH_GAME_DETAILED,
 };

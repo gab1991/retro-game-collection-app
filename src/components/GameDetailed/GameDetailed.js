@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import ReactPlayer from 'react-player';
-import { showAuthModal } from '../../Store/Actions/modalActions';
+import { showAuthModal } from '../../Store/Actions/appStateActions';
 import {
   getGameDetails,
   getScreenShots,

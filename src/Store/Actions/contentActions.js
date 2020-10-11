@@ -1,8 +1,10 @@
 import Backend from '../../Backend/Backend';
 
+const CONTENT_SET_BOX_ART_URL = 'CONTENT_SET_BOX_ART_URL';
+
 const setBoxArtUrl = (url, platform, gameName) => {
   return {
-    type: 'CONTENT_SET_BOX_ART_URL',
+    type: CONTENT_SET_BOX_ART_URL,
     payload: {
       url,
       platform,
@@ -33,4 +35,4 @@ const getBoxArt = (platformName, gameName) => {
   };
 };
 
-export { getBoxArt };
+export { CONTENT_SET_BOX_ART_URL, getBoxArt };

@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, connect } from 'react-redux';
-import { showAuthModal } from '../../Store/Actions/actions';
+import { showAuthModal } from '../../Store/Actions/appStateActions';
 import { logOut } from '../../Store/Actions/authActions';
 import Backdrop from '../UI/Backdrop/Backdrop';
 import MenuSideSlider from '../UI/MenuSideSlider/MenuSideSlider';
