@@ -22,6 +22,8 @@ export default function AuthModal(props) {
 
   const hideAuthModal = () => {};
 
+  console.log('test');
+
   return (
     <div className={styles.AuthModal}>
       <div className={`${styles.AuthCard} ${styles[activeSide]}`}>
