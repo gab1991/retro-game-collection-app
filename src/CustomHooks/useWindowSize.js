@@ -16,6 +16,7 @@ export default function useWindowSize() {
     if (!isClient) {
       return false;
     }
+
     console.log('asdasd');
 
     function handleResize() {
