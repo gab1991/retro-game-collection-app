@@ -37,7 +37,7 @@ function App(props) {
     }
   }, [width, dispatch]);
 
-  console.log('1');
+  console.log('3');
 
   return (
     <div className={styles.App}>
