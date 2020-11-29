@@ -341,6 +341,7 @@ module.exports = function (webpackEnv) {
           ],
           include: paths.appSrc,
         },
+
         {
           // "oneOf" will traverse all following loaders until one will
           // match the requirements. When no loader matches it will fall
@@ -356,6 +357,12 @@ module.exports = function (webpackEnv) {
                 limit: imageInlineSizeLimit,
                 name: 'static/media/[name].[hash:8].[ext]',
               },
+            },
+            //Mine TS Settings
+            {
+              test: /\.tsx?$/,
+              loader: require.resolve('ts-loader'),
+              exclude: /node_modules/,
             },
             // Process application JS with Babel.
             // The preset includes JSX, Flow, TypeScript, and some ESnext features.
