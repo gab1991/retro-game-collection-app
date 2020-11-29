@@ -88,10 +88,7 @@ function EbayCardDesc(props) {
   return (
     <div className={styles.Description}>
       <h4>{title}</h4>
-      <Button
-        txtContent={isAuction ? 'Place bid' : 'Buy It Now'}
-        onClick={sendToEbay}
-      />
+      <Button txtContent={isAuction ? 'Place bid' : 'Buy It Now'} onClick={sendToEbay} />
       {userData && (
         <Button
           txtContent={isWatched ? 'Stop watch' : 'Watch'}

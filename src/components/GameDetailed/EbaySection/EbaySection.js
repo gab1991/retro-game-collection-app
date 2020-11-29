@@ -18,9 +18,7 @@ function EbaySection(props) {
     sortOrder = 'BestMatch',
     customSwiperProps,
   } = props;
-  const ebayItems =
-    useSelector((state) => state.ebayItems?.[platform]?.[game]?.[sortOrder]) ||
-    [];
+  const ebayItems = useSelector((state) => state.ebayItems?.[platform]?.[game]?.[sortOrder]) || [];
   const [slides, setSlides] = useState([]);
   const dispatch = useDispatch();
 
@@ -41,8 +39,9 @@ function EbaySection(props) {
           game={game}
           isVisible={isVisible}
           sortOrder={sortOrder}
-          index={index}></EbayItemCard>
-      ))
+          index={index}
+        ></EbayItemCard>
+      )),
     );
   }, [ebayItems, game, platform]);
 
@@ -56,9 +55,7 @@ function EbaySection(props) {
           customSwiperProps={customSwiperProps}
         />
       )}
-      {!isLoading && ebayItems.length === 0 && (
-        <h3 className={styles.NoItems}>No lots have been found</h3>
-      )}
+      {!isLoading && ebayItems.length === 0 && <h3 className={styles.NoItems}>No lots have been found</h3>}
       {isLoading && (
         <div className={styles.LoadingSvgWrapper}>
           <DotSpinner />

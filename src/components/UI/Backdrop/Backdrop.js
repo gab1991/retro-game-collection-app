@@ -4,10 +4,5 @@ import styles from './Backdrop.module.scss';
 export default function Blackdrop(props) {
   const { show, onClick } = props;
 
-  return (
-    <div
-      onClick={onClick}
-      className={styles.Backdrop}
-      style={{ display: `${show ? 'block' : 'none'}` }}></div>
-  );
+  return <div onClick={onClick} className={styles.Backdrop} style={{ display: `${show ? 'block' : 'none'}` }}></div>;
 }

@@ -14,29 +14,17 @@ import {
 const ebayItemsReducer = createReducer({}, (builder) => {
   builder
     .addCase(SET_EBAY_ITEMS, (state, { payload }) => {
-      const {
-        items = [],
-        platform,
-        game,
-        sortOrder = DEFAULT_SORT_ORDER,
-      } = payload;
+      const { items = [], platform, game, sortOrder = DEFAULT_SORT_ORDER } = payload;
 
       if (!game || !platform) return;
 
       set(state, [platform, game, sortOrder], items);
     })
     .addCase(SET_EBAY_SINGLE_ITEM_DATA, (state, { payload }) => {
-      const {
-        platform,
-        game,
-        index,
-        itemData,
-        sortOrder = DEFAULT_SORT_ORDER,
-      } = payload;
+      const { platform, game, index, itemData, sortOrder = DEFAULT_SORT_ORDER } = payload;
       if (!game || !platform || (!index && index !== 0)) return;
 
-      const isAuction =
-        itemData?.listingType !== 'FixedPriceItem' ? true : false;
+      const isAuction = itemData?.listingType !== 'FixedPriceItem' ? true : false;
       const shippingCost = itemData?.deliveryPrice || null;
 
       state[platform][game][sortOrder][index] = {
@@ -47,41 +35,21 @@ const ebayItemsReducer = createReducer({}, (builder) => {
       };
     })
     .addCase(SET_IS_WATCHED_EBAY_CARD, (state, { payload }) => {
-      const {
-        platform,
-        game,
-        sortOrder = DEFAULT_SORT_ORDER,
-        index,
-        bool,
-      } = payload;
+      const { platform, game, sortOrder = DEFAULT_SORT_ORDER, index, bool } = payload;
       if (!game || !platform || (!index && index !== 0)) return;
       state[platform][game][sortOrder][index].isWatched = bool;
     })
     .addCase(SET_EBAY_ITEM_SHIPPING_COST_LOADING, (state, { payload }) => {
-      const {
-        platform,
-        game,
-        sortOrder = DEFAULT_SORT_ORDER,
-        index,
-        bool,
-      } = payload;
+      const { platform, game, sortOrder = DEFAULT_SORT_ORDER, index, bool } = payload;
       if (!game || !platform || (!index && index !== 0)) return;
 
       state[platform][game][sortOrder][index].isLoadingShippingCosts = bool;
     })
     .addCase(SET_EBAY_ITEM_SHIPPING_COST, (state, { payload }) => {
-      const {
-        platform,
-        game,
-        sortOrder = DEFAULT_SORT_ORDER,
-        index,
-        value,
-      } = payload;
+      const { platform, game, sortOrder = DEFAULT_SORT_ORDER, index, value } = payload;
       if (!game || !platform || (!index && index !== 0)) return;
 
-      state[platform][game][sortOrder][index].shippingCost = value
-        ? value.toFixed(2)
-        : null;
+      state[platform][game][sortOrder][index].shippingCost = value ? value.toFixed(2) : null;
     })
     .addCase(CALCULATE_TOTAL_PRICE, (state, { payload }) => {
       const { platform, game, sortOrder = DEFAULT_SORT_ORDER, index } = payload;
@@ -90,20 +58,12 @@ const ebayItemsReducer = createReducer({}, (builder) => {
         shippingCost,
         itemData: { currentPrice },
       } = state[platform][game][sortOrder][index];
-      const totalPrice = (Number(shippingCost) + Number(currentPrice)).toFixed(
-        2
-      );
+      const totalPrice = (Number(shippingCost) + Number(currentPrice)).toFixed(2);
 
       state[platform][game][sortOrder][index].totalPrice = totalPrice;
     })
     .addCase(SET_EBAY_ITEM_SHIPPING_CONTACT_SELLER, (state, { payload }) => {
-      const {
-        platform,
-        game,
-        sortOrder = DEFAULT_SORT_ORDER,
-        index,
-        bool,
-      } = payload;
+      const { platform, game, sortOrder = DEFAULT_SORT_ORDER, index, bool } = payload;
       if (!game || !platform || (!index && index !== 0)) return;
       state[platform][game][sortOrder][index].contactSeller = bool;
     })

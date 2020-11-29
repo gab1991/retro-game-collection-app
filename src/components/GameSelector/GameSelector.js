@@ -49,8 +49,7 @@ function GameSelector(props) {
 
   const pageChangeHandler = (pageNumber) => dispatch(changePage(pageNumber));
 
-  const gameSearchChangeHandler = (e) =>
-    dispatch(setSearchInputValue(e.target.value));
+  const gameSearchChangeHandler = (e) => dispatch(setSearchInputValue(e.target.value));
 
   const sendRequestHandler = (e) => {
     if (e.key === 'Enter' || e.currentTarget.name === 'searchBtn') {
@@ -67,9 +66,9 @@ function GameSelector(props) {
       <div className={styles.Header}>
         <div className={styles.ControlsContainer}>
           <SearchInput
-            type="text"
-            placeholder="Name of a game"
-            name="gameSearch"
+            type='text'
+            placeholder='Name of a game'
+            name='gameSearch'
             onChange={gameSearchChangeHandler}
             onKeyPress={sendRequestHandler}
             onBtnClick={sendRequestHandler}
@@ -106,11 +105,7 @@ function GameSelector(props) {
               <GameCard {...game} platformName={platformName} key={game.slug} />
             </div>
           ))}
-        {noGamesFound && (
-          <h1 className={styles.NoGamesFound}>
-            No results have been found! Try to change the query
-          </h1>
-        )}
+        {noGamesFound && <h1 className={styles.NoGamesFound}>No results have been found! Try to change the query</h1>}
       </div>
       {pageData && (
         <Paginator

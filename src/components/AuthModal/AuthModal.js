@@ -6,9 +6,7 @@ import SignInForm from './SigInForm/SignInForm';
 
 export default function AuthModal(props) {
   const { activeSideProps } = props;
-  const [activeSide, setActiveSide] = useState(
-    activeSideProps || 'ActiveSignIn'
-  );
+  const [activeSide, setActiveSide] = useState(activeSideProps || 'ActiveSignIn');
 
   const backToSignIn = (e) => {
     if (e) e.preventDefault();

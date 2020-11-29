@@ -43,10 +43,10 @@ function App(props) {
     <div className={styles.App}>
       <Layout>
         <Switch>
-          <Route exact path="/profile/:section?" component={Profile} />
+          <Route exact path='/profile/:section?' component={Profile} />
           <Route path={`/:platformName/:gameSlug`} component={GameDetailed} />
-          <Route exact path="/:platformName" component={GameSelector} />
-          <Route exact path="/" component={PlatformSelector} />
+          <Route exact path='/:platformName' component={GameSelector} />
+          <Route exact path='/' component={PlatformSelector} />
         </Switch>
       </Layout>
     </div>

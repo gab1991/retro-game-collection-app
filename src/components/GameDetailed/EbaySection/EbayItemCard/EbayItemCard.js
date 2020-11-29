@@ -9,18 +9,8 @@ import styles from './EbayItemCard.module.scss';
 
 function EbayItemCard(props) {
   const dispatch = useDispatch();
-  const {
-    isMobile,
-    index,
-    isVisible,
-    platform,
-    game,
-    sortOrder = 'BestMatch',
-  } = props;
-  const card =
-    useSelector(
-      (state) => state.ebayItems?.[platform]?.[game]?.[sortOrder]?.[index]
-    ) || {};
+  const { isMobile, index, isVisible, platform, game, sortOrder = 'BestMatch' } = props;
+  const card = useSelector((state) => state.ebayItems?.[platform]?.[game]?.[sortOrder]?.[index]) || {};
   const { itemData } = card;
   const { itemId } = itemData || {};
 
@@ -35,28 +25,18 @@ function EbayItemCard(props) {
         <>
           <div className={styles.ImgArea}>
             <Slider
-              transition="off"
+              transition='off'
               images={itemData.pictures}
               imageWidth={isMobile ? 150 : 200}
               imageHeight={isMobile ? 190 : 220}
               navDots
               imgFit={'cover'}
             />
-            <a
-              className={styles.SvgWrapper}
-              href={itemData.itemUrl}
-              rel="noopener noreferrer"
-              target="_blank">
+            <a className={styles.SvgWrapper} href={itemData.itemUrl} rel='noopener noreferrer' target='_blank'>
               <EbayLogo />
             </a>
           </div>
-          <EbayCardDesc
-            {...props}
-            {...itemData}
-            {...card}
-            index={index}
-            itemId={itemId}
-          />
+          <EbayCardDesc {...props} {...itemData} {...card} index={index} itemId={itemId} />
         </>
       )}
       {!itemData && (

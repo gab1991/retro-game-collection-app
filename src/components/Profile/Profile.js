@@ -8,9 +8,7 @@ import styles from './Profile.module.scss';
 function Profile(props) {
   const { loggedUser } = props;
   const { section } = props.match.params;
-  const [activeSection, setActiveSection] = useState(
-    section || 'CollectionList'
-  );
+  const [activeSection, setActiveSection] = useState(section || 'CollectionList');
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,13 +30,11 @@ function Profile(props) {
           <li
             desc={'CollectionList'}
             onClick={sectionToggler}
-            className={activeSection === 'CollectionList' ? styles.active : ''}>
+            className={activeSection === 'CollectionList' ? styles.active : ''}
+          >
             My Collection
           </li>
-          <li
-            desc={'WishList'}
-            onClick={sectionToggler}
-            className={activeSection === 'WishList' ? styles.active : ''}>
+          <li desc={'WishList'} onClick={sectionToggler} className={activeSection === 'WishList' ? styles.active : ''}>
             Wish List
           </li>
         </ul>

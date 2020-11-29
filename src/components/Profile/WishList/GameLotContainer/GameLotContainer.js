@@ -2,21 +2,12 @@ import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
-import {
-  reorderGames,
-  removeGame,
-} from '../../../../Store/Actions/profileActions';
+import { reorderGames, removeGame } from '../../../../Store/Actions/profileActions';
 import EbyaLotSection from './EbayLotSection/EbyaLotSection';
 import styles from './GameLotContainer.module.scss';
 
 const SortableList = SortableContainer(
-  ({
-    games,
-    platform,
-    removeFromArrayHandler,
-    ebayshowHandler,
-    isEbayShowedList,
-  }) => {
+  ({ games, platform, removeFromArrayHandler, ebayshowHandler, isEbayShowedList }) => {
     return (
       <div className={styles.GameLotContainer}>
         <hr></hr>
@@ -36,22 +27,12 @@ const SortableList = SortableContainer(
         })}
       </div>
     );
-  }
+  },
 );
 
 const SortableItem = SortableElement(
-  ({
-    game,
-    platform,
-    removeFromArrayHandler,
-    ind,
-    ebayshowHandler,
-    isEbayShowedList,
-  }) => (
-    <div
-      className={`${styles.GameLots} ${
-        isEbayShowedList[game.name] ? styles.EbayShowing : ''
-      }`}>
+  ({ game, platform, removeFromArrayHandler, ind, ebayshowHandler, isEbayShowedList }) => (
+    <div className={`${styles.GameLots} ${isEbayShowedList[game.name] ? styles.EbayShowing : ''}`}>
       <EbyaLotSection
         showingEbay={ebayshowHandler}
         removeFromArray={removeFromArrayHandler}
@@ -60,7 +41,7 @@ const SortableItem = SortableElement(
         index={ind}
       />
     </div>
-  )
+  ),
 );
 
 function GameLotContainer(props) {

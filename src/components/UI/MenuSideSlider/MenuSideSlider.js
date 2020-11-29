@@ -11,7 +11,8 @@ export default function MenuSideSlider(props) {
     ${slideLeft && styles.MenuSliderLeft} 
     ${slideRight && styles.MenuSliderRight} 
     ${show && slideLeft && styles.SlideLeft} 
-    ${show && slideRight && styles.SlideRight}`}>
+    ${show && slideRight && styles.SlideRight}`}
+    >
       {list.map(({ option, onClick }) => {
         if (!option) return null;
         return (

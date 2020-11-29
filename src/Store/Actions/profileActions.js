@@ -14,27 +14,21 @@ const fillProfile = (profile) => {
 };
 
 const getProfileInfo = () => async (dispatch, getState) => {
-  const { data: profile = { profile: null } } = await Backend.getProfileInfo(
-    () => {
-      dispatch(
-        showErrModal({ message: `Could't get your profile! Try once more` })
-      );
-    }
-  );
+  const { data: profile = { profile: null } } = await Backend.getProfileInfo(() => {
+    dispatch(showErrModal({ message: `Could't get your profile! Try once more` }));
+  });
 
   if (!profile) return;
 
   dispatch(fillProfile(profile));
 
   //fill possible ebayCards
-  const {
-    wish_list: { platforms: platfromsInWishList } = { platforms: [] },
-  } = profile;
+  const { wish_list: { platforms: platfromsInWishList } = { platforms: [] } } = profile;
 
-  for (let platform of platfromsInWishList) {
+  for (const platform of platfromsInWishList) {
     const { name: platformName, games } = platform || {};
 
-    for (let game of games) {
+    for (const game of games) {
       const { name: gameName, watchedEbayOffers } = game || {};
       const ebayItems = watchedEbayOffers.map((ebayItem) => ({
         itemId: [ebayItem.id],
@@ -66,9 +60,9 @@ const removeGame = (gameDetails, list, platform) => {
         dispatch(
           showErrModal({
             message: 'Something wrong happened.Try again later',
-          })
+          }),
         );
-      }
+      },
     );
   };
 };
@@ -86,9 +80,9 @@ const addGame = (gameDetails, list, platform) => {
         dispatch(
           showErrModal({
             message: 'Something wrong happened.Try again later',
-          })
+          }),
         );
-      }
+      },
     );
   };
 };
@@ -99,17 +93,11 @@ const toggleEbayVisibility = (gameName, platform, isShowed) => {
       dispatch(
         showErrModal({
           message: 'Something wrong happened.Try again later',
-        })
+        }),
       );
     });
   };
 };
 
-export {
-  getProfileInfo,
-  reorderGames,
-  removeGame,
-  addGame,
-  toggleEbayVisibility,
-};
+export { getProfileInfo, reorderGames, removeGame, addGame, toggleEbayVisibility };
 export { FILL_PROFILE };

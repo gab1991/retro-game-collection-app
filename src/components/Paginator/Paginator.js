@@ -4,9 +4,7 @@ import styles from './Paginator.module.scss';
 function pagination(currentPage, pageCount, delta) {
   const left = currentPage - delta;
   const right = currentPage + delta + 1;
-  const result = Array.from({ length: pageCount }, (v, k) => k + 1).filter(
-    (i) => i && i >= left && i < right
-  );
+  const result = Array.from({ length: pageCount }, (v, k) => k + 1).filter((i) => i && i >= left && i < right);
 
   if (result.length > 1) {
     // Add first page and dots
@@ -29,13 +27,7 @@ function pagination(currentPage, pageCount, delta) {
   return result;
 }
 
-export default function Paginator({
-  totalCount,
-  itemsPerPage,
-  currentPage,
-  changeCurrentPage,
-  className,
-}) {
+export default function Paginator({ totalCount, itemsPerPage, currentPage, changeCurrentPage, className }) {
   const pageCount = Math.ceil(totalCount / itemsPerPage);
   const buttons = [];
   const delta = 1;
@@ -61,8 +53,8 @@ export default function Paginator({
   const arrPaginator = pagination(currentPage, pageCount, delta);
 
   for (let i = 0; i < arrPaginator.length; i++) {
-    let k = arrPaginator[i];
-    let isDots = k === '...';
+    const k = arrPaginator[i];
+    const isDots = k === '...';
 
     if (isDots && arrPaginator[i - 1] === 1) {
       buttons.push(
@@ -70,9 +62,10 @@ export default function Paginator({
           key={Math.ceil((1 + currentPage - delta) / 2)}
           className={currentPage === k ? styles.active : null}
           data-page={Math.ceil((1 + currentPage - delta) / 2)}
-          onClick={buttonClick}>
+          onClick={buttonClick}
+        >
           {k}
-        </button>
+        </button>,
       );
     } else if (isDots && arrPaginator[i + 1] === pageCount) {
       buttons.push(
@@ -80,19 +73,16 @@ export default function Paginator({
           key={Math.ceil((currentPage + pageCount + delta) / 2)}
           className={currentPage === k ? styles.active : null}
           data-page={Math.ceil((currentPage + pageCount + delta) / 2)}
-          onClick={buttonClick}>
+          onClick={buttonClick}
+        >
           {k}
-        </button>
+        </button>,
       );
     } else {
       buttons.push(
-        <button
-          key={k}
-          className={currentPage === k ? styles.active : null}
-          data-page={k}
-          onClick={buttonClick}>
+        <button key={k} className={currentPage === k ? styles.active : null} data-page={k} onClick={buttonClick}>
           {k}
-        </button>
+        </button>,
       );
     }
   }

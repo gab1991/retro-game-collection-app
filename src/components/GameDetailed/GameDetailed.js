@@ -46,9 +46,7 @@ function GameDetailed(props) {
     showWishNotifier,
     showWishListWarn,
   } = props;
-  const boxArtUrl = useSelector(
-    (state) => state.content.boxArts?.[platformName]?.[gameDetails.name]
-  );
+  const boxArtUrl = useSelector((state) => state.content.boxArts?.[platformName]?.[gameDetails.name]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -110,14 +108,10 @@ function GameDetailed(props) {
   const toggleList = (platform, gameDetails, list) => {
     if (list === 'wish_list') {
       dispatch(setIsWished(!isWished));
-      isWished
-        ? dispatch(removeGame(gameDetails, list, platform))
-        : dispatch(addGame(gameDetails, list, platform));
+      isWished ? dispatch(removeGame(gameDetails, list, platform)) : dispatch(addGame(gameDetails, list, platform));
     } else if (list === 'owned_list') {
       dispatch(setIsOwned(!isOwned));
-      isOwned
-        ? dispatch(removeGame(gameDetails, list, platform))
-        : dispatch(addGame(gameDetails, list, platform));
+      isOwned ? dispatch(removeGame(gameDetails, list, platform)) : dispatch(addGame(gameDetails, list, platform));
     }
   };
 
@@ -193,15 +187,13 @@ function GameDetailed(props) {
     {
       linkText: 'Wish List',
       linkDir: '/profile/WishList',
-      onCancelClick: () =>
-        toggleList(platformName, gameDetails, 'wish_list', 'removeGame'),
+      onCancelClick: () => toggleList(platformName, gameDetails, 'wish_list', 'removeGame'),
       show: showWishNotifier,
     },
     {
       linkText: 'Owned List',
       linkDir: '/profile/CollectionList',
-      onCancelClick: () =>
-        toggleList(platformName, gameDetails, 'owned_list', 'removeGame'),
+      onCancelClick: () => toggleList(platformName, gameDetails, 'owned_list', 'removeGame'),
       show: showOwnedNotifier,
     },
   ];
@@ -222,9 +214,7 @@ function GameDetailed(props) {
           />
         </div>
         <div className={styles.InfoSection}>
-          {gameDetails.name && (
-            <GameInfoBox gameInfo={gameDetails} boxArt={boxArtUrl} />
-          )}
+          {gameDetails.name && <GameInfoBox gameInfo={gameDetails} boxArt={boxArtUrl} />}
         </div>
         <div className={styles.DescSection}>
           <hr></hr>
@@ -233,25 +223,23 @@ function GameDetailed(props) {
         <div className={styles.ContorlsSection}>
           <hr></hr>
           <div className={styles.ButtonsContainer}>
-            {buttons.map(
-              ({ disabled, color, txtContent, onClick, tooltip }) => (
-                <div className={styles.ButtonNeonWrapper} key={txtContent}>
-                  <ButtonNeon
-                    className={styles.ButtonNeon}
-                    disabled={disabled}
-                    color={color}
-                    txtContent={txtContent}
-                    onClick={onClick}
-                  />
-                  {tooltip && (
-                    <div className={styles.ButtonTooltip}>
-                      {tooltip.txtContent}
-                      <button onClick={tooltip.btnOnclick}>GO TO LOGIN</button>
-                    </div>
-                  )}
-                </div>
-              )
-            )}
+            {buttons.map(({ disabled, color, txtContent, onClick, tooltip }) => (
+              <div className={styles.ButtonNeonWrapper} key={txtContent}>
+                <ButtonNeon
+                  className={styles.ButtonNeon}
+                  disabled={disabled}
+                  color={color}
+                  txtContent={txtContent}
+                  onClick={onClick}
+                />
+                {tooltip && (
+                  <div className={styles.ButtonTooltip}>
+                    {tooltip.txtContent}
+                    <button onClick={tooltip.btnOnclick}>GO TO LOGIN</button>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
           <hr></hr>
         </div>
@@ -259,10 +247,7 @@ function GameDetailed(props) {
       <div className={styles.VideoSection}>
         {videoElms.map(({ className, elm, heading, video }) => (
           <div className={className} key={elm}>
-            <div
-              className={`${styles.VideoLabel}`}
-              elm={elm}
-              onClick={(e) => toggleBlockVisibilty(e)}>
+            <div className={`${styles.VideoLabel}`} elm={elm} onClick={(e) => toggleBlockVisibilty(e)}>
               <h2>{heading}</h2>
               {isMobile && (
                 <div className={styles.DropDownSvgContainer}>
@@ -282,8 +267,8 @@ function GameDetailed(props) {
                   <ReactPlayer
                     url={video.url}
                     className={styles.ReactPlayer}
-                    height="100%"
-                    width="100%"
+                    height='100%'
+                    width='100%'
                     controls={true}
                     playing={false}
                     light
@@ -295,10 +280,7 @@ function GameDetailed(props) {
         ))}
       </div>
       <div className={styles.EbaySection}>
-        <div
-          className={styles.EbayLabel}
-          elm="ebaySection"
-          onClick={(e) => toggleBlockVisibilty(e)}>
+        <div className={styles.EbayLabel} elm='ebaySection' onClick={(e) => toggleBlockVisibilty(e)}>
           <h2>Ebay Offers</h2>
           {isMobile && (
             <div className={styles.DropDownSvgContainer}>

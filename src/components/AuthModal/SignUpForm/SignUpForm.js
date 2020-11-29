@@ -2,10 +2,7 @@ import React, { useState, useRef } from 'react';
 import styles from './SignUpForm.module.scss';
 import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import { useDispatch } from 'react-redux';
-import {
-  showAuthModal,
-  showCornerNotifier,
-} from '../../../Store/Actions/appStateActions';
+import { showAuthModal, showCornerNotifier } from '../../../Store/Actions/appStateActions';
 import useWindowSize from '../../../CustomHooks/useWindowSize';
 
 import Input from '../../UI/Inputs/InputAuth/InputAuth';
@@ -75,22 +72,17 @@ export default function SignUpForm(props) {
       wrongListHandler(name, 'length 0');
     } else {
       if (name === 'username') {
-        let isValid = validate('username', value);
+        const isValid = validate('username', value);
         if (isValid) wrongListHandler(name, 'remove');
         else wrongListHandler(name, 'set', 'Only numbers and letters allowed');
       }
       if (name === 'password' || name === 'passConfirm') {
-        let isValid = validate('password', value);
+        const isValid = validate('password', value);
         if (isValid) wrongListHandler(name, 'remove');
-        else
-          wrongListHandler(
-            name,
-            'set',
-            'Password must contain at least one number and 4 to 15 chars'
-          );
+        else wrongListHandler(name, 'set', 'Password must contain at least one number and 4 to 15 chars');
       }
       if (name === 'email') {
-        let isValid = validate('email', value);
+        const isValid = validate('email', value);
         if (isValid) wrongListHandler(name, 'remove');
         else wrongListHandler(name, 'set', 'Wrong email');
       }
@@ -98,7 +90,7 @@ export default function SignUpForm(props) {
   };
 
   const changeHandler = (e, name) => {
-    let currentValue = e.target.value;
+    const currentValue = e.target.value;
     inputs.current[name].value = currentValue;
     validityChecker(name, currentValue);
   };
@@ -139,7 +131,7 @@ export default function SignUpForm(props) {
                 corner: 'bottomLeft',
                 show: true,
                 removeTime: 1000,
-              })
+              }),
             );
           }
         })
@@ -165,11 +157,7 @@ export default function SignUpForm(props) {
               <Input
                 {...inputs.current[name]}
                 desc={name}
-                addToggler={
-                  inputs.current[name].type === 'password'
-                    ? 'hideShowToggler'
-                    : null
-                }
+                addToggler={inputs.current[name].type === 'password' ? 'hideShowToggler' : null}
                 onChange={changeHandler}
                 wrong={wrongInputs[name]}
                 disabled={isSending}
@@ -178,16 +166,8 @@ export default function SignUpForm(props) {
           ))}
         </div>
         <div className={styles.BtnSection}>
-          <ButtonNeon
-            txtContent={`Create Account`}
-            rectangular
-            onClick={submitHandler}
-          />
-          <ButtonNeon
-            txtContent={`Back to Sign In`}
-            rectangular
-            onClick={backToSignIn}
-          />
+          <ButtonNeon txtContent={`Create Account`} rectangular onClick={submitHandler} />
+          <ButtonNeon txtContent={`Back to Sign In`} rectangular onClick={backToSignIn} />
         </div>
       </form>
       <div className={styles.CloseSvgWrapper} onClick={closeModalHandler}>

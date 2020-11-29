@@ -16,16 +16,11 @@ function Layout(props) {
       <main> {children}</main>
       <footer className={styles.Footer}>
         <p>
-          <a href="https://rawg.io/" rel="noopener noreferrer" target="_blank">
+          <a href='https://rawg.io/' rel='noopener noreferrer' target='_blank'>
             RAWG
           </a>
-          {
-            '  is the source of the data and screenshots / boxarts are provided by '
-          }
-          <a
-            href="https://emumovies.com/"
-            rel="noopener noreferrer"
-            target="_blank">
+          {'  is the source of the data and screenshots / boxarts are provided by '}
+          <a href='https://emumovies.com/' rel='noopener noreferrer' target='_blank'>
             emumovies.com
           </a>
         </p>

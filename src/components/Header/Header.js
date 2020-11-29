@@ -33,13 +33,10 @@ function headerReducer(state, { type, payload }) {
 function Header(props) {
   const { userData } = props;
   const dispatchGlobal = useDispatch();
-  const [{ showMenuSlider, showBackdrop }, dispatchLocal] = useReducer(
-    headerReducer,
-    {
-      showMenuSlider: false,
-      showBackdrop: false,
-    }
-  );
+  const [{ showMenuSlider, showBackdrop }, dispatchLocal] = useReducer(headerReducer, {
+    showMenuSlider: false,
+    showBackdrop: false,
+  });
 
   const toggleMenuSlider = () => {
     dispatchLocal({ type: 'TOGGLE_MENU_SLIDER' });
@@ -85,19 +82,11 @@ function Header(props) {
             ]}
           />
           {userData ? (
-            <li
-              onClick={toProfile}
-              className={`${styles.ProfileDesctop} ${styles.ListItem}`}>
+            <li onClick={toProfile} className={`${styles.ProfileDesctop} ${styles.ListItem}`}>
               PROFILE
             </li>
           ) : (
-            <ButtonNeon
-              txtContent="Login"
-              color={'green'}
-              className={styles.Btn}
-              rectangular
-              onClick={showAuth}
-            />
+            <ButtonNeon txtContent='Login' color={'green'} className={styles.Btn} rectangular onClick={showAuth} />
           )}
         </ul>
       </nav>

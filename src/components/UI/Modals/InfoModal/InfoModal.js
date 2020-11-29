@@ -23,11 +23,7 @@ export default function InfoModal(props) {
         </div>
         <div className={styles.MessageSection}>
           <p>{message}</p>
-          <ButtonNeon
-            txtContent={btnTxtContent}
-            onClick={hideModal}
-            color={'red'}
-          />
+          <ButtonNeon txtContent={btnTxtContent} onClick={hideModal} color={'red'} />
         </div>
       </div>
     </div>

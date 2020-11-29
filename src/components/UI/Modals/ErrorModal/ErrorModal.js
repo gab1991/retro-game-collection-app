@@ -28,11 +28,7 @@ export default function ErrorModal(props) {
         </div>
         <div className={styles.MessageSection}>
           <p>{message}</p>
-          <ButtonNeon
-            txtContent={btnTxtContent}
-            onClick={onBtnClick}
-            color={'red'}
-          />
+          <ButtonNeon txtContent={btnTxtContent} onClick={onBtnClick} color={'red'} />
         </div>
       </div>
     </div>

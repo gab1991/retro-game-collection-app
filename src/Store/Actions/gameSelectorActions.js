@@ -144,14 +144,7 @@ const setSearchInputValue = (value) => {
   };
 };
 
-export {
-  getGamesForPlatform,
-  changePage,
-  parseQueryParams,
-  setSearchInputValue,
-  startNewSearch,
-  setNewOrdering,
-};
+export { getGamesForPlatform, changePage, parseQueryParams, setSearchInputValue, startNewSearch, setNewOrdering };
 
 export {
   SET_IS_LOADING,
