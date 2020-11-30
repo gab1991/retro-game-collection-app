@@ -21,7 +21,7 @@ module.exports = {
       version: 'detect', // Tells eslint-plugin-react to automatically detect the version of React to use
     },
   },
-  plugins: ['react', '@typescript-eslint', 'simple-import-sort'],
+  plugins: ['react', '@typescript-eslint', 'simple-import-sort', 'jsx-a11y'],
   extends: [
     'airbnb-typescript',
     'airbnb/hooks',
@@ -32,22 +32,17 @@ module.exports = {
     'plugin:import/warnings',
     'plugin:import/typescript',
     'plugin:jest/recommended',
+    'plugin:jsx-a11y/recommended',
     'prettier',
     'prettier/react',
     'prettier/@typescript-eslint',
     'plugin:prettier/recommended', // Enables eslint-plugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
   ],
   rules: {
-    // 'import/prefer-default-export': 0,
-    // 'import/exports-last': 2,
-    // 'import/newline-after-import': 'error',
-    // 'import/no-duplicates': 'error',
-    // 'import/first': 'error',
     //disable standart rules to enable simple-sort-plugins rules
     'sort-imports': 'off',
     'import/order': 'off',
     // simple-sort-pligins rules
-    'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
     'simple-import-sort/imports': [
       'error',
