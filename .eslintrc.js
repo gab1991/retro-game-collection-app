@@ -33,6 +33,7 @@ module.exports = {
     'plugin:import/typescript',
     'plugin:jest/recommended',
     'plugin:jsx-a11y/recommended',
+    'plugin:compat/recommended',
     'prettier',
     'prettier/react',
     'prettier/@typescript-eslint',
