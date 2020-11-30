@@ -21,7 +21,7 @@ module.exports = {
       version: 'detect', // Tells eslint-plugin-react to automatically detect the version of React to use
     },
   },
-  plugins: ['react', '@typescript-eslint', 'simple-import-sort', 'jsx-a11y'],
+  plugins: ['react', '@typescript-eslint', 'simple-import-sort', 'jsx-a11y', 'sonarjs', 'promise'],
   extends: [
     'airbnb-typescript',
     'airbnb/hooks',
@@ -31,6 +31,8 @@ module.exports = {
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:import/typescript',
+    'plugin:sonarjs/recommended',
+    'plugin:promise/recommended',
     'plugin:jest/recommended',
     'plugin:jsx-a11y/recommended',
     'plugin:compat/recommended',
