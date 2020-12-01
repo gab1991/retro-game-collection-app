@@ -3,15 +3,7 @@ import styles from './Slider.module.scss';
 import sliderArrow from '../../../Assets/images/ui/slider-arrow-left.svg';
 
 export default function Slider(props) {
-  const {
-    images,
-    arrows,
-    navDots,
-    numberOfDots,
-    imgFit,
-    imageHeight,
-    transition,
-  } = props;
+  const { images, arrows, navDots, numberOfDots, imgFit, imageHeight, transition } = props;
   const imageWidth = props.imageWidth || 300;
   const totalWith = imageWidth * images.length;
   const sliderContainer = useRef();
@@ -29,18 +21,15 @@ export default function Slider(props) {
     initialOffset: null,
   });
   const transitionCss = {
-    transition:
-      transition === 'off'
-        ? ''
-        : `transform 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275`,
+    transition: transition === 'off' ? '' : `transform 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275`,
   };
 
   useEffect(() => {
     if (images) {
       const dotsDynamicCalc = (numOfSlides, maxDots = 14) => {
-        let dotIndex = [];
+        const dotIndex = [];
         if (numOfSlides > maxDots) {
-          let fraction = numOfSlides / maxDots;
+          const fraction = numOfSlides / maxDots;
           for (let i = 1; i < maxDots; i++) {
             dotIndex.push(Math.ceil(fraction * i));
           }
@@ -57,16 +46,14 @@ export default function Slider(props) {
   }, [images, numberOfDots]);
 
   const setToCurrent = () => {
-    sliderContainer.current.style.transform = `translateX(-${
-      (totalWith / images.length) * currentImg
-    }px)`;
+    sliderContainer.current.style.transform = `translateX(-${(totalWith / images.length) * currentImg}px)`;
   };
 
   useEffect(() => {
     mouseStatsRef.current.offset = -currentImg * imageWidth;
     setActiveClass(currentImg);
     if (navDynamic) {
-      let ifMatch = navDynamic.indexOf(currentImg);
+      const ifMatch = navDynamic.indexOf(currentImg);
       if (ifMatch !== -1) setNavActive(ifMatch);
     }
   }, [currentImg, imageWidth, navDynamic]);
@@ -106,16 +93,14 @@ export default function Slider(props) {
     if (!isDown) {
       return;
     }
-    let currentOffset = e.clientX - mouseStatsRef.current.initialX;
+    const currentOffset = e.clientX - mouseStatsRef.current.initialX;
 
     mouseStatsRef.current.initialX = e.clientX;
     mouseStatsRef.current.offset += currentOffset;
 
     sliderContainer.current.style.transform = `translateX(${mouseStatsRef.current.offset}px)`;
 
-    let activeClassCalc = -Math.floor(
-      mouseStatsRef.current.offset / imageWidth
-    );
+    const activeClassCalc = -Math.floor(mouseStatsRef.current.offset / imageWidth);
 
     if (activeClassCalc < 0) {
       setActiveClass(0);
@@ -150,28 +135,25 @@ export default function Slider(props) {
         onMouseLeave={leaveHandler}
         onMouseDown={mouseDownHandler}
         onMouseMove={dragHandler}
-        onMouseUp={mouseUpHandler}>
+        onMouseUp={mouseUpHandler}
+      >
         <div
           ref={sliderContainer}
           className={styles.Images}
           style={{
-            transform: `translateX(-${
-              (totalWith / images.length) * currentImg
-            }px)`,
+            transform: `translateX(-${(totalWith / images.length) * currentImg}px)`,
             transition: `${!isDown ? transitionCss.transition : null}`,
-          }}>
+          }}
+        >
           {images &&
             images.map((image, index) => (
               <div
                 className={index === activeClass ? styles.Active : null}
                 key={index}
                 onClick={!arrows ? onClickHandler : null}
-                style={{ width: imageWidth, height: imageHeight || '' }}>
-                <img
-                  draggable="false"
-                  src={image}
-                  alt="screenshot"
-                  style={{ objectFit: imgFit || 'cover' }}></img>
+                style={{ width: imageWidth, height: imageHeight || '' }}
+              >
+                <img draggable='false' src={image} alt='screenshot' style={{ objectFit: imgFit || 'cover' }}></img>
               </div>
             ))}
         </div>
@@ -183,12 +165,13 @@ export default function Slider(props) {
                 display: isDown ? 'none' : 'block',
               }}
               className={`${styles.PrevButton} ${styles.Btn}`}
-              desc="prev"
-              onClick={onClickHandler}>
+              desc='prev'
+              onClick={onClickHandler}
+            >
               <img
                 src={sliderArrow}
-                alt="arrowImg"
-                desc="prev"
+                alt='arrowImg'
+                desc='prev'
                 onAnimationEnd={() => setClickedClassPrev(false)}
                 className={clickedClassPrev ? styles.BtnClicked : null}
               />
@@ -199,12 +182,13 @@ export default function Slider(props) {
                 display: isDown ? 'none' : 'block',
               }}
               className={`${styles.NextButton} ${styles.Btn}`}
-              desc="next"
-              onClick={onClickHandler}>
+              desc='next'
+              onClick={onClickHandler}
+            >
               <img
                 src={sliderArrow}
-                alt="arrowImg"
-                desc="next"
+                alt='arrowImg'
+                desc='next'
                 style={{ transform: `rotate(180deg)` }}
                 onAnimationEnd={() => setClickedClassNext(false)}
                 className={clickedClassNext ? styles.BtnClicked180 : null}
@@ -222,7 +206,8 @@ export default function Slider(props) {
                 className={`${styles.NavDot} 
                 ${index === navActive ? styles.ActiveDot : null}`}
                 val={val}
-                onClick={onDotClickHandler}></div>
+                onClick={onDotClickHandler}
+              ></div>
             ))}
         </div>
       )}

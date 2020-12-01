@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, connect } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
 import useWindowSize from './CustomHooks/useWindowSize';
 import { checkCredentials } from './Store/Actions/authActions';
 import { setIsMobile } from './Store/Actions/appStateActions';
 import { getProfileInfo } from './Store/Actions/profileActions';
-import { Route, Switch } from 'react-router-dom';
 import Layout from './Components/Layout/Layout';
 import PlatformSelector from './Components/PlatformSelector/PlatformSelector';
 import GameSelector from './Components/GameSelector/GameSelector';
@@ -43,10 +43,10 @@ function App(props) {
     <div className={styles.App}>
       <Layout>
         <Switch>
-          <Route exact path="/profile/:section?" component={Profile} />
-          <Route path={`/:platformName/:gameSlug`} component={GameDetailed} />
-          <Route exact path="/:platformName" component={GameSelector} />
-          <Route exact path="/" component={PlatformSelector} />
+          <Route exact path='/profile/:section?' component={Profile} />
+          <Route path='/:platformName/:gameSlug' component={GameDetailed} />
+          <Route exact path='/:platformName' component={GameSelector} />
+          <Route exact path='/' component={PlatformSelector} />
         </Switch>
       </Layout>
     </div>

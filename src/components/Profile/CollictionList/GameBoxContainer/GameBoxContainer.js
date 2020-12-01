@@ -23,11 +23,7 @@ const SortableList = SortableContainer(({ games, platform, isSorting }) => {
 });
 
 const SortableItem = SortableElement(({ game, platform, isSorting }) => (
-  <GameBox
-    game={game}
-    platform={platform}
-    showDesc={isSorting ? false : true}
-  />
+  <GameBox game={game} platform={platform} showDesc={isSorting ? false : true} />
 ));
 
 function GameBoxContainer(props) {

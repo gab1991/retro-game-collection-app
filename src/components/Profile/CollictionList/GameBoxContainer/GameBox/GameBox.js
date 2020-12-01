@@ -13,9 +13,7 @@ function GameBox(props) {
     showDesc = true,
     scaling = true,
   } = props;
-  const boxArtUrl = useSelector(
-    (state) => state.content.boxArts?.[platform]?.[gameName]
-  );
+  const boxArtUrl = useSelector((state) => state.content.boxArts?.[platform]?.[gameName]);
   const [descrVisibility, setDescrVisibility] = useState(false);
 
   useEffect(() => {
@@ -29,22 +27,17 @@ function GameBox(props) {
   return (
     <Link
       to={`/${platform}/${slug}`}
-      className={`${styles.GameBox} ${
-        scaling ? styles.Scaling : ''
-      } ${className}`}
+      className={`${styles.GameBox} ${scaling ? styles.Scaling : ''} ${className}`}
       onMouseEnter={() => toggleDescrVisivility(true)}
       onMouseLeave={() => toggleDescrVisivility(false)}
-      draggable="false">
-      <img
-        src={boxArtUrl}
-        alt={boxArtUrl}
-        className={styles.BoxArtImg}
-        draggable="false"
-      />
+      draggable='false'
+    >
+      <img src={boxArtUrl} alt={boxArtUrl} className={styles.BoxArtImg} draggable='false' />
       {showDesc && (
         <div
           className={`${styles.Desctiprion} 
-            ${descrVisibility ? styles.DesctiprionVisible : null}`}>
+            ${descrVisibility ? styles.DesctiprionVisible : null}`}
+        >
           {gameName}
         </div>
       )}

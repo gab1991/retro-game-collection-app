@@ -28,16 +28,9 @@ function EbayLotSection(props) {
   const [removing, setRemoving] = useState();
   const [showWarn, setShowWarn] = useState();
   const [isEbayTogglerOn, setIsEbayTogglerOn] = useState(isShowEbay);
-  const isEbayLoading = useSelector(
-    (state) => state.wishList?.[platform]?.[gameName]?.isEbayLoading
-  );
-  const watchedEbayCards =
-    useSelector(
-      (state) => state.ebayItems?.[platform]?.[gameName]?.['Watched']
-    ) || [];
-  const [activeEbaylist, setActiveEbaylist] = useState(
-    watchedEbayCards.length ? 'Watched' : 'New Offers'
-  );
+  const isEbayLoading = useSelector((state) => state.wishList?.[platform]?.[gameName]?.isEbayLoading);
+  const watchedEbayCards = useSelector((state) => state.ebayItems?.[platform]?.[gameName]?.['Watched']) || [];
+  const [activeEbaylist, setActiveEbaylist] = useState(watchedEbayCards.length ? 'Watched' : 'New Offers');
 
   useEffect(() => {
     dispatch(toggleEbayVisibility(gameName, platform, isEbayTogglerOn));
@@ -58,17 +51,8 @@ function EbayLotSection(props) {
   };
 
   return (
-    <div
-      className={`${styles.EbyaLotSection} ${
-        removing ? styles.Removing : null
-      }`}>
-      <GameBox
-        className={styles.Gamebox}
-        game={gameData}
-        platform={platform}
-        showDesc={false}
-        scaling={false}
-      />
+    <div className={`${styles.EbyaLotSection} ${removing ? styles.Removing : null}`}>
+      <GameBox className={styles.Gamebox} game={gameData} platform={platform} showDesc={false} scaling={false} />
       <div className={styles.ButtonSection}>
         {Object.keys(buttonsToSortOrder).map((btn) => (
           <ButtonNeon
@@ -90,10 +74,7 @@ function EbayLotSection(props) {
           onChangeHandler={knobEbayHandler}
         />
       </div>
-      <div
-        className={`${styles.EbaySection} ${
-          isEbayTogglerOn ? styles.Expand : ''
-        }`}>
+      <div className={`${styles.EbaySection} ${isEbayTogglerOn ? styles.Expand : ''}`}>
         {isEbayTogglerOn && (
           <EbaySection
             className={styles.EbaySectionSwiper}

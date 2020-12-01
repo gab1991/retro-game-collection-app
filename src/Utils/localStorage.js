@@ -7,7 +7,7 @@ const storageHandler = {
   },
   setItems: (arr) => {
     if (!isStoreExist) return null;
-    for (let keyValue of arr) {
+    for (const keyValue of arr) {
       storageHandler.setItem(...keyValue);
     }
   },
@@ -17,7 +17,7 @@ const storageHandler = {
   },
   removeItems: (arr) => {
     if (!isStoreExist) return null;
-    for (let key of arr) {
+    for (const key of arr) {
       storageHandler.removeItem(key);
     }
   },

@@ -14,8 +14,7 @@ const api = {
       platforms: 'Filter by platforms, for example: 4,5.',
       genres: 'Filter by genres, for example: 4,51 or action,indie.',
       tags: 'Filter by tags, for example: 31,7 or singleplayer,multiplayer.',
-      dates:
-        'Filter by a release date, for example: 2010-01-01,2018-12-31.1960-01-01,1969-12-31.',
+      dates: 'Filter by a release date, for example: 2010-01-01,2018-12-31.1960-01-01,1969-12-31.',
       ordering: ['name', 'released', 'rating'],
       // 'Available fields: name, released, added, created, rating. You can reverse the sort order adding a hyphen, for example: -released.'
     },

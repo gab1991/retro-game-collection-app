@@ -12,11 +12,9 @@ const queryParamBuilder = (params) => {
   if (typeof params === 'string') return params;
 
   const result = [];
-  for (let key in params) {
+  for (const key in params) {
     if (params.hasOwnProperty(key)) {
-      result.push(
-        `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
-      );
+      result.push(`${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`);
     }
   }
   return `?${result.join('&')}`;
@@ -45,14 +43,14 @@ const axiosExecute = async (options = {}, errCb) => {
 
 const Backend = {
   getGamesForPlatform: (params, errCb) => {
-    let paramsStr = queryParamBuilder(params);
-    let url = `${api.games.getGamesUrl}${paramsStr}`;
+    const paramsStr = queryParamBuilder(params);
+    const url = `${api.games.getGamesUrl}${paramsStr}`;
     return axiosExecute(
       {
         url,
         method: 'GET',
       },
-      errCb
+      errCb,
     );
   },
 
@@ -62,7 +60,7 @@ const Backend = {
         url: `${api.game.getDetailsUrl}${slug}`,
         method: 'GET',
       },
-      errCb
+      errCb,
     );
   },
 
@@ -72,19 +70,17 @@ const Backend = {
         url: `${api.game.getDetailsUrl}${slug}/screenshots`,
         method: 'GET',
       },
-      errCb
+      errCb,
     );
   },
 
   getBoxArt: (platform, slug, errCb) => {
     return axiosExecute(
       {
-        url: `${api.appServer.boxArtworkUrl}/${platform}/${encodeURIComponent(
-          slug
-        )}`,
+        url: `${api.appServer.boxArtworkUrl}/${platform}/${encodeURIComponent(slug)}`,
         method: 'GET',
       },
-      errCb
+      errCb,
     );
   },
 
@@ -95,7 +91,7 @@ const Backend = {
         method: 'POST',
         data: data,
       },
-      errCb
+      errCb,
     );
   },
 
@@ -109,7 +105,7 @@ const Backend = {
           password,
         },
       },
-      errCb
+      errCb,
     );
   },
 
@@ -125,7 +121,7 @@ const Backend = {
           username,
         },
       },
-      errCb
+      errCb,
     );
   },
 
@@ -138,7 +134,7 @@ const Backend = {
           authorization: `Bearer ${getToken()}`,
         },
       },
-      errCb
+      errCb,
     );
   },
 
@@ -152,31 +148,27 @@ const Backend = {
         },
         data: obj,
       },
-      errCb
+      errCb,
     );
   },
 
   getVideo: (videoType, platform, gameName, errCb) => {
     return axiosExecute(
       {
-        url: `${
-          api.appServer.videoURL
-        }/${videoType}/${platform}/${encodeURIComponent(gameName)}`,
+        url: `${api.appServer.videoURL}/${videoType}/${platform}/${encodeURIComponent(gameName)}`,
         method: 'GET',
       },
-      errCb
+      errCb,
     );
   },
 
   getEbayItems: (platform, gameName, sortOrder, errCb) => {
     return axiosExecute(
       {
-        url: `${api.appServer.ebayItemsUrl}/${platform}/${encodeURIComponent(
-          gameName
-        )}/${sortOrder}`,
+        url: `${api.appServer.ebayItemsUrl}/${platform}/${encodeURIComponent(gameName)}/${sortOrder}`,
         method: 'GET',
       },
-      errCb
+      errCb,
     );
   },
 
@@ -186,7 +178,7 @@ const Backend = {
         url: `${api.appServer.ebaySingleItemUrl}/${id}`,
         method: 'GET',
       },
-      errCb
+      errCb,
     );
   },
 
@@ -196,7 +188,7 @@ const Backend = {
         url: `${api.appServer.shippingCostsUrl}/${itemId}`,
         method: 'GET',
       },
-      errCb
+      errCb,
     );
   },
 
@@ -212,7 +204,7 @@ const Backend = {
           ...obj,
         },
       },
-      errCb
+      errCb,
     );
   },
 
@@ -228,7 +220,7 @@ const Backend = {
           ...obj,
         },
       },
-      errCb
+      errCb,
     );
   },
 
@@ -244,7 +236,7 @@ const Backend = {
           ...obj,
         },
       },
-      errCb
+      errCb,
     );
   },
 
@@ -257,7 +249,7 @@ const Backend = {
           authorization: `Bearer ${getToken()}`,
         },
       },
-      errCb
+      errCb,
     );
   },
 
@@ -271,7 +263,7 @@ const Backend = {
         },
         data: { gameName, platform, isShowed },
       },
-      errCb
+      errCb,
     );
   },
 };

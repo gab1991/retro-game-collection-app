@@ -32,7 +32,8 @@ export default function ButtonNeon(props) {
       ${disabled ? styles.Disabled : null}
       ${blinking ? styles.Blinking : null}
       ${className}`}
-      style={{ ...style }}>
+      style={{ ...style }}
+    >
       {txtContent}
     </button>
   );

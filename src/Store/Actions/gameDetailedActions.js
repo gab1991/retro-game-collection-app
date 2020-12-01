@@ -49,9 +49,7 @@ const getGameDetails = (slug) => {
   return async (dispatch) => {
     const { data: gameDetails } = await Backend.getGameDetails(slug, () =>
       //error handling cb
-      dispatch(
-        showErrModal({ message: 'Something wrong happens! Try again later' })
-      )
+      dispatch(showErrModal({ message: 'Something wrong happens! Try again later' })),
     );
     if (!gameDetails) return;
 
@@ -62,13 +60,11 @@ const getGameDetails = (slug) => {
 
 const getScreenShots = (slug) => {
   return async (dispatch) => {
-    const {
-      data: { results } = { results: [] },
-    } = await Backend.getScreenshots(slug, () => {
+    const { data: { results } = { results: [] } } = await Backend.getScreenshots(slug, () => {
       dispatch(
         showErrModal({
           message: `Couldnt fetch screenshots.Try again if you wish`,
-        })
+        }),
       );
     });
     const screenshotsUrls = [];
@@ -80,11 +76,7 @@ const getScreenShots = (slug) => {
 
 const getVideo = (type, platformName, gameName) => {
   return async (dispatch) => {
-    const { data: url = { url: null } } = await Backend.getVideo(
-      type,
-      platformName,
-      gameName
-    );
+    const { data: url = { url: null } } = await Backend.getVideo(type, platformName, gameName);
     if (!url) return;
 
     const combinedUrl = `https://www.youtube.com/watch?v=${url}`;
@@ -162,9 +154,7 @@ const addGame = (gameDetails, list, platform) => {
     if (list === 'wish_list') {
       dispatch(showWishedNotifierForTime(true, 2000));
     } else if (list === 'owned_list') {
-      isWished
-        ? dispatch(setShowWisListWarn(true))
-        : dispatch(showOwnedNotifierForTime(true, 2000));
+      isWished ? dispatch(setShowWisListWarn(true)) : dispatch(showOwnedNotifierForTime(true, 2000));
     }
   };
 };

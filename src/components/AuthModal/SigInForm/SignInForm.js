@@ -36,18 +36,18 @@ export default function SignInForm(props) {
       wrongListHandler(name, 'length 0');
     } else {
       if (name === 'username') {
-        let isValid = validate('username', value);
+        const isValid = validate('username', value);
         if (isValid) wrongListHandler(name, 'remove');
         else wrongListHandler(name, 'set', 'Only numbers and letters allowed');
       }
       if (name === 'password') {
-        let isValid = validate('password', value);
+        const isValid = validate('password', value);
         if (isValid) wrongListHandler(name, 'remove');
         else
           wrongListHandler(
             name,
             'set',
-            'Pass must contain at least at least one number and contain between 4 and 15 chars'
+            'Pass must contain at least at least one number and contain between 4 and 15 chars',
           );
       }
     }
@@ -69,7 +69,7 @@ export default function SignInForm(props) {
   };
 
   const changeHandler = (e, name) => {
-    let currentValue = e.target.value;
+    const currentValue = e.target.value;
     inputs.current[name].value = currentValue;
     validityChecker(name, currentValue);
   };
@@ -108,9 +108,7 @@ export default function SignInForm(props) {
 
     if (entireFormValid) {
       const sendObj = {};
-      inputsNames.forEach(
-        (name) => (sendObj[name] = inputs.current[name].value)
-      );
+      inputsNames.forEach((name) => (sendObj[name] = inputs.current[name].value));
       sendLoginReq(sendObj);
     }
   };
@@ -135,30 +133,15 @@ export default function SignInForm(props) {
         <div className={styles.InputsSection}>
           {Object.keys(inputs.current).map((name) => (
             <div key={name} className={styles.InputWrapper}>
-              <Input
-                {...inputs.current[name]}
-                desc={name}
-                onChange={changeHandler}
-                wrong={wrongInputs[name]}
-              />
+              <Input {...inputs.current[name]} desc={name} onChange={changeHandler} wrong={wrongInputs[name]} />
             </div>
           ))}
         </div>
         <div className={styles.GuestBtnSection}>
-          <ButtonNeon
-            txtContent={`Continue as Guest`}
-            rectangular
-            color={'gray'}
-            onClick={guestEnterHandler}
-          />
+          <ButtonNeon txtContent={`Continue as Guest`} rectangular color={'gray'} onClick={guestEnterHandler} />
         </div>
         <div className={styles.BtnSection}>
-          <ButtonNeon
-            txtContent={`Sign in`}
-            onClick={regularLogin}
-            style={{ zIndex: 100 }}
-            rectangular
-          />
+          <ButtonNeon txtContent={`Sign in`} onClick={regularLogin} style={{ zIndex: 100 }} rectangular />
           <ButtonNeon txtContent={`Sign Up`} rectangular onClick={toSignUp} />
         </div>
       </form>

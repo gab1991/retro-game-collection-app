@@ -28,19 +28,13 @@ function CollectionLIst(props) {
       <div className={styles.ShelvesContainer}>
         {ownedList.map(({ name: platformName, games }) => (
           <div key={platformName} className={styles.Shelf}>
-            <PlatformBadge
-              className={styles.PlatformLogo}
-              platformName={platformName}
-            />
+            <PlatformBadge className={styles.PlatformLogo} platformName={platformName} />
             <GameBoxContainer platform={platformName} games={games} />
           </div>
         ))}
         <div className={styles.EmptyList}>
           <h1>Wanna add some?</h1>
-          <ButtonNeon
-            txtContent={'Start Adding Games'}
-            onClick={toPlatfromSelecor}
-          />
+          <ButtonNeon txtContent={'Start Adding Games'} onClick={toPlatfromSelecor} />
         </div>
       </div>
     </div>

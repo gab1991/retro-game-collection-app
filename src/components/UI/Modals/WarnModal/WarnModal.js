@@ -13,7 +13,7 @@ export default function WarnModal(props) {
       <div className={styles.WarnWindow}>
         <div className={styles.TxtWrapper}>
           <div className={styles.ImgContainer}>
-            <img src={warnicon} alt="warning"></img>
+            <img src={warnicon} alt='warning'></img>
           </div>
           <p>{message}</p>
         </div>

@@ -57,7 +57,7 @@ const gameSelectorReducer = (state = initial, { type, payload }) => {
       const newParams = payload;
       const query = { ...state.query };
 
-      for (let param in query) {
+      for (const param in query) {
         //negative cases fallback to default
         if (!newParams[param]) {
           if (param === 'page') {

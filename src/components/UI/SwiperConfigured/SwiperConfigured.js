@@ -8,13 +8,7 @@ import './SwiperConfigured.scss';
 SwiperCore.use([Navigation, Pagination]);
 
 export default function SwiperConfigured(props) {
-  const {
-    slides = [],
-    images = [],
-    customSwiperProps = {},
-    className,
-    isMobile,
-  } = props;
+  const { slides = [], images = [], customSwiperProps = {}, className, isMobile } = props;
 
   return (
     <Swiper
@@ -28,7 +22,8 @@ export default function SwiperConfigured(props) {
         dynamicMainBullets: true,
         dynamicBullets: 4,
       }}
-      {...customSwiperProps}>
+      {...customSwiperProps}
+    >
       {slides.map((item, index) => (
         <SwiperSlide key={index}>{item}</SwiperSlide>
       ))}

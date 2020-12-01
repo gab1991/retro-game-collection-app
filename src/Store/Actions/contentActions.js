@@ -24,10 +24,7 @@ const getBoxArt = (platformName, gameName) => {
       return;
     }
 
-    const { data: boxArtUrl = { boxArtUrl: null } } = await Backend.getBoxArt(
-      platformName,
-      gameName
-    );
+    const { data: boxArtUrl = { boxArtUrl: null } } = await Backend.getBoxArt(platformName, gameName);
 
     if (!boxArtUrl) return;
 

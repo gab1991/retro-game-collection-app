@@ -41,11 +41,10 @@ export default function InputAuth(props) {
         />
         {addToggler === 'hideShowToggler' && (
           <div
-            className={`${styles.HideShowToggler} ${
-              typeChanger === 'text' ? styles.HideShowTogglerActive : null
-            }`}
-            onClick={passVisibilityHandler}>
-            <img src={eyeicon} alt="eyeicon"></img>
+            className={`${styles.HideShowToggler} ${typeChanger === 'text' ? styles.HideShowTogglerActive : null}`}
+            onClick={passVisibilityHandler}
+          >
+            <img src={eyeicon} alt='eyeicon'></img>
           </div>
         )}
       </div>

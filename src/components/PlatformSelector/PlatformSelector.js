@@ -10,11 +10,7 @@ function PlatformSelector(props) {
       <h1 className={styles.Heading}>Choose your platform</h1>
       <div className={styles.PlatformContainer}>
         {availablePlatforms.map((platform) => (
-          <PlatformCard
-            key={platform}
-            name={platform}
-            className={styles.PlatformCard}
-          />
+          <PlatformCard key={platform} name={platform} className={styles.PlatformCard} />
         ))}
       </div>
     </section>

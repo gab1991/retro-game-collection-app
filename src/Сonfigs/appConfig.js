@@ -62,14 +62,7 @@ const appConfig = {
       name: 'rating',
       direction: '↓',
     },
-    ordering: [
-      'name ↓',
-      'name ↑',
-      'released ↓',
-      'released ↑',
-      'rating ↓',
-      'rating ↑',
-    ],
+    ordering: ['name ↓', 'name ↑', 'released ↓', 'released ↑', 'rating ↓', 'rating ↑'],
   },
 
   EbayCards: {
@@ -99,8 +92,7 @@ const images = {
 };
 
 const textMessages = {
-  fromWishToOwn:
-    'You added game to Collection. Do you want to remove it from WishList?',
+  fromWishToOwn: 'You added game to Collection. Do you want to remove it from WishList?',
 };
 export default appConfig;
 export { images, appConfig, textMessages };

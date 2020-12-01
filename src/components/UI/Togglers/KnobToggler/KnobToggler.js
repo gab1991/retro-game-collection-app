@@ -8,19 +8,13 @@ export default function KnobToggler(props) {
   const input = useRef();
 
   useEffect(() => {
-    if (input.current)
-      input.current.style.setProperty('--checkbox-width', width);
+    if (input.current) input.current.style.setProperty('--checkbox-width', width);
   }, [input, width]);
 
   return (
     <div className={styles.KnobToggler}>
       <label htmlFor={id}>{labelTxt}</label>
-      <input
-        id={id}
-        ref={input}
-        checked={checked}
-        type="checkbox"
-        onChange={onChangeHandler}></input>
+      <input id={id} ref={input} checked={checked} type='checkbox' onChange={onChangeHandler}></input>
     </div>
   );
 }

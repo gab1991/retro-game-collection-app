@@ -24,21 +24,19 @@ export default function SelectBox(props) {
   }, [selected, selectedValue]);
 
   return (
-    <div
-      className={`${styles.SelectBox} ${className}`}
-      onClick={clickHandler}
-      onMouseLeave={leaveHandler}>
+    <div className={`${styles.SelectBox} ${className}`} onClick={clickHandler} onMouseLeave={leaveHandler}>
       <div className={`${styles.Selection} ${showDropdown && styles.ListOpen}`}>
         <span className={styles.TextSection}>{selectedValue}</span>
         <div className={`${styles.SvgContainer} `}>
           <svg
             className={showDropdown ? styles.SvgRotate : undefined}
-            width="100%"
-            height="100%"
-            viewBox="0 0 400 400"
-            fill="currentColor"
-            xmlns="http://www.w3.org/2000/svg">
-            <path d="M 100 100 L 300 100 L 200 300 z" strokeWidth="3" />
+            width='100%'
+            height='100%'
+            viewBox='0 0 400 400'
+            fill='currentColor'
+            xmlns='http://www.w3.org/2000/svg'
+          >
+            <path d='M 100 100 L 300 100 L 200 300 z' strokeWidth='3' />
           </svg>
         </div>
       </div>
@@ -47,10 +45,7 @@ export default function SelectBox(props) {
           {options.map((option) => {
             if (option !== selectedValue) {
               return (
-                <li
-                  key={option}
-                  onClick={changeHandler}
-                  className={styles.TextSection}>
+                <li key={option} onClick={changeHandler} className={styles.TextSection}>
                   {option}
                 </li>
               );
