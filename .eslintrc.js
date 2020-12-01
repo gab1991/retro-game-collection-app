@@ -15,6 +15,7 @@ module.exports = {
     node: true,
     es6: true,
     jest: true,
+    es2020: true,
   },
   settings: {
     react: {
