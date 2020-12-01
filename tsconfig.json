@@ -14,12 +14,13 @@
     "moduleResolution": "node",            /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
     "baseUrl": "./src",                       /* Base directory to resolve non-absolute module names. */
     "paths": {
-      "src/*": ["."]
+
     },                           /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
     "esModuleInterop": true,                  /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies */
     "skipLibCheck": true,                     /* Skip type checking of declaration files. */
     "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
   },
+  "include": ["src"],
   "exclude": [
     "node_modules",
     "build",
