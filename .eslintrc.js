@@ -9,7 +9,6 @@ module.exports = {
     },
     project: 'tsconfig.json',
   },
-
   env: {
     browser: true,
     node: true,
@@ -28,20 +27,10 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    'react',
-    '@typescript-eslint',
-    'simple-import-sort',
-    'jsx-a11y',
-    'sonarjs',
-    'promise',
-  ],
+  plugins: ['react', '@typescript-eslint', 'simple-import-sort'],
   extends: [
-    'airbnb-typescript',
-    'airbnb/hooks',
+    'plugin:@typescript-eslint/recommended', // Uses the recommended rules from @typescript-eslint/eslint-plugin
     'plugin:react/recommended', // Uses the recommended rules from @eslint-plugin-react
-    'plugin:@typescript-eslint/recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
-    'prettier/@typescript-eslint', // Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with prettier
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:import/typescript',
@@ -53,10 +42,10 @@ module.exports = {
     'prettier',
     'prettier/react',
     'prettier/@typescript-eslint',
-    'plugin:prettier/recommended', // Enables eslint-plugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
+    'plugin:prettier/recommended',
   ],
   rules: {
-    //disable standart rules to enable simple-sort-plugins rules
+    // disable standart rules to enable simple-sort-plugins rules
     'sort-imports': 'off',
     'import/order': 'off',
     // simple-sort-pligins rules
@@ -75,6 +64,38 @@ module.exports = {
         ],
       },
     ],
+    '@typescript-eslint/naming-convention': [
+      'error',
+      {
+        selector: 'interface',
+        format: ['PascalCase'],
+        custom: {
+          regex: '^I[A-Z]',
+          match: true,
+        },
+      },
+      {
+        selector: 'typeAlias',
+        format: ['PascalCase'],
+        custom: {
+          regex: '^T[A-Z]',
+          match: true,
+        },
+      },
+    ],
+    '@typescript-eslint/no-magic-numbers': [
+      'error',
+      {
+        ignoreNumericLiteralTypes: true,
+        ignoreEnums: true,
+        enforceConst: true,
+        ignoreReadonlyClassProperties: true,
+        ignore: [-1, 0, 1, 2],
+      },
+    ],
+
+    // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
+    // e.g. "@typescript-eslint/explicit-function-return-type": "off",
   },
   ignorePatterns: ['.eslintrc.js'],
 };
