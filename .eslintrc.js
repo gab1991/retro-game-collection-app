@@ -45,6 +45,7 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   rules: {
+    'import/no-default-export': 'error',
     // disable standart rules to enable simple-sort-plugins rules
     'sort-imports': 'off',
     'import/order': 'off',
