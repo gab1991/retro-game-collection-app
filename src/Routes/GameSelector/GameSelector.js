@@ -1,19 +1,21 @@
 import React, { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
+
+import Paginator from '../../Components/Paginator/Paginator.js';
 import SearchInput from '../../Components/UI/Inputs/SearchInput/SearchInput';
+import DotSpinner from '../../Components/UI/LoadingSpinners/DotSpinner/DotSpinner';
+import SelectBox from '../../Components/UI/SelectBox/SelectBox';
 import {
-  parseQueryParams,
-  getGamesForPlatform,
-  setNewOrdering,
   changePage,
+  getGamesForPlatform,
+  parseQueryParams,
+  setNewOrdering,
   setSearchInputValue,
   startNewSearch,
 } from '../../Store/Actions/gameSelectorActions';
 import { appConfig } from '../../Сonfigs/appConfig';
-import SelectBox from '../UI/SelectBox/SelectBox';
-import GameCard from '../GameSelector/GameCard/GameCard';
-import Paginator from '../Paginator/Paginator.js';
-import DotSpinner from '../UI/LoadingSpinners/DotSpinner/DotSpinner';
+import GameCard from './GameCard/GameCard';
+
 import styles from './GameSelector.module.scss';
 
 const orderingOptions = appConfig.GameSelector.ordering;

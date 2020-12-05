@@ -3,10 +3,10 @@ import { connect, useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 
 import GameDetailed from './Components/GameDetailed/GameDetailed';
-import GameSelector from './Components/GameSelector/GameSelector';
 import Layout from './Components/Layout/Layout';
 import Profile from './Components/Profile/Profile';
 import useWindowSize from './CustomHooks/useWindowSize';
+import GameSelector from './Routes/GameSelector/GameSelector';
 import { setIsMobile } from './Store/Actions/appStateActions';
 import { checkCredentials } from './Store/Actions/authActions';
 import { getProfileInfo } from './Store/Actions/profileActions';
