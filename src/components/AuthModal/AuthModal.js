@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import styles from './Authmodal.module.scss';
-import Backdrop from '../UI/Backdrop/Backdrop';
-import SignUpForm from './SignUpForm/SignUpForm';
+
 import SignInForm from './SigInForm/SignInForm';
+import SignUpForm from './SignUpForm/SignUpForm';
+import { Backdrop } from 'Components/UI';
+
+import styles from './Authmodal.module.scss';
 
 export default function AuthModal(props) {
   const { activeSideProps } = props;

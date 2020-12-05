@@ -1,9 +1,11 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+
 import { hideErrModal } from '../../../../Store/Actions/appStateActions';
-import FailureSvg from '../../LogoSvg/FailureSvg/FailureSvg';
-import Backdrop from '../../../UI/Backdrop/Backdrop';
 import ButtonNeon from '../../../UI/Buttons/ButtonNeon/ButtonNeon';
+import FailureSvg from '../../LogoSvg/FailureSvg/FailureSvg';
+import { Blackdrop } from 'Components/UI';
+
 import styles from './ErrorModal.module.scss';
 
 export default function ErrorModal(props) {
