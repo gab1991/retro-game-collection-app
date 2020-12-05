@@ -2,9 +2,8 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 
 import { hideInfoModal } from '../../../../Store/Actions/appStateActions';
-import ButtonNeon from '../../../UI/Buttons/ButtonNeon/ButtonNeon';
 import InfoSvg from '../../LogoSvg/InfoSvg/InfoSvg';
-import { Backdrop } from 'Components/UI';
+import { Backdrop, ButtonNeon } from 'Components/UI';
 
 import styles from './InfoModal.module.scss';
 

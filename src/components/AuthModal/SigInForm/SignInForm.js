@@ -1,13 +1,15 @@
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+
+import Backend from '../../../Backend/Backend';
 import { showAuthModal } from '../../../Store/Actions/appStateActions';
 import { signIn } from '../../../Store/Actions/authActions';
-import CloseSvg from '../../UI/LogoSvg/CloseSvg/CloseSvg';
-import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
-import Input from '../../UI/Inputs/InputAuth/InputAuth';
-import Backend from '../../../Backend/Backend';
-import OvalSpinner from '../../UI/LoadingSpinners/OvalSpinner/OvalSpinner';
 import validate from '../../../Validation/validation';
+import Input from '../../UI/Inputs/InputAuth/InputAuth';
+import OvalSpinner from '../../UI/LoadingSpinners/OvalSpinner/OvalSpinner';
+import CloseSvg from '../../UI/LogoSvg/CloseSvg/CloseSvg';
+import { ButtonNeon } from 'Components/UI';
+
 import styles from './SignInForm.module.scss';
 
 export default function SignInForm(props) {
@@ -47,7 +49,7 @@ export default function SignInForm(props) {
           wrongListHandler(
             name,
             'set',
-            'Pass must contain at least at least one number and contain between 4 and 15 chars',
+            'Pass must contain at least at least one number and contain between 4 and 15 chars'
           );
       }
     }

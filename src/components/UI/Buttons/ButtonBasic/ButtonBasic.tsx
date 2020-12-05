@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from './ButtonBasic.module.scss';
 
-interface IButtonBasic {
+export interface IButtonBasic {
   txtContent: string;
   onClick?: () => void;
   name?: string;

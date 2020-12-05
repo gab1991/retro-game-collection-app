@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+
 import PlatformBadge from '../../PlatformBadge/PlatformBadge';
-import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
 import GameLotContainer from './GameLotContainer/GameLotContainer';
+import { ButtonNeon } from 'Components/UI';
+
 import styles from './WishList.module.scss';
 
 function WishList(props) {

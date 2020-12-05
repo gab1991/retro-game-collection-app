@@ -4,9 +4,8 @@ import { withRouter } from 'react-router-dom';
 
 import { showAuthModal } from '../../Store/Actions/appStateActions';
 import { logOut } from '../../Store/Actions/authActions';
-import ButtonNeon from '../UI/Buttons/ButtonNeon/ButtonNeon';
 import MenuSideSlider from '../UI/MenuSideSlider/MenuSideSlider';
-import { Backdrop } from 'Components/UI';
+import { Backdrop, ButtonNeon } from 'Components/UI';
 
 import styles from './Header.module.scss';
 

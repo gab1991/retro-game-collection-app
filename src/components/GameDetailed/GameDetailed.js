@@ -1,29 +1,31 @@
 import React, { useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
 import ReactPlayer from 'react-player';
+import { connect, useDispatch, useSelector } from 'react-redux';
+
 import { showAuthModal } from '../../Store/Actions/appStateActions';
+import { getBoxArt } from '../../Store/Actions/contentActions';
 import {
+  addGame,
+  flushGameDetailed,
   getGameDetails,
   getScreenShots,
   getVideo,
-  toggleElmVisibility,
   setIsOwned,
   setIsWished,
-  addGame,
   setShowWisListWarn,
-  flushGameDetailed,
+  toggleElmVisibility,
 } from '../../Store/Actions/gameDetailedActions';
 import { removeGame } from '../../Store/Actions/profileActions';
-import { getBoxArt } from '../../Store/Actions/contentActions';
 import { textMessages } from '../../Сonfigs/appConfig';
-import Swiper from '../UI/SwiperConfigured/SwiperConfigured';
-import GameInfoBox from './GameInfoBox/GameInfoBox';
-import ButtonNeon from '../UI/Buttons/ButtonNeon/ButtonNeon';
-import WarnModal from '../UI/Modals/WarnModal/WarnModal';
-import CornerNotifier from '../UI/Modals/CornerNotifier/CornerNotifier';
-import EbaySection from './EbaySection/EbaySection';
-import ArrowEsc from '../UI/LogoSvg/ArrowEscSvg/ArrowEsc';
 import OvalSpinner from '../UI/LoadingSpinners/OvalSpinner/OvalSpinner';
+import ArrowEsc from '../UI/LogoSvg/ArrowEscSvg/ArrowEsc';
+import CornerNotifier from '../UI/Modals/CornerNotifier/CornerNotifier';
+import WarnModal from '../UI/Modals/WarnModal/WarnModal';
+import Swiper from '../UI/SwiperConfigured/SwiperConfigured';
+import EbaySection from './EbaySection/EbaySection';
+import GameInfoBox from './GameInfoBox/GameInfoBox';
+import { ButtonNeon } from 'Components/UI';
+
 import styles from './GameDetailed.module.scss';
 
 function GameDetailed(props) {

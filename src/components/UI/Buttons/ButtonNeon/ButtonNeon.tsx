@@ -1,7 +1,23 @@
 import React from 'react';
+
+import { IButtonBasic } from '../ButtonBasic';
+
 import styles from '../ButtonNeon/ButtonNeon.module.scss';
 
-export default function ButtonNeon(props) {
+interface IButtonNeon extends IButtonBasic {
+  direction?: string;
+  rectangular?: boolean;
+  blinking?: boolean;
+  color?: string;
+  style?: React.CSSProperties;
+  disabled?: boolean;
+  onDisabledClick?: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
+  className?: string;
+}
+
+export function ButtonNeon(props: IButtonNeon): JSX.Element {
   const {
     txtContent,
     onClick: clickHander,
@@ -24,7 +40,7 @@ export default function ButtonNeon(props) {
       onClick={!disabled ? clickHander : disableClickHandler}
       onMouseEnter={mouseEnterHandler}
       onMouseLeave={mouseLeaveHandler}
-      direction={direction}
+      data-direction={direction}
       className={`${styles.ButtonNeon} 
       ${rectangular ? styles.Rectangular : null}
       ${color ? styles[color] : null}
