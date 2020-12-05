@@ -46,6 +46,7 @@ module.exports = {
   ],
   rules: {
     'import/no-default-export': 'error',
+    //IMPORT SORTING
     // disable standart rules to enable simple-sort-plugins rules
     'sort-imports': 'off',
     'import/order': 'off',
@@ -65,6 +66,8 @@ module.exports = {
         ],
       },
     ],
+    // TYPESCRIPT
+
     '@typescript-eslint/naming-convention': [
       'error',
       {

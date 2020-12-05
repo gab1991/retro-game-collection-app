@@ -1,15 +1,23 @@
-import { appConfig } from '../../Сonfigs/appConfig';
+//@ts-nocheck
 import {
-  SET_IS_LOADING,
-  SET_NO_GAMES_FOUND,
-  SET_GAMES_TO_SHOW,
-  WRITE_PAGE_DATA,
   CHANGE_PAGE,
-  CHANGE_SEARCH_STR,
-  SET_NEW_ORDERING,
   CHANGE_QUERY_PARAMS,
+  CHANGE_SEARCH_STR,
+  SET_GAMES_TO_SHOW,
+  SET_IS_LOADING,
+  SET_NEW_ORDERING,
+  SET_NO_GAMES_FOUND,
   SET_SEARCH_INPUT_VALUE,
+  WRITE_PAGE_DATA,
 } from '../Actions/gameSelectorActions';
+import { appConfig, GameSelectorOrderingDirection, GameSelectorOrderingName } from 'Сonfigs/appConfig';
+
+export interface IGameSelectorQuery {
+  page: number;
+  search: string;
+  ordername: GameSelectorOrderingName;
+  direction: GameSelectorOrderingDirection;
+}
 
 const { defaultOrdering } = appConfig.GameSelector;
 const initial = {

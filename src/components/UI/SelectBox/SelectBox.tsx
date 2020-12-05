@@ -1,21 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
+
 import styles from './SelectBox.module.scss';
 
-export default function SelectBox(props) {
+interface ISelectBoxProps {
+  options: Array<string>;
+  className: string;
+  selected: string;
+  changedSelected: (option: string) => void;
+}
+
+export function SelectBox(props: ISelectBoxProps): JSX.Element {
   const { selected, options, changedSelected, className } = props;
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedValue, setSelectedValue] = useState(selected);
 
-  const clickHandler = (e) => {
+  const clickHandler = () => {
     setShowDropdown(!showDropdown);
   };
 
-  const changeHandler = (e) => {
-    setSelectedValue(e.target.textContent);
-    changedSelected(e.target.textContent);
+  const changeHandler = (e: SyntheticEvent<HTMLLIElement>) => {
+    if (e.target instanceof HTMLLIElement) {
+      setSelectedValue(e.target.textContent || '');
+      changedSelected(e.target.textContent || '');
+    }
   };
 
-  const leaveHandler = (e) => {
+  const leaveHandler = () => {
     setShowDropdown(false);
   };
 
@@ -24,7 +34,14 @@ export default function SelectBox(props) {
   }, [selected, selectedValue]);
 
   return (
-    <div className={`${styles.SelectBox} ${className}`} onClick={clickHandler} onMouseLeave={leaveHandler}>
+    <div
+      className={`${styles.SelectBox} ${className}`}
+      onClick={clickHandler}
+      onKeyPress={clickHandler} //accessability rule
+      onMouseLeave={leaveHandler}
+      role='listbox'
+      tabIndex={0}
+    >
       <div className={`${styles.Selection} ${showDropdown && styles.ListOpen}`}>
         <span className={styles.TextSection}>{selectedValue}</span>
         <div className={`${styles.SvgContainer} `}>
@@ -45,7 +62,14 @@ export default function SelectBox(props) {
           {options.map((option) => {
             if (option !== selectedValue) {
               return (
-                <li key={option} onClick={changeHandler} className={styles.TextSection}>
+                <li
+                  key={option}
+                  onClick={changeHandler}
+                  onKeyPress={changeHandler}
+                  className={styles.TextSection}
+                  role='treeitem'
+                  tabIndex={0}
+                >
                   {option}
                 </li>
               );

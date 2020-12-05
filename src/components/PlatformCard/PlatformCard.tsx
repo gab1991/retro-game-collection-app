@@ -12,6 +12,7 @@ interface IPlatformCardProps {
 
 export function PlatformCard({ name, className }: IPlatformCardProps): JSX.Element {
   const gamepadImage = images[name].gamepad.src;
+
   const logoImage = images[name].logo.src;
 
   return (

@@ -1,3 +1,23 @@
+// export enum GameSelectorOrdering {
+//   'NAME_DESC' = 'name ↓',
+//   'NAME_ASC' = 'name ↑',
+//   'RELEASED_DSC' = 'released ↓',
+//   'RELEASED_ASC' = 'released ↑',
+//   'RATING_DSC' = 'rating ↓',
+//   'RATING_ASC' = 'rating ↑',
+// }
+
+export enum GameSelectorOrderingName {
+  'name' = 'name',
+  'released' = 'released',
+  'rating' = 'rating',
+}
+
+export enum GameSelectorOrderingDirection {
+  'DESC' = '↓',
+  'ASC' = '↑',
+}
+
 const appConfig = {
   platformIdList: {
     // Can get through api call -> https://api.rawg.io/api/platforms
@@ -62,14 +82,7 @@ const appConfig = {
       name: 'rating',
       direction: '↓',
     },
-    ordering: [
-      'name ↓',
-      'name ↑',
-      'released ↓',
-      'released ↑',
-      'rating ↓',
-      'rating ↑',
-    ],
+    ordering: ['name ↓', 'name ↑', 'released ↓', 'released ↑', 'rating ↓', 'rating ↑'],
   },
 
   EbayCards: {
@@ -99,8 +112,7 @@ const images = {
 };
 
 const textMessages = {
-  fromWishToOwn:
-    'You added game to Collection. Do you want to remove it from WishList?',
+  fromWishToOwn: 'You added game to Collection. Do you want to remove it from WishList?',
 };
 export default appConfig;
 export { appConfig, images, textMessages };
