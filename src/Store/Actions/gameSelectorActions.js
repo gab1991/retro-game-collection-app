@@ -1,7 +1,7 @@
-import { appConfig } from '../../Сonfigs/appConfig';
 import Backend from '../../Backend/Backend';
 import { history } from '../../index';
 import { parseQueryString, stringifyQuery } from '../../Utils/queryStrUtils';
+import { appConfig } from '../../Сonfigs/appConfig';
 
 const SET_IS_LOADING = 'SET_IS_LOADING';
 const SET_NO_GAMES_FOUND = 'SET_NO_GAMES_FOUND';
@@ -61,7 +61,7 @@ const getGamesForPlatform = (platformName) => {
       //error handling cb
       dispatch(setIsLoading(false));
     });
-
+    console.log({ data });
     dispatch(writePageData({ ...data }));
     dispatch(setIsLoading(false));
 
@@ -144,16 +144,16 @@ const setSearchInputValue = (value) => {
   };
 };
 
-export { getGamesForPlatform, changePage, parseQueryParams, setSearchInputValue, startNewSearch, setNewOrdering };
+export { changePage, getGamesForPlatform, parseQueryParams, setNewOrdering, setSearchInputValue, startNewSearch };
 
 export {
-  SET_IS_LOADING,
-  SET_NO_GAMES_FOUND,
-  SET_GAMES_TO_SHOW,
-  WRITE_PAGE_DATA,
   CHANGE_PAGE,
-  CHANGE_SEARCH_STR,
-  SET_NEW_ORDERING,
   CHANGE_QUERY_PARAMS,
+  CHANGE_SEARCH_STR,
+  SET_GAMES_TO_SHOW,
+  SET_IS_LOADING,
+  SET_NEW_ORDERING,
+  SET_NO_GAMES_FOUND,
   SET_SEARCH_INPUT_VALUE,
+  WRITE_PAGE_DATA,
 };

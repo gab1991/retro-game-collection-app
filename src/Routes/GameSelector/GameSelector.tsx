@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { ChangeEvent, KeyboardEvent, MouseEvent, SyntheticEvent, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { match } from 'react-router-dom';
 import { History } from 'history';
@@ -6,7 +6,6 @@ import { History } from 'history';
 import Paginator from '../../Components/Paginator/Paginator.js';
 import SearchInput from '../../Components/UI/Inputs/SearchInput/SearchInput';
 import DotSpinner from '../../Components/UI/LoadingSpinners/DotSpinner/DotSpinner';
-import SelectBox from '../../Components/UI/SelectBox/SelectBox';
 import {
   changePage,
   getGamesForPlatform,
@@ -17,20 +16,20 @@ import {
 } from '../../Store/Actions/gameSelectorActions';
 import { appConfig } from '../../Сonfigs/appConfig';
 import GameCard from './GameCard/GameCard';
+import { SelectBox } from 'Components/UI';
+import { IGameSelectorQuery } from 'Store/Reducers/gameSelectorReducer';
+import { IRawgGame, IRawgPageData } from 'Typings/RawgData';
 
 import styles from './GameSelector.module.scss';
 
 const orderingOptions = appConfig.GameSelector.ordering;
 
 interface IGameSelectorProps {
-  gamesToShow: Array<any>;
+  gamesToShow: Array<IRawgGame>;
   isLoading: boolean;
   noGamesFound: boolean;
-  searchQuery: string;
-  pageData: Record<string, unknown>;
-  queryPage: Record<string, unknown>;
-  ordername: string;
-  direction: string;
+  query: IGameSelectorQuery;
+  pageData: IRawgPageData;
   searchInputValue: string;
   history: History;
   match: match<IGameSelecorMatchParams>;
@@ -40,23 +39,15 @@ interface IGameSelecorMatchParams {
   platformName: string;
 }
 
-function _GameSelector(props: IGameSelectorProps) {
-  const {
-    gamesToShow,
-    isLoading,
-    noGamesFound,
-    searchQuery,
-    pageData,
-    queryPage,
-    ordername,
-    direction,
-    searchInputValue,
-    history,
-  } = props;
-  const { platformName } = props?.match?.params;
-  const dispatch = useDispatch();
+interface ISendReqEvent extends SyntheticEvent {
+  key?: string;
+}
 
-  console.log(props);
+function _GameSelector(props: IGameSelectorProps) {
+  const { gamesToShow, isLoading, noGamesFound, query, pageData, searchInputValue, history, match } = props;
+  const { platformName } = match.params;
+  const { ordername, page: queryPage, search: searchQuery, direction } = query;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(parseQueryParams(history.location.search));
@@ -71,16 +62,15 @@ function _GameSelector(props: IGameSelectorProps) {
     dispatch(getGamesForPlatform(platformName));
   }, [queryPage, searchQuery, ordername, direction, platformName, dispatch]);
 
-  const pageChangeHandler = (pageNumber) => dispatch(changePage(pageNumber));
+  const pageChangeHandler = (pageNumber: number) => dispatch(changePage(pageNumber));
 
-  const gameSearchChangeHandler = (e) => dispatch(setSearchInputValue(e.target.value));
+  const gameSearchChangeHandler = (e: ChangeEvent<HTMLInputElement>) => dispatch(setSearchInputValue(e.target.value));
 
-  const sendRequestHandler = (e) => {
-    if (e.key === 'Enter' || e.currentTarget.name === 'searchBtn') {
+  const sendRequestHandler = (e: ISendReqEvent) => {
+    if (e.key === 'Enter' || e.currentTarget.getAttribute('name') === 'searchBtn') {
       dispatch(startNewSearch(searchInputValue));
     }
   };
-
   const selectChangeHandler = (option) => {
     dispatch(setNewOrdering(option));
   };
@@ -143,17 +133,13 @@ function _GameSelector(props: IGameSelectorProps) {
     </section>
   );
 }
-
 function mapStateToProps(state) {
   return {
     gamesToShow: state.gameSelector.gamesToShow,
     isLoading: state.gameSelector.isLoading,
     noGamesFound: state.gameSelector.noGamesFound,
     pageData: state.gameSelector.pageData,
-    queryPage: state.gameSelector.query.page,
-    searchQuery: state.gameSelector.query.search,
-    ordername: state.gameSelector.query.ordername,
-    direction: state.gameSelector.query.direction,
+    query: state.gameSelector.query,
     searchInputValue: state.gameSelector.searchInputValue,
   };
 }

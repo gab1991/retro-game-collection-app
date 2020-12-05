@@ -1,14 +1,15 @@
-import loggedReducer from './loginReducer';
-import profileReducer from './profileReducer';
-import gameSelectorReducer from './gameSelectorReducer';
-import gameDetailedReducer from './gameDetailedReducer';
-import appStateReducer from './appStateReducer';
-import ebayItemsReducer from './ebayItemsReducer';
-import contentReducer from './contentReducer';
-import wishListReducer from './wishListReducer';
+import { combineReducers } from 'redux';
+
 import { LOG_OUT } from '../Actions/authActions';
 
-import { combineReducers } from 'redux';
+import appStateReducer from './appStateReducer';
+import contentReducer from './contentReducer';
+import ebayItemsReducer from './ebayItemsReducer';
+import gameDetailedReducer from './gameDetailedReducer';
+import gameSelectorReducer from './gameSelectorReducer';
+import loggedReducer from './loginReducer';
+import profileReducer from './profileReducer';
+import wishListReducer from './wishListReducer';
 
 const appReducer = combineReducers({
   logged: loggedReducer,
