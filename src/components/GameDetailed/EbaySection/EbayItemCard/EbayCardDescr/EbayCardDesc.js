@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
+
 import {
-  checkIfCardIsWatched,
-  watchEbayCard,
-  notWatchEbayCard,
-  getShippingCosts,
   calculateTotalPrice,
+  checkIfCardIsWatched,
+  getShippingCosts,
+  notWatchEbayCard,
+  watchEbayCard,
 } from '../../../../../Store/Actions/ebayItemsActions';
-import Button from '../../../../UI/Buttons/Button/Button';
 import DotSpinner from '../../../../UI/LoadingSpinners/DotSpinner/DotSpinner';
+import { Button } from 'Components/UI';
+
 import styles from './EbayCardDesc.module.scss';
 
 function EbayCardDesc(props) {
