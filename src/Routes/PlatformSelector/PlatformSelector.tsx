@@ -1,8 +1,10 @@
 import React from 'react';
-import PlatformCard from '../PlatformCard/PlatformCard';
+
+import { PlatformCard } from '../../Components/PlatformCard/PlatformCard';
+
 import styles from './PlatformSelector.module.scss';
 
-function PlatformSelector(props) {
+export function PlatformSelector(): JSX.Element {
   const availablePlatforms = ['Genesis', 'PlayStation', 'NES'];
 
   return (
@@ -16,5 +18,3 @@ function PlatformSelector(props) {
     </section>
   );
 }
-
-export default PlatformSelector;
