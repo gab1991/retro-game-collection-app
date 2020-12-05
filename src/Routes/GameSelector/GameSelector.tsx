@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
+import { match } from 'react-router-dom';
+import { History } from 'history';
 
 import Paginator from '../../Components/Paginator/Paginator.js';
 import SearchInput from '../../Components/UI/Inputs/SearchInput/SearchInput';
@@ -20,7 +22,25 @@ import styles from './GameSelector.module.scss';
 
 const orderingOptions = appConfig.GameSelector.ordering;
 
-function GameSelector(props) {
+interface IGameSelectorProps {
+  gamesToShow: Array<any>;
+  isLoading: boolean;
+  noGamesFound: boolean;
+  searchQuery: string;
+  pageData: Record<string, unknown>;
+  queryPage: Record<string, unknown>;
+  ordername: string;
+  direction: string;
+  searchInputValue: string;
+  history: History;
+  match: match<IGameSelecorMatchParams>;
+}
+
+interface IGameSelecorMatchParams {
+  platformName: string;
+}
+
+function _GameSelector(props: IGameSelectorProps) {
   const {
     gamesToShow,
     isLoading,
@@ -35,6 +55,8 @@ function GameSelector(props) {
   } = props;
   const { platformName } = props?.match?.params;
   const dispatch = useDispatch();
+
+  console.log(props);
 
   useEffect(() => {
     dispatch(parseQueryParams(history.location.search));
@@ -136,4 +158,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(GameSelector);
+export const GameSelector = connect(mapStateToProps)(_GameSelector);
