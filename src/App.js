@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
+import { GameSelector, PlatformSelector } from 'Routes';
 
 import GameDetailed from './Components/GameDetailed/GameDetailed';
 import Layout from './Components/Layout/Layout';
 import Profile from './Components/Profile/Profile';
 import useWindowSize from './CustomHooks/useWindowSize';
-import GameSelector from './Routes/GameSelector/GameSelector';
 import { setIsMobile } from './Store/Actions/appStateActions';
 import { checkCredentials } from './Store/Actions/authActions';
 import { getProfileInfo } from './Store/Actions/profileActions';
-import { PlatformSelector } from 'Routes/PlatformSelector/PlatformSelector';
 
 import styles from './App.module.scss';
 import sassVars from './Сonfigs/Variables.scss';
