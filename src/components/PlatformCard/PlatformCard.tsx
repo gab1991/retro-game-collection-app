@@ -1,9 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from './PlatformCard.module.scss';
-import { images } from '../../Сonfigs/appConfig';
 
-export default function PlatformCard({ name, className }) {
+import { images } from 'Сonfigs/appConfig';
+
+import styles from './PlatformCard.module.scss';
+
+interface IPlatformCardProps {
+  name: string;
+  className: string;
+}
+
+export function PlatformCard({ name, className }: IPlatformCardProps): JSX.Element {
   const gamepadImage = images[name].gamepad.src;
   const logoImage = images[name].logo.src;
 

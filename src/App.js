@@ -1,17 +1,19 @@
 import React, { useEffect } from 'react';
-import { useDispatch, connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
-import useWindowSize from './CustomHooks/useWindowSize';
-import { checkCredentials } from './Store/Actions/authActions';
-import { setIsMobile } from './Store/Actions/appStateActions';
-import { getProfileInfo } from './Store/Actions/profileActions';
-import Layout from './Components/Layout/Layout';
-import PlatformSelector from './Components/PlatformSelector/PlatformSelector';
-import GameSelector from './Components/GameSelector/GameSelector';
+
 import GameDetailed from './Components/GameDetailed/GameDetailed';
+import GameSelector from './Components/GameSelector/GameSelector';
+import Layout from './Components/Layout/Layout';
 import Profile from './Components/Profile/Profile';
-import sassVars from './Сonfigs/Variables.scss';
+import useWindowSize from './CustomHooks/useWindowSize';
+import { setIsMobile } from './Store/Actions/appStateActions';
+import { checkCredentials } from './Store/Actions/authActions';
+import { getProfileInfo } from './Store/Actions/profileActions';
+import { PlatformSelector } from 'Routes/PlatformSelector/PlatformSelector';
+
 import styles from './App.module.scss';
+import sassVars from './Сonfigs/Variables.scss';
 
 const mobileBreakPointWidth = parseInt(sassVars['breakpoints-mobile']);
 
@@ -43,7 +45,7 @@ function App(props) {
     <div className={styles.App}>
       <Layout>
         <Switch>
-          <Route exact path='/profile/:section?' component={Profile} />
+          <Route path='/profile/:section?' component={Profile} />
           <Route path='/:platformName/:gameSlug' component={GameDetailed} />
           <Route exact path='/:platformName' component={GameSelector} />
           <Route exact path='/' component={PlatformSelector} />
