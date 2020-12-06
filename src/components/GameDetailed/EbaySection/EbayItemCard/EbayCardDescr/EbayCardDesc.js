@@ -8,8 +8,7 @@ import {
   notWatchEbayCard,
   watchEbayCard,
 } from '../../../../../Store/Actions/ebayItemsActions';
-import DotSpinner from '../../../../UI/LoadingSpinners/DotSpinner/DotSpinner';
-import { Button } from 'Components/UI';
+import { Button, DotSpinner } from 'Components/UI';
 
 import styles from './EbayCardDesc.module.scss';
 

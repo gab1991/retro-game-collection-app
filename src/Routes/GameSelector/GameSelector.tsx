@@ -4,7 +4,6 @@ import { match } from 'react-router-dom';
 import { History } from 'history';
 
 import Paginator from '../../Components/Paginator/Paginator.js';
-import DotSpinner from '../../Components/UI/LoadingSpinners/DotSpinner/DotSpinner';
 import {
   changePage,
   getGamesForPlatform,
@@ -15,7 +14,7 @@ import {
 } from '../../Store/Actions/gameSelectorActions';
 import { appConfig } from '../../Сonfigs/appConfig';
 import GameCard from './GameCard/GameCard';
-import { SearchInput, SelectBox } from 'Components/UI';
+import { DotSpinner, SearchInput, SelectBox } from 'Components/UI';
 import { IGameSelectorQuery } from 'Store/Reducers/gameSelectorReducer';
 import { IRawgGame, IRawgPageData } from 'Typings/RawgData';
 

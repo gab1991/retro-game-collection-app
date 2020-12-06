@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function DotSpinner(props) {
+export function DotSpinner(): JSX.Element {
   return (
     <svg
       width='100%'
