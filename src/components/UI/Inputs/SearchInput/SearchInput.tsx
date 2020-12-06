@@ -1,8 +1,21 @@
-import React from 'react';
+import React, { ChangeEvent, SyntheticEvent } from 'react';
+
 import styles from './SearchInput.module.scss';
 
-export default function Input(props) {
-  const { type, placeholder, name, onChange, onKeyPress, onBtnClick, value, isFocused, className } = props;
+interface ISearchInput {
+  type: string;
+  placeholder?: string;
+  name?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onKeyPress?: (e: SyntheticEvent) => void;
+  onBtnClick?: (e: SyntheticEvent) => void;
+  value?: string;
+  isFocused?: boolean;
+  className?: string;
+}
+
+export function SearchInput(props: ISearchInput): JSX.Element {
+  const { type, placeholder, name, onChange, onKeyPress, onBtnClick, value, className } = props;
 
   return (
     <div className={`${styles.InputWrapper} ${className}`}>
@@ -15,7 +28,7 @@ export default function Input(props) {
         onKeyPress={onKeyPress}
         autoComplete='off'
         value={value}
-        autoFocus={isFocused}
+        //autoFocus={isFocused} accesability issues
       />
       <button name='searchBtn' className={styles.SearchBtn} onClick={onBtnClick}>
         <svg
