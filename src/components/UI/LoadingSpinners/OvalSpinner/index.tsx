@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function OvalSpinner(props) {
+export function OvalSpinner(): JSX.Element {
   return (
     <svg
       width='100%'

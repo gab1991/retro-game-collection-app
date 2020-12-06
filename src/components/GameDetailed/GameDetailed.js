@@ -17,14 +17,13 @@ import {
 } from '../../Store/Actions/gameDetailedActions';
 import { removeGame } from '../../Store/Actions/profileActions';
 import { textMessages } from '../../Сonfigs/appConfig';
-import OvalSpinner from '../UI/LoadingSpinners/OvalSpinner/OvalSpinner';
 import ArrowEsc from '../UI/LogoSvg/ArrowEscSvg/ArrowEsc';
 import CornerNotifier from '../UI/Modals/CornerNotifier/CornerNotifier';
 import WarnModal from '../UI/Modals/WarnModal/WarnModal';
 import Swiper from '../UI/SwiperConfigured/SwiperConfigured';
 import EbaySection from './EbaySection/EbaySection';
 import GameInfoBox from './GameInfoBox/GameInfoBox';
-import { ButtonNeon } from 'Components/UI';
+import { ButtonNeon, OvalSpinner } from 'Components/UI';
 
 import styles from './GameDetailed.module.scss';
 
