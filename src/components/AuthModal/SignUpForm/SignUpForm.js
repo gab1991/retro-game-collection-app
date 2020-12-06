@@ -5,10 +5,9 @@ import Backend from '../../../Backend/Backend';
 import useWindowSize from '../../../CustomHooks/useWindowSize';
 import { showAuthModal, showCornerNotifier } from '../../../Store/Actions/appStateActions';
 import validate from '../../../Validation/validation';
-import Input from '../../UI/Inputs/InputAuth/InputAuth';
 import OvalSpinner from '../../UI/LoadingSpinners/OvalSpinner/OvalSpinner';
 import CloseSvg from '../../UI/LogoSvg/CloseSvg/CloseSvg';
-import { ButtonNeon } from 'Components/UI';
+import { ButtonNeon, InputAuth, TogglerOptions } from 'Components/UI';
 
 import sassVar from '../../../Сonfigs/Variables.scss';
 import styles from './SignUpForm.module.scss';
@@ -155,10 +154,10 @@ export default function SignUpForm(props) {
         <div className={styles.InputsSection}>
           {Object.keys(inputs.current).map((name) => (
             <div key={name} className={styles.InputWrapper}>
-              <Input
+              <InputAuth
                 {...inputs.current[name]}
-                desc={name}
-                addToggler={inputs.current[name].type === 'password' ? 'hideShowToggler' : null}
+                dataDesc={name}
+                addToggler={inputs.current[name].type === 'password' ? TogglerOptions['hideShowToggler'] : null}
                 onChange={changeHandler}
                 wrong={wrongInputs[name]}
                 disabled={isSending}

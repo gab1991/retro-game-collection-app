@@ -1,24 +1,45 @@
-import React, { useState } from 'react';
-import styles from './InputAuth.module.scss';
+import React, { ChangeEvent, useState } from 'react';
+
 import eyeicon from '../../../../Assets/images/ui/eye-regular.svg';
 
-export default function InputAuth(props) {
+import styles from './InputAuth.module.scss';
+
+export enum TogglerOptions {
+  'hideShowToggler',
+}
+
+interface IInputAuthProps {
+  type: string;
+  label: string;
+  value: string;
+  placeholder: string;
+  disabled: boolean;
+  dataDesc: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>, dataDesc: string) => void;
+  onKeyPress: () => void;
+  wrong: boolean;
+  addToggler: TogglerOptions;
+  autoComplete: 'on' | 'off';
+}
+
+export function InputAuth(props: IInputAuthProps): JSX.Element {
   const {
     type,
     label,
     value,
     placeholder,
     disabled,
-    desc,
+    dataDesc,
     onChange,
     onKeyPress,
     wrong,
     addToggler,
     autoComplete = 'on',
   } = props;
+
   const [typeChanger, setTypeChanger] = useState(type);
 
-  const passVisibilityHandler = (e) => {
+  const passVisibilityHandler = () => {
     setTypeChanger((prevType) => (prevType === 'text' ? 'password' : 'text'));
   };
 
@@ -31,18 +52,21 @@ export default function InputAuth(props) {
         ${wrong ? styles.WrongInput : null}
         `}
           autoComplete={autoComplete}
-          desc={desc}
+          data-desc={dataDesc}
           type={typeChanger}
           placeholder={placeholder}
-          onChange={(e) => onChange(e, desc)}
+          onChange={(e) => onChange(e, dataDesc)}
           onKeyPress={onKeyPress}
           disabled={disabled}
           value={value}
         />
-        {addToggler === 'hideShowToggler' && (
+        {addToggler === TogglerOptions['hideShowToggler'] && (
           <div
             className={`${styles.HideShowToggler} ${typeChanger === 'text' ? styles.HideShowTogglerActive : null}`}
             onClick={passVisibilityHandler}
+            onKeyPress={passVisibilityHandler}
+            role='button'
+            tabIndex={0}
           >
             <img src={eyeicon} alt='eyeicon'></img>
           </div>

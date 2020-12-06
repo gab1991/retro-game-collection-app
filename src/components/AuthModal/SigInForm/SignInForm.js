@@ -5,10 +5,9 @@ import Backend from '../../../Backend/Backend';
 import { showAuthModal } from '../../../Store/Actions/appStateActions';
 import { signIn } from '../../../Store/Actions/authActions';
 import validate from '../../../Validation/validation';
-import Input from '../../UI/Inputs/InputAuth/InputAuth';
 import OvalSpinner from '../../UI/LoadingSpinners/OvalSpinner/OvalSpinner';
 import CloseSvg from '../../UI/LogoSvg/CloseSvg/CloseSvg';
-import { ButtonNeon } from 'Components/UI';
+import { ButtonNeon, InputAuth } from 'Components/UI';
 
 import styles from './SignInForm.module.scss';
 
@@ -71,6 +70,7 @@ export default function SignInForm(props) {
   };
 
   const changeHandler = (e, name) => {
+    console.log(e.target, name);
     const currentValue = e.target.value;
     inputs.current[name].value = currentValue;
     validityChecker(name, currentValue);
@@ -135,7 +135,7 @@ export default function SignInForm(props) {
         <div className={styles.InputsSection}>
           {Object.keys(inputs.current).map((name) => (
             <div key={name} className={styles.InputWrapper}>
-              <Input {...inputs.current[name]} desc={name} onChange={changeHandler} wrong={wrongInputs[name]} />
+              <InputAuth {...inputs.current[name]} dataDesc={name} onChange={changeHandler} wrong={wrongInputs[name]} />
             </div>
           ))}
         </div>
