@@ -1,7 +1,12 @@
 import React from 'react';
+
 import styles from './ArrowEsc.module.scss';
 
-export default function ArrowEsc({ arrow }) {
+interface IArrowEscProps {
+  arrow?: string;
+}
+
+export function ArrowEsc({ arrow }: IArrowEscProps): JSX.Element {
   return (
     <svg
       className={styles.SvgArrow}

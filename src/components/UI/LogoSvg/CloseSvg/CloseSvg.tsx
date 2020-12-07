@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function CloseSvg(props) {
+export function CloseSvg(): JSX.Element {
   return (
     <svg
       width='100%'

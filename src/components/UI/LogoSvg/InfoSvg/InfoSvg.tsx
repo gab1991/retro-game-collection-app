@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function InfoSvg(props) {
+export function InfoSvg(): JSX.Element {
   return (
     <svg
       height='100%'

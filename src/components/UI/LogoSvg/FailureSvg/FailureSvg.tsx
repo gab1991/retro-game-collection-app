@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function FailureSvg(props) {
+export function FailureSvg(): JSX.Element {
   return (
     <svg
       version='1.0'

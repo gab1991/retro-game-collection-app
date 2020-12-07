@@ -1,7 +1,8 @@
 import React from 'react';
-import styles from './EbayLogo.module.css';
 
-export default function EbayLogo(props) {
+import styles from './EbayLogo.module.scss';
+
+export function EbayLogo(): JSX.Element {
   return (
     <svg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 300 120.32412' className={styles.SvgEbay}>
       <path

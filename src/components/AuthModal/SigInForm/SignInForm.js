@@ -5,8 +5,8 @@ import Backend from '../../../Backend/Backend';
 import { showAuthModal } from '../../../Store/Actions/appStateActions';
 import { signIn } from '../../../Store/Actions/authActions';
 import validate from '../../../Validation/validation';
-import CloseSvg from '../../UI/LogoSvg/CloseSvg/CloseSvg';
 import { ButtonNeon, InputAuth, OvalSpinner } from 'Components/UI';
+import { CloseSvg } from 'Components/UI/LogoSvg';
 
 import styles from './SignInForm.module.scss';
 
