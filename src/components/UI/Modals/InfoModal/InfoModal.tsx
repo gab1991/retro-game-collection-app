@@ -7,7 +7,12 @@ import { InfoSvg } from 'Components/UI/LogoSvg';
 
 import styles from './InfoModal.module.scss';
 
-export default function InfoModal(props) {
+interface IInfoModalProps {
+  message: string;
+  btnTxtContent: string;
+}
+
+export function InfoModal(props: IInfoModalProps): JSX.Element {
   const dispatch = useDispatch();
   const { message, btnTxtContent = 'OK' } = props;
 
@@ -17,7 +22,7 @@ export default function InfoModal(props) {
 
   return (
     <div className={styles.InfoModal}>
-      <Backdrop onClick={hideModal} closeIcon={true} show />
+      <Backdrop onClick={hideModal} show />
       <div className={styles.InfoModalMain}>
         <div className={styles.InfoSvgContainer}>
           <InfoSvg />

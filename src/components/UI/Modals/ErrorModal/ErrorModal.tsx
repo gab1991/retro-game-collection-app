@@ -7,7 +7,14 @@ import { FailureSvg } from 'Components/UI/LogoSvg';
 
 import styles from './ErrorModal.module.scss';
 
-export default function ErrorModal(props) {
+interface IErrorModalProps {
+  message: string;
+  btnTxtContent: string;
+  onBackdropClick: () => void;
+  onBtnClick: () => void;
+}
+
+export function ErrorModal(props: IErrorModalProps): JSX.Element {
   const dispatch = useDispatch();
   const {
     message,
@@ -22,7 +29,7 @@ export default function ErrorModal(props) {
 
   return (
     <div className={styles.ErrorModal}>
-      <Backdrop onClick={onBackdropClick} closeIcon={true} show />
+      <Backdrop onClick={onBackdropClick} show />
       <div className={styles.ErrorModalMain}>
         <div className={styles.ErrorSvgContainer}>
           <FailureSvg />

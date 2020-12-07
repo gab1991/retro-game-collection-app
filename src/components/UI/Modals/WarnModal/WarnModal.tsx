@@ -5,12 +5,19 @@ import { Backdrop, ButtonNeon } from 'Components/UI';
 
 import styles from './WarnModal.module.scss';
 
-export default function WarnModal(props) {
+interface IWarnModal {
+  message: string;
+  onBackdropClick: () => void;
+  onYesClick: () => void;
+  onNoClick: () => void;
+}
+
+export function WarnModal(props: IWarnModal): JSX.Element {
   const { message, onBackdropClick, onYesClick, onNoClick } = props;
 
   return (
     <div className={styles.WarnModal}>
-      <Backdrop onClick={onBackdropClick} closeIcon={true} show />
+      <Backdrop onClick={onBackdropClick} show />
       <div className={styles.WarnWindow}>
         <div className={styles.TxtWrapper}>
           <div className={styles.ImgContainer}>

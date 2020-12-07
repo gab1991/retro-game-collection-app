@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Header from '../Header/Header';
+
 import AuthModal from '../AuthModal/AuthModal';
-import ErrorModal from '../../Components/UI/Modals/ErrorModal/ErrorModal';
-import InfoModal from '../../Components/UI/Modals/InfoModal/InfoModal';
-import CornerNotifier from '../UI/Modals/CornerNotifier/CornerNotifier';
+import Header from '../Header/Header';
+import { CornerNotifier, ErrorModal, InfoModal } from 'Components/UI/Modals';
+
 import styles from './Layout.module.scss';
 
 function Layout(props) {

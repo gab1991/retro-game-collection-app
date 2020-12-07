@@ -1,7 +1,19 @@
 import React from 'react';
+
 import styles from './MenuSideSlider.module.scss';
 
-export default function MenuSideSlider(props) {
+interface IMenuSideSliderProps {
+  slideLeft: boolean;
+  slideRight: boolean;
+  show: boolean;
+  list: Array<IMenuSideSliderList>;
+}
+
+interface IMenuSideSliderList {
+  option: string;
+  onClick: () => void;
+}
+export function MenuSideSlider(props: IMenuSideSliderProps): JSX.Element {
   const { slideLeft, slideRight, show, list } = props;
 
   return (
@@ -16,7 +28,7 @@ export default function MenuSideSlider(props) {
       {list.map(({ option, onClick }) => {
         if (!option) return null;
         return (
-          <li key={option} onClick={onClick}>
+          <li key={option} onClick={onClick} onKeyPress={onClick} role='treeitem'>
             {option}
           </li>
         );
