@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+
 import PlatformBadge from '../../PlatformBadge/PlatformBadge';
 import GameBoxContainer from './GameBoxContainer/GameBoxContainer';
-import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
+import { ButtonNeon } from 'Components/UI';
+
 import styles from './CollectionList.module.scss';
 
 function CollectionLIst(props) {

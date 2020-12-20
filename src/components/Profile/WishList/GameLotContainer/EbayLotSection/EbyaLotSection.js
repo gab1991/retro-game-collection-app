@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
+
 import { toggleEbayVisibility } from '../../../../../Store/Actions/profileActions';
 import { trimName } from '../../../../../Utils/helperFunctions';
 import EbaySection from '../../../../GameDetailed/EbaySection/EbaySection';
 import GameBox from '../../../CollictionList/GameBoxContainer/GameBox/GameBox';
-import WanrModal from '../../../../UI/Modals/WarnModal/WarnModal';
-import KnobToggler from '../../../../UI/Togglers/KnobToggler/KnobToggler';
-import ButtonNeon from '../../../../UI/Buttons/ButtonNeon/ButtonNeon';
-import CloseSvg from '../../../../UI/LogoSvg/CloseSvg/CloseSvg';
+import { ButtonNeon, KnobToggler } from 'Components/UI';
+import { CloseSvg } from 'Components/UI/LogoSvg';
+import { WarnModal } from 'Components/UI/Modals';
+
 import styles from './EbayLotSection.module.scss';
 
 const buttonsToSortOrder = {

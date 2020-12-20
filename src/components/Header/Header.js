@@ -1,11 +1,11 @@
 import React, { useReducer } from 'react';
+import { connect, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { useDispatch, connect } from 'react-redux';
+
 import { showAuthModal } from '../../Store/Actions/appStateActions';
 import { logOut } from '../../Store/Actions/authActions';
-import Backdrop from '../UI/Backdrop/Backdrop';
-import MenuSideSlider from '../UI/MenuSideSlider/MenuSideSlider';
-import ButtonNeon from '../UI/Buttons/ButtonNeon/ButtonNeon';
+import { Backdrop, ButtonNeon, MenuSideSlider } from 'Components/UI';
+
 import styles from './Header.module.scss';
 
 function headerReducer(state, { type, payload }) {

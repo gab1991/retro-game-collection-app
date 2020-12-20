@@ -1,16 +1,15 @@
-import React, { useState, useRef } from 'react';
-import styles from './SignUpForm.module.scss';
-import ButtonNeon from '../../UI/Buttons/ButtonNeon/ButtonNeon';
+import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { showAuthModal, showCornerNotifier } from '../../../Store/Actions/appStateActions';
-import useWindowSize from '../../../CustomHooks/useWindowSize';
 
-import Input from '../../UI/Inputs/InputAuth/InputAuth';
-import OvalSpinner from '../../UI/LoadingSpinners/OvalSpinner/OvalSpinner';
 import Backend from '../../../Backend/Backend';
-import CloseSvg from '../../UI/LogoSvg/CloseSvg/CloseSvg';
+import useWindowSize from '../../../CustomHooks/useWindowSize';
+import { showAuthModal, showCornerNotifier } from '../../../Store/Actions/appStateActions';
 import validate from '../../../Validation/validation';
+import { ButtonNeon, InputAuth, OvalSpinner, TogglerOptions } from 'Components/UI';
+import { CloseSvg } from 'Components/UI/LogoSvg';
+
 import sassVar from '../../../Сonfigs/Variables.scss';
+import styles from './SignUpForm.module.scss';
 
 const mobileBreakPointWidth = parseInt(sassVar['breakpoints-mobile']);
 
@@ -131,7 +130,7 @@ export default function SignUpForm(props) {
                 corner: 'bottomLeft',
                 show: true,
                 removeTime: 1000,
-              }),
+              })
             );
           }
         })
@@ -154,10 +153,10 @@ export default function SignUpForm(props) {
         <div className={styles.InputsSection}>
           {Object.keys(inputs.current).map((name) => (
             <div key={name} className={styles.InputWrapper}>
-              <Input
+              <InputAuth
                 {...inputs.current[name]}
-                desc={name}
-                addToggler={inputs.current[name].type === 'password' ? 'hideShowToggler' : null}
+                dataDesc={name}
+                addToggler={inputs.current[name].type === 'password' ? TogglerOptions['hideShowToggler'] : null}
                 onChange={changeHandler}
                 wrong={wrongInputs[name]}
                 disabled={isSending}

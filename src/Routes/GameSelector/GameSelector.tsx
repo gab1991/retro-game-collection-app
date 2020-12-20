@@ -1,11 +1,9 @@
-import React, { ChangeEvent, KeyboardEvent, MouseEvent, SyntheticEvent, useEffect } from 'react';
+import React, { ChangeEvent, SyntheticEvent, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { match } from 'react-router-dom';
 import { History } from 'history';
 
 import Paginator from '../../Components/Paginator/Paginator.js';
-import SearchInput from '../../Components/UI/Inputs/SearchInput/SearchInput';
-import DotSpinner from '../../Components/UI/LoadingSpinners/DotSpinner/DotSpinner';
 import {
   changePage,
   getGamesForPlatform,
@@ -16,7 +14,7 @@ import {
 } from '../../Store/Actions/gameSelectorActions';
 import { appConfig } from '../../Сonfigs/appConfig';
 import GameCard from './GameCard/GameCard';
-import { SelectBox } from 'Components/UI';
+import { DotSpinner, SearchInput, SelectBox } from 'Components/UI';
 import { IGameSelectorQuery } from 'Store/Reducers/gameSelectorReducer';
 import { IRawgGame, IRawgPageData } from 'Typings/RawgData';
 
@@ -87,7 +85,7 @@ function _GameSelector(props: IGameSelectorProps) {
             onKeyPress={sendRequestHandler}
             onBtnClick={sendRequestHandler}
             value={searchInputValue}
-            isFocused={searchInputValue}
+            //isFocused={searchInputValue} accessibility isseues
             className={styles.InputWrapper}
           />
           {pageData && (

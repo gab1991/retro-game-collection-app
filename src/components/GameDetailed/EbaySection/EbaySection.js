@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, connect, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
+
 import { getEbayItems } from '../../../Store/Actions/gameDetailedActions';
 import { getEbayItems as getEbayItemsWishList } from '../../../Store/Actions/wishListActions';
-import SwiperConfigured from '../../UI/SwiperConfigured/SwiperConfigured';
 import EbayItemCard from '../EbaySection/EbayItemCard/EbayItemCard';
-import DotSpinner from '../../UI/LoadingSpinners/DotSpinner/DotSpinner';
+import { DotSpinner, SwiperConfigured } from 'Components/UI';
+
 import styles from './EbaySection.module.scss';
 
 function EbaySection(props) {
@@ -41,7 +42,7 @@ function EbaySection(props) {
           sortOrder={sortOrder}
           index={index}
         ></EbayItemCard>
-      )),
+      ))
     );
   }, [ebayItems, game, platform]);
 

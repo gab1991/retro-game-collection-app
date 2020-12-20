@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { PlatformCard } from '../../Components/PlatformCard/PlatformCard';
+import { ButtonBasic } from 'Components/UI/Buttons/ButtonBasic';
 
 import styles from './PlatformSelector.module.scss';
 
@@ -15,6 +16,7 @@ export function PlatformSelector(): JSX.Element {
           <PlatformCard key={platform} name={platform} className={styles.PlatformCard} />
         ))}
       </div>
+      <ButtonBasic txtContent='kek' />
     </section>
   );
 }
