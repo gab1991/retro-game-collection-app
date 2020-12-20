@@ -4,9 +4,8 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { toggleEbayVisibility } from '../../../../../Store/Actions/profileActions';
 import { trimName } from '../../../../../Utils/helperFunctions';
 import EbaySection from '../../../../GameDetailed/EbaySection/EbaySection';
-import KnobToggler from '../../../../UI/Togglers/KnobToggler/KnobToggler';
 import GameBox from '../../../CollictionList/GameBoxContainer/GameBox/GameBox';
-import { ButtonNeon } from 'Components/UI';
+import { ButtonNeon, KnobToggler } from 'Components/UI';
 import { CloseSvg } from 'Components/UI/LogoSvg';
 import { WarnModal } from 'Components/UI/Modals';
 
