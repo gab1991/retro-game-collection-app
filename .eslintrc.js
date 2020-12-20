@@ -67,7 +67,6 @@ module.exports = {
       },
     ],
     // TYPESCRIPT
-
     '@typescript-eslint/naming-convention': [
       'error',
       {
@@ -97,7 +96,8 @@ module.exports = {
         ignore: [-1, 0, 1, 2],
       },
     ],
-
+    // SONAR
+    'sonarjs/cognitive-complexity': 'warn',
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     // e.g. "@typescript-eslint/explicit-function-return-type": "off",
   },
