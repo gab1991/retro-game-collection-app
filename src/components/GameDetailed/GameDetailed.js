@@ -17,10 +17,9 @@ import {
 } from '../../Store/Actions/gameDetailedActions';
 import { removeGame } from '../../Store/Actions/profileActions';
 import { textMessages } from '../../Сonfigs/appConfig';
-import Swiper from '../UI/SwiperConfigured/SwiperConfigured';
 import EbaySection from './EbaySection/EbaySection';
 import GameInfoBox from './GameInfoBox/GameInfoBox';
-import { ButtonNeon, OvalSpinner } from 'Components/UI';
+import { ButtonNeon, OvalSpinner, SwiperConfigured } from 'Components/UI';
 import { ArrowEsc } from 'Components/UI/LogoSvg';
 import { CornerNotifier, WarnModal } from 'Components/UI/Modals';
 
@@ -202,7 +201,7 @@ function GameDetailed(props) {
     <section className={styles.GameDetailed}>
       <div className={styles.GameDetailGridCont}>
         <div className={styles.ScreenshotSection}>
-          <Swiper
+          <SwiperConfigured
             images={screenshots}
             isMobile={isMobile}
             customSwiperProps={{
