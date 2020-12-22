@@ -6,4 +6,4 @@ export interface IAction<T> {
   payload?: T;
 }
 
-export type TBaseAction<P extends Array<unknown>, T> = (...args: P) => IAction<T>;
+export type TActionCreator<P extends Array<unknown>, T> = (...args: P) => IAction<T>;
