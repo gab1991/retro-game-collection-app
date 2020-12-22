@@ -85,6 +85,14 @@ module.exports = {
           match: true,
         },
       },
+      {
+        selector: 'enum',
+        format: ['PascalCase'],
+        custom: {
+          regex: '^E[A-Z]',
+          match: true,
+        },
+      },
     ],
     '@typescript-eslint/no-magic-numbers': [
       'error',

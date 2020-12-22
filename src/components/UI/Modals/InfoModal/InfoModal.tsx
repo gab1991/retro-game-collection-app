@@ -7,7 +7,7 @@ import { InfoSvg } from 'Components/UI/LogoSvg';
 
 import styles from './InfoModal.module.scss';
 
-interface IInfoModalProps {
+export interface IInfoModalProps {
   message: string;
   btnTxtContent: string;
 }

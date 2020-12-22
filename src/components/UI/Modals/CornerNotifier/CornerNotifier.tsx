@@ -7,7 +7,7 @@ import { ButtonNeon } from 'Components/UI';
 
 import styles from './CornerNotifier.module.scss';
 
-interface ICornerNotifier {
+export interface ICornerNotifierProps {
   message: string;
   linkText: string;
   linkDir: string;
@@ -18,7 +18,7 @@ interface ICornerNotifier {
   removeTime: number;
 }
 
-export function CornerNotifier(props: ICornerNotifier): JSX.Element {
+export function CornerNotifier(props: ICornerNotifierProps): JSX.Element {
   const { message, linkText, linkDir, btnText, onCancelClick, corner, show, removeTime } = props;
   const [showing, setShowing] = useState(false);
   const [grabbed, setGrabbed] = useState(false);

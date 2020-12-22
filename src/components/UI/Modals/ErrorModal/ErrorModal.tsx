@@ -7,7 +7,7 @@ import { FailureSvg } from 'Components/UI/LogoSvg';
 
 import styles from './ErrorModal.module.scss';
 
-interface IErrorModalProps {
+export interface IErrorModalProps {
   message: string;
   btnTxtContent: string;
   onBackdropClick: () => void;

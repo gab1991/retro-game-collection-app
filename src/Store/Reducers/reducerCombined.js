@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 
 import { LOG_OUT } from '../Actions/authActions';
 
-import appStateReducer from './appStateReducer';
+import { appStateReducer } from './appStateReducer';
 import contentReducer from './contentReducer';
 import ebayItemsReducer from './ebayItemsReducer';
 import gameDetailedReducer from './gameDetailedReducer';
