@@ -8,10 +8,10 @@ import { FailureSvg } from 'Components/UI/LogoSvg';
 import styles from './ErrorModal.module.scss';
 
 export interface IErrorModalProps {
-  message: string;
-  btnTxtContent: string;
-  onBackdropClick: () => void;
-  onBtnClick: () => void;
+  message?: string;
+  btnTxtContent?: string;
+  onBackdropClick?: () => void;
+  onBtnClick?: () => void;
 }
 
 export function ErrorModal(props: IErrorModalProps): JSX.Element {

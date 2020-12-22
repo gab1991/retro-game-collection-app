@@ -1,4 +1,4 @@
-import { EAppStateActions } from './Actions/appStateActions';
+import { EAppStateActions } from './appStateReducerTypes';
 
 type TCombinedTypes = EAppStateActions;
 export interface IAction<T> {

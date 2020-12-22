@@ -1,24 +1,15 @@
 import { TActionCreator } from '../types';
+import { createAction } from 'typesafe-actions';
 
+import { EAppStateActions } from '../appStateReducerTypes';
 import { ICornerNotifierProps, IErrorModalProps, IInfoModalProps } from 'Components/UI/Modals';
 
-export enum EAppStateActions {
-  SET_IS_MOBILE = 'SET_IS_MOBILE',
-  SHOW_ERR_MODAL = 'SHOW_ERR_MODAL',
-  SHOW_AUTH_MODAL = 'SHOW_AUTH_MODAL',
-  SHOW_INFO_MODAL = 'SHOW_INFO_MODAL',
-  SHOW_CORNER_NOTIFIER = 'SHOW_CORNER_NOTIFIER',
-}
+export const setIsMobile = createAction(EAppStateActions.SET_IS_MOBILE, (value: boolean) => value)();
 
-export const setIsMobile: TActionCreator<[boolean], boolean> = (value) => ({
-  type: EAppStateActions.SET_IS_MOBILE,
-  payload: value,
-});
-
-export const showErrModal: TActionCreator<[IErrorModalProps], IErrorModalProps> = (modalProps) => ({
-  type: EAppStateActions.SHOW_ERR_MODAL,
-  payload: { ...modalProps },
-});
+export const showErrModal = createAction(
+  EAppStateActions.SHOW_ERR_MODAL,
+  (modalProps: IErrorModalProps) => modalProps
+)();
 
 export const hideErrModal: TActionCreator<[], boolean> = () => ({
   type: EAppStateActions.SHOW_ERR_MODAL,
