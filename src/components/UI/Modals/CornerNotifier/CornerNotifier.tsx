@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { hideCornerNotifier } from '../../../../Store/Actions/appStateActions';
 import { ButtonNeon } from 'Components/UI';
+import { hideCornerNotifier } from 'Store/appStateReducer/actions';
 
 import styles from './CornerNotifier.module.scss';
 

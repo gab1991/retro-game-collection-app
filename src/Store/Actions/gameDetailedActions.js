@@ -1,8 +1,9 @@
 import ReactHtmlParser from 'react-html-parser';
+
 import Backend from '../../Backend/Backend';
 import { addGame as addGameTopProfile } from '../../Store/Actions/profileActions';
-import { showErrModal } from './appStateActions';
 import { getEbayItems as getEbayItemsCore } from '../Actions/ebayItemsActions';
+import { showErrModal } from '../appStateReducer/actions';
 
 const SET_GAME_DETAILS = 'SET_GAME_DETAILS';
 const SET_DESCRIPTION_PARSED = 'SET_DESCRIPTION_PARSED';
@@ -49,7 +50,7 @@ const getGameDetails = (slug) => {
   return async (dispatch) => {
     const { data: gameDetails } = await Backend.getGameDetails(slug, () =>
       //error handling cb
-      dispatch(showErrModal({ message: 'Something wrong happens! Try again later' })),
+      dispatch(showErrModal({ message: 'Something wrong happens! Try again later' }))
     );
     if (!gameDetails) return;
 
@@ -64,7 +65,7 @@ const getScreenShots = (slug) => {
       dispatch(
         showErrModal({
           message: `Couldnt fetch screenshots.Try again if you wish`,
-        }),
+        })
       );
     });
     const screenshotsUrls = [];
@@ -183,29 +184,29 @@ const flushGameDetailed = () => {
 };
 
 export {
+  addGame,
+  flushGameDetailed,
+  getEbayItems,
   getGameDetails,
   getScreenShots,
   getVideo,
-  toggleElmVisibility,
   setIsOwned,
   setIsWished,
-  addGame,
   setShowWisListWarn,
-  getEbayItems,
-  flushGameDetailed,
+  toggleElmVisibility,
 };
 
 export {
-  SET_GAME_DETAILS,
+  FLUSH_GAME_DETAILED,
   SET_DESCRIPTION_PARSED,
-  SET_SCREENSHOTS,
-  SET_VIDEO_URL,
-  TOGGLE_ELM_VISIBILITY,
+  SET_EBAY_SECTION_LOADING,
+  SET_GAME_DETAILS,
   SET_IS_OWNED,
   SET_IS_WISHED,
+  SET_SCREENSHOTS,
   SET_SHOW_OWNED_NOTIFIER,
-  SET_SHOW_WISH_NOTIFIER,
   SET_SHOW_WISH_LIST_WARNING,
-  SET_EBAY_SECTION_LOADING,
-  FLUSH_GAME_DETAILED,
+  SET_SHOW_WISH_NOTIFIER,
+  SET_VIDEO_URL,
+  TOGGLE_ELM_VISIBILITY,
 };

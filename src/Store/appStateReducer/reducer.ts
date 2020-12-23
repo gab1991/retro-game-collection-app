@@ -1,10 +1,11 @@
 import { IAction } from '../types';
+import { EAppStateActions } from './types';
 import { ActionType, createReducer } from 'typesafe-actions';
 import { DeepReadonly } from 'utility-types';
 
-import * as appStateActions from '../Actions/appStateActions';
-import { EAppStateActions } from '../appStateReducerTypes';
 import { ICornerNotifierProps, IErrorModalProps, IInfoModalProps } from 'Components/UI/Modals';
+
+import * as appStateActions from './actions';
 
 type TAppStateActions = ActionType<typeof appStateActions>;
 

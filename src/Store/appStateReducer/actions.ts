@@ -1,7 +1,7 @@
 import { TActionCreator } from '../types';
+import { EAppStateActions } from './types';
 import { createAction } from 'typesafe-actions';
 
-import { EAppStateActions } from '../appStateReducerTypes';
 import { ICornerNotifierProps, IErrorModalProps, IInfoModalProps } from 'Components/UI/Modals';
 
 export const setIsMobile = createAction(EAppStateActions.SET_IS_MOBILE, (value: boolean) => value)();

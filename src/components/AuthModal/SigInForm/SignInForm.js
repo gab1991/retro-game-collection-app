@@ -2,8 +2,8 @@ import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Backend from '../../../Backend/Backend';
-import { showAuthModal } from '../../../Store/Actions/appStateActions';
 import { signIn } from '../../../Store/Actions/authActions';
+import { showAuthModal } from '../../../Store/appStateReducer/actions';
 import validate from '../../../Validation/validation';
 import { ButtonNeon, InputAuth, OvalSpinner } from 'Components/UI';
 import { CloseSvg } from 'Components/UI/LogoSvg';

@@ -2,9 +2,9 @@ import React, { useReducer } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { showAuthModal } from '../../Store/Actions/appStateActions';
 import { logOut } from '../../Store/Actions/authActions';
 import { Backdrop, ButtonNeon, MenuSideSlider } from 'Components/UI';
+import { showAuthModal } from 'Store/appStateReducer/actions';
 
 import styles from './Header.module.scss';
 

@@ -1,5 +1,6 @@
 import Backend from '../../Backend/Backend';
-import { showErrModal } from './appStateActions';
+import { showErrModal } from '../appStateReducer/actions';
+
 import { setEbayItems } from './ebayItemsActions';
 
 const FILL_PROFILE = 'FILL_PROFILE';
@@ -60,9 +61,9 @@ const removeGame = (gameDetails, list, platform) => {
         dispatch(
           showErrModal({
             message: 'Something wrong happened.Try again later',
-          }),
+          })
         );
-      },
+      }
     );
   };
 };
@@ -80,9 +81,9 @@ const addGame = (gameDetails, list, platform) => {
         dispatch(
           showErrModal({
             message: 'Something wrong happened.Try again later',
-          }),
+          })
         );
-      },
+      }
     );
   };
 };
@@ -93,11 +94,11 @@ const toggleEbayVisibility = (gameName, platform, isShowed) => {
       dispatch(
         showErrModal({
           message: 'Something wrong happened.Try again later',
-        }),
+        })
       );
     });
   };
 };
 
-export { getProfileInfo, reorderGames, removeGame, addGame, toggleEbayVisibility };
+export { addGame, getProfileInfo, removeGame, reorderGames, toggleEbayVisibility };
 export { FILL_PROFILE };

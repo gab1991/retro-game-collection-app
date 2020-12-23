@@ -3,10 +3,10 @@ import { useDispatch } from 'react-redux';
 
 import Backend from '../../../Backend/Backend';
 import useWindowSize from '../../../CustomHooks/useWindowSize';
-import { showAuthModal, showCornerNotifier } from '../../../Store/Actions/appStateActions';
 import validate from '../../../Validation/validation';
 import { ButtonNeon, InputAuth, OvalSpinner, TogglerOptions } from 'Components/UI';
 import { CloseSvg } from 'Components/UI/LogoSvg';
+import { showAuthModal, showCornerNotifier } from 'Store/appStateReducer/actions';
 
 import sassVar from '../../../Сonfigs/Variables.scss';
 import styles from './SignUpForm.module.scss';

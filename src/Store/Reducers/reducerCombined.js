@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 
 import { LOG_OUT } from '../Actions/authActions';
+import { appStateReducer } from 'Store/appStateReducer/reducer';
 
-import { appStateReducer } from './appStateReducer';
 import contentReducer from './contentReducer';
 import ebayItemsReducer from './ebayItemsReducer';
 import gameDetailedReducer from './gameDetailedReducer';

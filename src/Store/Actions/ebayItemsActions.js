@@ -1,6 +1,6 @@
 import Backend from '../../Backend/Backend';
 import { appConfig } from '../../Сonfigs/appConfig';
-import { showInfoModal, showErrModal } from './appStateActions';
+import { showErrModal, showInfoModal } from '../appStateReducer/actions';
 
 const DEFAULT_SORT_ORDER = appConfig.EbayCards.defaultSortOrder;
 
@@ -97,7 +97,7 @@ const checkIfCardIsWatched = (gameName, platform, index, sortOrder = DEFAULT_SOR
       },
       () => {
         dispatch(setIsWatchedEbayCard(platform, gameName, sortOrder, index, false));
-      },
+      }
     );
 
     if (success) {
@@ -118,13 +118,13 @@ const watchEbayCard = (gameName, platform, ebayItemId, index, sortOrder = DEFAUL
           showInfoModal({
             message: 'Add game to your WishList at first',
             btnTxtContent: 'got it',
-          }),
+          })
         );
       } else {
         dispatch(
           showErrModal({
             message: 'Something wrong happened.Try again later',
-          }),
+          })
         );
       }
       dispatch(setIsWatchedEbayCard(platform, gameName, sortOrder, index, false));
@@ -136,7 +136,7 @@ const watchEbayCard = (gameName, platform, ebayItemId, index, sortOrder = DEFAUL
         platform,
         ebayItemId,
       },
-      errorCallback,
+      errorCallback
     );
 
     if (status !== 200) {
@@ -154,7 +154,7 @@ const notWatchEbayCard = (gameName, platform, ebayItemId, index, sortOrder = DEF
       dispatch(
         showErrModal({
           message: 'Something wrong happened.Try again later',
-        }),
+        })
       );
     };
 
@@ -164,7 +164,7 @@ const notWatchEbayCard = (gameName, platform, ebayItemId, index, sortOrder = DEF
         platform,
         ebayItemId,
       },
-      errHandler,
+      errHandler
     );
   };
 };
@@ -268,24 +268,24 @@ const getEbayItems = (platform, game, sortOrder = DEFAULT_SORT_ORDER) => {
 };
 
 export {
-  setEbayItems,
+  calculateTotalPrice,
+  checkIfCardIsWatched,
+  getEbayItems,
   getEbaySingleItem,
   getEbaySingleItemByIndex,
-  checkIfCardIsWatched,
-  watchEbayCard,
-  notWatchEbayCard,
   getShippingCosts,
-  calculateTotalPrice,
-  getEbayItems,
+  notWatchEbayCard,
+  setEbayItems,
+  watchEbayCard,
 };
 
 export {
+  CALCULATE_TOTAL_PRICE,
+  DEFAULT_SORT_ORDER,
+  SET_EBAY_ITEM_SHIPPING_CONTACT_SELLER,
+  SET_EBAY_ITEM_SHIPPING_COST,
+  SET_EBAY_ITEM_SHIPPING_COST_LOADING,
   SET_EBAY_ITEMS,
   SET_EBAY_SINGLE_ITEM_DATA,
   SET_IS_WATCHED_EBAY_CARD,
-  SET_EBAY_ITEM_SHIPPING_COST,
-  SET_EBAY_ITEM_SHIPPING_COST_LOADING,
-  SET_EBAY_ITEM_SHIPPING_CONTACT_SELLER,
-  CALCULATE_TOTAL_PRICE,
-  DEFAULT_SORT_ORDER,
 };
