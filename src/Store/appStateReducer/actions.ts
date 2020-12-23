@@ -6,15 +6,9 @@ import { ICornerNotifierProps, IErrorModalProps, IInfoModalProps } from 'Compone
 
 export const setIsMobile = createAction(EAppStateActions.SET_IS_MOBILE, (value: boolean) => value)();
 
-export const showErrModal = createAction(
-  EAppStateActions.SHOW_ERR_MODAL,
-  (modalProps: IErrorModalProps) => modalProps
-)();
+export const showErrModal = createAction('appState/showErrModal', (modalProps: IErrorModalProps) => modalProps)();
 
-export const hideErrModal: TActionCreator<[], boolean> = () => ({
-  type: EAppStateActions.SHOW_ERR_MODAL,
-  payload: false,
-});
+export const hideErrModal = createAction('appState/hideErrorModal')();
 
 export const showAuthModal: TActionCreator<[boolean], boolean> = (bool) => ({
   type: EAppStateActions.SHOW_AUTH_MODAL,

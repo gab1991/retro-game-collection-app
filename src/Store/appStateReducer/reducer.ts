@@ -1,6 +1,8 @@
 import { EAppStateActions, TAppStateActions, TAppStateReducer } from './types';
 import { createReducer } from 'typesafe-actions';
 
+import * as actions from './actions';
+
 const initial: TAppStateReducer = {
   isMobile: false,
   showAuthModal: false,
@@ -28,8 +30,12 @@ const initial: TAppStateReducer = {
 // };
 
 export const appStateReducer = createReducer<TAppStateReducer, TAppStateActions>(initial)
-  .handleType(EAppStateActions.SET_IS_MOBILE, (state, { payload }) => ({ ...state, isMobile: payload }))
-  .handleType(EAppStateActions.SHOW_ERR_MODAL, (state, { payload: modalProps }) => ({
+  .handleAction(actions.setIsMobile, (state, { payload }) => ({ ...state, isMobile: payload }))
+  .handleAction(actions.showErrModal, (state, { payload: modalProps }) => ({
     ...state,
     showErrorModal: { show: true, ...modalProps },
+  }))
+  .handleAction(actions.hideErrModal, (state) => ({
+    ...state,
+    showErrorModal: { show: false },
   }));
