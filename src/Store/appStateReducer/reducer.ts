@@ -1,25 +1,5 @@
-import { IAction } from '../types';
-import { EAppStateActions } from './types';
-import { ActionType, createReducer } from 'typesafe-actions';
-import { DeepReadonly } from 'utility-types';
-
-import { ICornerNotifierProps, IErrorModalProps, IInfoModalProps } from 'Components/UI/Modals';
-
-import * as appStateActions from './actions';
-
-type TAppStateActions = ActionType<typeof appStateActions>;
-
-interface IShowErrorModal extends IErrorModalProps {
-  show: boolean;
-}
-
-type TAppStateReducer = DeepReadonly<{
-  isMobile: boolean;
-  showAuthModal: boolean;
-  showCornerNotifier: boolean;
-  showErrorModal: IShowErrorModal;
-  showInfoModal: boolean;
-}>;
+import { EAppStateActions, TAppStateActions, TAppStateReducer } from './types';
+import { createReducer } from 'typesafe-actions';
 
 const initial: TAppStateReducer = {
   isMobile: false,

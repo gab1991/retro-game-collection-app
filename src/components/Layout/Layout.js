@@ -1,14 +1,17 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import AuthModal from '../AuthModal/AuthModal';
 import Header from '../Header/Header';
 import { CornerNotifier, ErrorModal, InfoModal } from 'Components/UI/Modals';
+import { getShowErrorModal } from 'Store/appStateReducer/selectors';
 
 import styles from './Layout.module.scss';
 
 function Layout(props) {
-  const { showAuth, showErr, showInfo, showCornNotifier, children } = props;
+  const { showAuth, showInfo, showCornNotifier, children } = props;
+
+  const showErr = useSelector(getShowErrorModal);
 
   return (
     <div className={styles.Layout}>
@@ -37,7 +40,7 @@ function mapStateToProps(state) {
   return {
     userData: state.logged,
     showAuth: state.appState.showAuthModal,
-    showErr: state.appState.showErrorModal,
+    // showErr: state.appState.showErrorModal,
     showInfo: state.appState.showInfoModal,
     showCornNotifier: state.showCornerNotifier,
   };

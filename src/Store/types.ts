@@ -1,4 +1,4 @@
-import { EAppStateActions } from './appStateReducer/types';
+import { EAppStateActions, TAppStateReducer } from './appStateReducer/types';
 
 type TCombinedTypes = EAppStateActions;
 export interface IAction<T> {
@@ -7,3 +7,7 @@ export interface IAction<T> {
 }
 
 export type TActionCreator<P extends Array<unknown>, T> = (...args: P) => IAction<T>;
+
+export interface IRootState {
+  appState: TAppStateReducer;
+}
