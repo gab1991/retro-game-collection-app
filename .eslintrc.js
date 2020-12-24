@@ -69,8 +69,8 @@ module.exports = {
     //@sort-keys-fix
     'sort-keys-fix/sort-keys-fix': 'warn',
     //@typescript-sort-keys
-    'typescript-sort-keys/interface': 'error',
-    'typescript-sort-keys/string-enum': 'error',
+    'typescript-sort-keys/interface': 'warn',
+    'typescript-sort-keys/string-enum': 'warn',
     // TYPESCRIPT
     '@typescript-eslint/naming-convention': [
       'error',
