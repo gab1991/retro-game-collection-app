@@ -1,4 +1,4 @@
-import { EAppStateActions, TAppStateActions, TAppStateReducer } from './types';
+import { TAppStateActions, TAppStateReducer } from './types';
 import { createReducer } from 'typesafe-actions';
 
 import * as actions from './actions';
@@ -6,28 +6,10 @@ import * as actions from './actions';
 const initial: TAppStateReducer = {
   isMobile: false,
   showAuthModal: false,
-  showCornerNotifier: false,
+  showCornerNotifier: { show: false },
   showErrorModal: { show: false },
-  showInfoModal: false,
+  showInfoModal: { show: false },
 };
-
-// export const appStateReducer = (state = initial, { type, payload }: TAppStateActions): TAppStateReducer => {
-//   switch (type) {
-//     case EAppStateActions.SET_IS_MOBILE:
-//       return { ...state, isMobile: payload };
-//     case EAppStateActions.SHOW_ERR_MODAL:
-//       return { ...state, showErrorModal: payload };
-//     case EAppStateActions.SHOW_INFO_MODAL:
-//       return { ...state, showErrorModal: payload };
-//     case EAppStateActions.SHOW_AUTH_MODAL:
-//       return { ...state, showAuthModal: payload };
-//     case EAppStateActions.SHOW_CORNER_NOTIFIER:
-//       return { ...state, showCornerNotifier: payload };
-
-//     default:
-//       return state;
-//   }
-// };
 
 export const appStateReducer = createReducer<TAppStateReducer, TAppStateActions>(initial)
   .handleAction(actions.setIsMobile, (state, { payload }) => ({ ...state, isMobile: payload }))
@@ -38,4 +20,24 @@ export const appStateReducer = createReducer<TAppStateReducer, TAppStateActions>
   .handleAction(actions.hideErrModal, (state) => ({
     ...state,
     showErrorModal: { show: false },
+  }))
+  .handleAction(actions.showAuthModal, (state, { payload }) => ({
+    ...state,
+    showAuthModal: payload,
+  }))
+  .handleAction(actions.showInfoModal, (state, { payload: modalProps }) => ({
+    ...state,
+    showInfoModal: { show: true, ...modalProps },
+  }))
+  .handleAction(actions.hideInfoModal, (state) => ({
+    ...state,
+    showInfoModal: { show: false },
+  }))
+  .handleAction(actions.showCornerNotifier, (state, { payload: modalProps }) => ({
+    ...state,
+    showCornerNotifier: { show: true, ...modalProps },
+  }))
+  .handleAction(actions.hideCornerNotifier, (state) => ({
+    ...state,
+    showCornerNotifier: { show: false },
   }));

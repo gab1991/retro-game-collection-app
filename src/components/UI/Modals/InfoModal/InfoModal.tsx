@@ -8,8 +8,8 @@ import { hideInfoModal } from 'Store/appStateReducer/actions';
 import styles from './InfoModal.module.scss';
 
 export interface IInfoModalProps {
-  message: string;
-  btnTxtContent: string;
+  btnTxtContent?: string;
+  message?: string;
 }
 
 export function InfoModal(props: IInfoModalProps): JSX.Element {
