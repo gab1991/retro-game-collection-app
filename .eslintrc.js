@@ -27,7 +27,7 @@ module.exports = {
       },
     },
   },
-  plugins: ['react', '@typescript-eslint', 'simple-import-sort'],
+  plugins: ['react', '@typescript-eslint', 'simple-import-sort', 'sort-keys-fix', 'typescript-sort-keys'],
   extends: [
     'plugin:@typescript-eslint/recommended', // Uses the recommended rules from @typescript-eslint/eslint-plugin
     'plugin:react/recommended', // Uses the recommended rules from @eslint-plugin-react
@@ -45,12 +45,12 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   rules: {
+    //@ESLINT RULES
     'import/no-default-export': 'error',
-    //IMPORT SORTING
     // disable standart rules to enable simple-sort-plugins rules
     'sort-imports': 'off',
     'import/order': 'off',
-    // simple-sort-pligins rules
+    //@simple-sort-pligins rules
     'simple-import-sort/exports': 'error',
     'simple-import-sort/imports': [
       'error',
@@ -66,6 +66,11 @@ module.exports = {
         ],
       },
     ],
+    //@sort-keys-fix
+    'sort-keys-fix/sort-keys-fix': 'warn',
+    //@typescript-sort-keys
+    'typescript-sort-keys/interface': 'error',
+    'typescript-sort-keys/string-enum': 'error',
     // TYPESCRIPT
     '@typescript-eslint/naming-convention': [
       'error',
