@@ -4,19 +4,25 @@ import { connect, useSelector } from 'react-redux';
 import AuthModal from '../AuthModal/AuthModal';
 import Header from '../Header/Header';
 import { CornerNotifier, ErrorModal, InfoModal } from 'Components/UI/Modals';
-import { getShowErrorModal } from 'Store/appStateReducer/selectors';
+import {
+  getCornerNotifierShowState,
+  getErrorModalShowState,
+  getInfoMoadlShowState,
+  getShowAuthModalState,
+} from 'Store/appStateReducer/selectors';
 
 import styles from './Layout.module.scss';
 
 function Layout(props) {
-  const { showAuth, showInfo, showCornNotifier, children } = props;
-
-  const showErr = useSelector(getShowErrorModal);
+  const showAuth = useSelector(getShowAuthModalState);
+  const showErr = useSelector(getErrorModalShowState);
+  const showInfo = useSelector(getInfoMoadlShowState);
+  const showCornNotifier = useSelector(getCornerNotifierShowState);
 
   return (
     <div className={styles.Layout}>
       <Header />
-      <main> {children}</main>
+      <main> {props.children}</main>
       <footer className={styles.Footer}>
         <p>
           <a href='https://rawg.io/' rel='noopener noreferrer' target='_blank'>
@@ -39,10 +45,6 @@ function Layout(props) {
 function mapStateToProps(state) {
   return {
     userData: state.logged,
-    showAuth: state.appState.showAuthModal,
-    // showErr: state.appState.showErrorModal,
-    showInfo: state.appState.showInfoModal,
-    showCornNotifier: state.showCornerNotifier,
   };
 }
 
