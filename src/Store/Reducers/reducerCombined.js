@@ -2,24 +2,24 @@ import { combineReducers } from 'redux';
 
 import { LOG_OUT } from '../Actions/authActions';
 import { appStateReducer } from 'Store/appStateReducer/reducer';
+import { gameSelectorReducer } from 'Store/gameSelectorReducer/reducer';
 
 import contentReducer from './contentReducer';
 import ebayItemsReducer from './ebayItemsReducer';
 import gameDetailedReducer from './gameDetailedReducer';
-import gameSelectorReducer from './gameSelectorReducer';
 import loggedReducer from './loginReducer';
 import profileReducer from './profileReducer';
 import wishListReducer from './wishListReducer';
 
 const appReducer = combineReducers({
-  logged: loggedReducer,
-  profile: profileReducer,
-  gameSelector: gameSelectorReducer,
-  gameDetailed: gameDetailedReducer,
-  wishList: wishListReducer,
+  appState: appStateReducer,
   content: contentReducer,
   ebayItems: ebayItemsReducer,
-  appState: appStateReducer,
+  gameDetailed: gameDetailedReducer,
+  gameSelector: gameSelectorReducer,
+  logged: loggedReducer,
+  profile: profileReducer,
+  wishList: wishListReducer,
 });
 
 const rootReducer = (state, action) => {

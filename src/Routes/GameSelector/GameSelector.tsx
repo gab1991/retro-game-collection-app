@@ -15,7 +15,7 @@ import {
 import { appConfig } from '../../Сonfigs/appConfig';
 import GameCard from './GameCard/GameCard';
 import { DotSpinner, SearchInput, SelectBox } from 'Components/UI';
-import { IGameSelectorQuery } from 'Store/Reducers/gameSelectorReducer';
+import { IGameSelectorQuery } from 'Store/gameSelectorReducer/reducer';
 import { IRawgGame, IRawgPageData } from 'Typings/RawgData';
 
 import styles from './GameSelector.module.scss';
@@ -24,13 +24,13 @@ const orderingOptions = appConfig.GameSelector.ordering;
 
 interface IGameSelectorProps {
   gamesToShow: Array<IRawgGame>;
-  isLoading: boolean;
-  noGamesFound: boolean;
-  query: IGameSelectorQuery;
-  pageData: IRawgPageData;
-  searchInputValue: string;
   history: History;
+  isLoading: boolean;
   match: match<IGameSelecorMatchParams>;
+  noGamesFound: boolean;
+  pageData: IRawgPageData;
+  query: IGameSelectorQuery;
+  searchInputValue: string;
 }
 
 interface IGameSelecorMatchParams {

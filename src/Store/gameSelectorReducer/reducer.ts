@@ -13,27 +13,27 @@ import {
 import { appConfig, GameSelectorOrderingDirection, GameSelectorOrderingName } from 'Сonfigs/appConfig';
 
 export interface IGameSelectorQuery {
+  direction: GameSelectorOrderingDirection;
+  ordername: GameSelectorOrderingName;
   page: number;
   search: string;
-  ordername: GameSelectorOrderingName;
-  direction: GameSelectorOrderingDirection;
 }
 
 const { defaultOrdering } = appConfig.GameSelector;
 const initial = {
-  searchInputValue: '',
+  gamesToShow: [],
   isLoading: false,
   noGamesFound: false,
-  gamesToShow: [],
   query: {
+    direction: defaultOrdering.direction,
+    ordername: defaultOrdering.name,
     page: 1,
     search: '',
-    ordername: defaultOrdering.name,
-    direction: defaultOrdering.direction,
   },
+  searchInputValue: '',
 };
 
-const gameSelectorReducer = (state = initial, { type, payload }) => {
+export const gameSelectorReducer = (state = initial, { type, payload }) => {
   switch (type) {
     case SET_IS_LOADING:
       return { ...state, isLoading: payload };
@@ -98,5 +98,3 @@ const gameSelectorReducer = (state = initial, { type, payload }) => {
       return state;
   }
 };
-
-export default gameSelectorReducer;
