@@ -1,9 +1,9 @@
-import { IRootState } from 'Store/types';
+import { TSelector } from 'Store/types';
 
-export const getErrorModalShowState = (state: IRootState): boolean => state.appState.showErrorModal.show;
+export const selectErrorModalShowState: TSelector<boolean> = (state) => state.appState.showErrorModal.show;
 
-export const getInfoMoadlShowState = (state: IRootState): boolean => state.appState.showInfoModal.show;
+export const selectInfoMoadlShowState: TSelector<boolean> = (state) => state.appState.showInfoModal.show;
 
-export const getShowAuthModalState = (state: IRootState): boolean => state.appState.showAuthModal;
+export const selectAuthModalShowState: TSelector<boolean> = (state) => state.appState.showAuthModal;
 
-export const getCornerNotifierShowState = (state: IRootState): boolean => state.appState.showCornerNotifier.show;
+export const selectCornerNotifierShowState: TSelector<boolean> = (state) => state.appState.showCornerNotifier.show;

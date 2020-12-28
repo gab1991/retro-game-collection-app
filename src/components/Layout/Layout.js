@@ -5,19 +5,19 @@ import AuthModal from '../AuthModal/AuthModal';
 import Header from '../Header/Header';
 import { CornerNotifier, ErrorModal, InfoModal } from 'Components/UI/Modals';
 import {
-  getCornerNotifierShowState,
-  getErrorModalShowState,
-  getInfoMoadlShowState,
-  getShowAuthModalState,
+  selectAuthModalShowState,
+  selectCornerNotifierShowState,
+  selectErrorModalShowState,
+  selectInfoMoadlShowState,
 } from 'Store/appStateReducer/selectors';
 
 import styles from './Layout.module.scss';
 
 function Layout(props) {
-  const showAuth = useSelector(getShowAuthModalState);
-  const showErr = useSelector(getErrorModalShowState);
-  const showInfo = useSelector(getInfoMoadlShowState);
-  const showCornNotifier = useSelector(getCornerNotifierShowState);
+  const showAuth = useSelector(selectAuthModalShowState);
+  const showErr = useSelector(selectErrorModalShowState);
+  const showInfo = useSelector(selectInfoMoadlShowState);
+  const showCornNotifier = useSelector(selectCornerNotifierShowState);
 
   return (
     <div className={styles.Layout}>

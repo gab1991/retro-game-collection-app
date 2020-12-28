@@ -10,7 +10,7 @@ import { appConfig } from '../../Сonfigs/appConfig';
 import GameCard from './GameCard/GameCard';
 import { DotSpinner, SearchInput, SelectBox } from 'Components/UI';
 import { setSearchInputValue } from 'Store/gameSelectorReducer/actions';
-import { getGamesToShow, getPageData } from 'Store/gameSelectorReducer/selectors';
+import { selectGamesToShow, selectPageData } from 'Store/gameSelectorReducer/selectors';
 import {
   changePage,
   getGamesForPlatform,
@@ -49,8 +49,8 @@ function _GameSelector(props: IGameSelectorProps) {
   const { ordername, page: queryPage, search: searchQuery, direction } = query;
   const dispatch = useDispatch();
 
-  const gamesToShow = useSelector(getGamesToShow);
-  const pageData = useSelector(getPageData);
+  const gamesToShow = useSelector(selectGamesToShow);
+  const pageData = useSelector(selectPageData);
 
   useEffect(() => {
     dispatch(parseQueryParams(history.location.search));
