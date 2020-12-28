@@ -10,7 +10,7 @@ import { appConfig } from '../../Сonfigs/appConfig';
 import GameCard from './GameCard/GameCard';
 import { DotSpinner, SearchInput, SelectBox } from 'Components/UI';
 import { setSearchInputValue } from 'Store/gameSelectorReducer/actions';
-import { getGamesToShow, getPageData, getStore } from 'Store/gameSelectorReducer/selectors';
+import { getGamesToShow, getPageData } from 'Store/gameSelectorReducer/selectors';
 import {
   changePage,
   getGamesForPlatform,
