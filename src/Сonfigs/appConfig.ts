@@ -1,92 +1,111 @@
-// export enum GameSelectorOrdering {
-//   'NAME_DESC' = 'name ↓',
-//   'NAME_ASC' = 'name ↑',
-//   'RELEASED_DSC' = 'released ↓',
-//   'RELEASED_ASC' = 'released ↑',
-//   'RATING_DSC' = 'rating ↓',
-//   'RATING_ASC' = 'rating ↑',
-// }
-
-export enum GameSelectorOrderingName {
+export enum EGameSelectorOrderingName {
   'name' = 'name',
-  'released' = 'released',
   'rating' = 'rating',
+  'released' = 'released',
 }
 
-export enum GameSelectorOrderingDirection {
-  'DESC' = '↓',
+export enum EGameSelectorOrderingDirection {
   'ASC' = '↑',
+  'DESC' = '↓',
 }
 
 const appConfig = {
-  platformIdList: {
-    // Can get through api call -> https://api.rawg.io/api/platforms
-    PC: 4,
-    'Xbox One': 1,
-    'PlayStation 4': 18,
-    iOS: 3,
-    Android: 21,
-    macOS: 5,
-    Linux: 6,
-    'Nintendo Switch': 7,
-    'Nintendo 3DS': 8,
-    'Nintendo DS': 9,
-    'Nintendo DSi': 13,
-    'Xbox 360': 14,
-    Xbox: 80,
-    'PlayStation 3': 16,
-    'PlayStation 2': 15,
-    PlayStation: 27,
-    'PS Vita': 19,
-    PSP: 17,
-    'Wii U': 10,
-    Wii: 11,
-    GameCube: 105,
-    'Nintendo 64': 83,
-    'Game Boy Advance': 24,
-    'Game Boy Color': 43,
-    'Game Boy': 26,
-    SNES: 79,
-    NES: 49,
-    'Classic Macintosh': 55,
-    'Apple II': 41,
-    'Commodore / Amiga': 166,
-    'Atari 7800': 28,
-    'Atari 5200': 31,
-    'Atari 2600': 23,
-    'Atari Flashback': 22,
-    'Atari 8-bit': 25,
-    'Atari ST': 34,
-    'Atari Lynx': 46,
-    'Atari XEGS': 50,
-    Genesis: 167,
-    'SEGA Saturn': 107,
-    'SEGA CD': 119,
-    'SEGA 32X': 117,
-    'SEGA Master System': 74,
-    Dreamcast: 106,
-    '3DO': 111,
-    Jaguar: 112,
-    'Game Gear': 77,
-    'Neo Geo': 12,
-    Web: 171,
+  EbayCards: {
+    defaultSortOrder: 'BestMatch',
   },
+  GameSelector: {
+    defaultOrdering: {
+      direction: EGameSelectorOrderingDirection.DESC,
+      name: EGameSelectorOrderingName.rating,
+    },
+    defaultPage: 1,
+    gamesPerRequest: 18,
+    ordering: ['name ↓', 'name ↑', 'released ↓', 'released ↑', 'rating ↓', 'rating ↑'],
+  },
+
   assetsMapping: {
     gamepadMap: {},
   },
 
-  GameSelector: {
-    defaultPage: 1,
-    gamesPerRequest: 18,
-    defaultOrdering: {
-      name: 'rating',
-      direction: '↓',
-    },
-    ordering: ['name ↓', 'name ↑', 'released ↓', 'released ↑', 'rating ↓', 'rating ↑'],
-  },
+  platformIdList: {
+    '3DO': 111,
 
-  EbayCards: {
-    defaultSortOrder: 'BestMatch',
+    Android: 21,
+
+    'Apple II': 41,
+
+    'Atari 2600': 23,
+
+    'Atari 5200': 31,
+
+    'Atari 7800': 28,
+
+    'Atari 8-bit': 25,
+
+    'Atari Flashback': 22,
+
+    'Atari Lynx': 46,
+
+    'Atari ST': 34,
+
+    'Atari XEGS': 50,
+
+    'Classic Macintosh': 55,
+
+    'Commodore / Amiga': 166,
+
+    Dreamcast: 106,
+
+    'Game Boy': 26,
+
+    'Game Boy Advance': 24,
+
+    'Game Boy Color': 43,
+
+    'Game Gear': 77,
+
+    GameCube: 105,
+
+    Genesis: 167,
+
+    Jaguar: 112,
+
+    Linux: 6,
+
+    NES: 49,
+
+    'Neo Geo': 12,
+
+    'Nintendo 3DS': 8,
+
+    'Nintendo 64': 83,
+
+    'Nintendo DS': 9,
+
+    'Nintendo DSi': 13,
+
+    'Nintendo Switch': 7,
+    // Can get through api call -> https://api.rawg.io/api/platforms
+    PC: 4,
+    'PS Vita': 19,
+    PSP: 17,
+    PlayStation: 27,
+    'PlayStation 2': 15,
+    'PlayStation 3': 16,
+    'PlayStation 4': 18,
+    'SEGA 32X': 117,
+    'SEGA CD': 119,
+    'SEGA Master System': 74,
+    'SEGA Saturn': 107,
+    SNES: 79,
+    Web: 171,
+    Wii: 11,
+    'Wii U': 10,
+    Xbox: 80,
+    'Xbox 360': 14,
+    'Xbox One': 1,
+    iOS: 3,
+    macOS: 5,
   },
 };
 
@@ -114,5 +133,4 @@ const images = {
 const textMessages = {
   fromWishToOwn: 'You added game to Collection. Do you want to remove it from WishList?',
 };
-export default appConfig;
 export { appConfig, images, textMessages };

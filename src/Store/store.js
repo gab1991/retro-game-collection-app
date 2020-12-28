@@ -13,5 +13,4 @@ const getToken = () => {
   return state.logged.token;
 };
 
-export default store;
-export { getToken };
+export { getToken, store };
