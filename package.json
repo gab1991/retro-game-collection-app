@@ -23,6 +23,7 @@
   "dependencies": {
     "array-move": "^2.2.2",
     "axios": "^0.20.0",
+    "lodash": "^4.17.20",
     "query-string": "^6.13.7",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
@@ -42,6 +43,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "@types/lodash": "^4.14.166",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-redux": "^7.1.11",
@@ -108,7 +110,6 @@
     "webpack-manifest-plugin": "2.2.0",
     "workbox-webpack-plugin": "4.3.1"
   },
-
   "jest": {
     "roots": [
       "<rootDir>/src"
