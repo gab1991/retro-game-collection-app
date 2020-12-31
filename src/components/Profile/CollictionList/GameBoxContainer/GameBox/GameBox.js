@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBoxArt } from '../../../../../Store/Actions/contentActions';
+import { Link } from 'react-router-dom';
+
+import { selectBoxArt } from 'Store/contentReducer/selectors';
+import { getBoxArt } from 'Store/contentReducer/thunks';
+
 import styles from './GameBox.module.scss';
 
 function GameBox(props) {
@@ -13,7 +16,7 @@ function GameBox(props) {
     showDesc = true,
     scaling = true,
   } = props;
-  const boxArtUrl = useSelector((state) => state.content.boxArts?.[platform]?.[gameName]);
+  const boxArtUrl = useSelector((state) => selectBoxArt(state, platform, gameName));
   const [descrVisibility, setDescrVisibility] = useState(false);
 
   useEffect(() => {
