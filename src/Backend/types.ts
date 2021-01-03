@@ -1,28 +1,32 @@
+import { AxiosError, AxiosPromise, AxiosRequestConfig } from 'axios';
+
 import { EPlatformList, TPlatformNames } from 'Configs/appConfig';
 import { IRawgGame } from 'Typings/RawgData';
 
 export type TBackend = {
-  checkCredentials: (token: string, username: string, errCb?: TErrCb) => any;
-  getBoxArt: (platform: TPlatformNames, slug: string, errCb?: TErrCb) => any;
+  checkCredentials: (token: string, username: string, errCb?: TErrCb) => AxiosPromise;
+  getBoxArt: (platform: TPlatformNames, slug: string, errCb?: TErrCb) => AxiosPromise<string>;
   //need to type sortOrder
-  getEbayItems: (platform: TPlatformNames, game: string, sortOrder: string, errCb?: TErrCb) => any;
-  getEbaySingleItem: (id: number, errCb?: TErrCb) => any;
-  getGameDetails: (slug: string, errCb?: TErrCb) => any;
-  getGameWatchedCards: (platform: TPlatformNames, game: string, errCb?: TErrCb) => any;
-  getGamesForPlatform: (params: IGetGamesForPlatParams, errCb?: TErrCb) => any;
-  getProfileInfo: (errCb?: TErrCb) => any;
-  getScreenshots: (slug: string, errCb?: TErrCb) => any;
-  getShippingCosts: (itemId: number, errCb?: TErrCb) => any;
-  getVideo: (videoType: TVideoType, platform: TPlatformNames, game: string, errCb?: TErrCb) => any;
-  isWatchedEbayCard: (ebayCard: IEbayCardObj, errCb?: TErrCb) => any;
-  notWatchEbayCard: (ebayCard: IEbayCardObj, errCb?: TErrCb) => any;
-  postSignIn: (username: string, password: string, errCb?: TErrCb) => any;
-  postSignUp: (data: ISignUpData, errCb?: TErrCb) => any;
-  toggleEbayVisibility: (game: string, platform: TPlatformNames, isShowed: boolean, errCb?: TErrCb) => any;
+  getEbayItems: (platform: TPlatformNames, game: string, sortOrder: string, errCb?: TErrCb) => AxiosPromise;
+  getEbaySingleItem: (id: number, errCb?: TErrCb) => AxiosPromise;
+  getGameDetails: (slug: string, errCb?: TErrCb) => AxiosPromise;
+  getGameWatchedCards: (platform: TPlatformNames, game: string, errCb?: TErrCb) => AxiosPromise;
+  getGamesForPlatform: (params: IGetGamesForPlatParams, errCb?: TErrCb) => AxiosPromise;
+  getProfileInfo: (errCb?: TErrCb) => AxiosPromise;
+  getScreenshots: (slug: string, errCb?: TErrCb) => AxiosPromise;
+  getShippingCosts: (itemId: number, errCb?: TErrCb) => AxiosPromise;
+  getVideo: (videoType: TVideoType, platform: TPlatformNames, game: string, errCb?: TErrCb) => AxiosPromise;
+  isWatchedEbayCard: (ebayCard: IEbayCardObj, errCb?: TErrCb) => AxiosPromise;
+  notWatchEbayCard: (ebayCard: IEbayCardObj, errCb?: TErrCb) => AxiosPromise;
+  postSignIn: (username: string, password: string, errCb?: TErrCb) => AxiosPromise;
+  postSignUp: (data: ISignUpData, errCb?: TErrCb) => AxiosPromise;
+  toggleEbayVisibility: (game: string, platform: TPlatformNames, isShowed: boolean, errCb?: TErrCb) => AxiosPromise;
   //rewrite this method
-  updateProfile: (obj: TUpdProfObj, errCb?: TErrCb) => any;
-  watchEbayCard: (ebayCard: IEbayCardObj, errCb?: TErrCb) => any;
+  updateProfile: (obj: TUpdProfObj, errCb?: TErrCb) => AxiosPromise;
+  watchEbayCard: (ebayCard: IEbayCardObj, errCb?: TErrCb) => AxiosPromise;
 };
+
+export type TAxiosExecute<T = any> = (config: AxiosRequestConfig, errCb?: TErrCb) => AxiosPromise<T>;
 
 type TUpdProfObj = IReodredGames | IRemoveGame | IAddGame;
 
@@ -55,7 +59,7 @@ interface IGetGamesForPlatParams {
   search: string;
 }
 
-type TErrCb = (err) => void;
+type TErrCb = (err: AxiosError) => void;
 
 type TVideoType = 'soundtrack' | 'gameplay';
 

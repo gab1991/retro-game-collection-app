@@ -1,6 +1,6 @@
-import axios_base from 'axios';
+import axios_base, { AxiosError, AxiosPromise, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-import { TBackend } from './types';
+import { TAxiosExecute, TBackend } from './types';
 
 import { server_adress } from '../Configs/server.config';
 import { getToken } from '../Store/store';
@@ -22,9 +22,9 @@ const queryParamBuilder = (params: Record<string, string | number>) => {
   return `?${result.join('&')}`;
 };
 
-const axiosExecute = async (options = {}, errCb) => {
+const axiosExecute: TAxiosExecute = async (config = {}, errCb) => {
   try {
-    const res = await axios(options);
+    const res = await axios(config);
     const {
       data: { Ack: ebayApiError },
     } = res;
@@ -35,7 +35,7 @@ const axiosExecute = async (options = {}, errCb) => {
 
     return res;
   } catch (err) {
-    console.log('ERROR', err);
+    console.error('ERROR', err);
 
     if (typeof errCb === 'function') errCb(err);
 
