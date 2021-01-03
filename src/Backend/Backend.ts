@@ -1,6 +1,6 @@
 import axios_base from 'axios';
 
-import { IGetGamesForPlatParams, TBackend } from './types';
+import { TBackend } from './types';
 
 import { server_adress } from '../Configs/server.config';
 import { getToken } from '../Store/store';
@@ -113,7 +113,7 @@ export const Backend: TBackend = {
     );
   },
 
-  getGamesForPlatform: (params: IGetGamesForPlatParams, errCb) => {
+  getGamesForPlatform: (params, errCb) => {
     const paramsStr = queryParamBuilder({ ...params });
     const url = `${api.games.getGamesUrl}${paramsStr}`;
     return axiosExecute(
@@ -158,22 +158,20 @@ export const Backend: TBackend = {
     );
   },
 
-  getVideo: (videoType, platform, gameName, errCb) => {
+  getVideo: (videoType, platform, game, errCb) => {
     return axiosExecute(
       {
         method: 'GET',
-        url: `${api.appServer.videoURL}/${videoType}/${platform}/${encodeURIComponent(gameName)}`,
+        url: `${api.appServer.videoURL}/${videoType}/${platform}/${encodeURIComponent(game)}`,
       },
       errCb
     );
   },
 
-  isWatchedEbayCard: (obj, errCb) => {
+  isWatchedEbayCard: (ebayCard, errCb) => {
     return axiosExecute(
       {
-        data: {
-          ...obj,
-        },
+        data: ebayCard,
         headers: {
           authorization: `Bearer ${getToken()}`,
         },
@@ -184,12 +182,10 @@ export const Backend: TBackend = {
     );
   },
 
-  notWatchEbayCard: (obj, errCb) => {
+  notWatchEbayCard: (ebayCard, errCb) => {
     return axiosExecute(
       {
-        data: {
-          ...obj,
-        },
+        data: ebayCard,
         headers: {
           authorization: `Bearer ${getToken()}`,
         },
@@ -217,7 +213,7 @@ export const Backend: TBackend = {
   postSignUp: (data, errCb) => {
     return axiosExecute(
       {
-        data: data,
+        data,
         method: 'POST',
         url: `${api.appServer.signUpUrl}`,
       },
@@ -225,10 +221,10 @@ export const Backend: TBackend = {
     );
   },
 
-  toggleEbayVisibility: (gameName, platform, isShowed, errCb) => {
+  toggleEbayVisibility: (game, platform, isShowed, errCb) => {
     return axiosExecute(
       {
-        data: { gameName, isShowed, platform },
+        data: { game, isShowed, platform },
         headers: {
           authorization: `Bearer ${getToken()}`,
         },

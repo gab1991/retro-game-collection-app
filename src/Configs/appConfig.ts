@@ -11,63 +11,34 @@ export enum EGameSelectorOrderingDirection {
 
 export enum EPlatformList {
   '3DO' = 111,
-
   Android = 21,
-
   'Apple II' = 41,
-
   'Atari 2600' = 23,
-
   'Atari 5200' = 31,
-
   'Atari 7800' = 28,
-
   'Atari 8-bit' = 25,
-
   'Atari Flashback' = 22,
-
   'Atari Lynx' = 46,
-
   'Atari ST' = 34,
-
   'Atari XEGS' = 50,
-
   'Classic Macintosh' = 55,
-
   'Commodore / Amiga' = 166,
-
   Dreamcast = 106,
-
   'Game Boy' = 26,
-
   'Game Boy Advance' = 24,
-
   'Game Boy Color' = 43,
-
   'Game Gear' = 77,
-
   GameCube = 105,
-
   Genesis = 167,
-
   Jaguar = 112,
-
   Linux = 6,
-
   NES = 49,
-
   'Neo Geo' = 12,
-
   'Nintendo 3DS' = 8,
-
   'Nintendo 64' = 83,
-
   'Nintendo DS' = 9,
-
   'Nintendo DSi' = 13,
-
   'Nintendo Switch' = 7,
-
   PC = 4,
   'PS Vita' = 19,
   PSP = 17,
