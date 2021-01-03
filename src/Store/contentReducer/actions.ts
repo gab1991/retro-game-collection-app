@@ -1,10 +1,10 @@
 import { createAction } from 'typesafe-actions';
 
-import { EPlatformList } from 'Configs/appConfig';
+import { TPlatformNames } from 'Configs/appConfig';
 
 interface ISetBoxArtUrl {
   gameName: string;
-  platform: EPlatformList;
+  platform: TPlatformNames;
   url: string;
 }
 

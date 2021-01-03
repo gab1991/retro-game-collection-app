@@ -16,8 +16,7 @@ export const contentReducer = createReducer<TContentReducer, TContentActions>(in
     if (!gameName || !url) return state;
 
     return produce(state, (draft) => {
-      draft.boxArts[platform] = { ...draft.boxArts[platform] };
-      draft.boxArts[platform][gameName] = url;
+      draft.boxArts[platform] = { ...draft.boxArts[platform], [gameName]: url };
     });
   }
 );

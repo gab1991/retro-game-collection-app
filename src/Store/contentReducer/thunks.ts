@@ -1,11 +1,11 @@
 import { TThunk } from 'Store/types';
 
 import { Backend } from 'Backend/Backend';
-import { EPlatformList } from 'Configs/appConfig';
+import { TPlatformNames } from 'Configs/appConfig';
 
 import { setBoxArtUrl } from './actions';
 
-export const getBoxArt = (platform: EPlatformList, gameName: string): TThunk => {
+export const getBoxArt = (platform: TPlatformNames, gameName: string): TThunk => {
   return async (dispatch, getState) => {
     const {
       content: { boxArts },
