@@ -1,4 +1,4 @@
-import { AxiosError, AxiosPromise, AxiosRequestConfig } from 'axios';
+import { AxiosError, AxiosPromise } from 'axios';
 
 import { EPlatformList, TPlatformNames } from 'Configs/appConfig';
 import { IRawgGame } from 'Typings/RawgData';
@@ -25,8 +25,6 @@ export type TBackend = {
   updateProfile: (obj: TUpdProfObj, errCb?: TErrCb) => AxiosPromise;
   watchEbayCard: (ebayCard: IEbayCardObj, errCb?: TErrCb) => AxiosPromise;
 };
-
-export type TAxiosExecute<T = any> = (config: AxiosRequestConfig, errCb?: TErrCb) => AxiosPromise<T>;
 
 type TUpdProfObj = IReodredGames | IRemoveGame | IAddGame;
 
@@ -59,7 +57,7 @@ interface IGetGamesForPlatParams {
   search: string;
 }
 
-type TErrCb = (err: AxiosError) => void;
+export type TErrCb = (err: AxiosError) => void;
 
 type TVideoType = 'soundtrack' | 'gameplay';
 

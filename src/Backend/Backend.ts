@@ -1,6 +1,6 @@
-import axios_base, { AxiosError, AxiosPromise, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios_base, { AxiosRequestConfig } from 'axios';
 
-import { TAxiosExecute, TBackend } from './types';
+import { TBackend, TErrCb } from './types';
 
 import { server_adress } from '../Configs/server.config';
 import { getToken } from '../Store/store';
@@ -22,7 +22,7 @@ const queryParamBuilder = (params: Record<string, string | number>) => {
   return `?${result.join('&')}`;
 };
 
-const axiosExecute: TAxiosExecute = async (config = {}, errCb) => {
+const axiosExecute = async (config: AxiosRequestConfig = {}, errCb?: TErrCb) => {
   try {
     const res = await axios(config);
     const {
@@ -266,4 +266,8 @@ export const Backend: TBackend = {
   },
 };
 
-export default Backend;
+export const HttpRespStats = {
+  badRequest: 400,
+  success: 200,
+  unathorized: 401,
+};

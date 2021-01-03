@@ -1,4 +1,4 @@
-import { Backend } from 'Backend';
+import { Backend, HttpRespStats } from 'Backend';
 
 import { TThunk } from 'Store/types';
 
@@ -13,12 +13,12 @@ export const checkCredentials = (): TThunk => async (dispatch) => {
   const { status } = await Backend.checkCredentials(token, username, (err) => {
     const { status } = err?.response || {};
 
-    if (status === 400 || status === 401) {
+    if (status === HttpRespStats.badRequest || status === HttpRespStats.unathorized) {
       storageHandler.removeItems(['username', 'token']);
     }
   });
 
-  if (status === 200) {
+  if (status === HttpRespStats.success) {
     dispatch(signIn(username, token));
   }
 };
