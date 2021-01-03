@@ -26,6 +26,8 @@ export type TBackend = {
   watchEbayCard: (ebayCard: IEbayCardObj, errCb?: TErrCb) => AxiosPromise;
 };
 
+export type TErrCb = (err: AxiosError) => void;
+
 type TUpdProfObj = IReodredGames | IRemoveGame | IAddGame;
 
 interface IReodredGames {
@@ -56,8 +58,6 @@ interface IGetGamesForPlatParams {
   platforms: EPlatformList;
   search: string;
 }
-
-export type TErrCb = (err: AxiosError) => void;
 
 type TVideoType = 'soundtrack' | 'gameplay';
 
