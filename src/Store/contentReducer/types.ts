@@ -1,7 +1,7 @@
 import { ActionType } from 'typesafe-actions';
 import { DeepReadonly } from 'utility-types';
 
-import { TPlatformNames } from 'Сonfigs/appConfig';
+import { TPlatformNames } from 'Configs/appConfig';
 
 import * as contentActions from './actions';
 

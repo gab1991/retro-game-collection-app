@@ -6,7 +6,7 @@ import { History } from 'history';
 import { IGameSelectorQuery } from 'Store/gameSelectorReducer/types';
 
 import Paginator from '../../Components/Paginator/Paginator.js';
-import { appConfig } from '../../Сonfigs/appConfig';
+import { appConfig } from '../../Configs/appConfig';
 import GameCard from './GameCard/GameCard';
 import { DotSpinner, SearchInput, SelectBox } from 'Components/UI';
 import { setSearchInputValue } from 'Store/gameSelectorReducer/actions';

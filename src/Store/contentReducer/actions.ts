@@ -1,6 +1,6 @@
 import { createAction } from 'typesafe-actions';
 
-import { EPlatformList } from 'Сonfigs/appConfig';
+import { EPlatformList } from 'Configs/appConfig';
 
 interface ISetBoxArtUrl {
   gameName: string;

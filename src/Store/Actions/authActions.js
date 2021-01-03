@@ -1,5 +1,6 @@
-import Backend from '../../Backend/Backend';
-import { storageHandler } from '../../Utils/localStorage';
+import { Backend } from 'Backend';
+
+import { storageHandler } from 'Utils/localStorage';
 
 const LOG_OUT = 'LOG_OUT';
 const SIGN_IN = 'SIGN_IN';
@@ -17,11 +18,11 @@ const signIn = (username, token) => {
     ['token', token],
   ]);
   return {
-    type: SIGN_IN,
     payload: {
-      username,
       token,
+      username,
     },
+    type: SIGN_IN,
   };
 };
 
@@ -42,4 +43,4 @@ const checkCredentials = () => async (dispatch) => {
   }
 };
 
-export { LOG_OUT, SIGN_IN, checkCredentials, logOut, signIn };
+export { checkCredentials, LOG_OUT, logOut, SIGN_IN, signIn };

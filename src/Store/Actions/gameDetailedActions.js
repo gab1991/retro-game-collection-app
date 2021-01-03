@@ -1,6 +1,6 @@
 import ReactHtmlParser from 'react-html-parser';
+import { Backend } from 'Backend';
 
-import Backend from '../../Backend/Backend';
 import { addGame as addGameTopProfile } from '../../Store/Actions/profileActions';
 import { getEbayItems as getEbayItemsCore } from '../Actions/ebayItemsActions';
 import { showErrModal } from '../appStateReducer/actions';
@@ -20,29 +20,29 @@ const FLUSH_GAME_DETAILED = 'FLUSH_GAME_DETAILED';
 
 const setGameDetails = (gameDetailsObj) => {
   return {
-    type: SET_GAME_DETAILS,
     payload: gameDetailsObj,
+    type: SET_GAME_DETAILS,
   };
 };
 
 const setDescriptionParsed = (html) => {
   return {
-    type: SET_DESCRIPTION_PARSED,
     payload: ReactHtmlParser(html),
+    type: SET_DESCRIPTION_PARSED,
   };
 };
 
 const setScreenshots = (screenshots) => {
   return {
-    type: SET_SCREENSHOTS,
     payload: screenshots,
+    type: SET_SCREENSHOTS,
   };
 };
 
 const setVideoUrl = (type, url) => {
   return {
-    type: SET_VIDEO_URL,
     payload: { type, url },
+    type: SET_VIDEO_URL,
   };
 };
 
@@ -87,43 +87,43 @@ const getVideo = (type, platformName, gameName) => {
 
 const toggleElmVisibility = (elm) => {
   return {
-    type: TOGGLE_ELM_VISIBILITY,
     payload: elm,
+    type: TOGGLE_ELM_VISIBILITY,
   };
 };
 
 const setIsOwned = (bool) => {
   return {
-    type: SET_IS_OWNED,
     payload: bool,
+    type: SET_IS_OWNED,
   };
 };
 
 const setIsWished = (bool) => {
   return {
-    type: SET_IS_WISHED,
     payload: bool,
+    type: SET_IS_WISHED,
   };
 };
 
 const setShowOwnedNotifier = (bool) => {
   return {
-    type: SET_SHOW_OWNED_NOTIFIER,
     payload: bool,
+    type: SET_SHOW_OWNED_NOTIFIER,
   };
 };
 
 const setShowWishNotifier = (bool) => {
   return {
-    type: SET_SHOW_WISH_NOTIFIER,
     payload: bool,
+    type: SET_SHOW_WISH_NOTIFIER,
   };
 };
 
 const setShowWisListWarn = (bool) => {
   return {
-    type: SET_SHOW_WISH_LIST_WARNING,
     payload: bool,
+    type: SET_SHOW_WISH_LIST_WARNING,
   };
 };
 
@@ -162,8 +162,8 @@ const addGame = (gameDetails, list, platform) => {
 
 const setEbaySectionLoading = (bool) => {
   return {
-    type: SET_EBAY_SECTION_LOADING,
     payload: bool,
+    type: SET_EBAY_SECTION_LOADING,
   };
 };
 

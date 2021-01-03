@@ -12,7 +12,7 @@ import { getProfileInfo } from './Store/Actions/profileActions';
 import { setIsMobile } from 'Store/appStateReducer/actions';
 
 import styles from './App.module.scss';
-import sassVars from './Сonfigs/Variables.scss';
+import sassVars from './Configs/Variables.scss';
 
 const mobileBreakPointWidth = parseInt(sassVars['breakpoints-mobile']);
 

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import ReactPlayer from 'react-player';
 import { connect, useDispatch, useSelector } from 'react-redux';
 
+import { textMessages } from '../../Configs/appConfig';
 import {
   addGame,
   flushGameDetailed,
@@ -15,7 +16,6 @@ import {
 } from '../../Store/Actions/gameDetailedActions';
 import { removeGame } from '../../Store/Actions/profileActions';
 import { showAuthModal } from '../../Store/appStateReducer/actions';
-import { textMessages } from '../../Сonfigs/appConfig';
 import EbaySection from './EbaySection/EbaySection';
 import GameInfoBox from './GameInfoBox/GameInfoBox';
 import { ButtonNeon, OvalSpinner, SwiperConfigured } from 'Components/UI';

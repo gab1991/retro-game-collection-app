@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { images } from 'Сonfigs/appConfig';
+import { images } from 'Configs/appConfig';
 
 import styles from './PlatformCard.module.scss';
 
 interface IPlatformCardProps {
-  name: string;
   className: string;
+  name: string;
 }
 
 export function PlatformCard({ name, className }: IPlatformCardProps): JSX.Element {

@@ -1,7 +1,7 @@
 import { TGameSelectorReducer, TGamwSelectorActions } from './types';
 import { createReducer } from 'typesafe-actions';
 
-import { appConfig } from 'Сonfigs/appConfig';
+import { appConfig } from 'Configs/appConfig';
 
 import * as actions from './actions';
 

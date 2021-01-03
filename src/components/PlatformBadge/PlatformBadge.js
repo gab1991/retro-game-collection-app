@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { images } from '../../Сonfigs/appConfig';
+
+import { images } from '../../Configs/appConfig';
+
 import styles from './PlatformBadge.module.scss';
 
 export default function PlatformBadge(props) {

@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
+import { images } from '../../../Configs/appConfig';
+
 import styles from './GameCard.module.scss';
-import { images } from '../../../Сonfigs/appConfig';
 
 export default function GameCard(props) {
   const { slug, name, background_image: background, className, platformName } = props;

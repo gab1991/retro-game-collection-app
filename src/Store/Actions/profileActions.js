@@ -1,4 +1,5 @@
-import Backend from '../../Backend/Backend';
+import { Backend } from 'Backend';
+
 import { showErrModal } from '../appStateReducer/actions';
 
 import { setEbayItems } from './ebayItemsActions';
@@ -7,10 +8,10 @@ const FILL_PROFILE = 'FILL_PROFILE';
 
 const fillProfile = (profile) => {
   return {
-    type: FILL_PROFILE,
     payload: {
       ...profile,
     },
+    type: FILL_PROFILE,
   };
 };
 
@@ -41,10 +42,10 @@ const getProfileInfo = () => async (dispatch, getState) => {
 
 const reorderGames = (newSortedGames, platform, list) => async (dispatch) => {
   await Backend.updateProfile({
-    sortedGames: newSortedGames,
-    platform,
-    list,
     action: 'reorder',
+    list,
+    platform,
+    sortedGames: newSortedGames,
   });
 };
 
@@ -53,9 +54,9 @@ const removeGame = (gameDetails, list, platform) => {
     await Backend.updateProfile(
       {
         action: 'removeGame',
+        game: gameDetails,
         list,
         platform,
-        game: gameDetails,
       },
       () => {
         dispatch(
@@ -73,9 +74,9 @@ const addGame = (gameDetails, list, platform) => {
     await Backend.updateProfile(
       {
         action: 'addGame',
+        game: gameDetails,
         list,
         platform,
-        game: gameDetails,
       },
       () => {
         dispatch(

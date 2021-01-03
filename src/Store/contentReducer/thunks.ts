@@ -1,7 +1,7 @@
 import { TThunk } from 'Store/types';
 
-import Backend from 'Backend/Backend';
-import { EPlatformList } from 'Сonfigs/appConfig';
+import { Backend } from 'Backend/Backend';
+import { EPlatformList } from 'Configs/appConfig';
 
 import { setBoxArtUrl } from './actions';
 
