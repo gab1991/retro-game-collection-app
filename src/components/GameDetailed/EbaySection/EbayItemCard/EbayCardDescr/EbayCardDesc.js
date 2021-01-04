@@ -143,8 +143,8 @@ EbayCardDesc.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-    userData: state.logged,
     profileInfo: state.profile,
+    userData: state.logged.username,
   };
 }
 

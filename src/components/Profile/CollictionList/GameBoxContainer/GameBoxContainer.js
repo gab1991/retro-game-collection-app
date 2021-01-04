@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
+
 import { reorderGames } from '../../../../Store/Actions/profileActions';
 import GameBox from './GameBox/GameBox';
+
 import styles from './GameBoxContainer.module.scss';
 
 const SortableList = SortableContainer(({ games, platform, isSorting }) => {
@@ -59,9 +61,8 @@ function GameBoxContainer(props) {
 
 function mapStateToProps(state) {
   return {
-    userData: state.logged,
-    profileInfo: state.profile,
     isMobile: state.appState.isMobile,
+    profileInfo: state.profile,
   };
 }
 

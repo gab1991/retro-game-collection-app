@@ -45,7 +45,6 @@ function WishList(props) {
 
 function mapStateToProps(state) {
   return {
-    userData: state.logged,
     profileInfo: state.profile,
   };
 }

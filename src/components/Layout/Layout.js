@@ -13,7 +13,7 @@ import {
 
 import styles from './Layout.module.scss';
 
-function Layout(props) {
+export default function Layout(props) {
   const showAuth = useSelector(selectAuthModalShowState);
   const showErr = useSelector(selectErrorModalShowState);
   const showInfo = useSelector(selectInfoMoadlShowState);
@@ -41,11 +41,3 @@ function Layout(props) {
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return {
-    userData: state.logged,
-  };
-}
-
-export default connect(mapStateToProps)(Layout);

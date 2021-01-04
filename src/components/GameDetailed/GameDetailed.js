@@ -340,7 +340,7 @@ function mapStateToProps(state) {
     showWishListWarn: state.gameDetailed.showWishListWarn,
     showWishNotifier: state.gameDetailed.showWishNotifier,
     soundtrackVideo: state.gameDetailed.uploadableElms.soundtrackVideo,
-    userData: state.logged,
+    userData: state.logged.username,
   };
 }
 

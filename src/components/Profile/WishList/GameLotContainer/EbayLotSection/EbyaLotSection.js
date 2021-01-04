@@ -12,10 +12,10 @@ import { WarnModal } from 'Components/UI/Modals';
 import styles from './EbayLotSection.module.scss';
 
 const buttonsToSortOrder = {
-  Watched: 'Watched',
   'Lowest Price': 'PricePlusShippingLowest',
   'New Offers': 'StartTimeNewest',
   Relevance: 'BestMatch',
+  Watched: 'Watched',
 };
 
 function EbayLotSection(props) {
@@ -109,7 +109,6 @@ function EbayLotSection(props) {
 
 function mapStateToProps(state) {
   return {
-    userData: state.logged,
     profileInfo: state.profile,
   };
 }

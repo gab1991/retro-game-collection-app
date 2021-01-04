@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
+
 import { getProfileInfo } from '../../Store/Actions/profileActions';
 import CollectionList from '../Profile/CollictionList/CollectionLIst';
 import WishList from '../Profile/WishList/WishList';
+
 import styles from './Profile.module.scss';
 
 function Profile(props) {
@@ -49,7 +51,7 @@ function Profile(props) {
 
 function mapStateToProps(state) {
   return {
-    loggedUser: state.logged,
+    loggedUser: state.logged.username,
     profileInfo: state.profile,
   };
 }
