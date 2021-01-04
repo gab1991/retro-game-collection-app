@@ -1,7 +1,11 @@
 export type TEbayCard = {
+  contactSeller: boolean;
+  isAuction: boolean;
   itemData: IEbayCardItemData;
   //refactor
   itemId: Array<string>;
+  shippingCost: number | null;
+  totalPrice: number;
 };
 
 export interface IEbayCardItemData {
