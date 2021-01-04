@@ -1,4 +1,5 @@
-import { Backend } from 'Backend';
+import { AxiosError } from 'axios';
+import { Backend, HttpRespStats } from 'Backend';
 
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
@@ -6,7 +7,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { IRootState, TThunk } from 'Store/types';
 
 import { appConfig, TPlatformNames } from 'Configs/appConfig';
-import { showErrModal } from 'Store/appStateReducer/actions';
+import { showErrModal, showInfoModal } from 'Store/appStateReducer/actions';
 import { IEbayCardItemData } from 'Typings/EbayData';
 
 import {
@@ -15,6 +16,7 @@ import {
   setEbayItemShippingCost,
   setEbayItemShippingLoading,
   setEbaySingleItemData,
+  setIsWatchedEbayCard,
 } from './actions';
 import { selectEbayCardItemId } from './selectors';
 
@@ -87,9 +89,12 @@ export const getShippingCosts = (
   return async (dispatch) => {
     dispatch(setEbayItemShippingLoading(game, platform, sortOrder, index, true));
 
-    const { ShippingCostSummary } = await Backend.getShippingCosts(itemId, () => {
+    const {
+      data: { ShippingCostSummary },
+    } = await Backend.getShippingCosts(itemId, () => {
       dispatch(setEbayItemShippingLoading(game, platform, sortOrder, index, false));
     });
+
     const { Value: value } = ShippingCostSummary?.ShippingServiceCost || {};
     const costinNumber = Number(value);
 
@@ -100,6 +105,114 @@ export const getShippingCosts = (
     } else {
       dispatch(setEbayItemShippingCost(game, platform, sortOrder, index, null));
       dispatch(setContactSeller(game, platform, sortOrder, index, true));
+    }
+  };
+};
+
+export const checkIfCardIsWatched = (
+  game: string,
+  platform: TPlatformNames,
+  index: number,
+  sortOrder = DEFAULT_SORT_ORDER
+): TThunk => {
+  return async (dispatch, getState) => {
+    const itemId = selectEbayCardItemId(getState(), {
+      game,
+      index,
+      platform,
+      sortOrder,
+    });
+
+    if (!itemId) return;
+
+    const { data: { success } = { success: null } } = await Backend.isWatchedEbayCard(
+      {
+        ebayItemId: itemId,
+        game,
+        platform,
+      },
+      () => {
+        dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, false));
+      }
+    );
+
+    if (success) {
+      dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, true));
+    } else {
+      dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, false));
+    }
+  };
+};
+
+export const notWatchEbayCard = (
+  game: string,
+  platform: TPlatformNames,
+  ebayItemId: number,
+  index: number,
+  sortOrder = DEFAULT_SORT_ORDER
+): TThunk => {
+  return async (dispatch) => {
+    dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, false));
+
+    const errHandler = () => {
+      dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, true));
+      dispatch(
+        showErrModal({
+          message: 'Something wrong happened.Try again later',
+        })
+      );
+    };
+
+    await Backend.notWatchEbayCard(
+      {
+        ebayItemId,
+        game,
+        platform,
+      },
+      errHandler
+    );
+  };
+};
+
+export const watchEbayCard = (
+  game: string,
+  platform: TPlatformNames,
+  ebayItemId: number,
+  index: number,
+  sortOrder = DEFAULT_SORT_ORDER
+): TThunk => {
+  return async (dispatch) => {
+    dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, true));
+
+    const errorCallback = (err: AxiosError<{ show_modal: boolean }>) => {
+      if (err?.response?.data?.show_modal) {
+        dispatch(
+          showInfoModal({
+            btnTxtContent: 'got it',
+            message: 'Add game to your WishList at first',
+          })
+        );
+      } else {
+        dispatch(
+          showErrModal({
+            message: 'Something wrong happened.Try again later',
+          })
+        );
+      }
+      dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, false));
+    };
+
+    const { status } = await Backend.watchEbayCard(
+      {
+        ebayItemId,
+        game,
+        platform,
+      },
+      errorCallback
+    );
+
+    if (status !== HttpRespStats.success) {
+      dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, false));
     }
   };
 };

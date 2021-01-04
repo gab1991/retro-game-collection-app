@@ -35,6 +35,16 @@ export interface IEbayCardRawData {
   ViewItemURLForNaturalSearch: string;
 }
 
+export interface IEbayCardShippingDetails {
+  ShippingCostSummary: {
+    InsuranceOption: string;
+    ListedShippingServiceCost: IEbayCardCurValue;
+    ShippingServiceCost: IEbayCardCurValue;
+    ShippingServiceName: string;
+    ShippingType: string;
+  };
+}
+
 interface IEbayCardCurValue {
   CurrencyID: string;
   Value: number;
