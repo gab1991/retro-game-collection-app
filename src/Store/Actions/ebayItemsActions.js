@@ -21,19 +21,19 @@ const getCardItemId = (store, { platform, game, sortOrder, index }) => {
   return itemIdArr[0];
 };
 
-const setEbayItems = (items, platform, game, sortOrder) => {
-  return {
-    payload: { game, items, platform, sortOrder },
-    type: SET_EBAY_ITEMS,
-  };
-};
+// const setEbayItems = (items, platform, game, sortOrder) => {
+//   return {
+//     payload: { game, items, platform, sortOrder },
+//     type: SET_EBAY_ITEMS,
+//   };
+// };
 
-const setEbaySingleItemData = (platform, game, index, itemData, sortOrder) => {
-  return {
-    payload: { game, index, itemData, platform, sortOrder },
-    type: SET_EBAY_SINGLE_ITEM_DATA,
-  };
-};
+// const setEbaySingleItemData = (platform, game, index, itemData, sortOrder) => {
+//   return {
+//     payload: { game, index, itemData, platform, sortOrder },
+//     type: SET_EBAY_SINGLE_ITEM_DATA,
+//   };
+// };
 
 const getEbaySingleItemByIndex = (platform, game, index, sortOrder = DEFAULT_SORT_ORDER) => {
   return async (dispatch, getState) => {
@@ -237,46 +237,46 @@ const calculateTotalPrice = (platform, game, index, sortOrder) => {
   };
 };
 
-const getEbayItems = (platform, game, sortOrder = DEFAULT_SORT_ORDER) => {
-  return async (dispatch, getState) => {
-    const { ebayItems } = getState();
+// const getEbayItems = (platform, game, sortOrder = DEFAULT_SORT_ORDER) => {
+//   return async (dispatch, getState) => {
+//     const { ebayItems } = getState();
 
-    //check if these ebay cards are already in reducer
-    if (ebayItems?.[platform]?.[game]?.[sortOrder]) return;
-    let items = [];
+//     //check if these ebay cards are already in reducer
+//     if (ebayItems?.[platform]?.[game]?.[sortOrder]) return;
+//     let items = [];
 
-    const errHandler = () => {
-      dispatch(showErrModal({ message: 'Cannot fetch ebay cards! Try again later' }));
-    };
+//     const errHandler = () => {
+//       dispatch(showErrModal({ message: 'Cannot fetch ebay cards! Try again later' }));
+//     };
 
-    if (sortOrder === 'Watched') {
-      const { data: ebayItems = { ebayItems: [] } } = await Backend.getGameWatchedCards(platform, game, errHandler);
+//     if (sortOrder === 'Watched') {
+//       const { data: ebayItems = { ebayItems: [] } } = await Backend.getGameWatchedCards(platform, game, errHandler);
 
-      items = ebayItems.map((ebayItem) => ({ itemId: [ebayItem.id] }));
-    } else {
-      const { data = null } = await Backend.getEbayItems(platform, game, sortOrder, errHandler);
+//       items = ebayItems.map((ebayItem) => ({ itemId: [ebayItem.id] }));
+//     } else {
+//       const { data = null } = await Backend.getEbayItems(platform, game, sortOrder, errHandler);
 
-      if (data && data[0]) {
-        const { item: ebayitems = [] } = data[0];
-        items = ebayitems;
-      }
-    }
+//       if (data && data[0]) {
+//         const { item: ebayitems = [] } = data[0];
+//         items = ebayitems;
+//       }
+//     }
 
-    if (items.length) {
-      dispatch(setEbayItems(items, platform, game, sortOrder));
-    }
-  };
-};
+//     if (items.length) {
+//       dispatch(setEbayItems(items, platform, game, sortOrder));
+//     }
+//   };
+// };
 
 export {
   calculateTotalPrice,
   checkIfCardIsWatched,
-  getEbayItems,
+  // getEbayItems,
   getEbaySingleItem,
   getEbaySingleItemByIndex,
   getShippingCosts,
   notWatchEbayCard,
-  setEbayItems,
+  // setEbayItems,
   watchEbayCard,
 };
 

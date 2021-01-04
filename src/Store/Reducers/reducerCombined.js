@@ -4,9 +4,9 @@ import { appStateReducer } from 'Store/appStateReducer/reducer';
 import { logOut } from 'Store/authReducer/actions';
 import { authReducer } from 'Store/authReducer/reducer';
 import { contentReducer } from 'Store/contentReducer/reducer';
+import { ebayItemsReducer } from 'Store/ebayItemsReducer/reducer';
 import { gameSelectorReducer } from 'Store/gameSelectorReducer/reducer';
 
-import ebayItemsReducer from './ebayItemsReducer';
 import gameDetailedReducer from './gameDetailedReducer';
 import profileReducer from './profileReducer';
 import wishListReducer from './wishListReducer';

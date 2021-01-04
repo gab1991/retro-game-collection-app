@@ -1,15 +1,15 @@
-import { createReducer, current } from '@reduxjs/toolkit';
-import set from 'lodash/set';
 import {
+  CALCULATE_TOTAL_PRICE,
+  DEFAULT_SORT_ORDER,
+  SET_EBAY_ITEM_SHIPPING_CONTACT_SELLER,
+  SET_EBAY_ITEM_SHIPPING_COST,
+  SET_EBAY_ITEM_SHIPPING_COST_LOADING,
   SET_EBAY_ITEMS,
   SET_EBAY_SINGLE_ITEM_DATA,
   SET_IS_WATCHED_EBAY_CARD,
-  SET_EBAY_ITEM_SHIPPING_COST,
-  SET_EBAY_ITEM_SHIPPING_COST_LOADING,
-  SET_EBAY_ITEM_SHIPPING_CONTACT_SELLER,
-  CALCULATE_TOTAL_PRICE,
-  DEFAULT_SORT_ORDER,
 } from '../Actions/ebayItemsActions';
+import { createReducer, current } from '@reduxjs/toolkit';
+import set from 'lodash/set';
 
 const ebayItemsReducer = createReducer({}, (builder) => {
   builder
@@ -30,8 +30,8 @@ const ebayItemsReducer = createReducer({}, (builder) => {
       state[platform][game][sortOrder][index] = {
         ...state[platform][game][sortOrder][index],
         isAuction,
-        shippingCost,
         itemData,
+        shippingCost,
       };
     })
     .addCase(SET_IS_WATCHED_EBAY_CARD, (state, { payload }) => {

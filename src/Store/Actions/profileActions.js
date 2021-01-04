@@ -1,8 +1,7 @@
 import { Backend } from 'Backend';
 
 import { showErrModal } from '../appStateReducer/actions';
-
-import { setEbayItems } from './ebayItemsActions';
+import { setEbayItems } from 'Store/ebayItemsReducer/actions';
 
 const FILL_PROFILE = 'FILL_PROFILE';
 

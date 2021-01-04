@@ -2,8 +2,8 @@ import ReactHtmlParser from 'react-html-parser';
 import { Backend } from 'Backend';
 
 import { addGame as addGameTopProfile } from '../../Store/Actions/profileActions';
-import { getEbayItems as getEbayItemsCore } from '../Actions/ebayItemsActions';
 import { showErrModal } from '../appStateReducer/actions';
+import { getEbayItems as getEbayItemsCore } from 'Store/ebayItemsReducer/thunks';
 
 const SET_GAME_DETAILS = 'SET_GAME_DETAILS';
 const SET_DESCRIPTION_PARSED = 'SET_DESCRIPTION_PARSED';
