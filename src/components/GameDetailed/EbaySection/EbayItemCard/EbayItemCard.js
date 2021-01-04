@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 
-import { getEbaySingleItemByIndex } from '../../../../Store/Actions/ebayItemsActions';
 import EbayCardDesc from './EbayCardDescr/EbayCardDesc';
 import { OvalSpinner, Slider } from 'Components/UI';
 import { EbayLogo } from 'Components/UI/LogoSvg';
+import { getEbaySingleItemByIndex } from 'Store/ebayItemsReducer/thunks';
 
 import styles from './EbayItemCard.module.scss';
 

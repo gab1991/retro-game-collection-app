@@ -1,11 +1,22 @@
 import { Backend } from 'Backend';
 
-import { TThunk } from 'Store/types';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+
+import { IRootState, TThunk } from 'Store/types';
 
 import { appConfig, TPlatformNames } from 'Configs/appConfig';
 import { showErrModal } from 'Store/appStateReducer/actions';
+import { IEbayCardItemData } from 'Typings/EbayData';
 
-import { setEbayItems, setEbaySingleItemData } from './actions';
+import {
+  setContactSeller,
+  setEbayItems,
+  setEbayItemShippingCost,
+  setEbayItemShippingLoading,
+  setEbaySingleItemData,
+} from './actions';
+import { selectEbayCardItemId } from './selectors';
 
 const DEFAULT_SORT_ORDER = appConfig.EbayCards.defaultSortOrder;
 
@@ -47,12 +58,16 @@ export const getEbaySingleItemByIndex = (
   sortOrder = DEFAULT_SORT_ORDER
 ): TThunk => {
   return async (dispatch, getState) => {
-    const itemId = getCardItemId(getState(), {
+    const itemId = selectEbayCardItemId(getState(), {
       game,
       index,
       platform,
       sortOrder,
     });
+
+    if (itemId === null) {
+      return;
+    }
 
     const itemData = await getEbaySingleItem(itemId, dispatch);
 
@@ -62,7 +77,37 @@ export const getEbaySingleItemByIndex = (
   };
 };
 
-const getEbaySingleItem = async (itemId, dispatch) => {
+export const getShippingCosts = (
+  game: string,
+  platform: TPlatformNames,
+  itemId: number,
+  index: number,
+  sortOrder = DEFAULT_SORT_ORDER
+): TThunk => {
+  return async (dispatch) => {
+    dispatch(setEbayItemShippingLoading(game, platform, sortOrder, index, true));
+
+    const { ShippingCostSummary } = await Backend.getShippingCosts(itemId, () => {
+      dispatch(setEbayItemShippingLoading(game, platform, sortOrder, index, false));
+    });
+    const { Value: value } = ShippingCostSummary?.ShippingServiceCost || {};
+    const costinNumber = Number(value);
+
+    dispatch(setEbayItemShippingLoading(game, platform, sortOrder, index, false));
+
+    if (costinNumber) {
+      dispatch(setEbayItemShippingCost(game, platform, sortOrder, index, costinNumber));
+    } else {
+      dispatch(setEbayItemShippingCost(game, platform, sortOrder, index, null));
+      dispatch(setContactSeller(game, platform, sortOrder, index, true));
+    }
+  };
+};
+
+const getEbaySingleItem = async (
+  itemId: number,
+  dispatch: ThunkDispatch<IRootState, unknown, Action<string>>
+): Promise<IEbayCardItemData | null> => {
   const { data: { Item: item } = { Item: null } } = await Backend.getEbaySingleItem(itemId, () => {
     dispatch(showErrModal({ message: 'Something wrong happened.Try again later' }));
   });
@@ -73,8 +118,8 @@ const getEbaySingleItem = async (itemId, dispatch) => {
     bidCount: item?.BidCount,
     convertedCurrentPrice: item?.ConvertedCurrentPrice,
     currency: item?.ConvertedCurrentPrice.CurrencyID,
-    currentPrice: Number(item?.ConvertedCurrentPrice.Value).toFixed(2),
-    deliveryPrice: item?.ShippingServiceCost ? item?.ShippingServiceCost.Value : '',
+    currentPrice: Number(item?.ConvertedCurrentPrice.Value.toFixed(2)),
+    deliveryPrice: Number(item?.ShippingServiceCost ? item?.ShippingServiceCost.Value : '') || 0,
     endTime: item?.EndTime,
     itemId: itemId,
     itemUrl: item?.ViewItemURLForNaturalSearch,
@@ -83,12 +128,4 @@ const getEbaySingleItem = async (itemId, dispatch) => {
     shipping: item?.ShippingCostSummary,
     title: item?.Title,
   };
-};
-
-const getCardItemId = (store, { platform, game, sortOrder, index }) => {
-  if (!store || !platform || !game || !sortOrder) return null;
-  const { ebayItems } = store;
-  const { itemId: itemIdArr = { itemId: null } } = ebayItems?.[platform]?.[game]?.[sortOrder]?.[index];
-  if (!itemIdArr || !itemIdArr[0]) return null;
-  return itemIdArr[0];
 };
