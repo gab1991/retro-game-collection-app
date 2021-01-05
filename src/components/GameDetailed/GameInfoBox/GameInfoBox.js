@@ -1,11 +1,14 @@
 import React from 'react';
+
 import { trimName } from '../../../Utils/helperFunctions';
+
 import styles from './GameInfoBox.module.scss';
 
 export default function GameInfoBox(props) {
   const {
     boxArt,
-    gameInfo: { name, released, developers, publishers, className },
+    gameInfo: { name, released, developers, publishers },
+    className,
   } = props;
 
   const nameTrimmed = trimName(name);
