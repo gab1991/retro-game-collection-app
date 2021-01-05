@@ -1,14 +1,19 @@
 import { AxiosError, AxiosPromise } from 'axios';
 
 import { EPlatformList, TPlatformNames } from 'Configs/appConfig';
-import { IEbayCardRawData, IEbayCardShippingDetails } from 'Typings/EbayData';
+import { IEbayCardRawData, IEbayCardShippingDetails, TEbayCardPreviewRawData } from 'Typings/EbayData';
 import { IRawgGame } from 'Typings/RawgData';
 
 export type TBackend = {
   checkCredentials: (token: string, username: string, errCb?: TErrCb) => AxiosPromise;
   getBoxArt: (platform: TPlatformNames, slug: string, errCb?: TErrCb) => AxiosPromise<string>;
   //need to type sortOrder
-  getEbayItems: (platform: TPlatformNames, game: string, sortOrder: string, errCb?: TErrCb) => AxiosPromise;
+  getEbayItems: (
+    platform: TPlatformNames,
+    game: string,
+    sortOrder: string,
+    errCb?: TErrCb
+  ) => AxiosPromise<{ item: Array<Array<TEbayCardPreviewRawData>> }>;
   getEbaySingleItem: (id: number, errCb?: TErrCb) => AxiosPromise<{ Item: IEbayCardRawData }>;
   getGameDetails: (slug: string, errCb?: TErrCb) => AxiosPromise;
   getGameWatchedCards: (platform: TPlatformNames, game: string, errCb?: TErrCb) => AxiosPromise;

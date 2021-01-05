@@ -8,7 +8,7 @@ import { IRootState, TThunk } from 'Store/types';
 
 import { appConfig, TPlatformNames } from 'Configs/appConfig';
 import { showErrModal, showInfoModal } from 'Store/appStateReducer/actions';
-import { IEbayCardItemData } from 'Typings/EbayData';
+import { IEbayCardItemData, TEbayCardPreviewRawData } from 'Typings/EbayData';
 
 import {
   setContactSeller,
@@ -28,7 +28,7 @@ export const getEbayItems = (platform: TPlatformNames, game: string, sortOrder =
 
     //check if these ebay cards are already in reducer
     if (ebayItems?.[platform]?.[game]?.[sortOrder]) return;
-    let items = [];
+    let items: Array<TEbayCardPreviewRawData> = [];
 
     const errHandler = () => {
       dispatch(showErrModal({ message: 'Cannot fetch ebay cards! Try again later' }));
@@ -40,6 +40,8 @@ export const getEbayItems = (platform: TPlatformNames, game: string, sortOrder =
       items = ebayItems.map((ebayItem) => ({ itemId: [ebayItem.id] }));
     } else {
       const { data = null } = await Backend.getEbayItems(platform, game, sortOrder, errHandler);
+
+      console.log(data);
 
       if (data && data[0]) {
         const { item: ebayitems = [] } = data[0];
@@ -201,6 +203,12 @@ export const watchEbayCard = (
       }
       dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, false));
     };
+
+    console.log({
+      ebayItemId,
+      game,
+      platform,
+    });
 
     const { status } = await Backend.watchEbayCard(
       {

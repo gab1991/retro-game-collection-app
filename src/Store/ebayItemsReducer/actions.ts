@@ -1,11 +1,11 @@
 import { createAction } from 'typesafe-actions';
 
 import { TPlatformNames } from 'Configs/appConfig';
-import { IEbayCardItemData, TEbayCard } from 'Typings/EbayData';
+import { IEbayCardItemData, TEbayCardPreviewRawData } from 'Typings/EbayData';
 
 export const setEbayItems = createAction(
   'ebayItems/setEbayItems',
-  (items: Array<TEbayCard>, platform: TPlatformNames, game: string, sortOrder: string) => ({
+  (items: Array<TEbayCardPreviewRawData>, platform: TPlatformNames, game: string, sortOrder: string) => ({
     game,
     items,
     platform,
