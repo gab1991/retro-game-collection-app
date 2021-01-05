@@ -3,26 +3,23 @@ import ReactPlayer from 'react-player';
 import { connect, useDispatch, useSelector } from 'react-redux';
 
 import { textMessages } from '../../Configs/appConfig';
-import {
-  addGame,
-  flushGameDetailed,
-  getGameDetails,
-  getScreenShots,
-  getVideo,
-  setIsOwned,
-  setIsWished,
-  setShowWisListWarn,
-  toggleElmVisibility,
-} from '../../Store/Actions/gameDetailedActions';
 import { removeGame } from '../../Store/Actions/profileActions';
-import { showAuthModal } from '../../Store/appStateReducer/actions';
+import { showAuthModal, showCornerNotifier } from '../../Store/appStateReducer/actions';
 import EbaySection from './EbaySection/EbaySection';
 import GameInfoBox from './GameInfoBox/GameInfoBox';
 import { ButtonNeon, OvalSpinner, SwiperConfigured } from 'Components/UI';
 import { ArrowEsc } from 'Components/UI/LogoSvg';
-import { CornerNotifier, WarnModal } from 'Components/UI/Modals';
+import { CornerNotifier, ECornerNotifierCorners, WarnModal } from 'Components/UI/Modals';
 import { selectBoxArt } from 'Store/contentReducer/selectors';
 import { getBoxArt } from 'Store/contentReducer/thunks';
+import {
+  flushGameDetailed,
+  setIsOwned,
+  setIsWished,
+  setShowWisListWarn,
+  toggleElmVisibility,
+} from 'Store/gameDetailedReducer/actions';
+import { addGame, getGameDetails, getScreenShots, getVideo } from 'Store/gameDetailedReducer/thunks';
 
 import styles from './GameDetailed.module.scss';
 
@@ -46,7 +43,7 @@ function GameDetailed(props) {
     showWishNotifier,
     showWishListWarn,
   } = props;
-  const boxArtUrl = useSelector((state) => selectBoxArt(state, platformName, gameDetails.name));
+  const boxArtUrl = useSelector((state) => (gameDetails ? selectBoxArt(state, platformName, gameDetails.name) : ''));
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -91,7 +88,7 @@ function GameDetailed(props) {
   }, [slug, dispatch]);
 
   useEffect(() => {
-    if (gameDetails.name) {
+    if (gameDetails) {
       dispatch(getBoxArt(platformName, gameDetails.name));
     }
   }, [gameDetails, platformName, dispatch]);
@@ -198,6 +195,7 @@ function GameDetailed(props) {
     },
   ];
 
+  console.log({ cornerNotifiers, isMobile });
   return (
     <section className={styles.GameDetailed}>
       <div className={styles.GameDetailGridCont}>
@@ -214,7 +212,7 @@ function GameDetailed(props) {
           />
         </div>
         <div className={styles.InfoSection}>
-          {gameDetails.name && <GameInfoBox gameInfo={gameDetails} boxArt={boxArtUrl} />}
+          {gameDetails && <GameInfoBox gameInfo={gameDetails} boxArt={boxArtUrl} />}
         </div>
         <div className={styles.DescSection}>
           <hr></hr>
@@ -289,7 +287,7 @@ function GameDetailed(props) {
           )}
           <hr></hr>
         </div>
-        {gameDetails.name && ebaySection.show && (
+        {gameDetails && ebaySection.show && (
           <EbaySection
             platform={platformName}
             game={gameDetails.name}
