@@ -15,3 +15,15 @@ export interface IRawgGame {
 export interface IRawgPageData {
   count: number;
 }
+
+export interface IRawgGameDetails {
+  description: string;
+  developers: Array<{ name: string }>;
+  name: string;
+  publishers: Array<{ name: string }>;
+  released: string;
+}
+
+export interface IRawgScreenshot {
+  image: string;
+}

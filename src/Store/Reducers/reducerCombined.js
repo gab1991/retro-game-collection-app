@@ -5,9 +5,10 @@ import { logOut } from 'Store/authReducer/actions';
 import { authReducer } from 'Store/authReducer/reducer';
 import { contentReducer } from 'Store/contentReducer/reducer';
 import { ebayItemsReducer } from 'Store/ebayItemsReducer/reducer';
+import { gameDetailedReducer } from 'Store/gameDetailedReducer/reducer';
 import { gameSelectorReducer } from 'Store/gameSelectorReducer/reducer';
 
-import gameDetailedReducer from './gameDetailedReducer';
+// import gameDetailedReducer from './gameDetailedReducer';
 import profileReducer from './profileReducer';
 import wishListReducer from './wishListReducer';
 
