@@ -63,6 +63,11 @@ export enum EPlatformList {
 
 export type TPlatformNames = keyof typeof EPlatformList;
 
+export enum EAvailableLists {
+  ownedList = 'owned_list',
+  wishList = 'wish_list',
+}
+
 const appConfig = {
   EbayCards: {
     defaultSortOrder: 'BestMatch',
