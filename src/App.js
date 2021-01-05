@@ -7,9 +7,9 @@ import GameDetailed from './Components/GameDetailed/GameDetailed';
 import Layout from './Components/Layout/Layout';
 import Profile from './Components/Profile/Profile';
 import useWindowSize from './CustomHooks/useWindowSize';
-import { getProfileInfo } from './Store/Actions/profileActions';
 import { setIsMobile } from 'Store/appStateReducer/actions';
 import { checkCredentials } from 'Store/authReducer/thunks';
+import { getProfileInfo } from 'Store/profileReducer/thunks';
 
 import styles from './App.module.scss';
 import sassVars from './Configs/Variables.scss';

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 
-import { getProfileInfo } from '../../Store/Actions/profileActions';
 import CollectionList from '../Profile/CollictionList/CollectionLIst';
 import WishList from '../Profile/WishList/WishList';
+import { getProfileInfo } from 'Store/profileReducer/thunks';
 
 import styles from './Profile.module.scss';
 

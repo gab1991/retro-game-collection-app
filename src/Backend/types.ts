@@ -1,8 +1,10 @@
 import { AxiosError, AxiosPromise } from 'axios';
 
+import { IProfile, IProfileGame } from 'Store/profileReducer/types';
+
 import { EPlatformList, TPlatformNames } from 'Configs/appConfig';
 import { IEbayCardRawData, IEbayCardShippingDetails, TEbayCardPreviewRawData } from 'Typings/EbayData';
-import { IRawgGame, IRawgGameDetails, IRawgScreenshot } from 'Typings/RawgData';
+import { IRawgGameDetails, IRawgScreenshot } from 'Typings/RawgData';
 
 export type TBackend = {
   checkCredentials: (token: string, username: string, errCb?: TErrCb) => AxiosPromise;
@@ -18,7 +20,7 @@ export type TBackend = {
   getGameDetails: (slug: string, errCb?: TErrCb) => AxiosPromise<IRawgGameDetails>;
   getGameWatchedCards: (platform: TPlatformNames, game: string, errCb?: TErrCb) => AxiosPromise;
   getGamesForPlatform: (params: IGetGamesForPlatParams, errCb?: TErrCb) => AxiosPromise;
-  getProfileInfo: (errCb?: TErrCb) => AxiosPromise;
+  getProfileInfo: (errCb?: TErrCb) => AxiosPromise<IProfile>;
   getScreenshots: (slug: string, errCb?: TErrCb) => AxiosPromise<{ results: Array<IRawgScreenshot> }>;
   getShippingCosts: (itemId: number, errCb?: TErrCb) => AxiosPromise<IEbayCardShippingDetails>;
   getVideo: (videoType: TVideoType, platform: TPlatformNames, game: string, errCb?: TErrCb) => AxiosPromise<string>;
@@ -40,7 +42,7 @@ interface IReodredGames {
   action: 'reorder';
   list: TList;
   platform: TPlatformNames;
-  sortedGames: Array<IRawgGame>;
+  sortedGames: Array<IProfileGame>;
 }
 
 interface IRemoveGame {
@@ -52,7 +54,7 @@ interface IRemoveGame {
 
 interface IAddGame {
   action: 'addGame';
-  game: string;
+  game: IRawgGameDetails;
   list: TList;
   platform: TPlatformNames;
 }

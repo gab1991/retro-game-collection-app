@@ -3,7 +3,6 @@ import ReactPlayer from 'react-player';
 import { connect, useDispatch, useSelector } from 'react-redux';
 
 import { textMessages } from '../../Configs/appConfig';
-import { removeGame } from '../../Store/Actions/profileActions';
 import { showAuthModal, showCornerNotifier } from '../../Store/appStateReducer/actions';
 import EbaySection from './EbaySection/EbaySection';
 import GameInfoBox from './GameInfoBox/GameInfoBox';
@@ -20,6 +19,7 @@ import {
   toggleElmVisibility,
 } from 'Store/gameDetailedReducer/actions';
 import { addGame, getGameDetails, getScreenShots, getVideo } from 'Store/gameDetailedReducer/thunks';
+import { removeGame } from 'Store/profileReducer/thunks';
 
 import styles from './GameDetailed.module.scss';
 
@@ -105,10 +105,12 @@ function GameDetailed(props) {
   const toggleList = (platform, gameDetails, list) => {
     if (list === 'wish_list') {
       dispatch(setIsWished(!isWished));
-      isWished ? dispatch(removeGame(gameDetails, list, platform)) : dispatch(addGame(gameDetails, list, platform));
+      isWished
+        ? dispatch(removeGame(gameDetails.name, list, platform))
+        : dispatch(addGame(gameDetails, list, platform));
     } else if (list === 'owned_list') {
       dispatch(setIsOwned(!isOwned));
-      isOwned ? dispatch(removeGame(gameDetails, list, platform)) : dispatch(addGame(gameDetails, list, platform));
+      isOwned ? dispatch(removeGame(gameDetails.name, list, platform)) : dispatch(addGame(gameDetails, list, platform));
     }
   };
 

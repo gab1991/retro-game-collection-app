@@ -1,21 +1,17 @@
 import { Backend } from 'Backend';
 
-import { showErrModal } from '../appStateReducer/actions';
+import { IProfileGame } from './types';
+import { TThunk } from 'Store/types';
+
+import { EAvailableLists, TPlatformNames } from 'Configs/appConfig';
+import { showErrModal } from 'Store/appStateReducer/actions';
 import { setEbayItems } from 'Store/ebayItemsReducer/actions';
+import { IRawgGameDetails } from 'Typings/RawgData';
 
-const FILL_PROFILE = 'FILL_PROFILE';
+import { fillProfile } from './actions';
 
-const fillProfile = (profile) => {
-  return {
-    payload: {
-      ...profile,
-    },
-    type: FILL_PROFILE,
-  };
-};
-
-const getProfileInfo = () => async (dispatch, getState) => {
-  const { data: profile = { profile: null } } = await Backend.getProfileInfo(() => {
+export const getProfileInfo = (): TThunk => async (dispatch) => {
+  const { data: profile = null } = await Backend.getProfileInfo(() => {
     dispatch(showErrModal({ message: `Could't get your profile! Try once more` }));
   });
 
@@ -24,7 +20,9 @@ const getProfileInfo = () => async (dispatch, getState) => {
   dispatch(fillProfile(profile));
 
   //fill possible ebayCards
-  const { wish_list: { platforms: platfromsInWishList } = { platforms: [] } } = profile;
+  const {
+    wish_list: { platforms: platfromsInWishList = [] },
+  } = profile;
 
   for (const platform of platfromsInWishList) {
     const { name: platformName, games } = platform || {};
@@ -39,7 +37,11 @@ const getProfileInfo = () => async (dispatch, getState) => {
   }
 };
 
-const reorderGames = (newSortedGames, platform, list) => async (dispatch) => {
+export const reorderGames = (
+  newSortedGames: Array<IProfileGame>,
+  platform: TPlatformNames,
+  list: EAvailableLists
+): TThunk => async () => {
   await Backend.updateProfile({
     action: 'reorder',
     list,
@@ -48,12 +50,12 @@ const reorderGames = (newSortedGames, platform, list) => async (dispatch) => {
   });
 };
 
-const removeGame = (gameDetails, list, platform) => {
+export const removeGame = (game: string, list: EAvailableLists, platform: TPlatformNames): TThunk => {
   return async (dispatch) => {
     await Backend.updateProfile(
       {
         action: 'removeGame',
-        game: gameDetails,
+        game,
         list,
         platform,
       },
@@ -68,12 +70,12 @@ const removeGame = (gameDetails, list, platform) => {
   };
 };
 
-const addGame = (gameDetails, list, platform) => {
+export const addGame = (game: IRawgGameDetails, list: EAvailableLists, platform: TPlatformNames): TThunk => {
   return async (dispatch) => {
     await Backend.updateProfile(
       {
         action: 'addGame',
-        game: gameDetails,
+        game,
         list,
         platform,
       },
@@ -88,9 +90,10 @@ const addGame = (gameDetails, list, platform) => {
   };
 };
 
-const toggleEbayVisibility = (gameName, platform, isShowed) => {
+export const toggleEbayVisibility = (game: string, platform: TPlatformNames, isShowed: boolean): TThunk => {
   return async (dispatch) => {
-    await Backend.toggleEbayVisibility(gameName, platform, isShowed, () => {
+    console.log(game, platform, isShowed);
+    await Backend.toggleEbayVisibility(game, platform, isShowed, () => {
       dispatch(
         showErrModal({
           message: 'Something wrong happened.Try again later',
@@ -99,6 +102,3 @@ const toggleEbayVisibility = (gameName, platform, isShowed) => {
     });
   };
 };
-
-export { addGame, getProfileInfo, removeGame, reorderGames, toggleEbayVisibility };
-export { FILL_PROFILE };

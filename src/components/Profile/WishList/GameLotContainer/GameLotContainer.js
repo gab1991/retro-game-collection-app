@@ -3,8 +3,8 @@ import { connect, useDispatch } from 'react-redux';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 
-import { removeGame, reorderGames } from '../../../../Store/Actions/profileActions';
 import EbyaLotSection from './EbayLotSection/EbyaLotSection';
+import { removeGame, reorderGames } from 'Store/profileReducer/thunks';
 
 import styles from './GameLotContainer.module.scss';
 

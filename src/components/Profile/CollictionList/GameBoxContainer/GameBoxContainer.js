@@ -3,8 +3,8 @@ import { connect, useDispatch } from 'react-redux';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 
-import { reorderGames } from '../../../../Store/Actions/profileActions';
 import GameBox from './GameBox/GameBox';
+import { reorderGames } from 'Store/profileReducer/thunks';
 
 import styles from './GameBoxContainer.module.scss';
 

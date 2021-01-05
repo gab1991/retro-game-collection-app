@@ -5,9 +5,9 @@ import { EVideoType } from './types';
 import { TThunk } from 'Store/types';
 
 import { EAvailableLists, TPlatformNames } from 'Configs/appConfig';
-import { addGame as addGameTopProfile } from 'Store/Actions/profileActions';
 import { showErrModal } from 'Store/appStateReducer/actions';
 import { getEbayItems as getEbayItemsCore } from 'Store/ebayItemsReducer/thunks';
+import { addGame as addGameTopProfile } from 'Store/profileReducer/thunks';
 import { IRawgGameDetails } from 'Typings/RawgData';
 
 import {
