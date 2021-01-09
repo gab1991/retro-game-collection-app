@@ -1,14 +1,14 @@
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Backend } from 'Backend';
 
-import Backend from '../../../Backend/Backend';
 import useWindowSize from '../../../CustomHooks/useWindowSize';
-import { showAuthModal, showCornerNotifier } from '../../../Store/Actions/appStateActions';
 import validate from '../../../Validation/validation';
 import { ButtonNeon, InputAuth, OvalSpinner, TogglerOptions } from 'Components/UI';
 import { CloseSvg } from 'Components/UI/LogoSvg';
+import { showAuthModal, showCornerNotifier } from 'Store/appStateReducer/actions';
 
-import sassVar from '../../../Сonfigs/Variables.scss';
+import sassVar from '../../../Configs/Variables.scss';
 import styles from './SignUpForm.module.scss';
 
 const mobileBreakPointWidth = parseInt(sassVar['breakpoints-mobile']);
@@ -21,33 +21,33 @@ export default function SignUpForm(props) {
   const isMobile = mobileBreakPointWidth > width;
   const dispatch = useDispatch();
   const inputs = useRef({
-    username: {
-      label: 'Username',
-      type: 'text',
-      placeholder: 'Type name of your account',
-      value: '',
+    email: {
+      label: 'Email',
+      placeholder: 'Current email',
+      type: 'email',
       valid: false,
-    },
-    password: {
-      label: 'Password',
-      type: 'password',
-      placeholder: 'Type your password',
       value: '',
-      valid: false,
     },
     passConfirm: {
       label: 'Confirm Password',
-      type: 'password',
       placeholder: 'Confirm your password once again',
-      value: '',
+      type: 'password',
       valid: false,
+      value: '',
     },
-    email: {
-      label: 'Email',
-      type: 'email',
-      placeholder: 'Current email',
-      value: '',
+    password: {
+      label: 'Password',
+      placeholder: 'Type your password',
+      type: 'password',
       valid: false,
+      value: '',
+    },
+    username: {
+      label: 'Username',
+      placeholder: 'Type name of your account',
+      type: 'text',
+      valid: false,
+      value: '',
     },
   });
 
@@ -126,10 +126,10 @@ export default function SignUpForm(props) {
           if (!isMobile) {
             dispatch(
               showCornerNotifier({
-                message: 'Account is successfully created',
                 corner: 'bottomLeft',
-                show: true,
+                message: 'Account is successfully created',
                 removeTime: 1000,
+                show: true,
               })
             );
           }

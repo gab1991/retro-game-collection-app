@@ -27,7 +27,7 @@ module.exports = {
       },
     },
   },
-  plugins: ['react', '@typescript-eslint', 'simple-import-sort'],
+  plugins: ['react', '@typescript-eslint', 'simple-import-sort', 'sort-keys-fix', 'typescript-sort-keys'],
   extends: [
     'plugin:@typescript-eslint/recommended', // Uses the recommended rules from @typescript-eslint/eslint-plugin
     'plugin:react/recommended', // Uses the recommended rules from @eslint-plugin-react
@@ -45,12 +45,13 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   rules: {
+    //@ESLINT RULES
     'import/no-default-export': 'error',
-    //IMPORT SORTING
+    'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
     // disable standart rules to enable simple-sort-plugins rules
     'sort-imports': 'off',
     'import/order': 'off',
-    // simple-sort-pligins rules
+    //@simple-sort-pligins rules
     'simple-import-sort/exports': 'error',
     'simple-import-sort/imports': [
       'error',
@@ -66,6 +67,11 @@ module.exports = {
         ],
       },
     ],
+    //@sort-keys-fix
+    'sort-keys-fix/sort-keys-fix': 'warn',
+    //@typescript-sort-keys
+    'typescript-sort-keys/interface': 'warn',
+    'typescript-sort-keys/string-enum': 'warn',
     // TYPESCRIPT
     '@typescript-eslint/naming-convention': [
       'error',
@@ -82,6 +88,14 @@ module.exports = {
         format: ['PascalCase'],
         custom: {
           regex: '^T[A-Z]',
+          match: true,
+        },
+      },
+      {
+        selector: 'enum',
+        format: ['PascalCase'],
+        custom: {
+          regex: '^E[A-Z]',
           match: true,
         },
       },

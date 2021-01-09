@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
-import { reorderGames, removeGame } from '../../../../Store/Actions/profileActions';
+
 import EbyaLotSection from './EbayLotSection/EbyaLotSection';
+import { removeGame, reorderGames } from 'Store/profileReducer/thunks';
+
 import styles from './GameLotContainer.module.scss';
 
 const SortableList = SortableContainer(
@@ -27,7 +29,7 @@ const SortableList = SortableContainer(
         })}
       </div>
     );
-  },
+  }
 );
 
 const SortableItem = SortableElement(
@@ -41,12 +43,12 @@ const SortableItem = SortableElement(
         index={ind}
       />
     </div>
-  ),
+  )
 );
 
 function GameLotContainer(props) {
   const dispatch = useDispatch();
-  const { games, platform, userData, isMobile } = props;
+  const { games, platform, token, isMobile } = props;
   const [gamesSort, setGamesSort] = useState(games || []);
   const [isEbayShowedList, setIsEbayShowedList] = useState({});
 
@@ -65,7 +67,6 @@ function GameLotContainer(props) {
   };
 
   const removeFromArrayHandler = (index) => {
-    const token = userData.token;
     const newSortedgames = [...gamesSort];
     const removedGame = newSortedgames.splice(index, 1)[0];
 
@@ -90,9 +91,9 @@ function GameLotContainer(props) {
 
 function mapStateToProps(state) {
   return {
-    userData: state.logged,
-    profileInfo: state.profile,
     isMobile: state.appState.isMobile,
+    profileInfo: state.profile,
+    token: state.logged.token,
   };
 }
 

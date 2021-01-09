@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Backend } from 'Backend';
 
-import Backend from '../../../Backend/Backend';
-import { showAuthModal } from '../../../Store/Actions/appStateActions';
-import { signIn } from '../../../Store/Actions/authActions';
+import { showAuthModal } from '../../../Store/appStateReducer/actions';
 import validate from '../../../Validation/validation';
 import { ButtonNeon, InputAuth, OvalSpinner } from 'Components/UI';
 import { CloseSvg } from 'Components/UI/LogoSvg';
+import { signIn } from 'Store/authReducer/actions';
 
 import styles from './SignInForm.module.scss';
 
@@ -17,16 +17,16 @@ export default function SignInForm(props) {
   const [isSending, setIsSending] = useState(false);
 
   const inputs = useRef({
-    username: {
-      label: 'Username',
-      type: 'text',
-      placeholder: 'Type name of your account',
-      value: '',
-    },
     password: {
       label: 'Password',
-      type: 'password',
       placeholder: 'Type your password',
+      type: 'password',
+      value: '',
+    },
+    username: {
+      label: 'Username',
+      placeholder: 'Type name of your account',
+      type: 'text',
       value: '',
     },
   });
@@ -117,7 +117,7 @@ export default function SignInForm(props) {
   const guestEnterHandler = (e) => {
     e.preventDefault();
 
-    const guestAut = { username: 'guest', password: 'guest1' };
+    const guestAut = { password: 'guest1', username: 'guest' };
     sendLoginReq(guestAut);
   };
 

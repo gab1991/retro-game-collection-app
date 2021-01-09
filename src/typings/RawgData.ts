@@ -5,13 +5,25 @@ interface IRawgPlatform {
 }
 
 export interface IRawgGame {
-  slug: string;
+  background_image: string;
   name: string;
   platforms: Array<IRawgPlatform>;
   released: string;
-  background_image: string;
+  slug: string;
 }
 
 export interface IRawgPageData {
   count: number;
+}
+
+export interface IRawgGameDetails {
+  description: string;
+  developers: Array<{ name: string }>;
+  name: string;
+  publishers: Array<{ name: string }>;
+  released: string;
+}
+
+export interface IRawgScreenshot {
+  image: string;
 }

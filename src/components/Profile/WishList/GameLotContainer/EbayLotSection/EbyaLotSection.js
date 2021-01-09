@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 
-import { toggleEbayVisibility } from '../../../../../Store/Actions/profileActions';
 import { trimName } from '../../../../../Utils/helperFunctions';
 import EbaySection from '../../../../GameDetailed/EbaySection/EbaySection';
 import GameBox from '../../../CollictionList/GameBoxContainer/GameBox/GameBox';
 import { ButtonNeon, KnobToggler } from 'Components/UI';
 import { CloseSvg } from 'Components/UI/LogoSvg';
 import { WarnModal } from 'Components/UI/Modals';
+import { toggleEbayVisibility } from 'Store/profileReducer/thunks';
 
 import styles from './EbayLotSection.module.scss';
 
 const buttonsToSortOrder = {
-  Watched: 'Watched',
   'Lowest Price': 'PricePlusShippingLowest',
   'New Offers': 'StartTimeNewest',
   Relevance: 'BestMatch',
+  Watched: 'Watched',
 };
 
 function EbayLotSection(props) {
@@ -109,7 +109,6 @@ function EbayLotSection(props) {
 
 function mapStateToProps(state) {
   return {
-    userData: state.logged,
     profileInfo: state.profile,
   };
 }

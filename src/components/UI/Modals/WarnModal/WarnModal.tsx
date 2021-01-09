@@ -8,8 +8,8 @@ import styles from './WarnModal.module.scss';
 interface IWarnModal {
   message: string;
   onBackdropClick: () => void;
-  onYesClick: () => void;
   onNoClick: () => void;
+  onYesClick: () => void;
 }
 
 export function WarnModal(props: IWarnModal): JSX.Element {

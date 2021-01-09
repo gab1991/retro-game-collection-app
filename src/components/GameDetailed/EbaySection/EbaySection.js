@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 
-import { getEbayItems } from '../../../Store/Actions/gameDetailedActions';
-import { getEbayItems as getEbayItemsWishList } from '../../../Store/Actions/wishListActions';
 import EbayItemCard from '../EbaySection/EbayItemCard/EbayItemCard';
 import { DotSpinner, SwiperConfigured } from 'Components/UI';
+import { getEbayItems } from 'Store/gameDetailedReducer/thunks';
 
 import styles from './EbaySection.module.scss';
 
@@ -24,11 +23,7 @@ function EbaySection(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (fromComponent === 'WishList') {
-      dispatch(getEbayItemsWishList(platform, game, sortOrder));
-    } else {
-      dispatch(getEbayItems(platform, game, sortOrder));
-    }
+    dispatch(getEbayItems(platform, game, sortOrder));
   }, [platform, game, sortOrder, dispatch]);
 
   useEffect(() => {

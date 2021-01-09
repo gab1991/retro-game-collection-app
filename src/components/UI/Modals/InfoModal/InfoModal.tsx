@@ -1,15 +1,15 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import { hideInfoModal } from '../../../../Store/Actions/appStateActions';
 import { Backdrop, ButtonNeon } from 'Components/UI';
 import { InfoSvg } from 'Components/UI/LogoSvg';
+import { hideInfoModal } from 'Store/appStateReducer/actions';
 
 import styles from './InfoModal.module.scss';
 
-interface IInfoModalProps {
-  message: string;
-  btnTxtContent: string;
+export interface IInfoModalProps {
+  btnTxtContent?: string;
+  message?: string;
 }
 
 export function InfoModal(props: IInfoModalProps): JSX.Element {

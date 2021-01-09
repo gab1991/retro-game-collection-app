@@ -2,9 +2,9 @@ import React, { useReducer } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { showAuthModal } from '../../Store/Actions/appStateActions';
-import { logOut } from '../../Store/Actions/authActions';
 import { Backdrop, ButtonNeon, MenuSideSlider } from 'Components/UI';
+import { showAuthModal } from 'Store/appStateReducer/actions';
+import { logOut } from 'Store/authReducer/actions';
 
 import styles from './Header.module.scss';
 
@@ -14,15 +14,15 @@ function headerReducer(state, { type, payload }) {
       const { showMenuSlider, showBackdrop } = state;
       return {
         ...state,
-        showMenuSlider: !showMenuSlider,
         showBackdrop: !showBackdrop,
+        showMenuSlider: !showMenuSlider,
       };
     }
     case 'HIDE_MENU': {
       return {
         ...state,
-        showMenuSlider: false,
         showBackdrop: false,
+        showMenuSlider: false,
       };
     }
     default:
@@ -34,8 +34,8 @@ function Header(props) {
   const { userData } = props;
   const dispatchGlobal = useDispatch();
   const [{ showMenuSlider, showBackdrop }, dispatchLocal] = useReducer(headerReducer, {
-    showMenuSlider: false,
     showBackdrop: false,
+    showMenuSlider: false,
   });
 
   const toggleMenuSlider = () => {
@@ -77,8 +77,8 @@ function Header(props) {
             slideLeft
             show={showMenuSlider}
             list={[
-              { option: 'SELECT PLATFORM', onClick: toPlatformSelector },
-              userData && { option: 'LOG OUT', onClick: loggingOut },
+              { onClick: toPlatformSelector, option: 'SELECT PLATFORM' },
+              !!userData && { onClick: loggingOut, option: 'LOG OUT' },
             ]}
           />
           {userData ? (
@@ -96,8 +96,8 @@ function Header(props) {
 
 function mapStateToProps(state) {
   return {
-    userData: state.logged,
     profileInfo: state.profile,
+    userData: state.logged.username,
   };
 }
 export default connect(mapStateToProps)(withRouter(Header));

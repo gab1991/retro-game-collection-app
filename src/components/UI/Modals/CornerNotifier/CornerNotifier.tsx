@@ -2,41 +2,55 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { hideCornerNotifier } from '../../../../Store/Actions/appStateActions';
 import { ButtonNeon } from 'Components/UI';
+import { hideCornerNotifier } from 'Store/appStateReducer/actions';
 
 import styles from './CornerNotifier.module.scss';
 
-interface ICornerNotifier {
-  message: string;
-  linkText: string;
-  linkDir: string;
-  btnText: string;
-  onCancelClick: () => void;
-  corner: string;
-  show: boolean;
-  removeTime: number;
+enum ECornerNotifierCorners {
+  bottomLeft = 'bottomLeft',
+  bottomRight = 'bottomRight',
+  topLeft = 'topLeft ',
+  topRight = 'topRight',
 }
 
-export function CornerNotifier(props: ICornerNotifier): JSX.Element {
-  const { message, linkText, linkDir, btnText, onCancelClick, corner, show, removeTime } = props;
+export interface ICornerNotifierProps {
+  btnText?: string;
+  corner?: ECornerNotifierCorners;
+  linkDir?: string;
+  linkText?: string;
+  message?: string;
+  onCancelClickCb?: () => void;
+  removeTime?: number;
+}
+
+export function CornerNotifier(props: ICornerNotifierProps): JSX.Element {
+  const {
+    message,
+    linkText,
+    linkDir,
+    btnText,
+    onCancelClickCb = () => null,
+    corner = ECornerNotifierCorners.bottomLeft,
+    removeTime,
+  } = props;
   const [showing, setShowing] = useState(false);
   const [grabbed, setGrabbed] = useState(false);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    setShowing(show);
-  }, [show]);
+  // useEffect(() => {
+  //   setShowing(show);
+  // }, [show]);
 
-  useEffect(() => {
-    if (removeTime && show) {
-      const interval = setTimeout(() => {
-        setShowing(false);
-        dispatch(hideCornerNotifier());
-      }, removeTime);
-      return () => clearInterval(interval);
-    }
-  }, [removeTime, show, dispatch]);
+  // useEffect(() => {
+  //   if (removeTime && show) {
+  //     const interval = setTimeout(() => {
+  //       setShowing(false);
+  //       dispatch(hideCornerNotifier());
+  //     }, removeTime);
+  //     return () => clearInterval(interval);
+  //   }
+  // }, [removeTime, show, dispatch]);
 
   const hide = () => {
     setShowing(false);
@@ -63,7 +77,7 @@ export function CornerNotifier(props: ICornerNotifier): JSX.Element {
             txtContent={btnText}
             color='red'
             onClick={() => {
-              onCancelClick();
+              onCancelClickCb();
               hide();
             }}
           />

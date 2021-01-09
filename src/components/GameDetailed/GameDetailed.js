@@ -2,26 +2,24 @@ import React, { useEffect } from 'react';
 import ReactPlayer from 'react-player';
 import { connect, useDispatch, useSelector } from 'react-redux';
 
-import { showAuthModal } from '../../Store/Actions/appStateActions';
-import { getBoxArt } from '../../Store/Actions/contentActions';
-import {
-  addGame,
-  flushGameDetailed,
-  getGameDetails,
-  getScreenShots,
-  getVideo,
-  setIsOwned,
-  setIsWished,
-  setShowWisListWarn,
-  toggleElmVisibility,
-} from '../../Store/Actions/gameDetailedActions';
-import { removeGame } from '../../Store/Actions/profileActions';
-import { textMessages } from '../../Сonfigs/appConfig';
+import { textMessages } from '../../Configs/appConfig';
+import { showAuthModal, showCornerNotifier } from '../../Store/appStateReducer/actions';
 import EbaySection from './EbaySection/EbaySection';
 import GameInfoBox from './GameInfoBox/GameInfoBox';
 import { ButtonNeon, OvalSpinner, SwiperConfigured } from 'Components/UI';
 import { ArrowEsc } from 'Components/UI/LogoSvg';
-import { CornerNotifier, WarnModal } from 'Components/UI/Modals';
+import { CornerNotifier, ECornerNotifierCorners, WarnModal } from 'Components/UI/Modals';
+import { selectBoxArt } from 'Store/contentReducer/selectors';
+import { getBoxArt } from 'Store/contentReducer/thunks';
+import {
+  flushGameDetailed,
+  setIsOwned,
+  setIsWished,
+  setShowWisListWarn,
+  toggleElmVisibility,
+} from 'Store/gameDetailedReducer/actions';
+import { addGame, getGameDetails, getScreenShots, getVideo } from 'Store/gameDetailedReducer/thunks';
+import { removeGame } from 'Store/profileReducer/thunks';
 
 import styles from './GameDetailed.module.scss';
 
@@ -45,7 +43,7 @@ function GameDetailed(props) {
     showWishNotifier,
     showWishListWarn,
   } = props;
-  const boxArtUrl = useSelector((state) => state.content.boxArts?.[platformName]?.[gameDetails.name]);
+  const boxArtUrl = useSelector((state) => (gameDetails ? selectBoxArt(state, platformName, gameDetails.name) : ''));
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -90,7 +88,7 @@ function GameDetailed(props) {
   }, [slug, dispatch]);
 
   useEffect(() => {
-    if (gameDetails.name) {
+    if (gameDetails) {
       dispatch(getBoxArt(platformName, gameDetails.name));
     }
   }, [gameDetails, platformName, dispatch]);
@@ -107,10 +105,12 @@ function GameDetailed(props) {
   const toggleList = (platform, gameDetails, list) => {
     if (list === 'wish_list') {
       dispatch(setIsWished(!isWished));
-      isWished ? dispatch(removeGame(gameDetails, list, platform)) : dispatch(addGame(gameDetails, list, platform));
+      isWished
+        ? dispatch(removeGame(gameDetails.name, list, platform))
+        : dispatch(addGame(gameDetails, list, platform));
     } else if (list === 'owned_list') {
       dispatch(setIsOwned(!isOwned));
-      isOwned ? dispatch(removeGame(gameDetails, list, platform)) : dispatch(addGame(gameDetails, list, platform));
+      isOwned ? dispatch(removeGame(gameDetails.name, list, platform)) : dispatch(addGame(gameDetails, list, platform));
     }
   };
 
@@ -138,32 +138,32 @@ function GameDetailed(props) {
 
   const buttons = [
     {
-      name: 'wishListBtn',
-      disabled: userData ? false : true,
       color: isWished ? 'red' : 'green',
-      txtContent: isWished ? 'Remove from Wishlist' : 'Add to Wishlist',
+      disabled: userData ? false : true,
+      name: 'wishListBtn',
       onClick: () => toggleList(platformName, gameDetails, 'wish_list'),
       tooltip: !userData && {
-        txtContent: `Need to be logged in to add games to the lists `,
         btnOnclick: showAuth,
+        txtContent: `Need to be logged in to add games to the lists `,
       },
+      txtContent: isWished ? 'Remove from Wishlist' : 'Add to Wishlist',
     },
     {
-      name: 'ownedListBtn',
-      disabled: userData ? false : true,
       color: isOwned ? 'red' : 'green',
-      txtContent: isOwned ? 'Remove from Owned' : 'Owned',
+      disabled: userData ? false : true,
+      name: 'ownedListBtn',
       onClick: () => toggleList(platformName, gameDetails, 'owned_list'),
       tooltip: !userData && {
-        txtContent: `Need to be logged in to add games to the lists `,
         btnOnclick: showAuth,
+        txtContent: `Need to be logged in to add games to the lists `,
       },
+      txtContent: isOwned ? 'Remove from Owned' : 'Owned',
     },
     {
-      name: 'backBtn',
       color: 'gray',
-      txtContent: 'Back',
+      name: 'backBtn',
       onClick: getBack,
+      txtContent: 'Back',
     },
   ];
 
@@ -184,19 +184,20 @@ function GameDetailed(props) {
 
   const cornerNotifiers = [
     {
-      linkText: 'Wish List',
       linkDir: '/profile/WishList',
+      linkText: 'Wish List',
       onCancelClick: () => toggleList(platformName, gameDetails, 'wish_list', 'removeGame'),
       show: showWishNotifier,
     },
     {
-      linkText: 'Owned List',
       linkDir: '/profile/CollectionList',
+      linkText: 'Owned List',
       onCancelClick: () => toggleList(platformName, gameDetails, 'owned_list', 'removeGame'),
       show: showOwnedNotifier,
     },
   ];
 
+  console.log({ cornerNotifiers, isMobile });
   return (
     <section className={styles.GameDetailed}>
       <div className={styles.GameDetailGridCont}>
@@ -205,15 +206,15 @@ function GameDetailed(props) {
             images={screenshots}
             isMobile={isMobile}
             customSwiperProps={{
-              pagination: false,
-              spaceBetween: 0,
               loop: true,
               loopedSlides: 3,
+              pagination: false,
+              spaceBetween: 0,
             }}
           />
         </div>
         <div className={styles.InfoSection}>
-          {gameDetails.name && <GameInfoBox gameInfo={gameDetails} boxArt={boxArtUrl} />}
+          {gameDetails && <GameInfoBox gameInfo={gameDetails} boxArt={boxArtUrl} />}
         </div>
         <div className={styles.DescSection}>
           <hr></hr>
@@ -288,7 +289,7 @@ function GameDetailed(props) {
           )}
           <hr></hr>
         </div>
-        {gameDetails.name && ebaySection.show && (
+        {gameDetails && ebaySection.show && (
           <EbaySection
             platform={platformName}
             game={gameDetails.name}
@@ -324,22 +325,22 @@ function GameDetailed(props) {
 
 function mapStateToProps(state) {
   return {
-    userData: state.logged,
-    profileInfo: state.profile,
-    isMobile: state.appState.isMobile,
-    screenshots: state.gameDetailed.screenshots,
-    descriptionParsed: state.gameDetailed.descriptionParsed,
-    gameDetails: state.gameDetailed.gameDetails,
     boxArtUrl: state.gameDetailed.boxArtUrl,
-    soundtrackVideo: state.gameDetailed.uploadableElms.soundtrackVideo,
-    gameplayVideo: state.gameDetailed.uploadableElms.gameplayVideo,
+    descriptionParsed: state.gameDetailed.descriptionParsed,
     ebaySection: state.gameDetailed.uploadableElms.ebaySection,
+    gameDetails: state.gameDetailed.gameDetails,
+    gameplayVideo: state.gameDetailed.uploadableElms.gameplayVideo,
+    isEbayLoading: state.gameDetailed.uploadableElms.ebaySection.isLoading,
+    isMobile: state.appState.isMobile,
     isOwned: state.gameDetailed.isOwned,
     isWished: state.gameDetailed.isWished,
+    profileInfo: state.profile,
+    screenshots: state.gameDetailed.screenshots,
     showOwnedNotifier: state.gameDetailed.showOwnedNotifier,
-    isEbayLoading: state.gameDetailed.uploadableElms.ebaySection.isLoading,
-    showWishNotifier: state.gameDetailed.showWishNotifier,
     showWishListWarn: state.gameDetailed.showWishListWarn,
+    showWishNotifier: state.gameDetailed.showWishNotifier,
+    soundtrackVideo: state.gameDetailed.uploadableElms.soundtrackVideo,
+    userData: state.logged.username,
   };
 }
 
