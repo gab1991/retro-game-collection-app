@@ -101,7 +101,9 @@
     "typesafe-actions": "^5.1.0",
     "typescript": "^4.1.2",
     "url-loader": "2.3.0",
-    "utility-types": "^3.10.0"
+    "utility-types": "^3.10.0",
+    "webpack": "^5.12.2",
+    "webpack-cli": "^4.3.1"
   },
   "jest": {
     "roots": [
