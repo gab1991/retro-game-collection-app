@@ -10,7 +10,7 @@ const initial: TContentReducer = {
 
 export const contentReducer = createReducer<TContentReducer, TContentActions>(initial).handleAction(
   actions.setBoxArtUrl,
-  (state, { payload }) => {
+  (state, { payload }): TContentReducer => {
     const { platform, gameName, url } = payload;
 
     if (!gameName || !url) return state;

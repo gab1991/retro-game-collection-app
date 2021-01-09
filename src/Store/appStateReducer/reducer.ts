@@ -12,32 +12,53 @@ const initial: TAppStateReducer = {
 };
 
 export const appStateReducer = createReducer<TAppStateReducer, TAppStateActions>(initial)
-  .handleAction(actions.setIsMobile, (state, { payload }) => ({ ...state, isMobile: payload }))
-  .handleAction(actions.showErrModal, (state, { payload: modalProps }) => ({
-    ...state,
-    showErrorModal: { show: true, ...modalProps },
-  }))
-  .handleAction(actions.hideErrModal, (state) => ({
-    ...state,
-    showErrorModal: { show: false },
-  }))
-  .handleAction(actions.showAuthModal, (state, { payload }) => ({
-    ...state,
-    showAuthModal: payload,
-  }))
-  .handleAction(actions.showInfoModal, (state, { payload: modalProps }) => ({
-    ...state,
-    showInfoModal: { show: true, ...modalProps },
-  }))
-  .handleAction(actions.hideInfoModal, (state) => ({
-    ...state,
-    showInfoModal: { show: false },
-  }))
-  .handleAction(actions.showCornerNotifier, (state, { payload: modalProps }) => ({
-    ...state,
-    showCornerNotifier: { show: true, ...modalProps },
-  }))
-  .handleAction(actions.hideCornerNotifier, (state) => ({
-    ...state,
-    showCornerNotifier: { show: false },
-  }));
+  .handleAction(actions.setIsMobile, (state, { payload }): TAppStateReducer => ({ ...state, isMobile: payload }))
+  .handleAction(
+    actions.showErrModal,
+    (state, { payload: modalProps }): TAppStateReducer => ({
+      ...state,
+      showErrorModal: { show: true, ...modalProps },
+    })
+  )
+  .handleAction(
+    actions.hideErrModal,
+    (state): TAppStateReducer => ({
+      ...state,
+      showErrorModal: { show: false },
+    })
+  )
+  .handleAction(
+    actions.showAuthModal,
+    (state, { payload }): TAppStateReducer => ({
+      ...state,
+      showAuthModal: payload,
+    })
+  )
+  .handleAction(
+    actions.showInfoModal,
+    (state, { payload: modalProps }): TAppStateReducer => ({
+      ...state,
+      showInfoModal: { show: true, ...modalProps },
+    })
+  )
+  .handleAction(
+    actions.hideInfoModal,
+    (state): TAppStateReducer => ({
+      ...state,
+      showInfoModal: { show: false },
+    })
+  )
+  .handleAction(
+    actions.showCornerNotifier,
+    (state, { payload: modalProps }): TAppStateReducer => ({
+      ...state,
+      showCornerNotifier: { show: true, ...modalProps },
+    })
+  )
+  .handleAction(
+    actions.hideCornerNotifier,
+    (state): TAppStateReducer => ({
+      ...state,
+      showCornerNotifier: { show: false },
+    })
+  );
