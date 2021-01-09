@@ -8,11 +8,13 @@ const initial: TAuthReducer = {
   username: null,
 };
 
-export const authReducer = createReducer<TAuthReducer, TAuthActions>(initial).handleAction(
-  actions.signIn,
-  (state, { payload }) => ({
-    ...state,
-    token: payload.token,
-    username: payload.username,
-  })
-);
+export const authReducer = createReducer<TAuthReducer, TAuthActions>(initial)
+  .handleAction(
+    actions.signIn,
+    (state, { payload }): TAuthReducer => ({
+      ...state,
+      token: payload.token,
+      username: payload.username,
+    })
+  )
+  .handleAction(actions.logOut, (): TAuthReducer => initial);

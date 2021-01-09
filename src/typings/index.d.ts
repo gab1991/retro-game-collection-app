@@ -1,3 +1,5 @@
+/* eslint-disable import/no-default-export */
+
 declare module '*.scss' {
   const content: { [key: string]: string };
   export default content;

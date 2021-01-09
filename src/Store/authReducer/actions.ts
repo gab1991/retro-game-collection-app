@@ -10,7 +10,4 @@ export const signIn = createAction('auth/signIn', (username: string, token: stri
   return { token, username };
 })();
 
-export const logOut = createAction('auth/logOut', (username: string, token: string) => {
-  storageHandler.removeItems(['username', 'token']);
-  return { token, username };
-})();
+export const logOut = createAction('auth/logOut')();
