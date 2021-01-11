@@ -15,7 +15,7 @@ const sassModulesRegex = /\.module\.(scss|sass)$/;
 module.exports = {
   entry: './src/index',
   output: {
-    path: path.join(__dirname, '/dist1'),
+    path: path.join(__dirname, '/build'),
     filename: 'index_bundle.js',
   },
   mode: isProduction ? 'production' : 'development',
@@ -63,5 +63,8 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js', '.tsx', '.jsx', '.scss'],
     plugins: [new TsconfigPathsPlugin()],
+    fallback: {
+      buffer: require.resolve('buffer'),
+    },
   },
 };
