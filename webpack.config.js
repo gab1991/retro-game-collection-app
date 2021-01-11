@@ -1,5 +1,5 @@
 const { getStylesLoader } = require('./webpack/styles');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 // probably can avoid this plugin by setting up aliases
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -21,6 +21,10 @@ module.exports = {
   mode: isProduction ? 'production' : 'development',
   module: {
     rules: [
+      {
+        test: /\.html$/,
+        loader: 'html-loader',
+      },
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
@@ -54,7 +58,11 @@ module.exports = {
     ],
   },
   plugins: [
-    // new HtmlWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: './public/index.html',
+      // inject: 'body',
+    }),
     // new MiniCssExtractPlugin({
     //   filename: isProduction ? '[name].[hash].css' : '[name].css',
     //   chunkFilename: isProduction ? '[id].[hash].css' : '[id].css',
