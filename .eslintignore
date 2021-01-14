@@ -1,0 +1,9 @@
+# Ignore built files 
+build/*
+
+#Igonre node modules 
+node_modules/*
+
+#Ignoring Webpack configs
+webpack/*
+
