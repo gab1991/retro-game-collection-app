@@ -3,12 +3,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // probably can avoid this plugin by setting up aliases
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const Fiber = require('fibers');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
-const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
-const isProduction = process.env.NODE_ENV === 'production' ? true : false;
-const isDevelopment = process.env.NODE_ENV === 'development' ? true : false;
-console.log('MODE', process.env.NODE_ENV);
+
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 const cssRegex = /\.css$/;
@@ -18,18 +16,25 @@ const cssModuleRegex = /\.module\.css$/;
 process.traceDeprecation = true;
 // my paths
 const paths = require('./webpack/configs/paths');
+
 // my mode
-const mode = isProduction ? 'production' : 'development';
-console.log(paths);
+const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production';
+const isProduction = mode === 'development' ? false : true;
+const isDevelopment = mode === 'development' ? true : false;
+
+console.log('MODE = ' + process.env.NODE_ENV);
 
 module.exports = {
   mode: mode,
   entry: paths.entry,
+  // entry: ['babel-polyfill', paths.entry],
   //devtool: 'source-map',
   output: {
     path: paths.buildDir,
     filename: isProduction ? 'static/js/[name].[contenthash:8].js' : 'static/js/bundle.js',
     chunkFilename: isProduction ? 'static/js/[name].[contenthash:8].chunk.js' : 'static/js/[name].chunk.js',
+    futureEmitAssets: true,
+    globalObject: 'this',
   },
 
   devServer: {
@@ -57,6 +62,9 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+          },
         },
       },
       {
@@ -106,26 +114,11 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      inject: true,
+      // inject: true,
       template: paths.htmlTemplate,
     }),
+    isProduction && new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
     new MiniCssExtractPlugin(),
-    isProduction &&
-      new WorkboxWebpackPlugin.GenerateSW({
-        clientsClaim: true,
-        exclude: [/\.map$/, /asset-manifest\.json$/],
-        importWorkboxFrom: 'cdn',
-        navigateFallback: paths.publicUrlOrPath + 'index.html',
-        navigateFallbackBlacklist: [
-          // Exclude URLs starting with /_, as they're likely an API call
-          new RegExp('^/_'),
-          // Exclude any URLs whose last part seems to be a file extension
-          // as they're likely a resource and not a SPA route.
-          // URLs containing a "?" character won't be blacklisted as they're likely
-          // a route with query params (e.g. auth callbacks).
-          new RegExp('/[^/?]+\\.[^/]+$'),
-        ],
-      }),
   ],
   resolve: {
     extensions: ['.ts', '.js', '.tsx', '.jsx'],

@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "/start": "node scripts/start.js",
-    "start": "set NODE_ENV=development node webpack/start.js && webpack serve ",
+    "start": "set NODE_ENV=development node webpack/start.js && webpack serve --open",
     "/build": "node scripts/build.js",
-    "build": "node webpack/build.js && webpack",
+    "build": "set NODE_ENV=production node webpack/build.js && webpack",
+    "serve": "serve -s build",
     "test": "node scripts/test.js",
     "lint": "eslint --fix src/**/*.{js,jsx,ts,tsx}",
     "webpack:build": "node webpack/build.js && webpack",
@@ -43,6 +44,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
+    "@babel/plugin-transform-runtime": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
     "@reduxjs/toolkit": "^1.5.0",
@@ -65,6 +67,7 @@
     "babel-preset-react-app": "^9.1.2",
     "buffer": "^6.0.3",
     "camelcase": "^5.3.1",
+    "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.4.2",
     "dart-sass": "^1.25.0",
     "dotenv": "8.2.0",
