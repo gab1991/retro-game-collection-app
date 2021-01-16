@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "/start": "node scripts/start.js",
-    "start": "node webpack/start.js && webpack --watch ",
-    "build": "node scripts/build.js",
+    "start": "set NODE_ENV=development node webpack/start.js && webpack serve ",
+    "/build": "node scripts/build.js",
+    "build": "node webpack/build.js && webpack",
     "test": "node scripts/test.js",
     "lint": "eslint --fix src/**/*.{js,jsx,ts,tsx}",
     "webpack:build": "node webpack/build.js && webpack",
@@ -114,7 +115,8 @@
     "url-loader": "2.3.0",
     "utility-types": "^3.10.0",
     "webpack": "^5.12.2",
-    "webpack-cli": "^4.3.1"
+    "webpack-cli": "^4.3.1",
+    "webpack-dev-server": "^3.11.2"
   },
   "jest": {
     "roots": [

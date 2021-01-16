@@ -5,36 +5,46 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const Fiber = require('fibers');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
-
-const path = require('path');
-const fs = require('fs');
-const appDirectory = fs.realpathSync(process.cwd());
-console.log('fs', process.cwd());
-const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
-
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const isProduction = process.env.NODE_ENV === 'production' ? true : false;
 const isDevelopment = process.env.NODE_ENV === 'development' ? true : false;
-
+console.log('MODE', process.env.NODE_ENV);
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
+
+//tracing deprecations in modules
 process.traceDeprecation = true;
+// my paths
+const paths = require('./webpack/configs/paths');
+// my mode
+const mode = isProduction ? 'production' : 'development';
+console.log(paths);
 
 module.exports = {
-  entry: './src/index',
+  mode: mode,
+  entry: paths.entry,
   //devtool: 'source-map',
   output: {
-    path: path.join(__dirname, '/build'),
-    filename: 'index_bundle.js',
+    path: paths.buildDir,
+    filename: isProduction ? 'static/js/[name].[contenthash:8].js' : 'static/js/bundle.js',
+    chunkFilename: isProduction ? 'static/js/[name].[contenthash:8].chunk.js' : 'static/js/[name].chunk.js',
   },
-  mode: isProduction ? 'production' : 'development',
+
+  devServer: {
+    contentBase: paths.buildDir,
+    hot: true,
+    port: 3000,
+    historyApiFallback: true,
+  },
+
   module: {
     rules: [
-      // {
-      //   test: /\.html$/,
-      //   loader: 'html-loader',
-      // },
+      {
+        test: /\.html$/,
+        loader: 'html-loader',
+      },
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
@@ -49,31 +59,6 @@ module.exports = {
           loader: 'babel-loader',
         },
       },
-      // {
-      //   test: [sassModuleRegex, cssModuleRegex],
-      //   use: getStylesLoader(),
-      // },
-      // {
-      //   test: [sassRegex, cssRegex],
-      //   exclude: sassModuleRegex,
-      //   use: getStylesLoader(),
-      // },
-      // {
-      //   test: cssRegex,
-      //   exclude: cssModuleRegex,
-      //   use: getStylesLoader({
-      //     importLoaders: 1,
-      //     sourceMap: true,
-      //     // modules: { localIdentName: '[name]__[local]__[hash:base64:5]' },
-      //   }),
-      // Don't consider CSS imports dead code even if the
-      // containing package claims to have no side effects.
-      // Remove this when webpack adds a warning or an error for this.
-      // See https://github.com/webpack/webpack/issues/6571
-      //   sideEffects: true,
-      // },
-      // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
-      // using the extension .module.css
       {
         test: cssModuleRegex,
         use: getStylesLoader({
@@ -122,9 +107,25 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       inject: true,
-      template: resolveApp('public/index.html'),
+      template: paths.htmlTemplate,
     }),
     new MiniCssExtractPlugin(),
+    isProduction &&
+      new WorkboxWebpackPlugin.GenerateSW({
+        clientsClaim: true,
+        exclude: [/\.map$/, /asset-manifest\.json$/],
+        importWorkboxFrom: 'cdn',
+        navigateFallback: paths.publicUrlOrPath + 'index.html',
+        navigateFallbackBlacklist: [
+          // Exclude URLs starting with /_, as they're likely an API call
+          new RegExp('^/_'),
+          // Exclude any URLs whose last part seems to be a file extension
+          // as they're likely a resource and not a SPA route.
+          // URLs containing a "?" character won't be blacklisted as they're likely
+          // a route with query params (e.g. auth callbacks).
+          new RegExp('/[^/?]+\\.[^/]+$'),
+        ],
+      }),
   ],
   resolve: {
     extensions: ['.ts', '.js', '.tsx', '.jsx'],
