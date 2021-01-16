@@ -9,6 +9,7 @@ const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent')
 const path = require('path');
 const fs = require('fs');
 const appDirectory = fs.realpathSync(process.cwd());
+console.log('fs', process.cwd());
 const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
 
 const isProduction = process.env.NODE_ENV === 'production' ? true : false;
@@ -18,9 +19,11 @@ const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
+process.traceDeprecation = true;
 
 module.exports = {
   entry: './src/index',
+  //devtool: 'source-map',
   output: {
     path: path.join(__dirname, '/build'),
     filename: 'index_bundle.js',
