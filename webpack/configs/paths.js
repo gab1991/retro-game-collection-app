@@ -10,4 +10,5 @@ module.exports = {
   entry: resolveApp('./src/index'),
   htmlTemplate: resolveApp('./public/index.html'),
   buildDir: resolveApp('./build'),
+  publicPath: '/',
 };

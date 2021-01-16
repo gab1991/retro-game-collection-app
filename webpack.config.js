@@ -1,7 +1,7 @@
 const { getStylesLoader } = require('./webpack/styles');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // probably can avoid this plugin by setting up aliases
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const TsconfigPATHSPlugin = require('tsconfig-PATHS-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const Fiber = require('fibers');
@@ -14,8 +14,8 @@ const cssModuleRegex = /\.module\.css$/;
 
 //tracing deprecations in modules
 process.traceDeprecation = true;
-// my paths
-const paths = require('./webpack/configs/paths');
+// my PATHS
+const PATHS = require('./webpack/configs/PATHS');
 
 // my mode
 const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production';
@@ -26,19 +26,18 @@ console.log('MODE = ' + process.env.NODE_ENV);
 
 module.exports = {
   mode: mode,
-  entry: paths.entry,
-  // entry: ['babel-polyfill', paths.entry],
+  entry: PATHS.entry,
   //devtool: 'source-map',
   output: {
-    path: paths.buildDir,
+    path: PATHS.buildDir,
+    publicPath: PATHS.publicPath,
     filename: isProduction ? 'static/js/[name].[contenthash:8].js' : 'static/js/bundle.js',
     chunkFilename: isProduction ? 'static/js/[name].[contenthash:8].chunk.js' : 'static/js/[name].chunk.js',
-    futureEmitAssets: true,
     globalObject: 'this',
   },
 
   devServer: {
-    contentBase: paths.buildDir,
+    contentBase: PATHS.buildDir,
     hot: true,
     port: 3000,
     historyApiFallback: true,
@@ -66,6 +65,13 @@ module.exports = {
             presets: ['@babel/preset-env', '@babel/preset-react'],
           },
         },
+      },
+      {
+        test: cssRegex,
+        use: getStylesLoader({
+          importLoaders: 1,
+          sourceMap: true,
+        }),
       },
       {
         test: cssModuleRegex,
@@ -115,14 +121,14 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       // inject: true,
-      template: paths.htmlTemplate,
+      template: PATHS.htmlTemplate,
     }),
     isProduction && new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
     new MiniCssExtractPlugin(),
   ],
   resolve: {
     extensions: ['.ts', '.js', '.tsx', '.jsx'],
-    plugins: [new TsconfigPathsPlugin()],
+    plugins: [new TsconfigPATHSPlugin()],
     fallback: {
       buffer: require.resolve('buffer'),
     },
