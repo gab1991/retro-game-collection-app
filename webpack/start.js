@@ -10,9 +10,9 @@ process.env.NODE_ENV = 'development';
 process.on('unhandledRejection', (err) => {
   throw err;
 });
-// console.log({ process });
+// // console.log({ process });
 
-// Ensure environment variables are read.
-const evs = require('../config/env');
+// // Ensure environment variables are read.
+// const evs = require('../config/env');
 
-console.log({ evs });
+// console.log({ evs });

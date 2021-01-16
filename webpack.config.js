@@ -22,12 +22,12 @@ const mode = process.env.NODE_ENV === 'development' ? 'development' : 'productio
 const isProduction = mode === 'development' ? false : true;
 const isDevelopment = mode === 'development' ? true : false;
 
-console.log('MODE = ' + process.env.NODE_ENV);
+console.log('MODE = ' + mode);
 
 module.exports = {
   mode: mode,
   entry: PATHS.entry,
-  //devtool: 'source-map',
+  devtool: isDevelopment ? 'source-map' : 'eval',
   output: {
     path: PATHS.buildDir,
     publicPath: PATHS.publicPath,
@@ -120,12 +120,13 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      // inject: true,
+      inject: true,
       template: PATHS.htmlTemplate,
     }),
     isProduction && new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
     new MiniCssExtractPlugin(),
-  ],
+  ].filter(Boolean),
+
   resolve: {
     extensions: ['.ts', '.js', '.tsx', '.jsx'],
     plugins: [new TsconfigPATHSPlugin()],
