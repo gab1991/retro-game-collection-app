@@ -7,6 +7,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const Fiber = require('fibers');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
 
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 const cssRegex = /\.css$/;
@@ -118,18 +120,37 @@ module.exports = {
     ],
   },
   plugins: [
+    //forming html for bundle
     new HtmlWebpackPlugin({
       filename: 'index.html',
       inject: true,
       template: PATHS.htmlTemplate,
     }),
+    // Favicon ALPHA VERSION NEED TO SWAP WHEN IT RELEASES
+    new FaviconsWebpackPlugin({
+      logo: PATHS.faviconTemplate,
+      cache: true,
+      prefix: 'favicons/',
+      favicons: {
+        icons: {
+          appleStartup: false,
+          coast: false,
+          yandex: false,
+        },
+      },
+    }),
+    //Cleaning the build directory
     isProduction && new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
+    //Extract css to separate file
     new MiniCssExtractPlugin(),
   ].filter(Boolean),
 
   resolve: {
     extensions: ['.ts', '.js', '.tsx', '.jsx'],
-    plugins: [new TsconfigPATHSPlugin()],
+    plugins: [
+      // Manages typescript path aliases
+      new TsconfigPATHSPlugin(),
+    ],
     fallback: {
       buffer: require.resolve('buffer'),
     },

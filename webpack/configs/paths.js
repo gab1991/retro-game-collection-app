@@ -8,7 +8,9 @@ const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
 
 module.exports = {
   entry: resolveApp('./src/index'),
-  htmlTemplate: resolveApp('./public/index.html'),
+  htmlTemplate: resolveApp('./public/index.ejs'),
+  faviconTemplate: resolveApp('./public/iconTemplate.png'),
   buildDir: resolveApp('./build'),
   publicPath: '/',
+  craPublicFolder: resolveApp('./public'),
 };
