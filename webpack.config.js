@@ -35,6 +35,7 @@ module.exports = {
     publicPath: PATHS.publicPath,
     filename: isProduction ? 'static/js/[name].[contenthash:8].js' : 'static/js/bundle.js',
     chunkFilename: isProduction ? 'static/js/[name].[contenthash:8].chunk.js' : 'static/js/[name].chunk.js',
+    assetModuleFilename: isProduction ? 'static/assets/[hash][ext][query]' : 'static/assets/[name][ext]',
     globalObject: 'this',
   },
 
@@ -110,12 +111,13 @@ module.exports = {
         ),
       },
       {
-        test: /\.(png|jpe?g|gif|svg)$/i,
-        exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/, sassRegex, sassModuleRegex],
-        loader: 'file-loader',
-        options: {
-          name: 'static/media/[name].[hash:8].[ext]',
-        },
+        test: /\.(png|jpe?g|gif)$/i,
+        type: 'asset/resource',
+      },
+      //embeded light svg to html to reduce ammount of request
+      {
+        test: /\.svg$/i,
+        type: 'asset/inline',
       },
     ],
   },
@@ -126,19 +128,19 @@ module.exports = {
       inject: true,
       template: PATHS.htmlTemplate,
     }),
-    // Favicon ALPHA VERSION NEED TO SWAP WHEN IT RELEASES
-    new FaviconsWebpackPlugin({
-      logo: PATHS.faviconTemplate,
-      cache: true,
-      prefix: 'favicons/',
-      favicons: {
-        icons: {
-          appleStartup: false,
-          coast: false,
-          yandex: false,
-        },
-      },
-    }),
+    // Favicon ALPHA VERSION NEED TO SWAP WHEN IT RELEASES cache-loader@4.1.0 its dependency
+    // new FaviconsWebpackPlugin({
+    //   logo: PATHS.faviconTemplate,
+    //   cache: true,
+    //   prefix: 'favicons/',
+    //   favicons: {
+    //     icons: {
+    //       appleStartup: false,
+    //       coast: false,
+    //       yandex: false,
+    //     },
+    //   },
+    // }),
     //Cleaning the build directory
     isProduction && new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
     //Extract css to separate file
