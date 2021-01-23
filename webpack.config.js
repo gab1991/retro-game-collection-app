@@ -74,6 +74,7 @@ module.exports = {
         use: getStylesLoader({
           importLoaders: 1,
           sourceMap: true,
+          modules: { compileType: 'icss' },
         }),
       },
       {
@@ -93,6 +94,7 @@ module.exports = {
           {
             importLoaders: 3,
             sourceMap: true,
+            modules: { compileType: 'icss' },
           },
           'sass-loader'
         ),
