@@ -1,4 +1,4 @@
-const { getStylesLoader } = require('./webpack/styles');
+const { getStylesLoader } = require('./styles');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // probably can avoid this plugin by setting up aliases
 const TsconfigPATHSPlugin = require('tsconfig-PATHS-webpack-plugin');
@@ -17,7 +17,7 @@ const cssModuleRegex = /\.module\.css$/;
 //tracing deprecations in modules
 process.traceDeprecation = true;
 // my PATHS
-const PATHS = require('./webpack/configs/PATHS');
+const PATHS = require('./configs/PATHS');
 
 // my mode
 const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production';

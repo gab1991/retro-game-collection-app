@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "/start": "node scripts/start.js",
-    "start": "set NODE_ENV=development&& node webpack/start.js && webpack serve",
+    "start": "set NODE_ENV=development&& node webpack/start.js && webpack serve --config webpack/webpack.config.js",
     "/build": "node scripts/build.js",
-    "build": "set NODE_ENV=production node webpack/build.js && webpack",
+    "build": "set NODE_ENV=production node webpack/build.js && webpack --config webpack/webpack.config.js",
     "serve": "serve -s build",
     "test": "node scripts/test.js",
     "lint": "eslint --fix src/**/*.{js,jsx,ts,tsx}",
