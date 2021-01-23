@@ -51,7 +51,9 @@ module.exports = {
     open: {
       app: ['firefox'],
     },
+    overlay: true,
     clientLogLevel: 'silent',
+    stats: 'minimal', // controls console messages while building
   },
 
   module: {
