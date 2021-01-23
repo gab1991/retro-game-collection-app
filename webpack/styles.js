@@ -2,10 +2,13 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
 const postcssNormalize = require('postcss-normalize');
 
+// my mode
+const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production';
+
 const getStylesLoader = (cssOptions, preProcessor) => {
   const loaders = [
-    // require.resolve('style-loader'),
-    {
+    mode === 'development' && require.resolve('style-loader'),
+    mode === 'production' && {
       loader: MiniCssExtractPlugin.loader,
       options: {
         publicPath: '',
@@ -60,7 +63,7 @@ const getStylesLoader = (cssOptions, preProcessor) => {
     );
   }
 
-  return loaders;
+  return loaders.filter(Boolean);
 };
 
 module.exports = {
