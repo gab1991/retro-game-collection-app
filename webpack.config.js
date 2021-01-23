@@ -29,7 +29,7 @@ console.log('MODE = ' + mode);
 module.exports = {
   mode: mode,
   entry: PATHS.entry,
-  devtool: isDevelopment ? 'source-map' : 'eval',
+  devtool: isDevelopment ? 'source-map' : false,
   output: {
     path: PATHS.buildDir,
     publicPath: PATHS.publicPath,
