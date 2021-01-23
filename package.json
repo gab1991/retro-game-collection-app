@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "/start": "node scripts/start.js",
-    "start": "set NODE_ENV=development&& node webpack/start.js && webpack serve --open",
+    "start": "set NODE_ENV=development&& node webpack/start.js && webpack serve",
     "/build": "node scripts/build.js",
     "build": "set NODE_ENV=production node webpack/build.js && webpack",
     "serve": "serve -s build",

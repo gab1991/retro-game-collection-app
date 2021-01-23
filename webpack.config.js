@@ -41,11 +41,17 @@ module.exports = {
 
   //fix livereloading HMR/Live Reloading broken after Webpack 5 rc.0 -> rc.1 update
   target: isDevelopment ? 'web' : 'browserslist:production',
+
   devServer: {
     contentBase: PATHS.buildDir,
     hot: true,
     port: 3000,
     historyApiFallback: true,
+
+    open: {
+      app: ['firefox'],
+    },
+    clientLogLevel: 'silent',
   },
 
   module: {
