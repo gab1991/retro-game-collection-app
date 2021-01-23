@@ -22,7 +22,7 @@ const PATHS = require('./webpack/configs/PATHS');
 // my mode
 const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production';
 const isProduction = mode === 'development' ? false : true;
-const isDevelopment = mode === 'development' ? true : false;
+const isDevelopment = !isProduction;
 
 console.log('MODE = ' + mode);
 
@@ -35,10 +35,12 @@ module.exports = {
     publicPath: PATHS.publicPath,
     filename: isProduction ? 'static/js/[name].[contenthash:8].js' : 'static/js/bundle.js',
     chunkFilename: isProduction ? 'static/js/[name].[contenthash:8].chunk.js' : 'static/js/[name].chunk.js',
-    assetModuleFilename: isProduction ? 'static/assets/[hash][ext][query]' : 'static/assets/[name][ext]',
+    assetModuleFilename: isProduction ? 'static/assets/[contenthash:8][ext][query]' : 'static/assets/[name][ext]',
     globalObject: 'this',
   },
 
+  //fix livereloading HMR/Live Reloading broken after Webpack 5 rc.0 -> rc.1 update
+  target: isDevelopment ? 'web' : 'browserslist:production',
   devServer: {
     contentBase: PATHS.buildDir,
     hot: true,
