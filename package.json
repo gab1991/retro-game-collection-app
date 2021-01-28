@@ -2,6 +2,7 @@
   "name": "retro-games-collection-app",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "/start": "node scripts/start.js",
     "start": "set NODE_ENV=development&& node webpack/start.js && webpack serve --config webpack/webpack.config.js",
@@ -11,7 +12,8 @@
     "test": "node scripts/test.js",
     "lint": "eslint --fix src/**/*.{js,jsx,ts,tsx}",
     "webpack:build": "set NODE_ENV=production&& node webpack/nodeInterface.js",
-    "webpack:start": "set NODE_ENV=development&& node webpack/nodeInterface.js"
+    "webpack:start": "set NODE_ENV=development&& node webpack/nodeInterface.js",
+    "webpack:test": "node webpack/webpack.dev.js"
   },
   "browserslist": {
     "production": [
