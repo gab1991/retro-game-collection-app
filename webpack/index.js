@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const { devConfig } = require('./configs/webpack.dev');
 const { prodConfig } = require('./configs/webpack.prod');
+const { writeStatsFile } = require('./addons/writeStatsFile');
 const WebpackDevServer = require('webpack-dev-server');
 
 // my mode
@@ -20,6 +21,10 @@ if (isProduction) {
     if (stats.hasErrors()) {
       console.log('COMPILE ERROR', { ...stats });
     }
+
+    // uncomment if you want to analyze builds.
+    // writeStatsFile(stats);
+
     console.log(
       stats.toString({
         preset: 'normal',
