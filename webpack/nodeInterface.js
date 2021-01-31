@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const { PATHS } = require('./configs/paths');
 const { devConfig } = require('./webpack.dev');
+const { prodConfig } = require('./webpack.prod');
 const WebpackDevServer = require('webpack-dev-server');
 
 // my mode
@@ -8,7 +9,7 @@ const mode = process.env.NODE_ENV === 'development' ? 'development' : 'productio
 const isProduction = mode === 'development' ? false : true;
 const isDevelopment = !isProduction;
 
-const compiler = webpack(devConfig);
+const compiler = webpack(isProduction ? prodConfig : devConfig);
 
 console.log('NODE INTERFACE MODE =', mode);
 
