@@ -1,45 +1,16 @@
-const webpack = require('webpack');
-const config = require('./webpack.config');
+import webpack from 'webpack';
+import { PATHS } from './configs/paths.js';
+import { devConfig } from './webpack.dev.js';
 
-//devserver
+const isProduction = true;
 
-const WebpackDevServer = require('webpack-dev-server');
-const devServerOptions = { ...config.devServer };
+console.log(devConfig);
 
-// my mode
-const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production';
-const isProduction = mode === 'development' ? false : true;
-const isDevelopment = !isProduction;
+const compiler = webpack(devConfig);
 
-const compiler = webpack({ ...config });
-
-console.log('NODE INTERFACE MODE =', mode);
-
-if (isProduction) {
-  compiler.run((err, stats) => {
-    if (err) {
-      console.log('CONFIG ERROR', { ...err });
-    }
-    if (stats.hasErrors()) {
-      console.log('COMPILE ERROR', { ...stats });
-    }
-    console.log(
-      stats.toString({
-        preset: 'normal',
-        colors: true,
-        assetsSort: '!size',
-        chunksSort: '!size',
-      })
-    );
-  });
-}
-
-if (isDevelopment) {
-  const server = new WebpackDevServer(compiler, devServerOptions);
-
-  server.listen(devServerOptions.port, (err) => {
-    if (err) {
-      console.log(err);
-    }
-  });
-}
+compiler.run((err, stats) => {
+  if (err) {
+    console.log(err);
+  }
+  console.log('done');
+});

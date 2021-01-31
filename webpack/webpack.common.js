@@ -1,5 +1,5 @@
 import { merge } from 'webpack-merge';
-import buffer from 'buffer';
+import * as buffer from 'buffer';
 
 import { PATHS } from './configs/paths.js';
 import { htmlConfig } from './modules/html.js';
@@ -46,7 +46,7 @@ export const createCommon = (isProduction) =>
       resolve: {
         extensions: ['.js', '.jsx'],
         fallback: {
-          buffer: buffer,
+          // buffer: import('buffer'),
         },
       },
     },

@@ -21,5 +21,3 @@ export const devConfig = merge(
   },
   createCommon(false)
 );
-
-console.log(devConfig);
