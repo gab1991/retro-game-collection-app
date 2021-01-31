@@ -1,7 +1,6 @@
 const webpack = require('webpack');
-const { PATHS } = require('./configs/paths');
-const { devConfig } = require('./webpack.dev');
-const { prodConfig } = require('./webpack.prod');
+const { devConfig } = require('./configs/webpack.dev');
+const { prodConfig } = require('./configs/webpack.prod');
 const WebpackDevServer = require('webpack-dev-server');
 
 // my mode

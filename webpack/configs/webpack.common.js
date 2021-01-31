@@ -1,11 +1,11 @@
 const { merge } = require('webpack-merge');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-const { PATHS } = require('./configs/paths');
-const { htmlConfig } = require('./modules/html');
-const { stylesConfig } = require('./modules/styles');
-const { assetsConfig } = require('./modules/assets');
-const { tsConfig } = require('./modules/ts');
+const { PATHS } = require('./paths');
+const { htmlConfig } = require('../modules/html');
+const { stylesConfig } = require('../modules/styles');
+const { assetsConfig } = require('../modules/assets');
+const { tsConfig } = require('../modules/ts');
 
 const createCommon = (isProduction) =>
   merge(
