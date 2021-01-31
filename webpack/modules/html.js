@@ -1,8 +1,8 @@
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
-import { PATHS } from '../configs/paths.js';
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const { PATHS } = require('../configs/paths');
 
-export const htmlConfig = (isProduction) => ({
+const htmlConfig = (isProduction) => ({
   plugins: [
     //forming html for bundle
     new HtmlWebpackPlugin({
@@ -25,3 +25,7 @@ export const htmlConfig = (isProduction) => ({
     // }),
   ],
 });
+
+module.exports = {
+  htmlConfig,
+};

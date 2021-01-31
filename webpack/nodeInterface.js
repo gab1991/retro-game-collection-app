@@ -1,7 +1,7 @@
-import webpack from 'webpack';
-import { PATHS } from './configs/paths.js';
-import { devConfig } from './webpack.dev.js';
-import WebpackDevServer from 'webpack-dev-server';
+const webpack = require('webpack');
+const { PATHS } = require('./configs/paths');
+const { devConfig } = require('./webpack.dev');
+const WebpackDevServer = require('webpack-dev-server');
 
 // my mode
 const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production';

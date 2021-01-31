@@ -1,4 +1,4 @@
-export const assetsConfig = (isProduction) => ({
+const assetsConfig = (isProduction) => ({
   module: {
     rules: [
       {
@@ -13,3 +13,7 @@ export const assetsConfig = (isProduction) => ({
     ],
   },
 });
+
+module.exports = {
+  assetsConfig,
+};

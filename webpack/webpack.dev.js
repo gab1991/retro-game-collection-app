@@ -1,8 +1,8 @@
-import { merge } from 'webpack-merge';
-import { createCommon } from './webpack.common.js';
-import { PATHS } from './configs/paths.js';
+const { merge } = require('webpack-merge');
+const { createCommon } = require('./webpack.common');
+const { PATHS } = require('./configs/paths');
 
-export const devConfig = merge(
+const devConfig = merge(
   {
     devtool: 'source-map',
     devServer: {
@@ -21,3 +21,7 @@ export const devConfig = merge(
   },
   createCommon(false)
 );
+
+module.exports = {
+  devConfig,
+};

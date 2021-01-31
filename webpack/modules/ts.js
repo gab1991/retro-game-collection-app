@@ -1,6 +1,6 @@
-import TsconfigPATHSPlugin from 'tsconfig-PATHS-webpack-plugin';
+const TsconfigPATHSPlugin = require('tsconfig-PATHS-webpack-plugin');
 
-export const tsConfig = (isProduction) => ({
+const tsConfig = (isProduction) => ({
   module: {
     rules: [
       {
@@ -20,3 +20,7 @@ export const tsConfig = (isProduction) => ({
     ],
   },
 });
+
+module.exports = {
+  tsConfig,
+};

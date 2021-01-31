@@ -1,14 +1,14 @@
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import getCSSModuleLocalIdent from 'react-dev-utils/getCSSModuleLocalIdent.js';
-import postcssPresetEnv from 'postcss-preset-env';
-import postcssNormalize from 'postcss-normalize';
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
+const postcssPresetEnv = require('postcss-preset-env');
+const postcssNormalize = require('postcss-normalize');
 
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 
-export const stylesConfig = (isProduction) => ({
+const stylesConfig = (isProduction) => ({
   module: {
     rules: [
       {
@@ -113,4 +113,8 @@ const getStylesLoader = (isProduction, cssOptions, preProcessor) => {
   }
 
   return loaders.filter(Boolean);
+};
+
+module.exports = {
+  stylesConfig,
 };

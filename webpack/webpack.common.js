@@ -1,13 +1,12 @@
-import { merge } from 'webpack-merge';
-import * as buffer from 'buffer';
+const { merge } = require('webpack-merge');
 
-import { PATHS } from './configs/paths.js';
-import { htmlConfig } from './modules/html.js';
-import { stylesConfig } from './modules/styles.js';
-import { assetsConfig } from './modules/assets.js';
-import { tsConfig } from './modules/ts.js';
+const { PATHS } = require('./configs/paths');
+const { htmlConfig } = require('./modules/html');
+const { stylesConfig } = require('./modules/styles');
+const { assetsConfig } = require('./modules/assets');
+const { tsConfig } = require('./modules/ts');
 
-export const createCommon = (isProduction) =>
+const createCommon = (isProduction) =>
   merge(
     {
       entry: PATHS.entry,
@@ -46,7 +45,7 @@ export const createCommon = (isProduction) =>
       resolve: {
         extensions: ['.js', '.jsx'],
         fallback: {
-          // buffer: import('buffer'),
+          // buffer: require('buffer'),
         },
       },
     },
@@ -55,3 +54,7 @@ export const createCommon = (isProduction) =>
     htmlConfig(isProduction),
     tsConfig(isProduction)
   );
+
+module.exports = {
+  createCommon,
+};
