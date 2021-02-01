@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const { devConfig } = require('./configs/webpack.dev');
 const { prodConfig } = require('./configs/webpack.prod');
 const { writeStatsFile } = require('./addons/writeStatsFile');
+const { argv } = require('./addons/yargs');
 const WebpackDevServer = require('webpack-dev-server');
 
 // my mode
@@ -22,8 +23,9 @@ if (isProduction) {
       console.log('COMPILE ERROR', { ...stats });
     }
 
-    // uncomment if you want to analyze builds.
-    // writeStatsFile(stats);
+    if (argv.analyze) {
+      writeStatsFile(stats);
+    }
 
     console.log(
       stats.toString({
