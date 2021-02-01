@@ -6,6 +6,7 @@ const { htmlConfig } = require('../modules/html');
 const { stylesConfig } = require('../modules/styles');
 const { assetsConfig } = require('../modules/assets');
 const { tsConfig } = require('../modules/ts');
+const { jsConfig } = require('../modules/js');
 
 const createCommon = (isProduction) =>
   merge(
@@ -27,16 +28,6 @@ const createCommon = (isProduction) =>
             test: /\.html$/,
             loader: 'html-loader',
           },
-          {
-            test: /\.(js|jsx)$/,
-            exclude: /node_modules/,
-            use: {
-              loader: 'babel-loader',
-              options: {
-                presets: ['@babel/preset-env', '@babel/preset-react'],
-              },
-            },
-          },
         ],
       },
       plugins: [
@@ -44,7 +35,6 @@ const createCommon = (isProduction) =>
         isProduction && new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
       ].filter(Boolean),
       resolve: {
-        extensions: ['.js', '.jsx'],
         fallback: {
           // buffer: require('buffer'),
         },
@@ -53,7 +43,8 @@ const createCommon = (isProduction) =>
     stylesConfig(isProduction),
     assetsConfig(isProduction),
     htmlConfig(isProduction),
-    tsConfig(isProduction)
+    tsConfig(isProduction),
+    jsConfig(isProduction)
   );
 
 module.exports = {
