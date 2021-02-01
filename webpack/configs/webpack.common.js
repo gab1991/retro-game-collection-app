@@ -7,6 +7,7 @@ const { stylesConfig } = require('../modules/styles');
 const { assetsConfig } = require('../modules/assets');
 const { tsConfig } = require('../modules/ts');
 const { jsConfig } = require('../modules/js');
+const { codeSplitting } = require('../modules/codeSplitting');
 
 const createCommon = (isProduction) =>
   merge(
@@ -44,7 +45,8 @@ const createCommon = (isProduction) =>
     assetsConfig(isProduction),
     htmlConfig(isProduction),
     tsConfig(isProduction),
-    jsConfig(isProduction)
+    jsConfig(isProduction),
+    codeSplitting(isProduction)
   );
 
 module.exports = {
