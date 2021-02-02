@@ -6,6 +6,7 @@
     "start": "set NODE_ENV=development&& node webpack/index.js",
     "build": "set NODE_ENV=production&& node webpack/index.js",
     "build:analyze": "set NODE_ENV=production&& node webpack/index.js --analyze",
+    "browsers": "npx browserslist",
     "serve": "serve -s build",
     "test": "node scripts/test.js",
     "lint": "eslint --fix src/**/*.{js,jsx,ts,tsx}"

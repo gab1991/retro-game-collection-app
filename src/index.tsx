@@ -1,7 +1,3 @@
-// eslint-disable-next-line simple-import-sort/imports
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
