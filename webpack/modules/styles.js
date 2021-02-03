@@ -1,4 +1,5 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
 const postcssPresetEnv = require('postcss-preset-env');
 const postcssNormalize = require('postcss-normalize');
@@ -58,6 +59,12 @@ const stylesConfig = (isProduction) => ({
     //Extract css to separate file
     new MiniCssExtractPlugin(),
   ],
+  optimization: {
+    minimizer: [
+      //Removes duplicated css
+      new CssMinimizerPlugin(),
+    ],
+  },
 });
 
 const getStylesLoader = (isProduction, cssOptions, preProcessor) => {
