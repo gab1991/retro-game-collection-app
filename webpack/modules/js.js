@@ -8,7 +8,7 @@ const jsConfig = (isProduction) => ({
           loader: 'babel-loader',
           options: {
             presets: [
-              ['@babel/preset-env', { debug: true, useBuiltIns: 'usage', corejs: 3, bugfixes: true }],
+              ['@babel/preset-env', { debug: false, useBuiltIns: 'usage', corejs: 3, bugfixes: true }],
               '@babel/preset-react',
             ],
           },

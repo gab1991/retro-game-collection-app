@@ -57,7 +57,10 @@ const stylesConfig = (isProduction) => ({
   },
   plugins: [
     //Extract css to separate file
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash:8].css',
+      chunkFilename: '[name].[contenthash:8].css',
+    }),
   ],
   optimization: {
     minimizer: [
