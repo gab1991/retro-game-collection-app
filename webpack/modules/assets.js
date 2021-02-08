@@ -1,4 +1,7 @@
 const assetsConfig = (isProduction) => ({
+  output: {
+    assetModuleFilename: isProduction ? 'assets/[contenthash:8][ext][query]' : 'assets/[name][ext]',
+  },
   module: {
     rules: [
       {

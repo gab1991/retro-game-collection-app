@@ -17,9 +17,8 @@ const createCommon = (isProduction) =>
       output: {
         path: PATHS.buildDir,
         publicPath: PATHS.publicPath,
-        filename: isProduction ? 'static/js/[name].[contenthash:8].js' : 'static/js/bundle.js',
-        chunkFilename: isProduction ? 'static/js/[name].[contenthash:8].chunk.js' : 'static/js/[name].chunk.js',
-        assetModuleFilename: isProduction ? 'static/assets/[contenthash:8][ext][query]' : 'static/assets/[name][ext]',
+        filename: isProduction ? 'js/[name].[contenthash:8].js' : 'js/[name].js',
+        chunkFilename: isProduction ? 'js/[name].[contenthash:8].chunk.js' : 'js/[name].chunk.js',
         globalObject: 'this',
       },
       target: isProduction ? 'browserslist:production' : 'web',

@@ -58,8 +58,10 @@ const stylesConfig = (isProduction) => ({
   plugins: [
     //Extract css to separate file
     new MiniCssExtractPlugin({
-      filename: '[name].[contenthash:8].css',
-      chunkFilename: '[name].[contenthash:8].css',
+      filename: 'css/[name].[contenthash:8].css',
+      chunkFilename: 'css/[name].[contenthash:8].css',
+      // filename: '[name].[contenthash:8].css',
+      // chunkFilename: '[name].[contenthash:8].css',
     }),
   ],
   optimization: {
@@ -76,7 +78,9 @@ const getStylesLoader = (isProduction, cssOptions, preProcessor) => {
     isProduction && {
       loader: MiniCssExtractPlugin.loader,
       options: {
-        publicPath: '',
+        /*relative path from folder where MiniCssExtractPlugin lays css files. In this case css/ - one lvl down from the root
+        must point out to public root directory*/
+        publicPath: '../',
       },
     },
     {
