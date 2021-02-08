@@ -24,7 +24,7 @@ const stylesConfig = (isProduction) => ({
         use: getStylesLoader(isProduction, {
           importLoaders: 1,
           modules: {
-            getLocalIdent: getCSSModuleLocalIdent,
+            localIdentName: isProduction ? '[hash:base64]' : '[path][name]__[local]',
           },
         }),
       },
@@ -34,7 +34,7 @@ const stylesConfig = (isProduction) => ({
         use: getStylesLoader(
           isProduction,
           {
-            importLoaders: 3,
+            importLoaders: 2,
             modules: { compileType: 'icss' },
           },
           'sass-loader'
@@ -45,9 +45,9 @@ const stylesConfig = (isProduction) => ({
         use: getStylesLoader(
           isProduction,
           {
-            importLoaders: 3,
+            importLoaders: 2,
             modules: {
-              getLocalIdent: getCSSModuleLocalIdent,
+              localIdentName: isProduction ? '[hash:base64]' : '[path][name]__[local]',
             },
           },
           'sass-loader'
@@ -60,8 +60,6 @@ const stylesConfig = (isProduction) => ({
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash:8].css',
       chunkFilename: 'css/[name].[contenthash:8].css',
-      // filename: '[name].[contenthash:8].css',
-      // chunkFilename: '[name].[contenthash:8].css',
     }),
   ],
   optimization: {

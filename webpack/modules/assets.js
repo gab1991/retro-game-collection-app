@@ -5,7 +5,7 @@ const assetsConfig = (isProduction) => ({
   module: {
     rules: [
       {
-        test: /\.(png|jpe?g|gif)$/i,
+        test: /\.(png|jpe?g|gif|eot|ttf|woff|woff2)$/i,
         type: 'asset/resource',
       },
       //embeded light svg to html to reduce ammount of request
