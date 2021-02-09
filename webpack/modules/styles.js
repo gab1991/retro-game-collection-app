@@ -9,7 +9,7 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 
-const cssLocalIndentProd = '[contenthash:32]';
+const cssLocalIndentProd = '[contenthash:5]';
 const cssLocalIndentDev = '[name]_[local]'; // may also use  '[path][name]__[local]'
 
 const stylesConfig = (isProduction) => ({
