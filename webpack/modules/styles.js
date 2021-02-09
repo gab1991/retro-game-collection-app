@@ -9,6 +9,9 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 
+const cssLocalIndentProd = '[contenthash:32]';
+const cssLocalIndentDev = '[name]_[local]'; // may also use  '[path][name]__[local]'
+
 const stylesConfig = (isProduction) => ({
   module: {
     rules: [
@@ -24,7 +27,7 @@ const stylesConfig = (isProduction) => ({
         use: getStylesLoader(isProduction, {
           importLoaders: 1,
           modules: {
-            localIdentName: isProduction ? '[hash:base64]' : '[path][name]__[local]',
+            localIdentName: isProduction ? cssLocalIndentProd : cssLocalIndentDev,
           },
         }),
       },
@@ -34,7 +37,7 @@ const stylesConfig = (isProduction) => ({
         use: getStylesLoader(
           isProduction,
           {
-            importLoaders: 2,
+            importLoaders: 3,
             modules: { compileType: 'icss' },
           },
           'sass-loader'
@@ -45,9 +48,9 @@ const stylesConfig = (isProduction) => ({
         use: getStylesLoader(
           isProduction,
           {
-            importLoaders: 2,
+            importLoaders: 3,
             modules: {
-              localIdentName: isProduction ? '[hash:base64]' : '[path][name]__[local]',
+              localIdentName: isProduction ? cssLocalIndentProd : cssLocalIndentDev,
             },
           },
           'sass-loader'
