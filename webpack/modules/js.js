@@ -8,7 +8,15 @@ const jsConfig = (isProduction) => ({
           loader: 'babel-loader',
           options: {
             presets: [
-              ['@babel/preset-env', { debug: false, useBuiltIns: 'usage', corejs: 3, bugfixes: true }],
+              [
+                '@babel/preset-env',
+                {
+                  debug: false, // toggle debug pollyfills and other stuff per file
+                  useBuiltIns: 'usage', // use only necessary polyfills , no need to add them to the root file anymore
+                  corejs: 3, //  injects the polyfills supported by your core-js version. Need for useBuiltIns otions to work
+                  bugfixes: true, //  tries to compile the broken syntax to the closest non-broken modern syntax supported by your target browsers.
+                },
+              ],
               '@babel/preset-react',
             ],
           },

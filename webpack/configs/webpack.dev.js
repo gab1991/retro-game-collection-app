@@ -4,7 +4,7 @@ const { PATHS } = require('./paths');
 
 const devConfig = merge(
   {
-    devtool: 'source-map',
+    devtool: 'eval-cheap-module-source-map',
     devServer: {
       contentBase: PATHS.buildDir,
       hot: true,
@@ -14,7 +14,10 @@ const devConfig = merge(
       open: {
         app: ['firefox'],
       },
-      overlay: true,
+      overlay: {
+        warnings: false,
+        errors: true,
+      },
       clientLogLevel: 'silent',
       stats: 'minimal', // controls console messages while building
     },

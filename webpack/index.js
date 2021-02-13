@@ -31,8 +31,13 @@ if (isProduction) {
       stats.toString({
         preset: 'normal',
         colors: true,
+        assetsSpace: 10000000,
         assetsSort: '!size',
+        modulesSpace: 0,
         chunksSort: '!size',
+        errorDetails: true,
+        logging: 'info',
+        outputPath: false,
       })
     );
   });
