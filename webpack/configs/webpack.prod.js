@@ -6,11 +6,11 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const prodConfig = merge(
   {
     optimization: {
-      usedExports: true,
+      usedExports: true, // need for treeshaking
       minimize: true,
       minimizer: [new TerserPlugin()],
     },
-    plugins: [new CompressionPlugin({})],
+    plugins: [new CompressionPlugin()],
   },
   createCommon(true)
 );

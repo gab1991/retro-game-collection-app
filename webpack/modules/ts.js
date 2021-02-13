@@ -6,9 +6,7 @@ const tsConfig = (isProduction) => ({
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'ts-loader',
-        },
+        use: ['ts-loader'],
       },
     ],
   },
