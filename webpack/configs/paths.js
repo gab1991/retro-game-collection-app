@@ -12,6 +12,8 @@ const PATHS = {
   entry: resolveApp('./src/index'),
   htmlTemplate: resolveApp('./public/index.ejs'),
   faviconTemplate: resolveApp('./public/iconTemplate.png'),
+  favicon: resolveApp('./public/favicon.ico'),
+  manifest: resolveApp('./public/manifest.json'),
   buildDir: resolveApp('./build'),
   publicPath: '/',
   craPublicFolder: resolveApp('./public'),

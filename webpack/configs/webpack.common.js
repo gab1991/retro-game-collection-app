@@ -1,5 +1,6 @@
 const { merge } = require('webpack-merge');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const { PATHS } = require('./paths');
 const { htmlConfig } = require('../modules/html');
@@ -33,6 +34,9 @@ const createCommon = (isProduction) =>
       plugins: [
         //Cleaning the build directory
         isProduction && new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
+        new CopyPlugin({
+          patterns: [{ from: PATHS.favicon }, { from: PATHS.manifest }],
+        }),
       ].filter(Boolean),
       resolve: {
         fallback: {
