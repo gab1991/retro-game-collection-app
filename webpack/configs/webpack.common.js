@@ -1,6 +1,4 @@
 const { merge } = require('webpack-merge');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
 
 const { PATHS } = require('./paths');
 const { htmlConfig } = require('../modules/html');
@@ -23,26 +21,7 @@ const createCommon = (isProduction) =>
         globalObject: 'this',
       },
       target: isProduction ? 'browserslist:production' : 'web',
-      module: {
-        rules: [
-          {
-            test: /\.html$/,
-            loader: 'html-loader',
-          },
-        ],
-      },
-      plugins: [
-        //Cleaning the build directory
-        isProduction && new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
-        new CopyPlugin({
-          patterns: [{ from: PATHS.favicon }, { from: PATHS.manifest }],
-        }),
-      ].filter(Boolean),
-      resolve: {
-        fallback: {
-          // buffer: require('buffer'),
-        },
-      },
+      resolve: {},
     },
     stylesConfig(isProduction),
     assetsConfig(isProduction),

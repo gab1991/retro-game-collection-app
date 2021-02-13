@@ -1,5 +1,6 @@
 const { merge } = require('webpack-merge');
 const { createCommon } = require('./webpack.common');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 
@@ -10,7 +11,10 @@ const prodConfig = merge(
       minimize: true,
       minimizer: [new TerserPlugin()],
     },
-    plugins: [new CompressionPlugin()],
+    plugins: [
+      new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }), //Cleaning the build directory
+      new CompressionPlugin(), // Сompress to gzip
+    ],
   },
   createCommon(true)
 );
