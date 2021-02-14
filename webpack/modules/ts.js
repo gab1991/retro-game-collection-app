@@ -1,4 +1,4 @@
-const TsconfigPATHSPlugin = require('tsconfig-PATHS-webpack-plugin');
+const TsconfigPATHSPlugin = require('tsconfig-paths-webpack-plugin');
 
 const tsConfig = (isProduction) => ({
   module: {
