@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import ReactPlayer from 'react-player';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { EVideoType } from 'Store/gameDetailedReducer/types';
+import { IRootState } from 'Store/types';
 
 import { textMessages } from '../../Configs/appConfig';
 import { showAuthModal, showCornerNotifier } from '../../Store/appStateReducer/actions';
@@ -9,6 +12,8 @@ import GameInfoBox from './GameInfoBox/GameInfoBox';
 import { ButtonNeon, OvalSpinner, SwiperConfigured } from 'Components/UI';
 import { ArrowEsc } from 'Components/UI/LogoSvg';
 import { CornerNotifier, ECornerNotifierCorners, WarnModal } from 'Components/UI/Modals';
+import { selectIsMobile } from 'Store/appStateReducer/selectors';
+import { selectLoggedUser } from 'Store/authReducer/selectors';
 import { selectBoxArt } from 'Store/contentReducer/selectors';
 import { getBoxArt } from 'Store/contentReducer/thunks';
 import {
@@ -18,36 +23,41 @@ import {
   setShowWisListWarn,
   toggleElmVisibility,
 } from 'Store/gameDetailedReducer/actions';
+import { selectGameDetails } from 'Store/gameDetailedReducer/selectors';
 import { addGame, getGameDetails, getScreenShots, getVideo } from 'Store/gameDetailedReducer/thunks';
+import { selectProfile } from 'Store/profileReducer/selectors';
 import { removeGame } from 'Store/profileReducer/thunks';
 
 import styles from './GameDetailed.module.scss';
 
-function GameDetailed(props) {
+export function GameDetailed(props) {
   const dispatch = useDispatch();
-  const { gameSlug: slug, platformName } = props?.match?.params || {};
   const {
-    userData,
-    profileInfo,
-    isMobile,
-    screenshots,
     descriptionParsed,
+    uploadableElms: { ebaySection, gameplayVideo, soundtrackVideo },
     gameDetails,
-    soundtrackVideo,
-    gameplayVideo,
-    ebaySection,
     isOwned,
     isWished,
-    isEbayLoading,
+    screenshots,
     showOwnedNotifier,
-    showWishNotifier,
     showWishListWarn,
-  } = props;
-  const boxArtUrl = useSelector((state) => (gameDetails ? selectBoxArt(state, platformName, gameDetails.name) : ''));
+    showWishNotifier,
+  } = useSelector(selectGameDetails);
+  const username = useSelector(selectLoggedUser);
+  const profileInfo = useSelector(selectProfile);
+  const isMobile = useSelector(selectIsMobile);
+  const { gameSlug: slug, platformName } = props?.match?.params || {};
+  const boxArtUrl = useSelector<IRootState>((state) =>
+    gameDetails ? selectBoxArt(state, platformName, gameDetails.name) : null
+  );
+
+  // const boxArtUrl = useSelector((state) => (gameDetails ? selectBoxArt(state, platformName, gameDetails.name) : ''));
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    return () => dispatch(flushGameDetailed());
+    return () => {
+      dispatch(flushGameDetailed());
+    };
   }, []);
 
   useEffect(() => {
@@ -94,11 +104,12 @@ function GameDetailed(props) {
   }, [gameDetails, platformName, dispatch]);
 
   useEffect(() => {
+    if (!gameDetails?.name) return;
     if (soundtrackVideo.show && !soundtrackVideo.url) {
-      dispatch(getVideo('soundtrack', platformName, gameDetails.name));
+      dispatch(getVideo(EVideoType.soundtrack, platformName, gameDetails.name));
     }
     if (gameplayVideo.show && !gameplayVideo.url) {
-      dispatch(getVideo('gameplay', platformName, gameDetails.name));
+      dispatch(getVideo(EVideoType.gameplay, platformName, gameDetails.name));
     }
   }, [soundtrackVideo, gameplayVideo, gameDetails, platformName, dispatch]);
 
@@ -128,7 +139,7 @@ function GameDetailed(props) {
   };
 
   const toggleBlockVisibilty = (e) => {
-    const elm = e.currentTarget.getAttribute('elm');
+    const elm = e.currentTarget.getAttribute('data-elm');
     dispatch(toggleElmVisibility(elm));
   };
 
@@ -139,10 +150,10 @@ function GameDetailed(props) {
   const buttons = [
     {
       color: isWished ? 'red' : 'green',
-      disabled: userData ? false : true,
+      disabled: username ? false : true,
       name: 'wishListBtn',
       onClick: () => toggleList(platformName, gameDetails, 'wish_list'),
-      tooltip: !userData && {
+      tooltip: !username && {
         btnOnclick: showAuth,
         txtContent: `Need to be logged in to add games to the lists `,
       },
@@ -150,10 +161,10 @@ function GameDetailed(props) {
     },
     {
       color: isOwned ? 'red' : 'green',
-      disabled: userData ? false : true,
+      disabled: username ? false : true,
       name: 'ownedListBtn',
       onClick: () => toggleList(platformName, gameDetails, 'owned_list'),
-      tooltip: !userData && {
+      tooltip: !username && {
         btnOnclick: showAuth,
         txtContent: `Need to be logged in to add games to the lists `,
       },
@@ -186,13 +197,13 @@ function GameDetailed(props) {
     {
       linkDir: '/profile/WishList',
       linkText: 'Wish List',
-      onCancelClick: () => toggleList(platformName, gameDetails, 'wish_list', 'removeGame'),
+      onCancelClick: () => toggleList(platformName, gameDetails, 'wish_list'),
       show: showWishNotifier,
     },
     {
       linkDir: '/profile/CollectionList',
       linkText: 'Owned List',
-      onCancelClick: () => toggleList(platformName, gameDetails, 'owned_list', 'removeGame'),
+      onCancelClick: () => toggleList(platformName, gameDetails, 'owned_list'),
       show: showOwnedNotifier,
     },
   ];
@@ -203,7 +214,7 @@ function GameDetailed(props) {
       <div className={styles.GameDetailGridCont}>
         <div className={styles.ScreenshotSection}>
           <SwiperConfigured
-            images={screenshots}
+            images={[...screenshots]}
             isMobile={isMobile}
             customSwiperProps={{
               loop: true,
@@ -247,7 +258,7 @@ function GameDetailed(props) {
       <div className={styles.VideoSection}>
         {videoElms.map(({ className, elm, heading, video }) => (
           <div className={className} key={elm}>
-            <div className={`${styles.VideoLabel}`} elm={elm} onClick={(e) => toggleBlockVisibilty(e)}>
+            <div className={`${styles.VideoLabel}`} data-elm={elm} onClick={(e) => toggleBlockVisibilty(e)}>
               <h2>{heading}</h2>
               {isMobile && (
                 <div className={styles.DropDownSvgContainer}>
@@ -280,7 +291,7 @@ function GameDetailed(props) {
         ))}
       </div>
       <div className={styles.EbaySection}>
-        <div className={styles.EbayLabel} elm='ebaySection' onClick={(e) => toggleBlockVisibilty(e)}>
+        <div className={styles.EbayLabel} data-elm='ebaySection' onClick={(e) => toggleBlockVisibilty(e)}>
           <h2>Ebay Offers</h2>
           {isMobile && (
             <div className={styles.DropDownSvgContainer}>
@@ -293,7 +304,7 @@ function GameDetailed(props) {
           <EbaySection
             platform={platformName}
             game={gameDetails.name}
-            isLoading={isEbayLoading}
+            isLoading={ebaySection.isLoading}
             className={styles.EbaySectionContent}
           />
         )}
@@ -302,13 +313,13 @@ function GameDetailed(props) {
         cornerNotifiers.map(({ linkText, linkDir, onCancelClick, show }) => (
           <CornerNotifier
             key={linkDir}
-            corner={'bottomLeft'}
+            corner={ECornerNotifierCorners.bottomLeft}
             message={'Game has been added to your'}
             linkText={linkText}
             linkDir={linkDir}
             btnText={'Cancel'}
-            onCancelClick={onCancelClick}
-            show={show}
+            onCancelClickCb={onCancelClick}
+            // show={show} FIX IT LATER
           />
         ))}
       {showWishListWarn && (
@@ -322,26 +333,3 @@ function GameDetailed(props) {
     </section>
   );
 }
-
-function mapStateToProps(state) {
-  return {
-    boxArtUrl: state.gameDetailed.boxArtUrl,
-    descriptionParsed: state.gameDetailed.descriptionParsed,
-    ebaySection: state.gameDetailed.uploadableElms.ebaySection,
-    gameDetails: state.gameDetailed.gameDetails,
-    gameplayVideo: state.gameDetailed.uploadableElms.gameplayVideo,
-    isEbayLoading: state.gameDetailed.uploadableElms.ebaySection.isLoading,
-    isMobile: state.appState.isMobile,
-    isOwned: state.gameDetailed.isOwned,
-    isWished: state.gameDetailed.isWished,
-    profileInfo: state.profile,
-    screenshots: state.gameDetailed.screenshots,
-    showOwnedNotifier: state.gameDetailed.showOwnedNotifier,
-    showWishListWarn: state.gameDetailed.showWishListWarn,
-    showWishNotifier: state.gameDetailed.showWishNotifier,
-    soundtrackVideo: state.gameDetailed.uploadableElms.soundtrackVideo,
-    userData: state.logged.username,
-  };
-}
-
-export default connect(mapStateToProps)(GameDetailed);

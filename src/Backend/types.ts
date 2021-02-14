@@ -67,7 +67,7 @@ interface IGetGamesForPlatParams {
   search: string;
 }
 
-type TVideoType = 'soundtrack' | 'gameplay';
+export type TVideoType = 'soundtrack' | 'gameplay';
 
 type TList = 'wish_list' | 'owned_list';
 

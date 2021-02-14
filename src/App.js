@@ -20,7 +20,7 @@ const GameDetailed = React.lazy(() =>
   import(
     /* webpackChunkName: "GameDetailed" */
     './Routes/GameDetailed/GameDetailed'
-  )
+  ).then((module) => ({ default: module.GameDetailed }))
 );
 
 function App(props) {

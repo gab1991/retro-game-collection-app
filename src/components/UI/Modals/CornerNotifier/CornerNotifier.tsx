@@ -7,7 +7,7 @@ import { hideCornerNotifier } from 'Store/appStateReducer/actions';
 
 import styles from './CornerNotifier.module.scss';
 
-enum ECornerNotifierCorners {
+export enum ECornerNotifierCorners {
   bottomLeft = 'bottomLeft',
   bottomRight = 'bottomRight',
   topLeft = 'topLeft ',

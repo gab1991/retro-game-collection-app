@@ -10,11 +10,11 @@ import './SwiperConfigured.scss';
 SwiperCore.use([Navigation, Pagination]);
 
 interface ISwiperConfProps {
-  slides: Array<string>;
-  images: Array<string>;
+  className?: string;
   customSwiperProps: Record<string, unknown>;
-  className: string;
+  images: Array<string>;
   isMobile: boolean;
+  slides?: Array<string>;
 }
 
 export function SwiperConfigured(props: ISwiperConfProps): JSX.Element {
@@ -29,8 +29,8 @@ export function SwiperConfigured(props: ISwiperConfProps): JSX.Element {
       navigation={isMobile ? false : true}
       pagination={{
         clickable: true,
-        dynamicMainBullets: 4,
         dynamicBullets: true,
+        dynamicMainBullets: 4,
       }}
       {...customSwiperProps}
     >
