@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
 
-import eyeicon from '../../../../Assets/images/ui/eye-regular.svg';
+import eyeicon from '../../../../Assets/images/svg/eye-regular.svg';
 
 import styles from './InputAuth.module.scss';
 
@@ -9,17 +9,17 @@ export enum TogglerOptions {
 }
 
 interface IInputAuthProps {
-  type: string;
-  label: string;
-  value: string;
-  placeholder: string;
-  disabled: boolean;
-  dataDesc: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>, dataDesc: string) => void;
-  onKeyPress: () => void;
-  wrong: boolean;
   addToggler: TogglerOptions;
   autoComplete: 'on' | 'off';
+  dataDesc: string;
+  disabled: boolean;
+  label: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>, dataDesc: string) => void;
+  onKeyPress: () => void;
+  placeholder: string;
+  type: string;
+  value: string;
+  wrong: boolean;
 }
 
 export function InputAuth(props: IInputAuthProps): JSX.Element {

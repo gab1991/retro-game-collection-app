@@ -1,6 +1,6 @@
 import React from 'react';
 
-import warnicon from '../../../../Assets/images/ui/warning.svg';
+import warnicon from '../../../../Assets/images/svg/warning.svg';
 import { Backdrop, ButtonNeon } from 'Components/UI';
 
 import styles from './WarnModal.module.scss';

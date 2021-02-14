@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import sliderArrow from '../../../Assets/images/ui/slider-arrow-left.svg';
+import sliderArrow from '../../../Assets/images/svg/slider-arrow-left.svg';
 import { Property } from 'csstype/index.d';
 
 import styles from './Slider.module.scss';
