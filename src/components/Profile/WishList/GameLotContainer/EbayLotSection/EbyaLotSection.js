@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 
+import EbaySection from '../../../../../Routes/GameDetailed/EbaySection/EbaySection';
 import { trimName } from '../../../../../Utils/helperFunctions';
-import EbaySection from '../../../../GameDetailed/EbaySection/EbaySection';
 import GameBox from '../../../CollictionList/GameBoxContainer/GameBox/GameBox';
 import { ButtonNeon, KnobToggler } from 'Components/UI';
 import { CloseSvg } from 'Components/UI/LogoSvg';

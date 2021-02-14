@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 
-import EbayItemCard from '../EbaySection/EbayItemCard/EbayItemCard';
+import EbayItemCard from './EbayItemCard/EbayItemCard';
 import { DotSpinner, SwiperConfigured } from 'Components/UI';
 import { getEbayItems } from 'Store/gameDetailedReducer/thunks';
 

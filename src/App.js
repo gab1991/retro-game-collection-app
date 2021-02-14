@@ -19,7 +19,7 @@ const mobileBreakPointWidth = parseInt(sassVars['breakpoints-mobile']);
 const GameDetailed = React.lazy(() =>
   import(
     /* webpackChunkName: "GameDetailed" */
-    './Components/GameDetailed/GameDetailed'
+    './Routes/GameDetailed/GameDetailed'
   )
 );
 
