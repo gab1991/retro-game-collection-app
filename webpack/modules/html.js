@@ -11,6 +11,7 @@ const htmlConfig = (isProduction) => ({
       filename: 'index.html',
       inject: true,
       template: PATHS.htmlTemplate,
+      isProduction: isProduction, // var for template
     }),
     //preparing various favicons from template+manifest.json+browserconfig
     isProduction &&

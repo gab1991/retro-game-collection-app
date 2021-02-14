@@ -1,7 +1,5 @@
 const path = require('path');
 const fs = require('fs');
-// const path = require('path');
-// const fs = require('fs');
 
 //read root directory
 const appDirectory = fs.realpathSync(process.cwd());
@@ -10,13 +8,12 @@ const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
 
 const PATHS = {
   entry: resolveApp('./src/index'),
-  htmlTemplate: resolveApp('./public/index.ejs'),
-  faviconTemplate: resolveApp('./public/iconTemplate.png'),
-  favicon: resolveApp('./public/favicon.ico'),
-  manifest: resolveApp('./public/manifest.json'),
+  htmlTemplate: resolveApp('./templates/index.ejs'),
+  faviconTemplate: resolveApp('./templates/iconTemplate.png'),
+  favicon: resolveApp('./templates/favicon.ico'),
+  manifest: resolveApp('./templates/manifest.json'),
   buildDir: resolveApp('./build'),
   publicPath: '/',
-  craPublicFolder: resolveApp('./public'),
 };
 
 module.exports = {
