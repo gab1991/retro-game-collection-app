@@ -18,9 +18,9 @@ const createCommon = (isProduction) =>
         publicPath: PATHS.publicPath,
         filename: isProduction ? 'js/[name].[contenthash:8].js' : 'js/[name].js',
         chunkFilename: isProduction ? 'js/[name].[contenthash:8].chunk.js' : 'js/[name].chunk.js',
-        globalObject: 'this',
+        globalObject: 'this', // this defaults to 'window', but by setting it to 'this' then module chunks which are built will work in web workers as well.
       },
-      target: isProduction ? 'browserslist:production' : 'web',
+      target: isProduction ? 'browserslist:production' : 'web', // HMR bug if set dev target to any browserlist options
       resolve: {},
     },
     stylesConfig(isProduction),

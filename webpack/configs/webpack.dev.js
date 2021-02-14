@@ -10,7 +10,7 @@ const devConfig = merge(
       contentBase: PATHS.buildDir,
       hot: true,
       port: 3000,
-      historyApiFallback: true,
+      historyApiFallback: true, // prop for correct working program routing
 
       open: {
         app: ['firefox'],
