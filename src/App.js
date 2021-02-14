@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { GameSelector, PlatformSelector } from 'Routes';
 
-import GameDetailed from './Components/GameDetailed/GameDetailed';
+// import GameDetailed from './Components/GameDetailed/GameDetailed';
 import Layout from './Components/Layout/Layout';
 import Profile from './Components/Profile/Profile';
 import useWindowSize from './CustomHooks/useWindowSize';
@@ -15,6 +15,13 @@ import styles from './App.module.scss';
 import sassVars from './Configs/Variables.scss';
 
 const mobileBreakPointWidth = parseInt(sassVars['breakpoints-mobile']);
+
+const GameDetailed = React.lazy(() =>
+  import(
+    /* webpackChunkName: "GameDetailed" */
+    './Components/GameDetailed/GameDetailed'
+  )
+);
 
 function App(props) {
   const { isLogged } = props;
@@ -38,18 +45,20 @@ function App(props) {
     }
   }, [width, dispatch]);
 
-  console.log('1');
+  console.log('2');
 
   return (
     <div className={styles.App}>
-      <Layout>
-        <Switch>
-          <Route path='/profile/:section?' component={Profile} />
-          <Route path='/:platformName/:gameSlug' component={GameDetailed} />
-          <Route exact path='/:platformName' component={GameSelector} />
-          <Route exact path='/' component={PlatformSelector} />
-        </Switch>
-      </Layout>
+      <Suspense fallback={<div>Загрузка...</div>}>
+        <Layout>
+          <Switch>
+            <Route path='/profile/:section?' component={Profile} />
+            <Route path='/:platformName/:gameSlug' component={GameDetailed} />
+            <Route exact path='/:platformName' component={GameSelector} />
+            <Route exact path='/' component={PlatformSelector} />
+          </Switch>
+        </Layout>
+      </Suspense>
     </div>
   );
 }
