@@ -47,6 +47,7 @@ module.exports = {
   rules: {
     //@ESLINT RULES
     'import/no-default-export': 'error',
+    'no-restricted-syntax': ['error', 'ExportAllDeclaration'], // block batch export "*"
     'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
     // disable standart rules to enable simple-sort-plugins rules
     'sort-imports': 'off',
