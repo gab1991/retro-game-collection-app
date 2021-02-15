@@ -1,17 +1,20 @@
 import React, { useEffect } from 'react';
 import ReactPlayer from 'react-player';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 
 import { EVideoType } from 'Store/gameDetailedReducer/types';
 import { IRootState } from 'Store/types';
 
 import { textMessages } from '../../Configs/appConfig';
 import { showAuthModal, showCornerNotifier } from '../../Store/appStateReducer/actions';
+// import GameInfoBox from './components/gameInfoBox/GameInfoBox';
 import EbaySection from './EbaySection/EbaySection';
-import GameInfoBox from './GameInfoBox/GameInfoBox';
 import { ButtonNeon, OvalSpinner, SwiperConfigured } from 'Components/UI';
 import { ArrowEsc } from 'Components/UI/LogoSvg';
 import { CornerNotifier, ECornerNotifierCorners, WarnModal } from 'Components/UI/Modals';
+import { TPlatformNames } from 'Configs/appConfig';
+import { GameInfoBox, ScreenshotSection } from 'Routes/GameDetailed/components';
 import { selectIsMobile } from 'Store/appStateReducer/selectors';
 import { selectLoggedUser } from 'Store/authReducer/selectors';
 import { selectBoxArt } from 'Store/contentReducer/selectors';
@@ -38,7 +41,6 @@ export function GameDetailed(props) {
     gameDetails,
     isOwned,
     isWished,
-    screenshots,
     showOwnedNotifier,
     showWishListWarn,
     showWishNotifier,
@@ -46,12 +48,11 @@ export function GameDetailed(props) {
   const username = useSelector(selectLoggedUser);
   const profileInfo = useSelector(selectProfile);
   const isMobile = useSelector(selectIsMobile);
-  const { gameSlug: slug, platformName } = props?.match?.params || {};
+  const { gameSlug: slug, platformName } = useParams<{ gameSlug: string; platformName: TPlatformNames }>();
+  const history = useHistory();
   const boxArtUrl = useSelector<IRootState>((state) =>
     gameDetails ? selectBoxArt(state, platformName, gameDetails.name) : null
   );
-
-  // const boxArtUrl = useSelector((state) => (gameDetails ? selectBoxArt(state, platformName, gameDetails.name) : ''));
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -126,7 +127,7 @@ export function GameDetailed(props) {
   };
 
   const getBack = () => {
-    props.history.goBack();
+    history.goBack();
   };
 
   const hideWarning = () => {
@@ -208,22 +209,10 @@ export function GameDetailed(props) {
     },
   ];
 
-  console.log({ cornerNotifiers, isMobile });
   return (
     <section className={styles.GameDetailed}>
       <div className={styles.GameDetailGridCont}>
-        <div className={styles.ScreenshotSection}>
-          <SwiperConfigured
-            images={[...screenshots]}
-            isMobile={isMobile}
-            customSwiperProps={{
-              loop: true,
-              loopedSlides: 3,
-              pagination: false,
-              spaceBetween: 0,
-            }}
-          />
-        </div>
+        <ScreenshotSection className={styles.ScreenshotSection} />
         <div className={styles.InfoSection}>
           {gameDetails && <GameInfoBox gameInfo={gameDetails} boxArt={boxArtUrl} />}
         </div>

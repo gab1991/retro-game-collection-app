@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { trimName } from '../../../Utils/helperFunctions';
+import { trimName } from '../../../../Utils/helperFunctions';
 
-import styles from './GameInfoBox.module.scss';
+import styles from './gameInfoBox.module.scss';
 
-export default function GameInfoBox(props) {
+export function GameInfoBox(props) {
   const {
     boxArt,
     gameInfo: { name, released, developers, publishers },
