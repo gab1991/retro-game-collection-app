@@ -26,7 +26,7 @@ import {
   setShowWisListWarn,
   toggleElmVisibility,
 } from 'Store/gameDetailedReducer/actions';
-import { selectGameDetails } from 'Store/gameDetailedReducer/selectors';
+import { selectGameDetailed } from 'Store/gameDetailedReducer/selectors';
 import { addGame, getGameDetails, getScreenShots, getVideo } from 'Store/gameDetailedReducer/thunks';
 import { selectProfile } from 'Store/profileReducer/selectors';
 import { removeGame } from 'Store/profileReducer/thunks';
@@ -44,7 +44,7 @@ export function GameDetailed(props) {
     showOwnedNotifier,
     showWishListWarn,
     showWishNotifier,
-  } = useSelector(selectGameDetails);
+  } = useSelector(selectGameDetailed);
   const username = useSelector(selectLoggedUser);
   const profileInfo = useSelector(selectProfile);
   const isMobile = useSelector(selectIsMobile);
@@ -213,9 +213,7 @@ export function GameDetailed(props) {
     <section className={styles.GameDetailed}>
       <div className={styles.GameDetailGridCont}>
         <ScreenshotSection className={styles.ScreenshotSection} />
-        <div className={styles.InfoSection}>
-          {gameDetails && <GameInfoBox gameInfo={gameDetails} boxArt={boxArtUrl} />}
-        </div>
+        <div className={styles.InfoSection}>{gameDetails && <GameInfoBox gameDetails={gameDetails} />}</div>
         <div className={styles.DescSection}>
           <hr></hr>
           {!!descriptionParsed && descriptionParsed}

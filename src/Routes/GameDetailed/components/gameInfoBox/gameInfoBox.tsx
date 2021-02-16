@@ -1,22 +1,35 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
-import { trimName } from '../../../../Utils/helperFunctions';
+import { IRootState } from 'Store/types';
+import { DeepReadonly } from 'utility-types';
+
+import { TPlatformNames } from 'Configs/appConfig';
+import { selectBoxArt } from 'Store/contentReducer/selectors';
+import { IRawgGameDetails } from 'Typings/RawgData';
+import { trimName } from 'Utils/helperFunctions';
 
 import styles from './gameInfoBox.module.scss';
 
-export function GameInfoBox(props) {
-  const {
-    boxArt,
-    gameInfo: { name, released, developers, publishers },
-    className,
-  } = props;
+interface IGameInfoBoxProps {
+  gameDetails: DeepReadonly<IRawgGameDetails>;
+}
 
+export function GameInfoBox(props: IGameInfoBoxProps): JSX.Element {
+  const { platformName } = useParams<{ platformName: TPlatformNames }>();
+  const {
+    gameDetails: { name, released, developers, publishers },
+  } = props;
+  const boxArtUrl = String(
+    useSelector<IRootState, string | void>((state) => selectBoxArt(state, platformName, name))
+  );
   const nameTrimmed = trimName(name);
 
   return (
-    <div className={`${styles.GameInfoBox} ${className}`}>
+    <div className={`${styles.GameInfoBox}`}>
       <div className={styles.ImageContainer}>
-        <img src={boxArt} alt={`${name}_boxart`}></img>
+        <img src={boxArtUrl} alt={`${name}_boxart`}></img>
       </div>
       <div className={styles.TextContainer}>
         <h2 className={styles.Name}>{nameTrimmed}</h2>
