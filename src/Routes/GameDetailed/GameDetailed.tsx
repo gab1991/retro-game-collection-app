@@ -1,23 +1,18 @@
 import React, { useEffect } from 'react';
 import ReactPlayer from 'react-player';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { EVideoType } from 'Store/gameDetailedReducer/types';
-import { IRootState } from 'Store/types';
 
 import { textMessages } from '../../Configs/appConfig';
-import { showAuthModal, showCornerNotifier } from '../../Store/appStateReducer/actions';
-// import GameInfoBox from './components/gameInfoBox/GameInfoBox';
 import EbaySection from './EbaySection/EbaySection';
-import { ButtonNeon, OvalSpinner, SwiperConfigured } from 'Components/UI';
+import { OvalSpinner } from 'Components/UI';
 import { ArrowEsc } from 'Components/UI/LogoSvg';
 import { CornerNotifier, ECornerNotifierCorners, WarnModal } from 'Components/UI/Modals';
 import { TPlatformNames } from 'Configs/appConfig';
-import { GameInfoBox, ScreenshotSection } from 'Routes/GameDetailed/components';
+import { ControlSection, GameInfoBox, ScreenshotSection } from 'Routes/GameDetailed/components';
 import { selectIsMobile } from 'Store/appStateReducer/selectors';
-import { selectLoggedUser } from 'Store/authReducer/selectors';
-import { selectBoxArt } from 'Store/contentReducer/selectors';
 import { getBoxArt } from 'Store/contentReducer/thunks';
 import {
   flushGameDetailed,
@@ -33,7 +28,7 @@ import { removeGame } from 'Store/profileReducer/thunks';
 
 import styles from './GameDetailed.module.scss';
 
-export function GameDetailed(props) {
+export function GameDetailed(): JSX.Element {
   const dispatch = useDispatch();
   const {
     descriptionParsed,
@@ -45,14 +40,9 @@ export function GameDetailed(props) {
     showWishListWarn,
     showWishNotifier,
   } = useSelector(selectGameDetailed);
-  const username = useSelector(selectLoggedUser);
   const profileInfo = useSelector(selectProfile);
   const isMobile = useSelector(selectIsMobile);
   const { gameSlug: slug, platformName } = useParams<{ gameSlug: string; platformName: TPlatformNames }>();
-  const history = useHistory();
-  const boxArtUrl = useSelector<IRootState>((state) =>
-    gameDetails ? selectBoxArt(state, platformName, gameDetails.name) : null
-  );
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -126,10 +116,6 @@ export function GameDetailed(props) {
     }
   };
 
-  const getBack = () => {
-    history.goBack();
-  };
-
   const hideWarning = () => {
     dispatch(setShowWisListWarn(false));
   };
@@ -143,41 +129,6 @@ export function GameDetailed(props) {
     const elm = e.currentTarget.getAttribute('data-elm');
     dispatch(toggleElmVisibility(elm));
   };
-
-  const showAuth = () => {
-    dispatch(showAuthModal(true));
-  };
-
-  const buttons = [
-    {
-      color: isWished ? 'red' : 'green',
-      disabled: username ? false : true,
-      name: 'wishListBtn',
-      onClick: () => toggleList(platformName, gameDetails, 'wish_list'),
-      tooltip: !username && {
-        btnOnclick: showAuth,
-        txtContent: `Need to be logged in to add games to the lists `,
-      },
-      txtContent: isWished ? 'Remove from Wishlist' : 'Add to Wishlist',
-    },
-    {
-      color: isOwned ? 'red' : 'green',
-      disabled: username ? false : true,
-      name: 'ownedListBtn',
-      onClick: () => toggleList(platformName, gameDetails, 'owned_list'),
-      tooltip: !username && {
-        btnOnclick: showAuth,
-        txtContent: `Need to be logged in to add games to the lists `,
-      },
-      txtContent: isOwned ? 'Remove from Owned' : 'Owned',
-    },
-    {
-      color: 'gray',
-      name: 'backBtn',
-      onClick: getBack,
-      txtContent: 'Back',
-    },
-  ];
 
   const videoElms = [
     {
@@ -218,29 +169,7 @@ export function GameDetailed(props) {
           <hr></hr>
           {!!descriptionParsed && descriptionParsed}
         </div>
-        <div className={styles.ContorlsSection}>
-          <hr></hr>
-          <div className={styles.ButtonsContainer}>
-            {buttons.map(({ disabled, color, txtContent, onClick, tooltip }) => (
-              <div className={styles.ButtonNeonWrapper} key={txtContent}>
-                <ButtonNeon
-                  className={styles.ButtonNeon}
-                  disabled={disabled}
-                  color={color}
-                  txtContent={txtContent}
-                  onClick={onClick}
-                />
-                {tooltip && (
-                  <div className={styles.ButtonTooltip}>
-                    {tooltip.txtContent}
-                    <button onClick={tooltip.btnOnclick}>GO TO LOGIN</button>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-          <hr></hr>
-        </div>
+        <ControlSection />
       </div>
       <div className={styles.VideoSection}>
         {videoElms.map(({ className, elm, heading, video }) => (
