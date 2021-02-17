@@ -45,8 +45,6 @@ function App(props) {
     }
   }, [width, dispatch]);
 
-  console.log('2');
-
   return (
     <div className={styles.App}>
       <Suspense fallback={<div>Загрузка...</div>}>

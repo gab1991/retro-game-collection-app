@@ -6,14 +6,15 @@ import { ButtonNeon } from 'Components/UI';
 import { TPlatformNames } from 'Configs/appConfig';
 import { showAuthModal } from 'Store/appStateReducer/actions';
 import { selectLoggedUser } from 'Store/authReducer/selectors';
-import { setIsOwned, setIsWished, setShowWisListWarn, toggleElmVisibility } from 'Store/gameDetailedReducer/actions';
+import { setIsOwned, setIsWished } from 'Store/gameDetailedReducer/actions';
 import { selectGameDetails, selectIsOwned, selectIsWished } from 'Store/gameDetailedReducer/selectors';
-import { addGame, getGameDetails, getScreenShots, getVideo } from 'Store/gameDetailedReducer/thunks';
+import { addGame } from 'Store/gameDetailedReducer/thunks';
 import { removeGame } from 'Store/profileReducer/thunks';
+import { IRawgGameDetails } from 'Typings/RawgData';
 
 import styles from './ControlSection.module.scss';
 
-export function ControlSection() {
+export function ControlSection(): JSX.Element {
   const dispatch = useDispatch();
   const history = useHistory();
   const isWished = useSelector(selectIsWished);
@@ -22,7 +23,7 @@ export function ControlSection() {
   const gameDetails = useSelector(selectGameDetails);
   const { platformName } = useParams<{ platformName: TPlatformNames }>();
 
-  const toggleList = (platform, gameDetails, list) => {
+  const toggleList = (platform: TPlatformNames, gameDetails: IRawgGameDetails, list) => {
     if (list === 'wish_list') {
       dispatch(setIsWished(!isWished));
       isWished
@@ -47,7 +48,7 @@ export function ControlSection() {
       color: isWished ? 'red' : 'green',
       disabled: username ? false : true,
       name: 'wishListBtn',
-      onClick: () => toggleList(platformName, gameDetails, 'wish_list'),
+      onClick: () => toggleList(platformName, gameDetails as IRawgGameDetails, 'wish_list'),
       tooltip: !username && {
         btnOnclick: showAuth,
         txtContent: `Need to be logged in to add games to the lists `,
@@ -58,7 +59,7 @@ export function ControlSection() {
       color: isOwned ? 'red' : 'green',
       disabled: username ? false : true,
       name: 'ownedListBtn',
-      onClick: () => toggleList(platformName, gameDetails, 'owned_list'),
+      onClick: () => toggleList(platformName, gameDetails as IRawgGameDetails, 'owned_list'),
       tooltip: !username && {
         btnOnclick: showAuth,
         txtContent: `Need to be logged in to add games to the lists `,

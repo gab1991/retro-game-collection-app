@@ -63,6 +63,8 @@ export enum EPlatformList {
 
 export type TPlatformNames = keyof typeof EPlatformList;
 
+export type TVideoType = 'soundtrack' | 'gameplay';
+
 export enum EAvailableLists {
   ownedList = 'owned_list',
   wishList = 'wish_list',

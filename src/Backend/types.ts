@@ -2,7 +2,7 @@ import { AxiosError, AxiosPromise } from 'axios';
 
 import { IProfile, IProfileGame } from 'Store/profileReducer/types';
 
-import { EPlatformList, TPlatformNames } from 'Configs/appConfig';
+import { EAvailableLists, EPlatformList, TPlatformNames, TVideoType } from 'Configs/appConfig';
 import { IEbayCardRawData, IEbayCardShippingDetails, TEbayCardPreviewRawData } from 'Typings/EbayData';
 import { IRawgGameDetails, IRawgScreenshot } from 'Typings/RawgData';
 
@@ -40,7 +40,7 @@ type TUpdProfObj = IReodredGames | IRemoveGame | IAddGame;
 
 interface IReodredGames {
   action: 'reorder';
-  list: TList;
+  list: EAvailableLists;
   platform: TPlatformNames;
   sortedGames: Array<IProfileGame>;
 }
@@ -48,14 +48,14 @@ interface IReodredGames {
 interface IRemoveGame {
   action: 'removeGame';
   game: string;
-  list: TList;
+  list: EAvailableLists;
   platform: TPlatformNames;
 }
 
 interface IAddGame {
   action: 'addGame';
   game: IRawgGameDetails;
-  list: TList;
+  list: EAvailableLists;
   platform: TPlatformNames;
 }
 
@@ -66,10 +66,6 @@ interface IGetGamesForPlatParams {
   platforms: EPlatformList;
   search: string;
 }
-
-export type TVideoType = 'soundtrack' | 'gameplay';
-
-type TList = 'wish_list' | 'owned_list';
 
 interface IEbayCardObj {
   ebayItemId: number;
