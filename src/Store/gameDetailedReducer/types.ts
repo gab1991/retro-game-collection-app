@@ -22,8 +22,14 @@ export type TGameDetailedReducer = DeepReadonly<{
 }>;
 
 export type TUploadableEmls = {
-  [elm in TToggleableEmls]: { isLoading?: boolean; show: boolean; url?: string };
+  [elm in TToggleableEmls]: IUploadableElmemnt;
 };
+
+export interface IUploadableElmemnt {
+  isLoading?: boolean;
+  show: boolean;
+  url?: string;
+}
 
 export enum EVideoType {
   'gameplay' = 'gameplay',
@@ -31,3 +37,8 @@ export enum EVideoType {
 }
 
 export type TToggleableEmls = 'soundtrackVideo' | 'gameplayVideo' | 'ebaySection';
+
+export const isToggleableElms = (str: string): str is TToggleableEmls => {
+  const allowedValues = ['soundtrackVideo', 'gameplayVideo', 'ebaySection'];
+  return allowedValues.includes(str);
+};

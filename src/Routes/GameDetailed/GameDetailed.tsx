@@ -11,7 +11,7 @@ import { OvalSpinner } from 'Components/UI';
 import { ArrowEsc } from 'Components/UI/LogoSvg';
 import { CornerNotifier, ECornerNotifierCorners, WarnModal } from 'Components/UI/Modals';
 import { TPlatformNames } from 'Configs/appConfig';
-import { ControlSection, GameInfoBox, ScreenshotSection } from 'Routes/GameDetailed/components';
+import { ControlSection, GameInfoBox, ScreenshotSection, VideoSection } from 'Routes/GameDetailed/components';
 import { selectIsMobile } from 'Store/appStateReducer/selectors';
 import { getBoxArt } from 'Store/contentReducer/thunks';
 import {
@@ -130,20 +130,20 @@ export function GameDetailed(): JSX.Element {
     dispatch(toggleElmVisibility(elm));
   };
 
-  const videoElms = [
-    {
-      className: styles.VideoSoundtrack,
-      elm: 'soundtrackVideo',
-      heading: 'Soundtrack',
-      video: soundtrackVideo,
-    },
-    {
-      className: styles.VideoGameplay,
-      elm: 'gameplayVideo',
-      heading: 'Gameplay',
-      video: gameplayVideo,
-    },
-  ];
+  // const videoElms = [
+  //   {
+  //     className: styles.VideoSoundtrack,
+  //     elm: 'soundtrackVideo',
+  //     heading: 'Soundtrack',
+  //     video: soundtrackVideo,
+  //   },
+  //   {
+  //     className: styles.VideoGameplay,
+  //     elm: 'gameplayVideo',
+  //     heading: 'Gameplay',
+  //     video: gameplayVideo,
+  //   },
+  // ];
 
   const cornerNotifiers = [
     {
@@ -171,41 +171,7 @@ export function GameDetailed(): JSX.Element {
         </div>
         <ControlSection />
       </div>
-      <div className={styles.VideoSection}>
-        {videoElms.map(({ className, elm, heading, video }) => (
-          <div className={className} key={elm}>
-            <div className={`${styles.VideoLabel}`} data-elm={elm} onClick={(e) => toggleBlockVisibilty(e)}>
-              <h2>{heading}</h2>
-              {isMobile && (
-                <div className={styles.DropDownSvgContainer}>
-                  <ArrowEsc arrow={!video.show} />
-                </div>
-              )}
-              <hr></hr>
-            </div>
-            {video.show && (
-              <div className={styles.PlayerWrapper}>
-                {!video.url && (
-                  <div className={styles.OvalSpinnerWrapper}>
-                    <OvalSpinner />
-                  </div>
-                )}
-                {video.url && (
-                  <ReactPlayer
-                    url={video.url}
-                    className={styles.ReactPlayer}
-                    height='100%'
-                    width='100%'
-                    controls={true}
-                    playing={false}
-                    light
-                  />
-                )}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
+      <VideoSection />
       <div className={styles.EbaySection}>
         <div className={styles.EbayLabel} data-elm='ebaySection' onClick={(e) => toggleBlockVisibilty(e)}>
           <h2>Ebay Offers</h2>

@@ -1,4 +1,4 @@
-import { TGameDetailedReducer } from './types';
+import { TGameDetailedReducer, TUploadableEmls } from './types';
 import { TSelector } from 'Store/types';
 
 import { IRawgGameDetails } from 'Typings/RawgData';
@@ -12,3 +12,8 @@ export const selectIsWished: TSelector<boolean> = (state) => state.gameDetailed.
 export const selectIsOwned: TSelector<boolean> = (state) => state.gameDetailed.isOwned;
 
 export const selectGameDetails: TSelector<IRawgGameDetails | null> = (state) => state.gameDetailed.gameDetails;
+
+export const selectVideos: TSelector<Omit<TUploadableEmls, 'ebaySection'>> = (state) => {
+  const { gameplayVideo, soundtrackVideo } = state.gameDetailed.uploadableElms;
+  return { gameplayVideo, soundtrackVideo };
+};
