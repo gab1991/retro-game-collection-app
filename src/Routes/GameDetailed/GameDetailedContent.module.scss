@@ -12,7 +12,7 @@ $block-borderline-color: rgba(82, 82, 82, 0.9);
   }
 }
 
-.GameDetailed {
+.GameDetailedContent {
   padding: 20px 0;
   hr {
     border: 1px solid $block-borderline-color;
@@ -116,36 +116,6 @@ $block-borderline-color: rgba(82, 82, 82, 0.9);
     padding: 0 5px;
     hr {
       display: none;
-    }
-  }
-}
-
-.EbaySection {
-  width: 100%;
-
-  display: grid;
-  grid-template-areas:
-    'label label '
-    'ebay ebay';
-  grid-template-rows: repeat(2, auto);
-  grid-template-columns: repeat(2, 1fr);
-  @include section-header;
-
-  .EbaySectionContent {
-    grid-area: ebay;
-    height: 350px;
-  }
-
-  @include respond-to(mobile) {
-    font-size: 0.8rem;
-  }
-  .EbayLabel {
-    grid-area: label;
-    cursor: pointer;
-    position: relative;
-    margin: 0 20px;
-    @include respond-to(mobile) {
-      margin: 0 10px;
     }
   }
 }

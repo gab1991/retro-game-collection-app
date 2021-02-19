@@ -3,7 +3,6 @@ import { connect, useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { GameSelector, PlatformSelector } from 'Routes';
 
-// import GameDetailed from './Components/GameDetailed/GameDetailed';
 import Layout from './Components/Layout/Layout';
 import Profile from './Components/Profile/Profile';
 import useWindowSize from './CustomHooks/useWindowSize';
@@ -18,8 +17,8 @@ const mobileBreakPointWidth = parseInt(sassVars['breakpoints-mobile']);
 
 const GameDetailed = React.lazy(() =>
   import(
-    /* webpackChunkName: "GameDetailed" */
-    './Routes/GameDetailed/GameDetailed'
+    /* webpackChunkName: "GameDetailedContent" */
+    './Routes/GameDetailed'
   ).then((module) => ({ default: module.GameDetailed }))
 );
 

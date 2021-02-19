@@ -1,34 +1,33 @@
 import React, { useEffect } from 'react';
-import ReactPlayer from 'react-player';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { EVideoType } from 'Store/gameDetailedReducer/types';
 
 import { textMessages } from '../../Configs/appConfig';
-import EbaySection from './EbaySection/EbaySection';
-import { OvalSpinner } from 'Components/UI';
-import { ArrowEsc } from 'Components/UI/LogoSvg';
 import { CornerNotifier, ECornerNotifierCorners, WarnModal } from 'Components/UI/Modals';
 import { TPlatformNames } from 'Configs/appConfig';
-import { ControlSection, GameInfoBox, ScreenshotSection, VideoSection } from 'Routes/GameDetailed/components';
+import {
+  ControlSection,
+  EbaySection,
+  GameInfoBox,
+  ScreenshotSection,
+  VideoSection,
+} from 'Routes/GameDetailed/components';
+import { GameDetailedProvider, useGameDetailedContext } from 'Routes/GameDetailed/context';
 import { selectIsMobile } from 'Store/appStateReducer/selectors';
 import { getBoxArt } from 'Store/contentReducer/thunks';
-import {
-  flushGameDetailed,
-  setIsOwned,
-  setIsWished,
-  setShowWisListWarn,
-  toggleElmVisibility,
-} from 'Store/gameDetailedReducer/actions';
+import { flushGameDetailed, setIsOwned, setIsWished, setShowWisListWarn } from 'Store/gameDetailedReducer/actions';
 import { selectGameDetailed } from 'Store/gameDetailedReducer/selectors';
 import { addGame, getGameDetails, getScreenShots, getVideo } from 'Store/gameDetailedReducer/thunks';
 import { selectProfile } from 'Store/profileReducer/selectors';
 import { removeGame } from 'Store/profileReducer/thunks';
 
-import styles from './GameDetailed.module.scss';
+import styles from './GameDetailedContent.module.scss';
 
-export function GameDetailed(): JSX.Element {
+export function GameDetailedContent(): JSX.Element {
+  const { check } = useGameDetailedContext();
+  console.log(check);
   const dispatch = useDispatch();
   const {
     descriptionParsed,
@@ -125,26 +124,6 @@ export function GameDetailed(): JSX.Element {
     dispatch(setShowWisListWarn(false));
   };
 
-  const toggleBlockVisibilty = (e) => {
-    const elm = e.currentTarget.getAttribute('data-elm');
-    dispatch(toggleElmVisibility(elm));
-  };
-
-  // const videoElms = [
-  //   {
-  //     className: styles.VideoSoundtrack,
-  //     elm: 'soundtrackVideo',
-  //     heading: 'Soundtrack',
-  //     video: soundtrackVideo,
-  //   },
-  //   {
-  //     className: styles.VideoGameplay,
-  //     elm: 'gameplayVideo',
-  //     heading: 'Gameplay',
-  //     video: gameplayVideo,
-  //   },
-  // ];
-
   const cornerNotifiers = [
     {
       linkDir: '/profile/WishList',
@@ -161,7 +140,7 @@ export function GameDetailed(): JSX.Element {
   ];
 
   return (
-    <section className={styles.GameDetailed}>
+    <section className={styles.GameDetailedContent}>
       <div className={styles.GameDetailGridCont}>
         <ScreenshotSection className={styles.ScreenshotSection} />
         <div className={styles.InfoSection}>{gameDetails && <GameInfoBox gameDetails={gameDetails} />}</div>
@@ -172,25 +151,7 @@ export function GameDetailed(): JSX.Element {
         <ControlSection />
       </div>
       <VideoSection />
-      <div className={styles.EbaySection}>
-        <div className={styles.EbayLabel} data-elm='ebaySection' onClick={(e) => toggleBlockVisibilty(e)}>
-          <h2>Ebay Offers</h2>
-          {isMobile && (
-            <div className={styles.DropDownSvgContainer}>
-              <ArrowEsc arrow={!ebaySection.show} />
-            </div>
-          )}
-          <hr></hr>
-        </div>
-        {gameDetails && ebaySection.show && (
-          <EbaySection
-            platform={platformName}
-            game={gameDetails.name}
-            isLoading={ebaySection.isLoading}
-            className={styles.EbaySectionContent}
-          />
-        )}
-      </div>
+      <EbaySection />
       {!isMobile &&
         cornerNotifiers.map(({ linkText, linkDir, onCancelClick, show }) => (
           <CornerNotifier

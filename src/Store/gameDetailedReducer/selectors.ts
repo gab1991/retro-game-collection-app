@@ -17,3 +17,8 @@ export const selectVideos: TSelector<Omit<TUploadableEmls, 'ebaySection'>> = (st
   const { gameplayVideo, soundtrackVideo } = state.gameDetailed.uploadableElms;
   return { gameplayVideo, soundtrackVideo };
 };
+
+export const selectEbaySection: TSelector<Pick<TUploadableEmls, 'ebaySection'>> = (state) => {
+  const { ebaySection } = state.gameDetailed.uploadableElms;
+  return { ebaySection };
+};

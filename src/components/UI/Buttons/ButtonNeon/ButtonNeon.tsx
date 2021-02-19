@@ -5,16 +5,16 @@ import { IButtonBasic } from '../ButtonBasic';
 import styles from '../ButtonNeon/ButtonNeon.module.scss';
 
 interface IButtonNeon extends IButtonBasic {
-  direction?: string;
-  rectangular?: boolean;
   blinking?: boolean;
+  className?: string;
   color?: string;
-  style?: React.CSSProperties;
+  direction?: string;
   disabled?: boolean;
   onDisabledClick?: () => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
-  className?: string;
+  rectangular?: boolean;
+  style?: React.CSSProperties;
 }
 
 export function ButtonNeon(props: IButtonNeon): JSX.Element {

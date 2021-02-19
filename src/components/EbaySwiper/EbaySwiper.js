@@ -5,19 +5,10 @@ import EbayItemCard from './EbayItemCard/EbayItemCard';
 import { DotSpinner, SwiperConfigured } from 'Components/UI';
 import { getEbayItems } from 'Store/gameDetailedReducer/thunks';
 
-import styles from './EbaySection.module.scss';
+import styles from './EbaySwiper.module.scss';
 
-function EbaySection(props) {
-  const {
-    className,
-    game,
-    platform,
-    isLoading,
-    isMobile,
-    fromComponent,
-    sortOrder = 'BestMatch',
-    customSwiperProps,
-  } = props;
+function _EbaySwiper(props) {
+  const { className, game, platform, isLoading, isMobile, sortOrder = 'BestMatch', customSwiperProps } = props;
   const ebayItems = useSelector((state) => state.ebayItems?.[platform]?.[game]?.[sortOrder]) || [];
   const [slides, setSlides] = useState([]);
   const dispatch = useDispatch();
@@ -42,7 +33,7 @@ function EbaySection(props) {
   }, [ebayItems, game, platform]);
 
   return (
-    <div className={`${styles.EbaySection} ${className}`}>
+    <div className={`${styles.EbaySwiper} ${className}`}>
       {!isLoading && ebayItems.length > 0 && (
         <SwiperConfigured
           className={`${isLoading ? styles.SwiperHidden : ''} ${styles.Swiper}`}
@@ -67,4 +58,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(EbaySection);
+export const EbaySwiper = connect(mapStateToProps)(_EbaySwiper);
