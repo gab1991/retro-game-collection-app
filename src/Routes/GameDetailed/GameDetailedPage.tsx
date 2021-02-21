@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
 
 import { EVideoType } from 'Store/gameDetailedReducer/types';
 
 import { textMessages } from '../../Configs/appConfig';
 import { CornerNotifier, ECornerNotifierCorners, WarnModal } from 'Components/UI/Modals';
-import { TPlatformNames } from 'Configs/appConfig';
 import {
   ControlSection,
   EbaySection,
@@ -14,7 +12,6 @@ import {
   ScreenshotSection,
   VideoSection,
 } from 'Routes/GameDetailed/components';
-import { selectIsMobile } from 'Store/appStateReducer/selectors';
 import { getBoxArt } from 'Store/contentReducer/thunks';
 import { flushGameDetailed, setIsOwned, setIsWished, setShowWisListWarn } from 'Store/gameDetailedReducer/actions';
 import { selectGameDetailed } from 'Store/gameDetailedReducer/selectors';
@@ -22,10 +19,13 @@ import { addGame, getGameDetails, getScreenShots, getVideo } from 'Store/gameDet
 import { selectProfile } from 'Store/profileReducer/selectors';
 import { removeGame } from 'Store/profileReducer/thunks';
 
+import { useGameDetailedContext } from './context';
+
 import styles from './GameDetailedPage.module.scss';
 
 export function GameDetailedPage(): JSX.Element {
   const dispatch = useDispatch();
+  const { platformName, slug, isMobile } = useGameDetailedContext();
   const {
     descriptionParsed,
     uploadableElms: { ebaySection, gameplayVideo, soundtrackVideo },
@@ -37,8 +37,6 @@ export function GameDetailedPage(): JSX.Element {
     showWishNotifier,
   } = useSelector(selectGameDetailed);
   const profileInfo = useSelector(selectProfile);
-  const isMobile = useSelector(selectIsMobile);
-  const { gameSlug: slug, platformName } = useParams<{ gameSlug: string; platformName: TPlatformNames }>();
 
   useEffect(() => {
     window.scrollTo(0, 0);

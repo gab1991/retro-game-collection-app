@@ -4,10 +4,11 @@ import { useHistory, useParams } from 'react-router-dom';
 
 import { ButtonNeon } from 'Components/UI';
 import { TPlatformNames } from 'Configs/appConfig';
+import { useGameDetailedContext } from 'Routes/GameDetailed/context';
 import { showAuthModal } from 'Store/appStateReducer/actions';
 import { selectLoggedUser } from 'Store/authReducer/selectors';
 import { setIsOwned, setIsWished } from 'Store/gameDetailedReducer/actions';
-import { selectGameDetails, selectIsOwned, selectIsWished } from 'Store/gameDetailedReducer/selectors';
+import { selectIsOwned, selectIsWished } from 'Store/gameDetailedReducer/selectors';
 import { addGame } from 'Store/gameDetailedReducer/thunks';
 import { removeGame } from 'Store/profileReducer/thunks';
 import { IRawgGameDetails } from 'Typings/RawgData';
@@ -15,13 +16,12 @@ import { IRawgGameDetails } from 'Typings/RawgData';
 import styles from './ControlSection.module.scss';
 
 export function ControlSection(): JSX.Element {
+  const { platformName, gameDetails } = useGameDetailedContext();
   const dispatch = useDispatch();
   const history = useHistory();
   const isWished = useSelector(selectIsWished);
   const isOwned = useSelector(selectIsOwned);
   const username = useSelector(selectLoggedUser);
-  const gameDetails = useSelector(selectGameDetails);
-  const { platformName } = useParams<{ platformName: TPlatformNames }>();
 
   const toggleList = (platform: TPlatformNames, gameDetails: IRawgGameDetails, list) => {
     if (list === 'wish_list') {

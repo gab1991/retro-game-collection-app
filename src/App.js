@@ -50,7 +50,7 @@ function App(props) {
         <Layout>
           <Switch>
             <Route path='/profile/:section?' component={Profile} />
-            <Route path='/:platformName/:gameSlug' component={GameDetailed} />
+            <Route path='/:platformName/:slug' component={GameDetailed} />
             <Route exact path='/:platformName' component={GameSelector} />
             <Route exact path='/' component={PlatformSelector} />
           </Switch>

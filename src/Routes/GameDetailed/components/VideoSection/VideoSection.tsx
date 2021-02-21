@@ -1,13 +1,12 @@
-import React, { SyntheticEvent } from 'react';
+import React from 'react';
 import ReactPlayer from 'react-player';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { isToggleableElms, IUploadableElmemnt, TToggleableEmls } from 'Store/gameDetailedReducer/types';
+import { IUploadableElmemnt, TToggleableEmls } from 'Store/gameDetailedReducer/types';
 
 import { OvalSpinner } from 'Components/UI';
 import { ArrowEsc } from 'Components/UI/LogoSvg';
-import { selectIsMobile } from 'Store/appStateReducer/selectors';
-import { toggleElmVisibility } from 'Store/gameDetailedReducer/actions';
+import { useGameDetailedContext } from 'Routes/GameDetailed/context';
 import { selectVideos } from 'Store/gameDetailedReducer/selectors';
 
 import styles from './VideoSection.module.scss';
@@ -20,9 +19,8 @@ interface IVideoElms {
 }
 
 export function VideoSection(): JSX.Element {
+  const { toggleBlockVisibilty, isMobile } = useGameDetailedContext();
   const { gameplayVideo, soundtrackVideo } = useSelector(selectVideos);
-  const isMobile = useSelector(selectIsMobile);
-  const dispatch = useDispatch();
 
   const videoElms: IVideoElms[] = [
     {
@@ -38,14 +36,6 @@ export function VideoSection(): JSX.Element {
       video: gameplayVideo,
     },
   ];
-
-  const toggleBlockVisibilty = (e: SyntheticEvent) => {
-    const elm = e.currentTarget.getAttribute('data-elm');
-    // analyze later
-    if (elm && isToggleableElms(elm)) {
-      dispatch(toggleElmVisibility(elm));
-    }
-  };
 
   return (
     <div className={styles.VideoSection}>

@@ -1,32 +1,16 @@
-import React, { SyntheticEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { EbaySwiper } from 'Components';
 
-import { isToggleableElms } from 'Store/gameDetailedReducer/types';
-
 import { ArrowEsc } from 'Components/UI/LogoSvg';
-import { TPlatformNames } from 'Configs/appConfig';
-import { selectIsMobile } from 'Store/appStateReducer/selectors';
-import { toggleElmVisibility } from 'Store/gameDetailedReducer/actions';
-import { selectEbaySection, selectGameDetails } from 'Store/gameDetailedReducer/selectors';
+import { useGameDetailedContext } from 'Routes/GameDetailed/context';
+import { selectEbaySection } from 'Store/gameDetailedReducer/selectors';
 
 import styles from './EbaySection.module.scss';
 
 export function EbaySection(): JSX.Element {
-  const isMobile = useSelector(selectIsMobile);
+  const { isMobile, gameDetails, platformName, toggleBlockVisibilty } = useGameDetailedContext();
   const { ebaySection } = useSelector(selectEbaySection);
-  const gameDetails = useSelector(selectGameDetails);
-  const { platformName } = useParams<{ platformName: TPlatformNames }>();
-  const dispatch = useDispatch();
-
-  const toggleBlockVisibilty = (e: SyntheticEvent) => {
-    const elm = e.currentTarget.getAttribute('data-elm');
-    // analyze later
-    if (elm && isToggleableElms(elm)) {
-      dispatch(toggleElmVisibility(elm));
-    }
-  };
 
   return (
     <div className={styles.EbaySection}>
