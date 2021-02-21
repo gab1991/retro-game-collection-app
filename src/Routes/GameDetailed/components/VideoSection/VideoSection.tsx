@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactPlayer from 'react-player';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { IUploadableElmemnt, TToggleableEmls } from 'Store/gameDetailedReducer/types';
+import { EVideoType, IUploadableElmemnt, TToggleableEmls } from 'Store/gameDetailedReducer/types';
 
 import { OvalSpinner } from 'Components/UI';
 import { ArrowEsc } from 'Components/UI/LogoSvg';
 import { useGameDetailedContext } from 'Routes/GameDetailed/context';
 import { selectVideos } from 'Store/gameDetailedReducer/selectors';
+import { getVideo } from 'Store/gameDetailedReducer/thunks';
 
 import styles from './VideoSection.module.scss';
 
@@ -19,9 +20,9 @@ interface IVideoElms {
 }
 
 export function VideoSection(): JSX.Element {
-  const { toggleBlockVisibilty, isMobile } = useGameDetailedContext();
+  const dispatch = useDispatch();
+  const { toggleBlockVisibilty, isMobile, name, platformName } = useGameDetailedContext();
   const { gameplayVideo, soundtrackVideo } = useSelector(selectVideos);
-
   const videoElms: IVideoElms[] = [
     {
       className: styles.VideoSoundtrack,
@@ -36,6 +37,16 @@ export function VideoSection(): JSX.Element {
       video: gameplayVideo,
     },
   ];
+
+  useEffect(() => {
+    if (!name) return;
+    if (soundtrackVideo.show && !soundtrackVideo.url) {
+      dispatch(getVideo(EVideoType.soundtrack, platformName, name));
+    }
+    if (gameplayVideo.show && !gameplayVideo.url) {
+      dispatch(getVideo(EVideoType.gameplay, platformName, name));
+    }
+  }, [soundtrackVideo, gameplayVideo, name, platformName, dispatch]);
 
   return (
     <div className={styles.VideoSection}>

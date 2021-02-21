@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { batch, useDispatch, useSelector } from 'react-redux';
 
-import { EVideoType } from 'Store/gameDetailedReducer/types';
-
+// import { EVideoType } from 'Store/gameDetailedReducer/types';
 import { textMessages } from '../../Configs/appConfig';
 import { CornerNotifier, ECornerNotifierCorners, WarnModal } from 'Components/UI/Modals';
 import {
@@ -15,7 +14,7 @@ import {
 import { getBoxArt } from 'Store/contentReducer/thunks';
 import { flushGameDetailed, setIsOwned, setIsWished, setShowWisListWarn } from 'Store/gameDetailedReducer/actions';
 import { selectGameDetailed } from 'Store/gameDetailedReducer/selectors';
-import { addGame, getGameDetails, getScreenShots, getVideo } from 'Store/gameDetailedReducer/thunks';
+import { addGame, getGameDetails, getScreenShots } from 'Store/gameDetailedReducer/thunks';
 import { selectProfile } from 'Store/profileReducer/selectors';
 import { removeGame } from 'Store/profileReducer/thunks';
 
@@ -28,7 +27,6 @@ export function GameDetailedPage(): JSX.Element {
   const { platformName, slug, isMobile } = useGameDetailedContext();
   const {
     descriptionParsed,
-    uploadableElms: { ebaySection, gameplayVideo, soundtrackVideo },
     gameDetails,
     isOwned,
     isWished,
@@ -78,8 +76,10 @@ export function GameDetailedPage(): JSX.Element {
   }, [profileInfo, gameDetails, platformName, dispatch]);
 
   useEffect(() => {
-    dispatch(getGameDetails(slug));
-    dispatch(getScreenShots(slug));
+    batch(() => {
+      dispatch(getGameDetails(slug));
+      dispatch(getScreenShots(slug));
+    });
   }, [slug, dispatch]);
 
   useEffect(() => {
@@ -87,16 +87,6 @@ export function GameDetailedPage(): JSX.Element {
       dispatch(getBoxArt(platformName, gameDetails.name));
     }
   }, [gameDetails, platformName, dispatch]);
-
-  useEffect(() => {
-    if (!gameDetails?.name) return;
-    if (soundtrackVideo.show && !soundtrackVideo.url) {
-      dispatch(getVideo(EVideoType.soundtrack, platformName, gameDetails.name));
-    }
-    if (gameplayVideo.show && !gameplayVideo.url) {
-      dispatch(getVideo(EVideoType.gameplay, platformName, gameDetails.name));
-    }
-  }, [soundtrackVideo, gameplayVideo, gameDetails, platformName, dispatch]);
 
   const toggleList = (platform, gameDetails, list) => {
     if (list === 'wish_list') {

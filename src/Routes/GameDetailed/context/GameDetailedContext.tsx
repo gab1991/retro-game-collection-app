@@ -20,6 +20,7 @@ interface IGameDetailedProviderProps {
 interface IGameDetailedProviderValue {
   gameDetails: DeepReadonly<IRawgGameDetails> | null;
   isMobile: boolean;
+  name?: string;
   platformName: TPlatformNames;
   slug: string;
   toggleBlockVisibilty: (e: SyntheticEvent) => void;
@@ -44,6 +45,7 @@ export function GameDetailedProvider({ children }: IGameDetailedProviderProps): 
       value={{
         gameDetails,
         isMobile,
+        name: gameDetails?.name,
         platformName,
         slug,
         toggleBlockVisibilty,
