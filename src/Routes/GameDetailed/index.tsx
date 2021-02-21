@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { GameDetailedProvider } from './context';
-import { GameDetailedContent } from './GameDetailedContent';
+import { GameDetailedPage } from './GameDetailedPage';
 
 export function GameDetailed(): JSX.Element {
   return (
     <GameDetailedProvider>
-      <GameDetailedContent />
+      <GameDetailedPage />
     </GameDetailedProvider>
   );
 }

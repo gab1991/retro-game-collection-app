@@ -14,7 +14,6 @@ import {
   ScreenshotSection,
   VideoSection,
 } from 'Routes/GameDetailed/components';
-import { GameDetailedProvider, useGameDetailedContext } from 'Routes/GameDetailed/context';
 import { selectIsMobile } from 'Store/appStateReducer/selectors';
 import { getBoxArt } from 'Store/contentReducer/thunks';
 import { flushGameDetailed, setIsOwned, setIsWished, setShowWisListWarn } from 'Store/gameDetailedReducer/actions';
@@ -23,11 +22,9 @@ import { addGame, getGameDetails, getScreenShots, getVideo } from 'Store/gameDet
 import { selectProfile } from 'Store/profileReducer/selectors';
 import { removeGame } from 'Store/profileReducer/thunks';
 
-import styles from './GameDetailedContent.module.scss';
+import styles from './GameDetailedPage.module.scss';
 
-export function GameDetailedContent(): JSX.Element {
-  const { check } = useGameDetailedContext();
-  console.log(check);
+export function GameDetailedPage(): JSX.Element {
   const dispatch = useDispatch();
   const {
     descriptionParsed,
@@ -140,7 +137,7 @@ export function GameDetailedContent(): JSX.Element {
   ];
 
   return (
-    <section className={styles.GameDetailedContent}>
+    <section className={styles.GameDetailedPage}>
       <div className={styles.GameDetailGridCont}>
         <ScreenshotSection className={styles.ScreenshotSection} />
         <div className={styles.InfoSection}>{gameDetails && <GameInfoBox gameDetails={gameDetails} />}</div>
