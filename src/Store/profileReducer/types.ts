@@ -17,7 +17,7 @@ export interface IProfile {
   wish_list: { platforms: Array<IProfilePlatform> };
 }
 
-interface IProfilePlatform {
+export interface IProfilePlatform {
   games: Array<IProfileGame>;
   name: TPlatformNames;
 }

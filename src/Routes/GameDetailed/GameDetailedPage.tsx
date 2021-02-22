@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
 
-// import { EVideoType } from 'Store/gameDetailedReducer/types';
+import { IProfilePlatform } from 'Store/profileReducer/types';
+import { DeepReadonly } from 'utility-types';
+
 import { textMessages } from '../../Configs/appConfig';
 import { CornerNotifier, ECornerNotifierCorners, WarnModal } from 'Components/UI/Modals';
+import { EAvailableLists, TPlatformNames } from 'Configs/appConfig';
 import {
   ControlSection,
   EbaySection,
@@ -11,12 +14,12 @@ import {
   ScreenshotSection,
   VideoSection,
 } from 'Routes/GameDetailed/components';
-import { getBoxArt } from 'Store/contentReducer/thunks';
 import { flushGameDetailed, setIsOwned, setIsWished, setShowWisListWarn } from 'Store/gameDetailedReducer/actions';
 import { selectGameDetailed } from 'Store/gameDetailedReducer/selectors';
 import { addGame, getGameDetails, getScreenShots } from 'Store/gameDetailedReducer/thunks';
 import { selectProfile } from 'Store/profileReducer/selectors';
 import { removeGame } from 'Store/profileReducer/thunks';
+import { IRawgGameDetails } from 'Typings/RawgData';
 
 import { useGameDetailedContext } from './context';
 
@@ -44,35 +47,39 @@ export function GameDetailedPage(): JSX.Element {
   }, []);
 
   useEffect(() => {
-    if (profileInfo && gameDetails) {
-      const isInListChecker = () => {
-        const listToCheck = ['owned_list', 'wish_list'];
+    if (!(profileInfo && gameDetails)) return;
 
-        for (let i = 0; i < listToCheck.length; i++) {
-          const currentList = listToCheck[i];
-          const userPlatforms = profileInfo[currentList].platforms;
-          let chosenPlatform;
-          for (let i = 0; i < userPlatforms.length; i++) {
-            if (platformName === userPlatforms[i].name) {
-              chosenPlatform = userPlatforms[i];
-            }
-          }
-          if (chosenPlatform) {
-            const games = chosenPlatform.games;
-            for (let i = 0; i < games.length; i++) {
-              if (gameDetails.name === games[i].name) {
-                if (currentList === 'owned_list') {
-                  dispatch(setIsOwned(true));
-                } else if (currentList === 'wish_list') {
-                  dispatch(setIsWished(true));
-                }
-              }
-            }
+    const isInListChecker = () => {
+      const listToCheck: EAvailableLists[] = [EAvailableLists.ownedList, EAvailableLists.wishList];
+
+      for (let i = 0; i < listToCheck.length; i++) {
+        const currentList = listToCheck[i];
+        const userPlatforms = profileInfo[currentList].platforms;
+        let chosenPlatform: null | DeepReadonly<IProfilePlatform> = null;
+
+        for (const platform of userPlatforms) {
+          if (platformName === platform.name) {
+            chosenPlatform = platform;
           }
         }
-      };
-      isInListChecker();
-    }
+
+        if (!chosenPlatform) return;
+
+        const { games } = chosenPlatform;
+
+        for (const game of games) {
+          if (gameDetails.name !== game.name) continue;
+
+          if (currentList === EAvailableLists.ownedList) {
+            dispatch(setIsOwned(true));
+          }
+          if (currentList === EAvailableLists.wishList) {
+            dispatch(setIsWished(true));
+          }
+        }
+      }
+    };
+    isInListChecker();
   }, [profileInfo, gameDetails, platformName, dispatch]);
 
   useEffect(() => {
@@ -82,19 +89,15 @@ export function GameDetailedPage(): JSX.Element {
     });
   }, [slug, dispatch]);
 
-  useEffect(() => {
-    if (gameDetails) {
-      dispatch(getBoxArt(platformName, gameDetails.name));
-    }
-  }, [gameDetails, platformName, dispatch]);
-
-  const toggleList = (platform, gameDetails, list) => {
-    if (list === 'wish_list') {
-      dispatch(setIsWished(!isWished));
-      isWished
-        ? dispatch(removeGame(gameDetails.name, list, platform))
-        : dispatch(addGame(gameDetails, list, platform));
-    } else if (list === 'owned_list') {
+  const toggleList = (platform: TPlatformNames, gameDetails: IRawgGameDetails, list: EAvailableLists) => {
+    if (list === EAvailableLists.wishList) {
+      batch(() => {
+        dispatch(setIsWished(!isWished));
+        isWished
+          ? dispatch(removeGame(gameDetails.name, list, platform))
+          : dispatch(addGame(gameDetails, list, platform));
+      });
+    } else if (list === EAvailableLists.ownedList) {
       dispatch(setIsOwned(!isOwned));
       isOwned ? dispatch(removeGame(gameDetails.name, list, platform)) : dispatch(addGame(gameDetails, list, platform));
     }
@@ -105,7 +108,7 @@ export function GameDetailedPage(): JSX.Element {
   };
 
   const warnYesClickHandler = () => {
-    toggleList(platformName, gameDetails, 'wish_list');
+    toggleList(platformName, gameDetails as IRawgGameDetails, EAvailableLists.wishList);
     dispatch(setShowWisListWarn(false));
   };
 
@@ -113,13 +116,13 @@ export function GameDetailedPage(): JSX.Element {
     {
       linkDir: '/profile/WishList',
       linkText: 'Wish List',
-      onCancelClick: () => toggleList(platformName, gameDetails, 'wish_list'),
+      onCancelClick: () => toggleList(platformName, gameDetails as IRawgGameDetails, EAvailableLists.wishList),
       show: showWishNotifier,
     },
     {
       linkDir: '/profile/CollectionList',
       linkText: 'Owned List',
-      onCancelClick: () => toggleList(platformName, gameDetails, 'owned_list'),
+      onCancelClick: () => toggleList(platformName, gameDetails as IRawgGameDetails, EAvailableLists.ownedList),
       show: showOwnedNotifier,
     },
   ];

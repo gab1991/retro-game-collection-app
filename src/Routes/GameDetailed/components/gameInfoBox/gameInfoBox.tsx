@@ -1,12 +1,12 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { IRootState } from 'Store/types';
 import { DeepReadonly } from 'utility-types';
 
-import { TPlatformNames } from 'Configs/appConfig';
+import { useGameDetailedContext } from 'Routes/GameDetailed/context';
 import { selectBoxArt } from 'Store/contentReducer/selectors';
+import { getBoxArt } from 'Store/contentReducer/thunks';
 import { IRawgGameDetails } from 'Typings/RawgData';
 import { trimName } from 'Utils/helperFunctions';
 
@@ -17,7 +17,8 @@ interface IGameInfoBoxProps {
 }
 
 export function GameInfoBox(props: IGameInfoBoxProps): JSX.Element {
-  const { platformName } = useParams<{ platformName: TPlatformNames }>();
+  const dispatch = useDispatch();
+  const { platformName } = useGameDetailedContext();
   const {
     gameDetails: { name, released, developers, publishers },
   } = props;
@@ -25,6 +26,10 @@ export function GameInfoBox(props: IGameInfoBoxProps): JSX.Element {
     useSelector<IRootState, string | void>((state) => selectBoxArt(state, platformName, name))
   );
   const nameTrimmed = trimName(name);
+
+  useEffect(() => {
+    dispatch(getBoxArt(platformName, name));
+  }, [name, platformName, dispatch]);
 
   return (
     <div className={`${styles.GameInfoBox}`}>
