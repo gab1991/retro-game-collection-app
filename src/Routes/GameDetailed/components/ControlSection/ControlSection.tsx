@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -7,7 +7,11 @@ import { EAvailableLists } from 'Configs/appConfig';
 import { useGameDetailedContext } from 'Routes/GameDetailed/context';
 import { showAuthModal } from 'Store/appStateReducer/actions';
 import { selectLoggedUser } from 'Store/authReducer/selectors';
+import { setIsOwned, setIsWished } from 'Store/gameDetailedReducer/actions';
+import { selectProfile } from 'Store/profileReducer/selectors';
 import { IRawgGameDetails } from 'Typings/RawgData';
+
+import { checkIfInList } from './helpers';
 
 import styles from './ControlSection.module.scss';
 
@@ -16,6 +20,29 @@ export function ControlSection(): JSX.Element {
   const dispatch = useDispatch();
   const history = useHistory();
   const username = useSelector(selectLoggedUser);
+  const profileInfo = useSelector(selectProfile);
+
+  useEffect(() => {
+    if (!(profileInfo && gameDetails)) return;
+    const listToCheck = [EAvailableLists.ownedList, EAvailableLists.wishList];
+
+    for (const list of listToCheck) {
+      const inList = checkIfInList(profileInfo, list, platformName, gameDetails.name);
+
+      if (!inList) continue;
+
+      switch (list) {
+        case EAvailableLists.ownedList: {
+          dispatch(setIsOwned(true));
+          break;
+        }
+        case EAvailableLists.wishList: {
+          dispatch(setIsWished(true));
+          break;
+        }
+      }
+    }
+  }, [profileInfo, gameDetails, platformName, dispatch]);
 
   const showAuth = () => {
     dispatch(showAuthModal(true));
@@ -29,7 +56,6 @@ export function ControlSection(): JSX.Element {
     {
       color: isWished ? 'red' : 'green',
       disabled: username ? false : true,
-      name: 'wishListBtn',
       onClick: () => toggleList(platformName, gameDetails as IRawgGameDetails, EAvailableLists.wishList),
       tooltip: !username
         ? {
@@ -42,7 +68,6 @@ export function ControlSection(): JSX.Element {
     {
       color: isOwned ? 'red' : 'green',
       disabled: username ? false : true,
-      name: 'ownedListBtn',
       onClick: () => toggleList(platformName, gameDetails as IRawgGameDetails, EAvailableLists.ownedList),
       tooltip: !username
         ? {
@@ -54,7 +79,6 @@ export function ControlSection(): JSX.Element {
     },
     {
       color: 'gray',
-      name: 'backBtn',
       onClick: getBack,
       txtContent: 'Back',
     },

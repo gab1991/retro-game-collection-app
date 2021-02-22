@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
 
-import { IProfilePlatform } from 'Store/profileReducer/types';
-import { DeepReadonly } from 'utility-types';
-
 import { textMessages } from '../../Configs/appConfig';
 import { CornerNotifier, ECornerNotifierCorners, WarnModal } from 'Components/UI/Modals';
 import { EAvailableLists } from 'Configs/appConfig';
@@ -14,10 +11,9 @@ import {
   ScreenshotSection,
   VideoSection,
 } from 'Routes/GameDetailed/components';
-import { flushGameDetailed, setIsOwned, setIsWished, setShowWisListWarn } from 'Store/gameDetailedReducer/actions';
+import { flushGameDetailed, setShowWisListWarn } from 'Store/gameDetailedReducer/actions';
 import { selectGameDetailed } from 'Store/gameDetailedReducer/selectors';
 import { getGameDetails, getScreenShots } from 'Store/gameDetailedReducer/thunks';
-import { selectProfile } from 'Store/profileReducer/selectors';
 import { IRawgGameDetails } from 'Typings/RawgData';
 
 import { useGameDetailedContext } from './context';
@@ -30,7 +26,6 @@ export function GameDetailedPage(): JSX.Element {
   const { descriptionParsed, gameDetails, showOwnedNotifier, showWishListWarn, showWishNotifier } = useSelector(
     selectGameDetailed
   );
-  const profileInfo = useSelector(selectProfile);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -38,42 +33,6 @@ export function GameDetailedPage(): JSX.Element {
       dispatch(flushGameDetailed());
     };
   }, []);
-
-  useEffect(() => {
-    if (!(profileInfo && gameDetails)) return;
-
-    const isInListChecker = () => {
-      const listToCheck: EAvailableLists[] = [EAvailableLists.ownedList, EAvailableLists.wishList];
-
-      for (let i = 0; i < listToCheck.length; i++) {
-        const currentList = listToCheck[i];
-        const userPlatforms = profileInfo[currentList].platforms;
-        let chosenPlatform: null | DeepReadonly<IProfilePlatform> = null;
-
-        for (const platform of userPlatforms) {
-          if (platformName === platform.name) {
-            chosenPlatform = platform;
-          }
-        }
-
-        if (!chosenPlatform) return;
-
-        const { games } = chosenPlatform;
-
-        for (const game of games) {
-          if (gameDetails.name !== game.name) continue;
-
-          if (currentList === EAvailableLists.ownedList) {
-            dispatch(setIsOwned(true));
-          }
-          if (currentList === EAvailableLists.wishList) {
-            dispatch(setIsWished(true));
-          }
-        }
-      }
-    };
-    isInListChecker();
-  }, [profileInfo, gameDetails, platformName, dispatch]);
 
   useEffect(() => {
     batch(() => {
