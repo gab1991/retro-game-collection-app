@@ -52,7 +52,7 @@ export const appStateReducer = createReducer<TAppStateReducer, TAppStateActions>
     actions.showCornerNotifier,
     (state, { payload: modalProps }): TAppStateReducer => ({
       ...state,
-      showCornerNotifier: { show: true, ...modalProps },
+      showCornerNotifier: { ...modalProps, show: true },
     })
   )
   .handleAction(

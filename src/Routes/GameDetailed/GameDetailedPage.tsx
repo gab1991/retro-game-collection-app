@@ -141,18 +141,20 @@ export function GameDetailedPage(): JSX.Element {
       <VideoSection />
       <EbaySection />
       {!isMobile &&
-        cornerNotifiers.map(({ linkText, linkDir, onCancelClick, show }) => (
-          <CornerNotifier
-            key={linkDir}
-            corner={ECornerNotifierCorners.bottomLeft}
-            message={'Game has been added to your'}
-            linkText={linkText}
-            linkDir={linkDir}
-            btnText={'Cancel'}
-            onCancelClickCb={onCancelClick}
-            // show={show} FIX IT LATER
-          />
-        ))}
+        cornerNotifiers.map(({ linkText, linkDir, onCancelClick, show }) => {
+          return (
+            <CornerNotifier
+              key={linkDir}
+              corner={ECornerNotifierCorners.bottomLeft}
+              message={'Game has been added to your'}
+              linkText={linkText}
+              linkDir={linkDir}
+              btnText={'Cancel'}
+              onCancelClickCb={onCancelClick}
+              show={show}
+            />
+          );
+        })}
       {showWishListWarn && (
         <WarnModal
           message={textMessages?.fromWishToOwn}
