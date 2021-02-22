@@ -4,10 +4,10 @@ import { IButtonBasic } from '../ButtonBasic';
 
 import styles from '../ButtonNeon/ButtonNeon.module.scss';
 
-interface IButtonNeon extends IButtonBasic {
+export interface IButtonNeon extends IButtonBasic {
   blinking?: boolean;
   className?: string;
-  color?: string;
+  color?: 'green' | 'gray' | 'red';
   direction?: string;
   disabled?: boolean;
   onDisabledClick?: () => void;

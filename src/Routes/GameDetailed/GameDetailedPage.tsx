@@ -6,7 +6,7 @@ import { DeepReadonly } from 'utility-types';
 
 import { textMessages } from '../../Configs/appConfig';
 import { CornerNotifier, ECornerNotifierCorners, WarnModal } from 'Components/UI/Modals';
-import { EAvailableLists, TPlatformNames } from 'Configs/appConfig';
+import { EAvailableLists } from 'Configs/appConfig';
 import {
   ControlSection,
   EbaySection,
@@ -16,9 +16,8 @@ import {
 } from 'Routes/GameDetailed/components';
 import { flushGameDetailed, setIsOwned, setIsWished, setShowWisListWarn } from 'Store/gameDetailedReducer/actions';
 import { selectGameDetailed } from 'Store/gameDetailedReducer/selectors';
-import { addGame, getGameDetails, getScreenShots } from 'Store/gameDetailedReducer/thunks';
+import { getGameDetails, getScreenShots } from 'Store/gameDetailedReducer/thunks';
 import { selectProfile } from 'Store/profileReducer/selectors';
-import { removeGame } from 'Store/profileReducer/thunks';
 import { IRawgGameDetails } from 'Typings/RawgData';
 
 import { useGameDetailedContext } from './context';
@@ -27,16 +26,10 @@ import styles from './GameDetailedPage.module.scss';
 
 export function GameDetailedPage(): JSX.Element {
   const dispatch = useDispatch();
-  const { platformName, slug, isMobile } = useGameDetailedContext();
-  const {
-    descriptionParsed,
-    gameDetails,
-    isOwned,
-    isWished,
-    showOwnedNotifier,
-    showWishListWarn,
-    showWishNotifier,
-  } = useSelector(selectGameDetailed);
+  const { platformName, slug, isMobile, toggleList } = useGameDetailedContext();
+  const { descriptionParsed, gameDetails, showOwnedNotifier, showWishListWarn, showWishNotifier } = useSelector(
+    selectGameDetailed
+  );
   const profileInfo = useSelector(selectProfile);
 
   useEffect(() => {
@@ -89,20 +82,6 @@ export function GameDetailedPage(): JSX.Element {
     });
   }, [slug, dispatch]);
 
-  const toggleList = (platform: TPlatformNames, gameDetails: IRawgGameDetails, list: EAvailableLists) => {
-    if (list === EAvailableLists.wishList) {
-      batch(() => {
-        dispatch(setIsWished(!isWished));
-        isWished
-          ? dispatch(removeGame(gameDetails.name, list, platform))
-          : dispatch(addGame(gameDetails, list, platform));
-      });
-    } else if (list === EAvailableLists.ownedList) {
-      dispatch(setIsOwned(!isOwned));
-      isOwned ? dispatch(removeGame(gameDetails.name, list, platform)) : dispatch(addGame(gameDetails, list, platform));
-    }
-  };
-
   const hideWarning = () => {
     dispatch(setShowWisListWarn(false));
   };
@@ -141,20 +120,18 @@ export function GameDetailedPage(): JSX.Element {
       <VideoSection />
       <EbaySection />
       {!isMobile &&
-        cornerNotifiers.map(({ linkText, linkDir, onCancelClick, show }) => {
-          return (
-            <CornerNotifier
-              key={linkDir}
-              corner={ECornerNotifierCorners.bottomLeft}
-              message={'Game has been added to your'}
-              linkText={linkText}
-              linkDir={linkDir}
-              btnText={'Cancel'}
-              onCancelClickCb={onCancelClick}
-              show={show}
-            />
-          );
-        })}
+        cornerNotifiers.map(({ linkText, linkDir, onCancelClick, show }) => (
+          <CornerNotifier
+            key={linkDir}
+            corner={ECornerNotifierCorners.bottomLeft}
+            message={'Game has been added to your'}
+            linkText={linkText}
+            linkDir={linkDir}
+            btnText={'Cancel'}
+            onCancelClickCb={onCancelClick}
+            show={show}
+          />
+        ))}
       {showWishListWarn && (
         <WarnModal
           message={textMessages?.fromWishToOwn}

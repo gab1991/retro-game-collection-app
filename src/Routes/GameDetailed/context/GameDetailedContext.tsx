@@ -1,14 +1,16 @@
 import React, { SyntheticEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { batch, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { isToggleableElms } from 'Store/gameDetailedReducer/types';
 import { DeepReadonly } from 'utility-types';
 
-import { TPlatformNames } from 'Configs/appConfig';
+import { EAvailableLists, TPlatformNames } from 'Configs/appConfig';
 import { selectIsMobile } from 'Store/appStateReducer/selectors';
-import { toggleElmVisibility } from 'Store/gameDetailedReducer/actions';
-import { selectGameDetails } from 'Store/gameDetailedReducer/selectors';
+import { setIsOwned, setIsWished, toggleElmVisibility } from 'Store/gameDetailedReducer/actions';
+import { selectGameDetails, selectIsOwned, selectIsWished } from 'Store/gameDetailedReducer/selectors';
+import { addGame } from 'Store/gameDetailedReducer/thunks';
+import { removeGame } from 'Store/profileReducer/thunks';
 import { IRawgGameDetails } from 'Typings/RawgData';
 
 const GameDetailedContext = React.createContext<null | IGameDetailedProviderValue>(null);
@@ -20,10 +22,13 @@ interface IGameDetailedProviderProps {
 interface IGameDetailedProviderValue {
   gameDetails: DeepReadonly<IRawgGameDetails> | null;
   isMobile: boolean;
+  isOwned: boolean;
+  isWished: boolean;
   name?: string;
   platformName: TPlatformNames;
   slug: string;
   toggleBlockVisibilty: (e: SyntheticEvent) => void;
+  toggleList: (platform: TPlatformNames, gameDetails: IRawgGameDetails, list: EAvailableLists) => void;
 }
 
 export function GameDetailedProvider({ children }: IGameDetailedProviderProps): JSX.Element {
@@ -31,6 +36,8 @@ export function GameDetailedProvider({ children }: IGameDetailedProviderProps): 
   const { slug, platformName } = useParams<{ platformName: TPlatformNames; slug: string }>();
   const isMobile = useSelector(selectIsMobile);
   const gameDetails = useSelector(selectGameDetails);
+  const isWished = useSelector(selectIsWished);
+  const isOwned = useSelector(selectIsOwned);
 
   const toggleBlockVisibilty = (e: SyntheticEvent) => {
     const elm = e.currentTarget.getAttribute('data-elm');
@@ -40,15 +47,32 @@ export function GameDetailedProvider({ children }: IGameDetailedProviderProps): 
     }
   };
 
+  const toggleList = (platform: TPlatformNames, gameDetails: IRawgGameDetails, list: EAvailableLists) => {
+    if (list === EAvailableLists.wishList) {
+      batch(() => {
+        dispatch(setIsWished(!isWished));
+        isWished
+          ? dispatch(removeGame(gameDetails.name, list, platform))
+          : dispatch(addGame(gameDetails, list, platform));
+      });
+    } else if (list === EAvailableLists.ownedList) {
+      dispatch(setIsOwned(!isOwned));
+      isOwned ? dispatch(removeGame(gameDetails.name, list, platform)) : dispatch(addGame(gameDetails, list, platform));
+    }
+  };
+
   return (
     <GameDetailedContext.Provider
       value={{
         gameDetails,
         isMobile,
+        isOwned,
+        isWished,
         name: gameDetails?.name,
         platformName,
         slug,
         toggleBlockVisibilty,
+        toggleList,
       }}
     >
       {children}
