@@ -1,3 +1,5 @@
+import { EEbaySortOrder } from 'Backend/types';
+
 export enum EGameSelectorOrderingName {
   'name' = 'name',
   'rating' = 'rating',
@@ -72,7 +74,7 @@ export enum EAvailableLists {
 
 const appConfig = {
   EbayCards: {
-    defaultSortOrder: 'BestMatch',
+    defaultSortOrder: EEbaySortOrder.Relevance,
   },
   GameSelector: {
     defaultOrdering: {

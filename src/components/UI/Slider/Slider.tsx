@@ -1,3 +1,4 @@
+// remove this comp
 import React, { useEffect, useRef, useState } from 'react';
 
 import sliderArrow from '../../../Assets/images/svg/slider-arrow-left.svg';
@@ -9,20 +10,20 @@ const DEFAULT_WIDTH = 300;
 const MAX_DOTS = 14;
 
 interface ISlider {
-  images: Array<any>;
-  arrows: boolean;
-  navDots: boolean;
-  numberOfDots: number;
-  imgFit: Property.ObjectFit;
+  arrows?: boolean;
   imageHeight: number;
   imageWidth: number;
-  transition: number;
+  images: Array<any>;
+  imgFit: Property.ObjectFit;
+  navDots: boolean;
+  numberOfDots?: number;
+  transition: string;
 }
 
 interface IMouseStats {
-  offset: number;
-  initialX: number;
   initialOffset: number;
+  initialX: number;
+  offset: number;
 }
 
 export function Slider(props: ISlider): JSX.Element {
@@ -38,9 +39,9 @@ export function Slider(props: ISlider): JSX.Element {
   const [navActive, setNavActive] = useState(0);
   const [isDown, setIsDown] = useState(false);
   const mouseStatsRef = useRef<IMouseStats>({
-    offset: 0,
-    initialX: 0,
     initialOffset: 0,
+    initialX: 0,
+    offset: 0,
   });
   const transitionCss = {
     transition: transition ? '' : `transform 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275`,
@@ -175,7 +176,7 @@ export function Slider(props: ISlider): JSX.Element {
                 className={index === activeClass ? styles.Active : ''}
                 key={index}
                 onClick={!arrows ? onClickHandler : undefined}
-                style={{ width: imageWidth, height: imageHeight || '' }}
+                style={{ height: imageHeight || '', width: imageWidth }}
               >
                 <img draggable='false' src={image} alt='screenshot' style={{ objectFit: imgFit || 'cover' }}></img>
               </div>
@@ -185,8 +186,8 @@ export function Slider(props: ISlider): JSX.Element {
           <>
             <button
               style={{
-                opacity: btnOpcatity ? '1' : '',
                 display: isDown ? 'none' : 'block',
+                opacity: btnOpcatity ? '1' : '',
               }}
               className={`${styles.PrevButton} ${styles.Btn}`}
               data-desc='prev'
@@ -202,8 +203,8 @@ export function Slider(props: ISlider): JSX.Element {
             </button>
             <button
               style={{
-                opacity: btnOpcatity ? '1' : '',
                 display: isDown ? 'none' : 'block',
+                opacity: btnOpcatity ? '1' : '',
               }}
               className={`${styles.NextButton} ${styles.Btn}`}
               data-desc='next'

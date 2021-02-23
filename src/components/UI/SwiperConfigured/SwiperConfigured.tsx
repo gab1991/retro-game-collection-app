@@ -1,5 +1,5 @@
 import React from 'react';
-import SwiperCore, { Navigation, Pagination } from 'swiper';
+import SwiperCore, { Navigation, Pagination, SwiperOptions } from 'swiper';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -11,10 +11,10 @@ SwiperCore.use([Navigation, Pagination]);
 
 interface ISwiperConfProps {
   className?: string;
-  customSwiperProps: Record<string, unknown>;
-  images: Array<string>;
-  isMobile: boolean;
-  slides?: Array<string>;
+  customSwiperProps?: SwiperOptions;
+  images?: Array<string>;
+  isMobile?: boolean;
+  slides?: Array<JSX.Element | (({ isVisible: boolean }) => JSX.Element)>;
 }
 
 export function SwiperConfigured(props: ISwiperConfProps): JSX.Element {

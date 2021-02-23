@@ -13,7 +13,7 @@ export type TBackend = {
   getEbayItems: (
     platform: TPlatformNames,
     game: string,
-    sortOrder: string,
+    sortOrder: EEbaySortOrder,
     errCb?: TErrCb
   ) => AxiosPromise<{ item: Array<Array<TEbayCardPreviewRawData>> }>;
   getEbaySingleItem: (id: number, errCb?: TErrCb) => AxiosPromise<{ Item: IEbayCardRawData }>;
@@ -77,4 +77,11 @@ interface ISignUpData {
   email: string;
   password: string;
   username: string;
+}
+
+export enum EEbaySortOrder {
+  'Lowest Price' = 'PricePlusShippingLowest',
+  'New Offers' = 'StartTimeNewest',
+  'Relevance' = 'BestMatch',
+  'Watched' = 'Watched',
 }

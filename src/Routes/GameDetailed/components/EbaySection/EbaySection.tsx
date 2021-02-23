@@ -33,7 +33,7 @@ export function EbaySection(): JSX.Element {
       {gameDetails && ebaySection.show && (
         <EbaySwiper
           platform={platformName}
-          game={gameDetails.name}
+          gameName={gameDetails.name}
           isLoading={ebaySection.isLoading}
           className={styles.EbaySectionContent}
         />

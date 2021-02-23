@@ -1,3 +1,4 @@
+import { EEbaySortOrder } from 'Backend/types';
 import { ActionType } from 'typesafe-actions';
 import { DeepReadonly } from 'utility-types';
 
@@ -15,4 +16,4 @@ export type TEbayItemsReducer = DeepReadonly<
 >;
 
 type TGameToSortOrder = { [game: string]: TSortOrderToItems };
-type TSortOrderToItems = { [sortOrder: string]: Array<TEbayCard> };
+type TSortOrderToItems = { [sortOrder in keyof EEbaySortOrder]: Array<TEbayCard> };
