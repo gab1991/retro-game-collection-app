@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
+import { EbaySwiper } from 'Components';
 
 import { trimName } from '../../../../../Utils/helperFunctions';
-import EbaySection from '../../../../GameDetailed/EbaySection/EbaySection';
 import GameBox from '../../../CollictionList/GameBoxContainer/GameBox/GameBox';
 import { ButtonNeon, KnobToggler } from 'Components/UI';
 import { CloseSvg } from 'Components/UI/LogoSvg';
@@ -75,9 +75,9 @@ function EbayLotSection(props) {
           onChangeHandler={knobEbayHandler}
         />
       </div>
-      <div className={`${styles.EbaySection} ${isEbayTogglerOn ? styles.Expand : ''}`}>
+      <div className={`${styles.EbaySwiper} ${isEbayTogglerOn ? styles.Expand : ''}`}>
         {isEbayTogglerOn && (
-          <EbaySection
+          <EbaySwiper
             className={styles.EbaySectionSwiper}
             game={gameName}
             platform={platform}

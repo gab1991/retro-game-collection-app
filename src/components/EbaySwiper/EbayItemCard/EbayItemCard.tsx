@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 
+import { IRootState } from 'Store/types';
+
 import EbayCardDesc from './EbayCardDescr/EbayCardDesc';
 import { OvalSpinner, Slider } from 'Components/UI';
 import { EbayLogo } from 'Components/UI/LogoSvg';
+import { selectEbayCard } from 'Store/ebayItemsReducer/selectors';
 import { getEbaySingleItemByIndex } from 'Store/ebayItemsReducer/thunks';
 
 import styles from './EbayItemCard.module.scss';
@@ -11,9 +14,12 @@ import styles from './EbayItemCard.module.scss';
 function EbayItemCard(props) {
   const dispatch = useDispatch();
   const { isMobile, index, isVisible, platform, game, sortOrder = 'BestMatch' } = props;
-  const card = useSelector((state) => state.ebayItems?.[platform]?.[game]?.[sortOrder]?.[index]) || {};
-  const { itemData } = card;
-  const { itemId } = itemData || {};
+  const card = useSelector((state: IRootState) => selectEbayCard(state, { game, index, platform, sortOrder }));
+  const itemData = card?.itemData;
+  // const { itemId } = itemData || {};
+
+  // console.log({ ...props });
+  console.log({ card });
 
   useEffect(() => {
     if (!isVisible) return;
@@ -27,7 +33,7 @@ function EbayItemCard(props) {
           <div className={styles.ImgArea}>
             <Slider
               transition='off'
-              images={itemData.pictures}
+              images={[...itemData.pictures]}
               imageWidth={isMobile ? 150 : 200}
               imageHeight={isMobile ? 190 : 220}
               navDots
@@ -37,7 +43,7 @@ function EbayItemCard(props) {
               <EbayLogo />
             </a>
           </div>
-          <EbayCardDesc {...props} {...itemData} {...card} index={index} itemId={itemId} />
+          <EbayCardDesc {...props} {...itemData} {...card} index={index} itemId={itemData.itemId} />
         </>
       )}
       {!itemData && (

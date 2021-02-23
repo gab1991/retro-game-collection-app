@@ -39,7 +39,7 @@
     &::after {
       position: absolute;
       content: '';
-      background: url('../../../Assets/images/ui/slider-arrow-left.svg');
+      background: url('../../../Assets/images/svg/slider-arrow-left.svg');
       background-position: center;
       background-repeat: no-repeat;
       background-size: 80%;
@@ -50,19 +50,11 @@
   .swiper-button-prev {
     position: absolute;
     left: 0;
-    background: linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 0.5746673669467788) 0%,
-      rgba(0, 0, 0, 0.247) 100%
-    );
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.5746673669467788) 0%, rgba(0, 0, 0, 0.247) 100%);
   }
   .swiper-button-next {
     right: 0;
-    background: linear-gradient(
-      270deg,
-      rgba(0, 0, 0, 0.5746673669467788) 0%,
-      rgba(0, 0, 0, 0.247) 100%
-    );
+    background: linear-gradient(270deg, rgba(0, 0, 0, 0.5746673669467788) 0%, rgba(0, 0, 0, 0.247) 100%);
     &::after {
       transform: rotate(180deg);
     }

@@ -29,8 +29,8 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint', 'simple-import-sort', 'sort-keys-fix', 'typescript-sort-keys'],
   extends: [
-    'plugin:@typescript-eslint/recommended', // Uses the recommended rules from @typescript-eslint/eslint-plugin
-    'plugin:react/recommended', // Uses the recommended rules from @eslint-plugin-react
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:import/typescript',
@@ -47,6 +47,7 @@ module.exports = {
   rules: {
     //@ESLINT RULES
     'import/no-default-export': 'error',
+    'no-restricted-syntax': ['error', 'ExportAllDeclaration'], // block batch export "*"
     'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
     // disable standart rules to enable simple-sort-plugins rules
     'sort-imports': 'off',
@@ -111,7 +112,8 @@ module.exports = {
       },
     ],
     // SONAR
-    'sonarjs/cognitive-complexity': 'warn',
+
+    'sonarjs/cognitive-complexity': ['warn', 20],
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     // e.g. "@typescript-eslint/explicit-function-return-type": "off",
   },

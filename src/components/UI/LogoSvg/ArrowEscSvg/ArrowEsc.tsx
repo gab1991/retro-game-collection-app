@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './ArrowEsc.module.scss';
 
 interface IArrowEscProps {
-  arrow?: string;
+  arrow?: boolean;
 }
 
 export function ArrowEsc({ arrow }: IArrowEscProps): JSX.Element {

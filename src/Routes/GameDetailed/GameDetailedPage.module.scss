@@ -1,0 +1,152 @@
+@import '../../Configs/Variables.scss';
+
+$custom-scrollbar-color: rgba(168, 168, 168, 0.9);
+$block-borderline-color: rgba(82, 82, 82, 0.9);
+
+@mixin section-header {
+  h2 {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: normal;
+    font-style: italic;
+  }
+}
+
+.GameDetailedPage {
+  padding: 20px 0;
+  hr {
+    border: 1px solid $block-borderline-color;
+  }
+}
+
+.GameDetailGridCont {
+  height: 800px;
+  display: grid;
+  grid-template-areas:
+    'info screenshots screenshots'
+    'info description description'
+    'info controls controls';
+  grid-template-rows: 250px 1fr auto;
+  grid-template-columns: auto 1fr 1fr;
+
+  @include respond-to(mobile) {
+    grid-template-areas:
+      'info description'
+      'info controls'
+      'screenshots screenshots';
+    grid-template-rows: 1fr auto auto;
+    grid-template-columns: auto 1fr;
+  }
+}
+
+.ScreenshotSection {
+  grid-area: screenshots;
+  padding: 10px 20px;
+  width: 100%;
+
+  :global .swiper-container {
+    width: 100%;
+    height: 100%;
+
+    .swiper-slide {
+      width: 300px;
+      height: 100%;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+
+  @include respond-to(mobile) {
+    padding: 10px 0;
+    overflow: auto;
+    width: 100%;
+    height: 200px;
+
+    :global .swiper-container {
+      width: 100%;
+      height: 100%;
+
+      .swiper-slide {
+        width: 300px;
+        height: 100%;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+}
+
+.InfoSection {
+  border: 2px solid $block-borderline-color;
+  grid-area: info;
+  overflow: auto;
+  @include customScrollBar(6px, $custom-scrollbar-color);
+  width: 290px;
+  margin: 10px;
+  margin-left: 20px;
+  padding: 15px;
+
+  @include respond-to(tablet) {
+    width: 250px;
+  }
+  @include respond-to(mobile) {
+    width: 140px;
+    margin: 5px;
+    padding: 0px;
+  }
+}
+
+.DescSection {
+  grid-area: description;
+  font-size: 1.3rem;
+  overflow: auto;
+  @include customScrollBar(10px, $custom-scrollbar-color);
+  padding: 20px;
+
+  @include respond-to(mobile) {
+    font-size: 0.8rem;
+    padding: 0 5px;
+    hr {
+      display: none;
+    }
+  }
+}
+
+.DropDownSvgContainer {
+  cursor: pointer;
+  transform: translateY(-50%);
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  fill: whitesmoke;
+  height: 0.8rem;
+  width: 0.8rem;
+  display: inline-block;
+}
+
+@keyframes btnClicked {
+  from,
+  to {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.8);
+  }
+}
+@keyframes btnClicked180 {
+  from,
+  to {
+    transform: scale(1) rotate(180deg);
+  }
+  50% {
+    transform: scale(0.8) rotate(180deg);
+  }
+}

@@ -2,6 +2,7 @@ import { batch } from 'react-redux';
 import { Backend } from 'Backend';
 
 import { EVideoType } from './types';
+import { EEbaySortOrder } from 'Backend/types';
 import { TThunk } from 'Store/types';
 
 import { EAvailableLists, TPlatformNames } from 'Configs/appConfig';
@@ -98,7 +99,7 @@ export const addGame = (gameDetails: IRawgGameDetails, list: EAvailableLists, pl
   };
 };
 
-export const getEbayItems = (platform: TPlatformNames, game: string, sortOrder: string): TThunk => {
+export const getEbayItems = (platform: TPlatformNames, game: string, sortOrder: EEbaySortOrder): TThunk => {
   return async (dispatch) => {
     dispatch(setEbaySectionLoading(true));
     dispatch(getEbayItemsCore(platform, game, sortOrder));

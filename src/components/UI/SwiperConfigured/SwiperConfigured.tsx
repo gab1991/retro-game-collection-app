@@ -1,5 +1,5 @@
 import React from 'react';
-import SwiperCore, { Navigation, Pagination } from 'swiper';
+import SwiperCore, { Navigation, Pagination, SwiperOptions } from 'swiper';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -10,11 +10,11 @@ import './SwiperConfigured.scss';
 SwiperCore.use([Navigation, Pagination]);
 
 interface ISwiperConfProps {
-  slides: Array<string>;
-  images: Array<string>;
-  customSwiperProps: Record<string, unknown>;
-  className: string;
-  isMobile: boolean;
+  className?: string;
+  customSwiperProps?: SwiperOptions;
+  images?: Array<string>;
+  isMobile?: boolean;
+  slides?: Array<JSX.Element | (({ isVisible: boolean }) => JSX.Element)>;
 }
 
 export function SwiperConfigured(props: ISwiperConfProps): JSX.Element {
@@ -29,8 +29,8 @@ export function SwiperConfigured(props: ISwiperConfProps): JSX.Element {
       navigation={isMobile ? false : true}
       pagination={{
         clickable: true,
-        dynamicMainBullets: 4,
         dynamicBullets: true,
+        dynamicMainBullets: 4,
       }}
       {...customSwiperProps}
     >

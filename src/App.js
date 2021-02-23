@@ -3,7 +3,6 @@ import { connect, useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { GameSelector, PlatformSelector } from 'Routes';
 
-// import GameDetailed from './Components/GameDetailed/GameDetailed';
 import Layout from './Components/Layout/Layout';
 import Profile from './Components/Profile/Profile';
 import useWindowSize from './CustomHooks/useWindowSize';
@@ -18,9 +17,9 @@ const mobileBreakPointWidth = parseInt(sassVars['breakpoints-mobile']);
 
 const GameDetailed = React.lazy(() =>
   import(
-    /* webpackChunkName: "GameDetailed" */
-    './Components/GameDetailed/GameDetailed'
-  )
+    /* webpackChunkName: "GameDetailedPage" */
+    './Routes/GameDetailed'
+  ).then((module) => ({ default: module.GameDetailed }))
 );
 
 function App(props) {
@@ -45,15 +44,13 @@ function App(props) {
     }
   }, [width, dispatch]);
 
-  console.log('2');
-
   return (
     <div className={styles.App}>
       <Suspense fallback={<div>Загрузка...</div>}>
         <Layout>
           <Switch>
             <Route path='/profile/:section?' component={Profile} />
-            <Route path='/:platformName/:gameSlug' component={GameDetailed} />
+            <Route path='/:platformName/:slug' component={GameDetailed} />
             <Route exact path='/:platformName' component={GameSelector} />
             <Route exact path='/' component={PlatformSelector} />
           </Switch>

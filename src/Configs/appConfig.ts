@@ -1,3 +1,5 @@
+import { EEbaySortOrder } from 'Backend/types';
+
 export enum EGameSelectorOrderingName {
   'name' = 'name',
   'rating' = 'rating',
@@ -63,6 +65,8 @@ export enum EPlatformList {
 
 export type TPlatformNames = keyof typeof EPlatformList;
 
+export type TVideoType = 'soundtrack' | 'gameplay';
+
 export enum EAvailableLists {
   ownedList = 'owned_list',
   wishList = 'wish_list',
@@ -70,7 +74,7 @@ export enum EAvailableLists {
 
 const appConfig = {
   EbayCards: {
-    defaultSortOrder: 'BestMatch',
+    defaultSortOrder: EEbaySortOrder.Relevance,
   },
   GameSelector: {
     defaultOrdering: {
@@ -91,19 +95,19 @@ const appConfig = {
 
 const images = {
   Genesis: {
-    gamepad: { src: require('../Assets/images/icons/Sega Genesis.png') },
+    gamepad: { src: require('../Assets/images/gamepad_icons/Sega Genesis.png') },
     logo: {
-      src: require('../Assets/images/platform logos/sega_genesis_logo.png'),
+      src: require('../Assets/images/platform_logos/sega_genesis_logo.png'),
     },
   },
   NES: {
-    gamepad: { src: require('../Assets/images/icons/Nintendo NES.png') },
-    logo: { src: require('../Assets/images/platform logos/nes_logo.png') },
+    gamepad: { src: require('../Assets/images/gamepad_icons/Nintendo NES.png') },
+    logo: { src: require('../Assets/images/platform_logos/nes_logo.png') },
   },
 
   PlayStation: {
-    gamepad: { src: require('../Assets/images/icons/Sony Playstation.png') },
-    logo: { src: require('../Assets/images/platform logos/ps_logo.png') },
+    gamepad: { src: require('../Assets/images/gamepad_icons/Sony Playstation.png') },
+    logo: { src: require('../Assets/images/platform_logos/ps_logo.png') },
   },
   noPicture: {
     background: { src: require('../Assets/images/no_img.png') },

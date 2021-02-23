@@ -1,0 +1,1 @@
+export { GameInfoBox } from './gameInfoBox';
