@@ -1,6 +1,8 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import SwiperCore, { Navigation, Pagination, SwiperOptions } from 'swiper';
 
+import { selectIsMobile } from 'Store/appStateReducer/selectors';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/swiper.scss';
@@ -13,12 +15,22 @@ interface ISwiperConfProps {
   className?: string;
   customSwiperProps?: SwiperOptions;
   images?: Array<string>;
-  isMobile?: boolean;
-  slides?: Array<JSX.Element | (({ isVisible: boolean }) => JSX.Element)>;
+  slides?: TSwiperConfiguredSlides;
 }
 
+interface ISwiperRenderFnArgs {
+  isActive?: boolean;
+  isDuplicate?: boolean;
+  isNext?: boolean;
+  isPrev?: boolean;
+  isVisible?: boolean;
+}
+
+export type TSwiperConfiguredSlides = Array<JSX.Element | ((args: ISwiperRenderFnArgs) => JSX.Element)>;
+
 export function SwiperConfigured(props: ISwiperConfProps): JSX.Element {
-  const { slides = [], images = [], customSwiperProps = {}, className, isMobile } = props;
+  const { slides = [], images = [], customSwiperProps = {}, className } = props;
+  const isMobile = useSelector(selectIsMobile);
 
   return (
     <Swiper
