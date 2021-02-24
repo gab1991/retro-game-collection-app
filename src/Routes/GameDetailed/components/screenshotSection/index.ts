@@ -1,1 +1,1 @@
-export { ScreenshotSection } from './screenshotSection';
+export { ScreenshotSection } from './ScreenshotSection';
