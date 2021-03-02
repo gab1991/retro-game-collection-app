@@ -1,1 +1,1 @@
-export { GameInfoBox } from './gameInfoBox';
+export { GameInfoBox } from './GameInfoBox';

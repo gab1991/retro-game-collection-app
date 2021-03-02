@@ -1,35 +1,46 @@
 import React, { useEffect, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { EEbaySortOrder } from 'Backend/types';
+import { DeepReadonly } from 'utility-types';
 
 import { Button, DotSpinner } from 'Components/UI';
+import { TPlatformNames } from 'Configs/appConfig';
+import { selectLoggedUser } from 'Store/authReducer/selectors';
 import { calculateTotalPrice } from 'Store/ebayItemsReducer/actions';
 import { checkIfCardIsWatched, getShippingCosts, notWatchEbayCard, watchEbayCard } from 'Store/ebayItemsReducer/thunks';
+import { TEbayCard } from 'Typings/EbayData';
+
+import { calcExpiringTime, ITimeSpread } from './countdownConverter';
 
 import styles from './EbayCardDesc.module.scss';
 
-function EbayCardDesc(props) {
+const REFRESH_TIME_MS = 1000;
+const ADDITIONAL_ZERO_BOUNDARY = 10;
+
+interface IEbayCardDescProps {
+  card: DeepReadonly<TEbayCard>;
+  game: string;
+  index: number;
+  isLoadingShippingCosts?: boolean;
+  isWatched?: boolean;
+  platform: TPlatformNames;
+  sortOrder: EEbaySortOrder;
+}
+
+type TTimeSpreadStingVal = { [k in keyof ITimeSpread]?: string };
+
+export function EbayCardDesc(props: IEbayCardDescProps): JSX.Element {
   const dispatch = useDispatch();
+  const { index, sortOrder, isLoadingShippingCosts, isWatched, platform, game, card } = props;
+  const username = useSelector(selectLoggedUser);
   const {
-    userData,
-    index,
-    title,
-    game,
-    platform,
-    currentPrice,
-    currency,
-    itemId,
-    bidCount,
-    endTime: endTimeProp,
-    itemUrl,
-    isWatched,
-    isAuction,
+    itemData: { bidCount, currency, itemUrl, endTime, itemId, title, currentPrice },
     shippingCost,
-    isLoadingShippingCosts,
-    totalPrice,
     contactSeller,
-    sortOrder,
-  } = props;
-  const [endingSoon, setIsEndingSoon] = useState(false);
+  } = card;
+
+  const [endingSoon, setIsEndingSoon] = useState<null | TTimeSpreadStingVal>(null);
 
   useEffect(() => {
     dispatch(checkIfCardIsWatched(game, platform, index, sortOrder));
@@ -40,30 +51,24 @@ function EbayCardDesc(props) {
   }, [shippingCost, currentPrice, index, dispatch]);
 
   useEffect(() => {
-    if (endTimeProp) {
-      const endTime = new Date(endTimeProp);
-      const currentTime = new Date();
-      const diffMs = Math.abs(endTime - currentTime) / 1000;
-      const days = Math.floor(diffMs / 86400);
+    if (endTime) {
+      const { days } = calcExpiringTime(endTime);
 
-      let interval;
-      if (days < 10) {
-        interval = setInterval(() => {
-          const currentTime = new Date();
-          const diffMs = Math.abs(endTime - currentTime) / 1000;
-          const hours = Math.floor(diffMs / 3600) % 24;
-          const minutes = Math.floor(diffMs / 60) % 60;
-          const seconds = Math.floor(diffMs % 60);
+      let interval: NodeJS.Timeout;
+      if (days < 1) {
+        setInterval(() => {
+          const { hours, minutes, seconds } = calcExpiringTime(endTime);
+
           setIsEndingSoon({
-            hours: `${hours < 10 ? '0' : ''}${hours}`,
-            minutes: `${minutes < 10 ? '0' : ''}${minutes}`,
-            seconds: `${seconds < 10 ? '0' : ''}${seconds}`,
+            hours: `${hours < ADDITIONAL_ZERO_BOUNDARY ? '0' : ''}${hours}`,
+            minutes: `${minutes < ADDITIONAL_ZERO_BOUNDARY ? '0' : ''}${minutes}`,
+            seconds: `${seconds < ADDITIONAL_ZERO_BOUNDARY ? '0' : ''}${seconds}`,
           });
-        }, 1000);
+        }, REFRESH_TIME_MS);
       }
       return () => clearInterval(interval);
     }
-  }, [endTimeProp]);
+  }, [endTime]);
 
   const defineShippingCosts = () => {
     dispatch(getShippingCosts(game, platform, itemId, index, sortOrder));
@@ -84,8 +89,8 @@ function EbayCardDesc(props) {
   return (
     <div className={styles.Description}>
       <h4>{title}</h4>
-      <Button txtContent={isAuction ? 'Place bid' : 'Buy It Now'} onClick={sendToEbay} />
-      {userData && (
+      <Button txtContent={card?.isAuction ? 'Place bid' : 'Buy It Now'} onClick={sendToEbay} />
+      {username && (
         <Button
           txtContent={isWatched ? 'Stop watch' : 'Watch'}
           pressed={isWatched ? true : false}
@@ -93,7 +98,7 @@ function EbayCardDesc(props) {
         />
       )}
       <div className={styles.AcutionSection}>
-        {isAuction && <p>Bids placed : {bidCount}</p>}
+        {card?.isAuction && <p>Bids placed : {bidCount}</p>}
         {endingSoon && (
           <p className={styles.TimeLeft}>
             {`Time Left : ${endingSoon.hours}:${endingSoon.minutes}:${endingSoon.seconds}`}
@@ -101,11 +106,13 @@ function EbayCardDesc(props) {
         )}
       </div>
       <div className={styles.PriceSection}>
-        <strong>{isAuction ? 'Bid' : 'PRICE'}</strong>
+        <strong>{card?.isAuction ? 'Bid' : 'PRICE'}</strong>
         {`${' : '} ${currentPrice} ${currency}`}
         <div className={styles.Delivery}>
           {!shippingCost && !isLoadingShippingCosts && !contactSeller && (
-            <span onClick={defineShippingCosts}>Define shipping costs</span>
+            <button onClick={defineShippingCosts} className={styles.DefineShippingCosts}>
+              Define shipping costs
+            </button>
           )}
           {!shippingCost && isLoadingShippingCosts && (
             <div className={styles.SpinnerContainer}>
@@ -118,7 +125,7 @@ function EbayCardDesc(props) {
         <hr></hr>
         <p className={styles.Total}>
           <strong>TOTAL</strong>
-          {' : '} {totalPrice} {currency}
+          {' : '} {card?.totalPrice} {currency}
         </p>
       </div>
       {endingSoon && (
@@ -129,18 +136,3 @@ function EbayCardDesc(props) {
     </div>
   );
 }
-
-EbayCardDesc.propTypes = {};
-
-EbayCardDesc.defaultProps = {
-  index: 0,
-};
-
-function mapStateToProps(state) {
-  return {
-    profileInfo: state.profile,
-    userData: state.logged.username,
-  };
-}
-
-export default connect(mapStateToProps)(EbayCardDesc);

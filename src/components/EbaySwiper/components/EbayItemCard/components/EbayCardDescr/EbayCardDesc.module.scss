@@ -1,5 +1,5 @@
-@import '../../../../../Configs/Variables.scss';
-@import '../EbayItemCard.module.scss';
+@import 'Configs/Variables.scss';
+@import '../../EbayItemCard.module.scss';
 
 $dark-red: #4a0f0e;
 $brigh-red: #ca0541;
@@ -56,7 +56,10 @@ $define-delivery-color: $brigh-red;
     height: 22px;
     margin: auto;
   }
-  span {
+
+  .DefineShippingCosts {
+    border: none;
+    display: inline;
     cursor: pointer;
     color: $define-delivery-color;
     text-decoration: underline;

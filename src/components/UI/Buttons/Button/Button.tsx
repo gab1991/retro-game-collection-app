@@ -3,13 +3,13 @@ import React from 'react';
 import styles from './Button.module.scss';
 
 interface IButtonProps {
-  txtContent: string;
+  direction?: string;
+  letterSpacing?: boolean;
+  name?: string;
   onClick: () => void;
-  direction: string;
-  name: string;
-  style: React.CSSProperties;
-  pressed: boolean;
-  letterSpacing: boolean;
+  pressed?: boolean;
+  style?: React.CSSProperties;
+  txtContent: string;
 }
 
 export function Button(props: IButtonProps): JSX.Element {
