@@ -5,7 +5,7 @@ import { SwiperOptions } from 'swiper';
 import { EEbaySortOrder } from 'Backend/types';
 import { IRootState } from 'Store/types';
 
-import EbayItemCard from './EbayItemCard/EbayItemCard';
+import { EbayItemCard } from './components/EbayItemCard';
 import { DotSpinner, SwiperConfigured, TSwiperConfiguredSlides } from 'Components/UI';
 import { TPlatformNames } from 'Configs/appConfig';
 import { selectEbayCardItems } from 'Store/ebayItemsReducer/selectors';
@@ -18,21 +18,12 @@ interface IEbaySwiperProps {
   customSwiperProps?: SwiperOptions;
   gameName: string;
   isLoading?: boolean;
-  // isMobile?: boolean;
   platform: TPlatformNames;
   sortOrder?: EEbaySortOrder;
 }
 
 export function EbaySwiper(props: IEbaySwiperProps): JSX.Element {
-  const {
-    className,
-    gameName,
-    platform,
-    isLoading,
-    // isMobile,
-    sortOrder = EEbaySortOrder.Relevance,
-    customSwiperProps,
-  } = props;
+  const { className, gameName, platform, isLoading, sortOrder = EEbaySortOrder.Relevance, customSwiperProps } = props;
   const ebayItems = useSelector((state: IRootState) =>
     selectEbayCardItems(state, { game: gameName, platform, sortOrder })
   );
@@ -53,7 +44,7 @@ export function EbaySwiper(props: IEbaySwiperProps): JSX.Element {
             <EbayItemCard
               platform={platform}
               game={gameName}
-              isVisible={isVisible}
+              isVisible={!!isVisible}
               sortOrder={sortOrder}
               index={index}
             ></EbayItemCard>
@@ -70,7 +61,6 @@ export function EbaySwiper(props: IEbaySwiperProps): JSX.Element {
         <SwiperConfigured
           className={`${isLoading ? styles.SwiperHidden : ''} ${styles.Swiper}`}
           slides={slides}
-          // isMobile={isMobile}
           customSwiperProps={customSwiperProps}
         />
       )}

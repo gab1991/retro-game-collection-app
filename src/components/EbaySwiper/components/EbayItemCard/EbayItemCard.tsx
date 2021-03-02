@@ -1,41 +1,51 @@
 import React, { useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { EEbaySortOrder } from 'Backend/types';
 import { IRootState } from 'Store/types';
 
-import EbayCardDesc from './EbayCardDescr/EbayCardDesc';
 import { OvalSpinner, Slider } from 'Components/UI';
 import { EbayLogo } from 'Components/UI/LogoSvg';
+import { TPlatformNames } from 'Configs/appConfig';
+import { selectIsMobile } from 'Store/appStateReducer/selectors';
 import { selectEbayCard } from 'Store/ebayItemsReducer/selectors';
 import { getEbaySingleItemByIndex } from 'Store/ebayItemsReducer/thunks';
 
+import { EbayCardDesc } from './components';
+
 import styles from './EbayItemCard.module.scss';
 
-function EbayItemCard(props) {
+interface IEbayItemCardProps {
+  game: string;
+  index: number;
+  isVisible: boolean;
+  platform: TPlatformNames;
+  sortOrder: EEbaySortOrder;
+}
+
+export function EbayItemCard(props: IEbayItemCardProps): JSX.Element {
   const dispatch = useDispatch();
-  const { isMobile, index, isVisible, platform, game, sortOrder = 'BestMatch' } = props;
+  const { index, isVisible, platform, game, sortOrder = EEbaySortOrder.Relevance } = props;
+  const isMobile = useSelector(selectIsMobile);
   const card = useSelector((state: IRootState) => selectEbayCard(state, { game, index, platform, sortOrder }));
   const itemData = card?.itemData;
-  // const { itemId } = itemData || {};
-
-  // console.log({ ...props });
-  console.log({ card });
 
   useEffect(() => {
     if (!isVisible) return;
+
     dispatch(getEbaySingleItemByIndex(platform, game, index, sortOrder));
   }, [index, isVisible, platform, game, dispatch]);
 
   return (
     <div className={styles.EbayItemCard}>
-      {itemData && (
+      {card && itemData && (
         <>
           <div className={styles.ImgArea}>
             <Slider
               transition='off'
               images={[...itemData.pictures]}
-              imageWidth={isMobile ? 150 : 200}
-              imageHeight={isMobile ? 190 : 220}
+              imageWidth={isMobile ? MOBILE_DIMENSIONS.width : DESKTOP_DIMENSIONS.width}
+              imageHeight={isMobile ? MOBILE_DIMENSIONS.height : DESKTOP_DIMENSIONS.height}
               navDots
               imgFit={'cover'}
             />
@@ -43,7 +53,7 @@ function EbayItemCard(props) {
               <EbayLogo />
             </a>
           </div>
-          <EbayCardDesc {...props} {...itemData} {...card} index={index} itemId={itemData.itemId} />
+          <EbayCardDesc {...props} card={card} index={index} />
         </>
       )}
       {!itemData && (
@@ -55,10 +65,12 @@ function EbayItemCard(props) {
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    isMobile: state.appState.isMobile,
-  };
-}
+const MOBILE_DIMENSIONS = {
+  height: 190,
+  width: 150,
+};
 
-export default connect(mapStateToProps)(EbayItemCard);
+const DESKTOP_DIMENSIONS = {
+  height: 220,
+  width: 200,
+};

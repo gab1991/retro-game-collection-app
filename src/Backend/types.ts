@@ -9,7 +9,6 @@ import { IRawgGameDetails, IRawgScreenshot } from 'Typings/RawgData';
 export type TBackend = {
   checkCredentials: (token: string, username: string, errCb?: TErrCb) => AxiosPromise;
   getBoxArt: (platform: TPlatformNames, slug: string, errCb?: TErrCb) => AxiosPromise<string>;
-  //need to type sortOrder
   getEbayItems: (
     platform: TPlatformNames,
     game: string,
