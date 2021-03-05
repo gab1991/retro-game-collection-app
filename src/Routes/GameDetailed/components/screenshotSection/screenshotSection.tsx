@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { SwiperConfigured } from 'Components/UI';
-import { selectScreenshots } from 'Store/gameDetailedReducer/selectors';
+import { selectScreenshots } from 'Routes/GameDetailed/gameDetailedReducer/selectors';
 
 interface IScreenshotSectionProps {
   className?: string;

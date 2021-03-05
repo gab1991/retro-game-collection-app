@@ -11,9 +11,9 @@ import {
   ScreenshotSection,
   VideoSection,
 } from 'Routes/GameDetailed/components';
-import { flushGameDetailed, setShowWisListWarn } from 'Store/gameDetailedReducer/actions';
-import { selectGameDetailed } from 'Store/gameDetailedReducer/selectors';
-import { getGameDetails, getScreenShots } from 'Store/gameDetailedReducer/thunks';
+import { flushGameDetailed, setShowWisListWarn } from 'Routes/GameDetailed/gameDetailedReducer/actions';
+import { selectGameDetailed } from 'Routes/GameDetailed/gameDetailedReducer/selectors';
+import { getGameDetails, getScreenShots } from 'Routes/GameDetailed/gameDetailedReducer/thunks';
 import { IRawgGameDetails } from 'Typings/RawgData';
 
 import { useGameDetailedContext } from './context';
