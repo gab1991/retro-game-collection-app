@@ -1,1 +1,1 @@
-export * from './GameSelector';
+export { GameSelector } from './GameSelector';

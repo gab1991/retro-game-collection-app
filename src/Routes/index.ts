@@ -1,2 +1,3 @@
-export * from './GameSelector';
-export * from './PlatformSelector';
+export { GameSelector } from './GameSelector';
+export { PlatformSelector } from './PlatformSelector';
+export { Profile } from './Profile';
