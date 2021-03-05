@@ -1,11 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { images } from '../../../Configs/appConfig';
+import { images, TPlatformNames } from 'Configs/appConfig';
 
 import styles from './GameCard.module.scss';
 
-export default function GameCard(props) {
+interface IGameCardProps {
+  background_image: string;
+  className?: string;
+  name: string;
+  platformName: TPlatformNames;
+  slug: string;
+}
+
+export function GameCard(props: IGameCardProps): JSX.Element {
   const { slug, name, background_image: background, className, platformName } = props;
 
   return (
