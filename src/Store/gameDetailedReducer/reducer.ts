@@ -15,7 +15,7 @@ const initial: TGameDetailedReducer = {
   showWishListWarn: false,
   showWishNotifier: false,
   uploadableElms: {
-    ebaySection: { isLoading: true, show: false },
+    ebaySection: { show: true },
     gameplayVideo: { show: false, url: '' },
     soundtrackVideo: { show: false, url: '' },
   },

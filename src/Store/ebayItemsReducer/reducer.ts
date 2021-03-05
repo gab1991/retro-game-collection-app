@@ -41,7 +41,6 @@ export const ebayItemsReducer = createReducer<TEbayItemsReducer, TEbayItemsActio
     (state, { payload }): TEbayItemsReducer => {
       return produce(state, (draft) => {
         const { platform, game, sortOrder, index, bool } = payload;
-
         if (!game || !platform || (!index && index !== 0)) return;
 
         set(draft, [platform, game, sortOrder, index, 'isWatched'], bool);
@@ -76,18 +75,21 @@ export const ebayItemsReducer = createReducer<TEbayItemsReducer, TEbayItemsActio
     (state, { payload }): TEbayItemsReducer => {
       return produce(state, (draft) => {
         const { platform, game, sortOrder, index } = payload;
+
         if (!game || !platform || (!index && index !== 0)) return;
 
         const ebayCard = draft[platform]?.[game][sortOrder][index];
-        if (!ebayCard?.shippingCost || !ebayCard.itemData.currentPrice) {
+
+        if (!ebayCard.itemData.currentPrice) {
           return;
         }
+
         const {
           shippingCost,
           itemData: { currentPrice },
         } = ebayCard;
 
-        const totalPrice = Number((Number(shippingCost) + Number(currentPrice)).toFixed(2));
+        const totalPrice = Number(((Number(shippingCost) || 0) + Number(currentPrice)).toFixed(2));
 
         set(draft, [platform, game, sortOrder, index, 'totalPrice'], totalPrice);
       });

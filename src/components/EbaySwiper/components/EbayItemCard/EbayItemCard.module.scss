@@ -20,30 +20,6 @@ $card-font-color: gray;
   }
 }
 
-.ImgArea {
-  height: 100%;
-  width: 200px;
-  padding-bottom: 10px;
-
-  display: flex;
-  flex-direction: column;
-
-  @include respond-to(mobile) {
-    width: 150px;
-  }
-
-  .SvgWrapper {
-    color: $card-font-color;
-    height: 30px;
-    margin-top: auto;
-    position: relative;
-    transition: all 300ms ease;
-    &:hover {
-      transform: scale(1.1);
-    }
-  }
-}
-
 .CardSpinner {
   position: relative;
   margin: auto;

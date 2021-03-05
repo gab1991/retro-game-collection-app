@@ -1,17 +1,15 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { batch, useDispatch, useSelector } from 'react-redux';
 
 import { EEbaySortOrder } from 'Backend/types';
 import { IRootState } from 'Store/types';
 
-import { OvalSpinner, Slider } from 'Components/UI';
-import { EbayLogo } from 'Components/UI/LogoSvg';
+import { OvalSpinner } from 'Components/UI';
 import { TPlatformNames } from 'Configs/appConfig';
-import { selectIsMobile } from 'Store/appStateReducer/selectors';
 import { selectEbayCard } from 'Store/ebayItemsReducer/selectors';
-import { getEbaySingleItemByIndex } from 'Store/ebayItemsReducer/thunks';
+import { checkIfCardIsWatched, getEbaySingleItemByIndex } from 'Store/ebayItemsReducer/thunks';
 
-import { EbayCardDesc } from './components';
+import { EbayCardDesc, EbayCardLeftPart } from './components';
 
 import styles from './EbayItemCard.module.scss';
 
@@ -26,36 +24,22 @@ interface IEbayItemCardProps {
 export function EbayItemCard(props: IEbayItemCardProps): JSX.Element {
   const dispatch = useDispatch();
   const { index, isVisible, platform, game, sortOrder = EEbaySortOrder.Relevance } = props;
-  const isMobile = useSelector(selectIsMobile);
   const card = useSelector((state: IRootState) => selectEbayCard(state, { game, index, platform, sortOrder }));
   const itemData = card?.itemData;
 
   useEffect(() => {
     if (!isVisible) return;
 
-    dispatch(getEbaySingleItemByIndex(platform, game, index, sortOrder));
+    batch(() => {
+      dispatch(getEbaySingleItemByIndex(platform, game, index, sortOrder));
+      dispatch(checkIfCardIsWatched(game, platform, index, sortOrder));
+    });
   }, [index, isVisible, platform, game, dispatch]);
 
   return (
     <div className={styles.EbayItemCard}>
-      {card && itemData && (
-        <>
-          <div className={styles.ImgArea}>
-            <Slider
-              transition='off'
-              images={[...itemData.pictures]}
-              imageWidth={isMobile ? MOBILE_DIMENSIONS.width : DESKTOP_DIMENSIONS.width}
-              imageHeight={isMobile ? MOBILE_DIMENSIONS.height : DESKTOP_DIMENSIONS.height}
-              navDots
-              imgFit={'cover'}
-            />
-            <a className={styles.SvgWrapper} href={itemData.itemUrl} rel='noopener noreferrer' target='_blank'>
-              <EbayLogo />
-            </a>
-          </div>
-          <EbayCardDesc {...props} card={card} index={index} />
-        </>
-      )}
+      {itemData && <EbayCardLeftPart itemData={itemData} />}
+      {card && itemData && <EbayCardDesc {...props} card={card} itemData={itemData} index={index} />}
       {!itemData && (
         <div className={styles.CardSpinner}>
           <OvalSpinner />
@@ -64,13 +48,3 @@ export function EbayItemCard(props: IEbayItemCardProps): JSX.Element {
     </div>
   );
 }
-
-const MOBILE_DIMENSIONS = {
-  height: 190,
-  width: 150,
-};
-
-const DESKTOP_DIMENSIONS = {
-  height: 220,
-  width: 200,
-};

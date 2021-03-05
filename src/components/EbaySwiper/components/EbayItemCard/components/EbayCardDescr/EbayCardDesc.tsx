@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useInterval } from 'CustomHooks';
 
 import { EEbaySortOrder } from 'Backend/types';
 import { DeepReadonly } from 'utility-types';
@@ -8,8 +9,8 @@ import { Button, DotSpinner } from 'Components/UI';
 import { TPlatformNames } from 'Configs/appConfig';
 import { selectLoggedUser } from 'Store/authReducer/selectors';
 import { calculateTotalPrice } from 'Store/ebayItemsReducer/actions';
-import { checkIfCardIsWatched, getShippingCosts, notWatchEbayCard, watchEbayCard } from 'Store/ebayItemsReducer/thunks';
-import { TEbayCard } from 'Typings/EbayData';
+import { getShippingCosts, notWatchEbayCard, watchEbayCard } from 'Store/ebayItemsReducer/thunks';
+import { IEbayCardItemData, TEbayCard } from 'Typings/EbayData';
 
 import { calcExpiringTime, ITimeSpread } from './countdownConverter';
 
@@ -22,8 +23,7 @@ interface IEbayCardDescProps {
   card: DeepReadonly<TEbayCard>;
   game: string;
   index: number;
-  isLoadingShippingCosts?: boolean;
-  isWatched?: boolean;
+  itemData: DeepReadonly<IEbayCardItemData>;
   platform: TPlatformNames;
   sortOrder: EEbaySortOrder;
 }
@@ -32,31 +32,24 @@ type TTimeSpreadStingVal = { [k in keyof ITimeSpread]?: string };
 
 export function EbayCardDesc(props: IEbayCardDescProps): JSX.Element {
   const dispatch = useDispatch();
-  const { index, sortOrder, isLoadingShippingCosts, isWatched, platform, game, card } = props;
+  const { clearHookInterval, setHookInterval } = useInterval();
+  const { index, sortOrder, platform, game, card, itemData } = props;
   const username = useSelector(selectLoggedUser);
-  const {
-    itemData: { bidCount, currency, itemUrl, endTime, itemId, title, currentPrice },
-    shippingCost,
-    contactSeller,
-  } = card;
+  const { isWatched, shippingCost, contactSeller, isLoadingShippingCosts, totalPrice, isAuction } = card;
+  const { bidCount, currency, itemUrl, endTime, itemId, title, currentPrice } = itemData;
 
   const [endingSoon, setIsEndingSoon] = useState<null | TTimeSpreadStingVal>(null);
 
   useEffect(() => {
-    dispatch(checkIfCardIsWatched(game, platform, index, sortOrder));
-  }, [game, platform, index, dispatch]);
-
-  useEffect(() => {
     dispatch(calculateTotalPrice(platform, game, index, sortOrder));
-  }, [shippingCost, currentPrice, index, dispatch]);
+  }, [dispatch, currentPrice, shippingCost]);
 
   useEffect(() => {
     if (endTime) {
       const { days } = calcExpiringTime(endTime);
 
-      let interval: NodeJS.Timeout;
       if (days < 1) {
-        setInterval(() => {
+        setHookInterval(() => {
           const { hours, minutes, seconds } = calcExpiringTime(endTime);
 
           setIsEndingSoon({
@@ -66,7 +59,7 @@ export function EbayCardDesc(props: IEbayCardDescProps): JSX.Element {
           });
         }, REFRESH_TIME_MS);
       }
-      return () => clearInterval(interval);
+      return () => clearHookInterval();
     }
   }, [endTime]);
 
@@ -89,7 +82,7 @@ export function EbayCardDesc(props: IEbayCardDescProps): JSX.Element {
   return (
     <div className={styles.Description}>
       <h4>{title}</h4>
-      <Button txtContent={card?.isAuction ? 'Place bid' : 'Buy It Now'} onClick={sendToEbay} />
+      <Button txtContent={isAuction ? 'Place bid' : 'Buy It Now'} onClick={sendToEbay} />
       {username && (
         <Button
           txtContent={isWatched ? 'Stop watch' : 'Watch'}
@@ -98,7 +91,7 @@ export function EbayCardDesc(props: IEbayCardDescProps): JSX.Element {
         />
       )}
       <div className={styles.AcutionSection}>
-        {card?.isAuction && <p>Bids placed : {bidCount}</p>}
+        {isAuction && <p>Bids placed : {bidCount}</p>}
         {endingSoon && (
           <p className={styles.TimeLeft}>
             {`Time Left : ${endingSoon.hours}:${endingSoon.minutes}:${endingSoon.seconds}`}
@@ -106,8 +99,8 @@ export function EbayCardDesc(props: IEbayCardDescProps): JSX.Element {
         )}
       </div>
       <div className={styles.PriceSection}>
-        <strong>{card?.isAuction ? 'Bid' : 'PRICE'}</strong>
-        {`${' : '} ${currentPrice} ${currency}`}
+        <strong>{isAuction ? 'Bid' : 'PRICE'}</strong>
+        {`${' : '} ${currentPrice.toFixed(2)} ${currency}`}
         <div className={styles.Delivery}>
           {!shippingCost && !isLoadingShippingCosts && !contactSeller && (
             <button onClick={defineShippingCosts} className={styles.DefineShippingCosts}>
@@ -125,7 +118,7 @@ export function EbayCardDesc(props: IEbayCardDescProps): JSX.Element {
         <hr></hr>
         <p className={styles.Total}>
           <strong>TOTAL</strong>
-          {' : '} {card?.totalPrice} {currency}
+          {' : '} {totalPrice} {currency}
         </p>
       </div>
       {endingSoon && (
