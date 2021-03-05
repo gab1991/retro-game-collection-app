@@ -9,7 +9,7 @@ import { selectEbaySection } from 'Store/gameDetailedReducer/selectors';
 import styles from './EbaySection.module.scss';
 
 export function EbaySection(): JSX.Element {
-  const { isMobile, gameDetails, platformName, toggleBlockVisibilty } = useGameDetailedContext();
+  const { gameDetails, platformName, toggleBlockVisibilty } = useGameDetailedContext();
   const { ebaySection } = useSelector(selectEbaySection);
 
   return (
@@ -23,11 +23,9 @@ export function EbaySection(): JSX.Element {
         onKeyPress={toggleBlockVisibilty}
       >
         <h2>Ebay Offers</h2>
-        {isMobile && (
-          <div className={styles.DropDownSvgContainer}>
-            <ArrowEsc arrow={!ebaySection.show} />
-          </div>
-        )}
+        <div className={styles.DropDownSvgContainer}>
+          <ArrowEsc arrow={!ebaySection.show} />
+        </div>
         <hr></hr>
       </div>
       {gameDetails && ebaySection.show && (

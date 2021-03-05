@@ -21,7 +21,7 @@ interface IVideoElms {
 
 export function VideoSection(): JSX.Element {
   const dispatch = useDispatch();
-  const { toggleBlockVisibilty, isMobile, name, platformName } = useGameDetailedContext();
+  const { toggleBlockVisibilty, name, platformName } = useGameDetailedContext();
   const { gameplayVideo, soundtrackVideo } = useSelector(selectVideos);
   const videoElms: IVideoElms[] = [
     {
@@ -61,11 +61,9 @@ export function VideoSection(): JSX.Element {
             onClick={toggleBlockVisibilty}
           >
             <h2>{heading}</h2>
-            {isMobile && (
-              <div className={styles.DropDownSvgContainer}>
-                <ArrowEsc arrow={!video.show} />
-              </div>
-            )}
+            <div className={styles.DropDownSvgContainer}>
+              <ArrowEsc arrow={!video.show} />
+            </div>
             <hr></hr>
           </div>
           {video.show && (
