@@ -3,9 +3,9 @@ import { Backend } from 'Backend';
 import { ISetNewOrdering } from './types';
 import { TThunk } from 'Store/types';
 
-import { appConfig } from '../../Configs/appConfig';
-import { history } from '../../index';
-import { parseQueryString, stringifyQuery } from '../../Utils/queryStrUtils';
+import { appConfig } from '../../../Configs/appConfig';
+import { history } from '../../../index';
+import { parseQueryString, stringifyQuery } from '../../../Utils/queryStrUtils';
 
 import {
   _changeQueryParams,

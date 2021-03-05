@@ -5,9 +5,9 @@ import { TAppStateReducer } from './appStateReducer/types';
 import { TAuthReducer } from './authReducer/types';
 import { TContentReducer } from './contentReducer/types';
 import { TEbayItemsReducer } from './ebayItemsReducer/types';
-import { TGameSelectorReducer } from './gameSelectorReducer/types';
 import { TProfileReducer } from './profileReducer/types';
-import { TGameDetailedReducer } from 'Routes/GameDetailed/gameDetailedReducer/types';
+import { TGameDetailedReducer } from 'Routes/GameDetailed/reducer/types';
+import { TGameSelectorReducer } from 'Routes/GameSelector/reducer/types';
 import { DeepReadonly } from 'utility-types';
 export interface IRootState {
   appState: TAppStateReducer;

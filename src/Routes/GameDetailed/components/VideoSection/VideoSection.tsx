@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import ReactPlayer from 'react-player';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { EVideoType, IUploadableElmemnt, TToggleableEmls } from 'Routes/GameDetailed/gameDetailedReducer/types';
+import { EVideoType, IUploadableElmemnt, TToggleableEmls } from 'Routes/GameDetailed/reducer/types';
 
 import { OvalSpinner } from 'Components/UI';
 import { ArrowEsc } from 'Components/UI/LogoSvg';
 import { useGameDetailedContext } from 'Routes/GameDetailed/context';
-import { selectVideos } from 'Routes/GameDetailed/gameDetailedReducer/selectors';
-import { getVideo } from 'Routes/GameDetailed/gameDetailedReducer/thunks';
+import { selectVideos } from 'Routes/GameDetailed/reducer/selectors';
+import { getVideo } from 'Routes/GameDetailed/reducer/thunks';
 
 import styles from './VideoSection.module.scss';
 

@@ -8,7 +8,7 @@ import { IRootState } from 'Store/types';
 import { EbayItemCard } from './components/EbayItemCard';
 import { DotSpinner, SwiperConfigured, TSwiperConfiguredSlides } from 'Components/UI';
 import { TPlatformNames } from 'Configs/appConfig';
-import { getEbayItems } from 'Routes/GameDetailed/gameDetailedReducer/thunks';
+import { getEbayItems } from 'Routes/GameDetailed/reducer/thunks';
 import { selectEbayCardItems } from 'Store/ebayItemsReducer/selectors';
 
 import styles from './EbaySwiper.module.scss';

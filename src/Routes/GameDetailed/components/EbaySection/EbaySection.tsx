@@ -4,7 +4,7 @@ import { EbaySwiper } from 'Components';
 
 import { ArrowEsc } from 'Components/UI/LogoSvg';
 import { useGameDetailedContext } from 'Routes/GameDetailed/context';
-import { selectEbaySection } from 'Routes/GameDetailed/gameDetailedReducer/selectors';
+import { selectEbaySection } from 'Routes/GameDetailed/reducer/selectors';
 
 import styles from './EbaySection.module.scss';
 
