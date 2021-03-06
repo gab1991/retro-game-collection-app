@@ -33,6 +33,8 @@ function EbayLotSection(props) {
   const watchedEbayCards = useSelector((state) => state.ebayItems?.[platform]?.[gameName]?.['Watched']) || [];
   const [activeEbaylist, setActiveEbaylist] = useState(watchedEbayCards.length ? 'Watched' : 'New Offers');
 
+  console.log(gameName);
+
   useEffect(() => {
     dispatch(toggleEbayVisibility(gameName, platform, isEbayTogglerOn));
   }, [isEbayTogglerOn]);
@@ -79,7 +81,7 @@ function EbayLotSection(props) {
         {isEbayTogglerOn && (
           <EbaySwiper
             className={styles.EbaySectionSwiper}
-            game={gameName}
+            gameName={gameName}
             platform={platform}
             isLoading={isEbayLoading}
             isMobile={false}
