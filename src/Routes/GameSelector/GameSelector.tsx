@@ -3,22 +3,23 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { match } from 'react-router-dom';
 import { History } from 'history';
 
-import { IGameSelectorQuery } from 'Store/gameSelectorReducer/types';
+import { IGameSelectorQuery } from 'Routes/GameSelector/reducer/types';
 
 import Paginator from '../../Components/Paginator/Paginator.js';
-import { appConfig } from '../../Configs/appConfig';
-import GameCard from './GameCard/GameCard';
+import { appConfig, TPlatformNames } from '../../Configs/appConfig';
 import { DotSpinner, SearchInput, SelectBox } from 'Components/UI';
-import { setSearchInputValue } from 'Store/gameSelectorReducer/actions';
-import { selectGamesToShow, selectPageData } from 'Store/gameSelectorReducer/selectors';
+import { setSearchInputValue } from 'Routes/GameSelector/reducer/actions';
+import { selectGamesToShow, selectPageData } from 'Routes/GameSelector/reducer/selectors';
 import {
   changePage,
   getGamesForPlatform,
   parseQueryParams,
   setNewOrdering,
   startNewSearch,
-} from 'Store/gameSelectorReducer/thunks';
+} from 'Routes/GameSelector/reducer/thunks';
 import { IRawgGame, IRawgPageData } from 'Typings/RawgData';
+
+import { GameCard } from './components';
 
 import styles from './GameSelector.module.scss';
 
@@ -36,7 +37,7 @@ interface IGameSelectorProps {
 }
 
 interface IGameSelecorMatchParams {
-  platformName: string;
+  platformName: TPlatformNames;
 }
 
 interface ISendReqEvent extends SyntheticEvent {

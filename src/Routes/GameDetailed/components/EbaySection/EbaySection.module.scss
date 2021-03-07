@@ -38,3 +38,15 @@
     }
   }
 }
+
+.DropDownSvgContainer {
+  cursor: pointer;
+  transform: translateY(-50%);
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  fill: whitesmoke;
+  height: 0.8rem;
+  width: 0.8rem;
+  display: inline-block;
+}

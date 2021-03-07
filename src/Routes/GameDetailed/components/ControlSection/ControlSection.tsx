@@ -5,9 +5,9 @@ import { useHistory } from 'react-router-dom';
 import { ButtonNeon, IButtonNeon } from 'Components/UI';
 import { EAvailableLists } from 'Configs/appConfig';
 import { useGameDetailedContext } from 'Routes/GameDetailed/context';
+import { setIsOwned, setIsWished } from 'Routes/GameDetailed/reducer/actions';
 import { showAuthModal } from 'Store/appStateReducer/actions';
 import { selectLoggedUser } from 'Store/authReducer/selectors';
-import { setIsOwned, setIsWished } from 'Store/gameDetailedReducer/actions';
 import { selectProfile } from 'Store/profileReducer/selectors';
 import { IRawgGameDetails } from 'Typings/RawgData';
 

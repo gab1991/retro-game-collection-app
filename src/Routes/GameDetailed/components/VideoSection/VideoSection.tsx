@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import ReactPlayer from 'react-player';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { EVideoType, IUploadableElmemnt, TToggleableEmls } from 'Store/gameDetailedReducer/types';
+import { EVideoType, IUploadableElmemnt, TToggleableEmls } from 'Routes/GameDetailed/reducer/types';
 
 import { OvalSpinner } from 'Components/UI';
 import { ArrowEsc } from 'Components/UI/LogoSvg';
 import { useGameDetailedContext } from 'Routes/GameDetailed/context';
-import { selectVideos } from 'Store/gameDetailedReducer/selectors';
-import { getVideo } from 'Store/gameDetailedReducer/thunks';
+import { selectVideos } from 'Routes/GameDetailed/reducer/selectors';
+import { getVideo } from 'Routes/GameDetailed/reducer/thunks';
 
 import styles from './VideoSection.module.scss';
 
@@ -21,7 +21,7 @@ interface IVideoElms {
 
 export function VideoSection(): JSX.Element {
   const dispatch = useDispatch();
-  const { toggleBlockVisibilty, isMobile, name, platformName } = useGameDetailedContext();
+  const { toggleBlockVisibilty, name, platformName } = useGameDetailedContext();
   const { gameplayVideo, soundtrackVideo } = useSelector(selectVideos);
   const videoElms: IVideoElms[] = [
     {
@@ -61,11 +61,9 @@ export function VideoSection(): JSX.Element {
             onClick={toggleBlockVisibilty}
           >
             <h2>{heading}</h2>
-            {isMobile && (
-              <div className={styles.DropDownSvgContainer}>
-                <ArrowEsc arrow={!video.show} />
-              </div>
-            )}
+            <div className={styles.DropDownSvgContainer}>
+              <ArrowEsc arrow={!video.show} />
+            </div>
             <hr></hr>
           </div>
           {video.show && (

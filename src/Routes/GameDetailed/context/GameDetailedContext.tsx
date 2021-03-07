@@ -2,14 +2,14 @@ import React, { SyntheticEvent } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { isToggleableElms } from 'Store/gameDetailedReducer/types';
+import { isToggleableElms } from 'Routes/GameDetailed/reducer/types';
 import { DeepReadonly } from 'utility-types';
 
 import { EAvailableLists, TPlatformNames } from 'Configs/appConfig';
+import { setIsOwned, setIsWished, toggleElmVisibility } from 'Routes/GameDetailed/reducer/actions';
+import { selectGameDetails, selectIsOwned, selectIsWished } from 'Routes/GameDetailed/reducer/selectors';
+import { addGame } from 'Routes/GameDetailed/reducer/thunks';
 import { selectIsMobile } from 'Store/appStateReducer/selectors';
-import { setIsOwned, setIsWished, toggleElmVisibility } from 'Store/gameDetailedReducer/actions';
-import { selectGameDetails, selectIsOwned, selectIsWished } from 'Store/gameDetailedReducer/selectors';
-import { addGame } from 'Store/gameDetailedReducer/thunks';
 import { removeGame } from 'Store/profileReducer/thunks';
 import { IRawgGameDetails } from 'Typings/RawgData';
 

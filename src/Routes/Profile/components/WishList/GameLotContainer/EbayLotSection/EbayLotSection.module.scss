@@ -1,0 +1,152 @@
+@import 'Configs/Variables.scss';
+
+.EbyaLotSection {
+  @include w100v100;
+  color: $font-white;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: relative;
+  display: grid;
+  grid-template-areas:
+    'gamebox btns ebay '
+    'name toggler ebay';
+  grid-template-columns: 200px 170px auto;
+  grid-template-rows: 300px auto;
+
+  @include respond-to(tablet) {
+    grid-template-columns: 170px 170px auto;
+  }
+
+  @include respond-to(mobile) {
+    grid-template-areas:
+      'gamebox btns'
+      'name toggler'
+      'ebay ebay';
+    grid-template-columns: 60% 40%;
+    grid-template-rows: 200px min-content auto;
+  }
+
+  &:hover {
+    .CloseSvgWrapper {
+      opacity: 0.3;
+      visibility: visible;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  &.Removing {
+    animation: remove 400ms ease forwards;
+  }
+
+  .Gamebox {
+    grid-area: gamebox;
+  }
+}
+
+.ButtonSection {
+  grid-area: btns;
+  height: 70%;
+  margin: auto 10px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  border-left: 2px solid $basic-border-gray;
+  border-right: 2px solid $basic-border-gray;
+
+  button {
+    width: 110px;
+    font-size: 0.8rem;
+  }
+
+  @include respond-to(mobile) {
+    height: 90%;
+
+    button {
+      width: 85%;
+      font-size: 0.7rem;
+    }
+  }
+}
+
+.NameSection {
+  grid-area: name;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+
+  .NameBadge {
+    user-select: none;
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: getBtnColor('basic');
+    text-align: center;
+    @include flexCenter;
+
+    @include respond-to(mobile) {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.KnobTogglerSection {
+  @include w100v100;
+  grid-area: toggler;
+  @include flexCenter;
+  padding: 10px 0;
+  label {
+    font-size: 0.8rem;
+  }
+}
+
+.EbaySwiper {
+  grid-area: ebay;
+  @include w100v100;
+  overflow: hidden;
+  position: relative;
+
+  .NoItemToShow {
+    @include w100v100;
+    @include flexCenter;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+  }
+
+  .EbaySectionSwiper {
+    padding: 0px;
+    height: 300px;
+
+    @include respond-to(mobile) {
+      height: 250px;
+    }
+
+    :global .swiper-container {
+      height: 100%;
+
+      .swiper-slide {
+        width: 390px;
+        height: 100%;
+
+        @include respond-to(mobile) {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+.CloseSvgWrapper {
+  cursor: pointer;
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  width: 30px;
+  height: 30px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 200ms ease-in-out;
+}
