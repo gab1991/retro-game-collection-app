@@ -1,10 +1,10 @@
 import React, { Suspense, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
+import { useWindowSize } from 'CustomHooks';
 import { GameSelector, PlatformSelector, Profile } from 'Routes';
 
 import Layout from './Components/Layout/Layout';
-import useWindowSize from './CustomHooks/useWindowSize';
 import { setIsMobile } from 'Store/appStateReducer/actions';
 import { checkCredentials } from 'Store/authReducer/thunks';
 import { getProfileInfo } from 'Store/profileReducer/thunks';

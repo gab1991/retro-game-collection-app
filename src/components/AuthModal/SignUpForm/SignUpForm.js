@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Backend } from 'Backend';
+import { useWindowSize } from 'CustomHooks';
 
-import useWindowSize from '../../../CustomHooks/useWindowSize';
 import validate from '../../../Validation/validation';
 import { ButtonNeon, InputAuth, OvalSpinner, TogglerOptions } from 'Components/UI';
 import { CloseSvg } from 'Components/UI/LogoSvg';
