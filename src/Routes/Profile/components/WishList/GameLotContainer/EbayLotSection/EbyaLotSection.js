@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { EbaySwiper } from 'Components';
 
-import { trimName } from '../../../../../Utils/helperFunctions';
+import { trimName } from '../../../../../../Utils/helperFunctions';
 import GameBox from '../../../CollictionList/GameBoxContainer/GameBox/GameBox';
 import { ButtonNeon, KnobToggler } from 'Components/UI';
 import { CloseSvg } from 'Components/UI/LogoSvg';

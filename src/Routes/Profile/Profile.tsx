@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 
-import CollectionList from './CollictionList/CollectionLIst';
-import WishList from './WishList/WishList';
+import CollectionList from './components/CollictionList/CollectionLIst';
+import WishList from './components/WishList/WishList';
 import { selectLoggedUser } from 'Store/authReducer/selectors';
 import { getProfileInfo } from 'Store/profileReducer/thunks';
 

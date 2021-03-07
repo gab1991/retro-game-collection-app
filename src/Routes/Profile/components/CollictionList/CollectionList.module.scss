@@ -1,4 +1,4 @@
-@import '../../../Configs/Variables.scss';
+@import 'Configs/Variables.scss';
 
 .CollectionLIst {
   display: flex;
@@ -15,8 +15,8 @@
 
   font-family: $font-neon-lamp;
   color: rgba(255, 255, 255, 0.5);
-  text-shadow: #fdfef8 0px 0px 4px, #fce660 0px 0px 10px, #fad60f 0px 0px 20px,
-    #fe7b02 0px 0px 30px, #f77105 0px 0px 50px;
+  text-shadow: #fdfef8 0px 0px 4px, #fce660 0px 0px 10px, #fad60f 0px 0px 20px, #fe7b02 0px 0px 30px,
+    #f77105 0px 0px 50px;
 
   &:hover {
     cursor: default;

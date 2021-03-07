@@ -2,21 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import PlatformBadge from '../../../Components/PlatformBadge/PlatformBadge';
-import GameBoxContainer from './GameBoxContainer/GameBoxContainer';
+import PlatformBadge from '../../../../Components/PlatformBadge/PlatformBadge';
+import GameLotContainer from './GameLotContainer/GameLotContainer';
 import { ButtonNeon } from 'Components/UI';
 
-import styles from './CollectionList.module.scss';
+import styles from './WishList.module.scss';
 
-function CollectionLIst(props) {
+function WishList(props) {
   const { profileInfo } = props;
-  const [ownedList, setOwnedList] = useState([]);
+  const [wishedList, setWishedList] = useState([]);
 
   useEffect(() => {
     if (profileInfo) {
-      setOwnedList(profileInfo?.owned_list?.platforms || []);
+      setWishedList(profileInfo?.wish_list?.platforms || []);
     } else {
-      setOwnedList([]);
+      setWishedList([]);
     }
   }, [profileInfo]);
 
@@ -25,13 +25,13 @@ function CollectionLIst(props) {
   };
 
   return (
-    <div className={styles.CollectionLIst}>
-      <h1 className={styles.SectionName}>My Collection</h1>
+    <div className={styles.WishLIst}>
+      <h1 className={styles.SectionName}>Wish List</h1>
       <div className={styles.ShelvesContainer}>
-        {ownedList.map(({ name: platformName, games }) => (
+        {wishedList.map(({ name: platformName, games }) => (
           <div key={platformName} className={styles.Shelf}>
             <PlatformBadge className={styles.PlatformLogo} platformName={platformName} />
-            <GameBoxContainer platform={platformName} games={games} />
+            <GameLotContainer platform={platformName} games={games} />
           </div>
         ))}
         <div className={styles.EmptyList}>
@@ -49,4 +49,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default withRouter(connect(mapStateToProps)(CollectionLIst));
+export default withRouter(connect(mapStateToProps)(WishList));

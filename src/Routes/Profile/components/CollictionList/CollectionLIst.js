@@ -2,21 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import PlatformBadge from '../../../Components/PlatformBadge/PlatformBadge';
-import GameLotContainer from './GameLotContainer/GameLotContainer';
+import PlatformBadge from '../../../../Components/PlatformBadge/PlatformBadge';
+import GameBoxContainer from './GameBoxContainer/GameBoxContainer';
 import { ButtonNeon } from 'Components/UI';
 
-import styles from './WishList.module.scss';
+import styles from './CollectionList.module.scss';
 
-function WishList(props) {
+function CollectionLIst(props) {
   const { profileInfo } = props;
-  const [wishedList, setWishedList] = useState([]);
+  const [ownedList, setOwnedList] = useState([]);
 
   useEffect(() => {
     if (profileInfo) {
-      setWishedList(profileInfo?.wish_list?.platforms || []);
+      setOwnedList(profileInfo?.owned_list?.platforms || []);
     } else {
-      setWishedList([]);
+      setOwnedList([]);
     }
   }, [profileInfo]);
 
@@ -25,13 +25,13 @@ function WishList(props) {
   };
 
   return (
-    <div className={styles.WishLIst}>
-      <h1 className={styles.SectionName}>Wish List</h1>
+    <div className={styles.CollectionLIst}>
+      <h1 className={styles.SectionName}>My Collection</h1>
       <div className={styles.ShelvesContainer}>
-        {wishedList.map(({ name: platformName, games }) => (
+        {ownedList.map(({ name: platformName, games }) => (
           <div key={platformName} className={styles.Shelf}>
             <PlatformBadge className={styles.PlatformLogo} platformName={platformName} />
-            <GameLotContainer platform={platformName} games={games} />
+            <GameBoxContainer platform={platformName} games={games} />
           </div>
         ))}
         <div className={styles.EmptyList}>
@@ -49,4 +49,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default withRouter(connect(mapStateToProps)(WishList));
+export default withRouter(connect(mapStateToProps)(CollectionLIst));
