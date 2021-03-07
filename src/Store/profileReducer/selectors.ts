@@ -5,3 +5,6 @@ export const selectProfile: TSelector<TProfileReducer> = (state) => state.profil
 
 export const selectOwnedPlatforms: TSelector<Array<IProfilePlatform> | void> = (state) =>
   state.profile?.owned_list.platforms;
+
+export const selectWishedPlatforms: TSelector<Array<IProfilePlatform> | void> = (state) =>
+  state.profile?.wish_list.platforms;

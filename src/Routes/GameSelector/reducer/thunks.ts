@@ -1,11 +1,11 @@
 import { Backend } from 'Backend';
+import { history } from 'index';
+import { parse, stringify } from 'query-string';
 
 import { ISetNewOrdering } from './types';
 import { TThunk } from 'Store/types';
 
-import { appConfig } from '../../../Configs/appConfig';
-import { history } from '../../../index';
-import { parseQueryString, stringifyQuery } from '../../../Utils/queryStrUtils';
+import { appConfig } from 'Configs/appConfig';
 
 import {
   _changeQueryParams,
@@ -86,13 +86,13 @@ export const updateQueryParams = (): TThunk => {
   return (dispatch, getstate) => {
     const state = getstate();
     const { query } = state.gameSelector;
-    history.push(`${history.location.pathname}?${stringifyQuery(query)}`);
+    history.push(`${history.location.pathname}?${stringify(query)}`);
   };
 };
 
 export const parseQueryParams = (searchStr: string): TThunk => {
   return (dispatch) => {
-    const currentParams = parseQueryString(searchStr);
+    const currentParams = parse(searchStr);
 
     dispatch(_changeQueryParams(currentParams));
   };
