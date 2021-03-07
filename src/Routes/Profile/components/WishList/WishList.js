@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { PlatformBadge } from 'Components';
 
-import PlatformBadge from '../../../../Components/PlatformBadge/PlatformBadge';
 import GameLotContainer from './GameLotContainer/GameLotContainer';
 import { ButtonNeon } from 'Components/UI';
 
@@ -30,7 +30,7 @@ function WishList(props) {
       <div className={styles.ShelvesContainer}>
         {wishedList.map(({ name: platformName, games }) => (
           <div key={platformName} className={styles.Shelf}>
-            <PlatformBadge className={styles.PlatformLogo} platformName={platformName} />
+            <PlatformBadge className={styles.PlatformLogo} platform={platformName} />
             <GameLotContainer platform={platformName} games={games} />
           </div>
         ))}

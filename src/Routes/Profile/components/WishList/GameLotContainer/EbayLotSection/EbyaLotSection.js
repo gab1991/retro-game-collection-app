@@ -3,10 +3,10 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { EbaySwiper } from 'Components';
 
 import { trimName } from '../../../../../../Utils/helperFunctions';
-import GameBox from '../../../CollictionList/GameBoxContainer/GameBox/GameBox';
 import { ButtonNeon, KnobToggler } from 'Components/UI';
 import { CloseSvg } from 'Components/UI/LogoSvg';
 import { WarnModal } from 'Components/UI/Modals';
+import { GameBox } from 'Routes/Profile/components';
 import { toggleEbayVisibility } from 'Store/profileReducer/thunks';
 
 import styles from './EbayLotSection.module.scss';
@@ -32,8 +32,6 @@ function EbayLotSection(props) {
   const isEbayLoading = useSelector((state) => state.wishList?.[platform]?.[gameName]?.isEbayLoading);
   const watchedEbayCards = useSelector((state) => state.ebayItems?.[platform]?.[gameName]?.['Watched']) || [];
   const [activeEbaylist, setActiveEbaylist] = useState(watchedEbayCards.length ? 'Watched' : 'New Offers');
-
-  console.log(gameName);
 
   useEffect(() => {
     dispatch(toggleEbayVisibility(gameName, platform, isEbayTogglerOn));
