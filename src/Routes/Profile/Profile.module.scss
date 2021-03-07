@@ -1,4 +1,4 @@
-@import '../../Configs/Variables.scss';
+@import 'Configs/Variables.scss';
 
 $box-shadow: 0px 1px 0px #fdfef8, 0px 2px 0px #fce660, 0px 4px 10px #f77105;
 
@@ -34,16 +34,26 @@ $box-shadow: 0px 1px 0px #fdfef8, 0px 2px 0px #fce660, 0px 4px 10px #f77105;
     text-align: center;
   }
   li {
-    cursor: pointer;
     width: max-content;
     margin-right: 1%;
-    padding: 10px;
     border: 1px solid $basic-border-gray;
     border-bottom: none;
     border-top-left-radius: 7px;
     border-top-right-radius: 7px;
     border-color: transparent;
     transition: all 200ms ease-in-out;
+
+    button {
+      cursor: pointer;
+      outline: none;
+      padding: 10px;
+      display: inline-block;
+      border: none;
+      width: 100%;
+      background: none;
+      color: inherit;
+      font-size: inherit;
+    }
 
     &.active {
       @include nav-tab-active;
