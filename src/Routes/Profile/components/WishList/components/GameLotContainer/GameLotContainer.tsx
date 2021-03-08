@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 
-import { IProfileGame } from 'Store/profileReducer/types';
+import { IProfileGame } from 'Routes/Profile/reducer/types';
 import { DeepReadonly } from 'utility-types';
 
 import { EAvailableLists, TPlatformNames } from 'Configs/appConfig';
+import { removeGame, reorderGames } from 'Routes/Profile/reducer/thunks';
 import { selectIsMobile } from 'Store/appStateReducer/selectors';
-import { removeGame, reorderGames } from 'Store/profileReducer/thunks';
 
 import { EbayLotSection } from './components';
 

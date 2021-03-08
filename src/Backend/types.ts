@@ -1,6 +1,6 @@
 import { AxiosError, AxiosPromise } from 'axios';
 
-import { IProfile, IProfileGame } from 'Store/profileReducer/types';
+import { IProfile, IProfileGame } from 'Routes/Profile/reducer/types';
 
 import { EAvailableLists, EPlatformList, TPlatformNames, TVideoType } from 'Configs/appConfig';
 import { IEbayCardRawData, IEbayCardShippingDetails, TEbayCardPreviewRawData } from 'Typings/EbayData';

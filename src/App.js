@@ -5,9 +5,9 @@ import { useWindowSize } from 'CustomHooks';
 import { GameSelector, PlatformSelector, Profile } from 'Routes';
 
 import Layout from './Components/Layout/Layout';
+import { getProfileInfo } from 'Routes/Profile/reducer/thunks';
 import { setIsMobile } from 'Store/appStateReducer/actions';
 import { checkCredentials } from 'Store/authReducer/thunks';
-import { getProfileInfo } from 'Store/profileReducer/thunks';
 
 import styles from './App.module.scss';
 import sassVars from './Configs/Variables.scss';

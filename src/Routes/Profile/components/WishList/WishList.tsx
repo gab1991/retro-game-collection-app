@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { PlatformBadge } from 'Components';
 
-import { IProfilePlatform } from 'Store/profileReducer/types';
+import { IProfilePlatform } from 'Routes/Profile/reducer/types';
 import { DeepReadonly } from 'utility-types';
 
 import { ButtonNeon } from 'Components/UI';
-import { selectWishedPlatforms } from 'Store/profileReducer/selectors';
+import { selectWishedPlatforms } from 'Routes/Profile/reducer/selectors';
 
 import { GameLotContainer } from './components';
 

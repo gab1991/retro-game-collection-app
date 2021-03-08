@@ -1,4 +1,4 @@
-import { IProfile, IProfilePlatform } from 'Store/profileReducer/types';
+import { IProfile, IProfilePlatform } from 'Routes/Profile/reducer/types';
 import { DeepReadonly } from 'utility-types';
 
 import { EAvailableLists, TPlatformNames } from 'Configs/appConfig';

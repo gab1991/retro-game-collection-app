@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { EbaySwiper } from 'Components';
 
 import { EEbaySortOrder } from 'Backend/types';
-import { IProfileGame } from 'Store/profileReducer/types';
+import { IProfileGame } from 'Routes/Profile/reducer/types';
 import { IRootState } from 'Store/types';
 
 import { ButtonNeon, KnobToggler } from 'Components/UI';
@@ -11,8 +11,8 @@ import { CloseSvg } from 'Components/UI/LogoSvg';
 import { WarnModal } from 'Components/UI/Modals';
 import { TPlatformNames } from 'Configs/appConfig';
 import { GameBox } from 'Routes/Profile/components';
+import { toggleEbayVisibility } from 'Routes/Profile/reducer/thunks';
 import { selectEbayCardItems } from 'Store/ebayItemsReducer/selectors';
-import { toggleEbayVisibility } from 'Store/profileReducer/thunks';
 import { trimName } from 'Utils/helperFunctions';
 
 import styles from './EbayLotSection.module.scss';
