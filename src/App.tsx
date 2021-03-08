@@ -1,16 +1,17 @@
 import React, { Suspense, useEffect } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { useWindowSize } from 'CustomHooks';
 import { GameSelector, PlatformSelector, Profile } from 'Routes';
 
-import Layout from './Components/Layout/Layout';
+import { Layout } from 'Components/Layout';
 import { getProfileInfo } from 'Routes/Profile/reducer/thunks';
 import { setIsMobile } from 'Store/appStateReducer/actions';
+import { selectLoggedUser } from 'Store/authReducer/selectors';
 import { checkCredentials } from 'Store/authReducer/thunks';
 
 import styles from './App.module.scss';
-import sassVars from './Configs/Variables.scss';
+import sassVars from 'Configs/Variables.scss';
 
 const mobileBreakPointWidth = parseInt(sassVars['breakpoints-mobile']);
 
@@ -21,8 +22,8 @@ const GameDetailed = React.lazy(() =>
   ).then((module) => ({ default: module.GameDetailed }))
 );
 
-function App(props) {
-  const { isLogged } = props;
+export function App(): JSX.Element {
+  const isLogged = useSelector(selectLoggedUser);
   const { width } = useWindowSize();
   const dispatch = useDispatch();
 
@@ -36,11 +37,7 @@ function App(props) {
   }, [isLogged, dispatch]);
 
   useEffect(() => {
-    if (width < mobileBreakPointWidth) {
-      dispatch(setIsMobile(true));
-    } else {
-      dispatch(setIsMobile(false));
-    }
+    dispatch(setIsMobile(width < mobileBreakPointWidth));
   }, [width, dispatch]);
 
   return (
@@ -58,11 +55,3 @@ function App(props) {
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return {
-    isLogged: state.logged.username,
-  };
-}
-
-export default connect(mapStateToProps)(App);

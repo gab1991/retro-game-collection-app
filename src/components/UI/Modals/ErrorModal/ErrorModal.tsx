@@ -8,8 +8,8 @@ import { hideErrModal } from 'Store/appStateReducer/actions';
 import styles from './ErrorModal.module.scss';
 
 export interface IErrorModalProps {
-  message?: string;
   btnTxtContent?: string;
+  message?: string;
   onBackdropClick?: () => void;
   onBtnClick?: () => void;
 }

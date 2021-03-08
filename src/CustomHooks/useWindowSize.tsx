@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 
 function getSize(): IWindowSize {
   return {
-    height: window ? window.innerHeight : undefined,
-    width: window ? window.innerWidth : undefined,
+    height: window ? window.innerHeight : 0,
+    width: window ? window.innerWidth : 0,
   };
 }
 
 interface IWindowSize {
-  height?: number;
-  width?: number;
+  height: number;
+  width: number;
 }
 
 export function useWindowSize(): IWindowSize {

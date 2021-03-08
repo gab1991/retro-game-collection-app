@@ -1,5 +1,5 @@
-import React from 'react';
-import { connect, useSelector } from 'react-redux';
+import React, { ReactNode } from 'react';
+import { useSelector } from 'react-redux';
 
 import AuthModal from '../AuthModal/AuthModal';
 import Header from '../Header/Header';
@@ -13,7 +13,11 @@ import {
 
 import styles from './Layout.module.scss';
 
-export default function Layout(props) {
+interface ILayoutProps {
+  children?: ReactNode;
+}
+
+export function Layout({ children }: ILayoutProps): JSX.Element {
   const showAuth = useSelector(selectAuthModalShowState);
   const showErr = useSelector(selectErrorModalShowState);
   const showInfo = useSelector(selectInfoMoadlShowState);
@@ -22,7 +26,7 @@ export default function Layout(props) {
   return (
     <div className={styles.Layout}>
       <Header />
-      <main> {props.children}</main>
+      <main>{children}</main>
       <footer className={styles.Footer}>
         <p>
           <a href='https://rawg.io/' rel='noopener noreferrer' target='_blank'>
@@ -35,9 +39,9 @@ export default function Layout(props) {
         </p>
       </footer>
       {showAuth && <AuthModal />}
-      {showErr && <ErrorModal {...showErr} />}
-      {showInfo && <InfoModal {...showInfo} />}
-      {showCornNotifier && <CornerNotifier {...showCornNotifier} />}
+      {showErr && <ErrorModal />}
+      {showInfo && <InfoModal />}
+      <CornerNotifier show={showCornNotifier} />
     </div>
   );
 }
