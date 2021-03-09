@@ -2,28 +2,31 @@ import React from 'react';
 
 import styles from './MenuSideSlider.module.scss';
 
+export enum EMenuSliderSides {
+  left,
+  right,
+}
+
 interface IMenuSideSliderProps {
-  slideLeft: boolean;
-  slideRight: boolean;
-  show: boolean;
   list: Array<IMenuSideSliderList>;
+  show: boolean;
+  side?: EMenuSliderSides;
 }
 
 interface IMenuSideSliderList {
-  option: string;
   onClick: () => void;
+  option: string;
 }
 export function MenuSideSlider(props: IMenuSideSliderProps): JSX.Element {
-  const { slideLeft, slideRight, show, list } = props;
+  const { side = EMenuSliderSides.left, show, list } = props;
 
   return (
     <ul
       className={`
     ${styles.MenuSlider} 
-    ${slideLeft && styles.MenuSliderLeft} 
-    ${slideRight && styles.MenuSliderRight} 
-    ${show && slideLeft && styles.SlideLeft} 
-    ${show && slideRight && styles.SlideRight}`}
+    ${side === EMenuSliderSides.left ? styles.MenuSliderLeft : styles.MenuSliderRight} 
+    ${show && (side === EMenuSliderSides.left ? styles.SlideRight : styles.SlideLeft)}
+     `}
     >
       {list.map(({ option, onClick }) => {
         if (!option) return null;

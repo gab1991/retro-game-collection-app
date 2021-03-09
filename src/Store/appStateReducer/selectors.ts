@@ -1,11 +1,12 @@
+import { IShowCornerNotifier, IShowErrorModal, IShowInfoModal } from 'Store/appStateReducer/types';
 import { TSelector } from 'Store/types';
 
-export const selectErrorModalShowState: TSelector<boolean> = (state) => state.appState.showErrorModal.show;
+export const selectErrorModal: TSelector<IShowErrorModal> = (state) => state.appState.showErrorModal;
 
-export const selectInfoMoadlShowState: TSelector<boolean> = (state) => state.appState.showInfoModal.show;
+export const selectInfoModal: TSelector<IShowInfoModal> = (state) => state.appState.showInfoModal;
 
 export const selectAuthModalShowState: TSelector<boolean> = (state) => state.appState.showAuthModal;
 
-export const selectCornerNotifierShowState: TSelector<boolean> = (state) => state.appState.showCornerNotifier.show;
+export const selectCornerNotifier: TSelector<IShowCornerNotifier> = (state) => state.appState.showCornerNotifier;
 
 export const selectIsMobile: TSelector<boolean> = (state) => state.appState.isMobile;
