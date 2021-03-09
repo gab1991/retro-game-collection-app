@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { EbaySwiper } from 'Components';
 
-import { trimName } from '../../../../../../Utils/helperFunctions';
+import { EEbaySortOrder } from 'Backend/types';
+import { IProfileGame } from 'Routes/Profile/reducer/types';
+import { IRootState } from 'Store/types';
+
 import { ButtonNeon, KnobToggler } from 'Components/UI';
 import { CloseSvg } from 'Components/UI/LogoSvg';
 import { WarnModal } from 'Components/UI/Modals';
+import { TPlatformNames } from 'Configs/appConfig';
 import { GameBox } from 'Routes/Profile/components';
-import { toggleEbayVisibility } from 'Store/profileReducer/thunks';
+import { toggleEbayVisibility } from 'Routes/Profile/reducer/thunks';
+import { selectEbayCardItems } from 'Store/ebayItemsReducer/selectors';
+import { trimName } from 'Utils/helperFunctions';
 
 import styles from './EbayLotSection.module.scss';
 
@@ -18,7 +24,13 @@ const buttonsToSortOrder = {
   Watched: 'Watched',
 };
 
-function EbayLotSection(props) {
+interface IEbayLotSectionProps {
+  gameData: IProfileGame;
+  platform: TPlatformNames;
+  showingEbay?: boolean;
+}
+
+export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
   const dispatch = useDispatch();
   const {
     gameData,
@@ -26,20 +38,26 @@ function EbayLotSection(props) {
     platform,
   } = props;
 
-  const [removing, setRemoving] = useState();
-  const [showWarn, setShowWarn] = useState();
+  const [removing, setRemoving] = useState(false);
+  const [showWarn, setShowWarn] = useState(false);
   const [isEbayTogglerOn, setIsEbayTogglerOn] = useState(isShowEbay);
-  const isEbayLoading = useSelector((state) => state.wishList?.[platform]?.[gameName]?.isEbayLoading);
-  const watchedEbayCards = useSelector((state) => state.ebayItems?.[platform]?.[gameName]?.['Watched']) || [];
-  const [activeEbaylist, setActiveEbaylist] = useState(watchedEbayCards.length ? 'Watched' : 'New Offers');
+  const watchedEbayCards = useSelector((state: IRootState) =>
+    selectEbayCardItems(state, { game: gameName, platform, sortOrder: EEbaySortOrder.Watched })
+  );
+  const [activeEbaylist, setActiveEbaylist] = useState(
+    watchedEbayCards.length ? EEbaySortOrder.Watched : EEbaySortOrder['New Offers']
+  );
 
   useEffect(() => {
     dispatch(toggleEbayVisibility(gameName, platform, isEbayTogglerOn));
   }, [isEbayTogglerOn]);
 
-  const toggleEbayList = (e) => {
+  const toggleEbayList: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     const desc = e.currentTarget.textContent;
-    setActiveEbaylist(desc);
+    if (desc && Object.keys(EEbaySortOrder).includes(desc)) {
+      setActiveEbaylist(desc as EEbaySortOrder);
+    }
+
     setIsEbayTogglerOn(true);
   };
 
@@ -52,7 +70,7 @@ function EbayLotSection(props) {
   };
 
   return (
-    <div className={`${styles.EbyaLotSection} ${removing ? styles.Removing : null}`}>
+    <div className={`${styles.EbyaLotSection} ${removing ? styles.Removing : ''}`}>
       <GameBox className={styles.Gamebox} game={gameData} platform={platform} showDesc={false} scaling={false} />
       <div className={styles.ButtonSection}>
         {Object.keys(buttonsToSortOrder).map((btn) => (
@@ -60,7 +78,7 @@ function EbayLotSection(props) {
             key={btn}
             txtContent={btn}
             onClick={toggleEbayList}
-            color={activeEbaylist === btn && isEbayTogglerOn ? 'gray' : ''}
+            color={activeEbaylist === btn && isEbayTogglerOn ? 'gray' : undefined}
           />
         ))}
       </div>
@@ -81,19 +99,22 @@ function EbayLotSection(props) {
             className={styles.EbaySectionSwiper}
             gameName={gameName}
             platform={platform}
-            isLoading={isEbayLoading}
-            isMobile={false}
             sortOrder={buttonsToSortOrder[activeEbaylist]}
-            fromComponent={'WishList'}
             customSwiperProps={{ pagination: false }}
           />
         )}
       </div>
-      <div className={styles.CloseSvgWrapper} onClick={() => setShowWarn(true)}>
+      <div
+        className={styles.CloseSvgWrapper}
+        onClick={() => setShowWarn(true)}
+        onKeyPress={() => setShowWarn(true)}
+        role={'button'}
+        tabIndex={0}
+      >
         <CloseSvg />
       </div>
       {showWarn && (
-        <WanrModal
+        <WarnModal
           message={`Do you really want to remove ${gameName}`}
           onBackdropClick={() => setShowWarn(false)}
           onYesClick={() => {
@@ -106,11 +127,3 @@ function EbayLotSection(props) {
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return {
-    profileInfo: state.profile,
-  };
-}
-
-export default connect(mapStateToProps)(EbayLotSection);

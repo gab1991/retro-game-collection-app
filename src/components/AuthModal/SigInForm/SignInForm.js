@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Backend } from 'Backend';
+import { validate } from 'Validation';
 
 import { showAuthModal } from '../../../Store/appStateReducer/actions';
-import validate from '../../../Validation/validation';
 import { ButtonNeon, InputAuth, OvalSpinner } from 'Components/UI';
 import { CloseSvg } from 'Components/UI/LogoSvg';
 import { signIn } from 'Store/authReducer/actions';

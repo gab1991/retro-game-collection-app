@@ -3,9 +3,9 @@ import React from 'react';
 import styles from './ButtonBasic.module.scss';
 
 export interface IButtonBasic {
-  txtContent: string;
-  onClick?: () => void;
   name?: string;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  txtContent: string;
 }
 
 export function ButtonBasic(props: IButtonBasic): JSX.Element {

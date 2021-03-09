@@ -1,27 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { PlatformBadge } from 'Components';
 
-import GameLotContainer from './GameLotContainer/GameLotContainer';
+import { IProfilePlatform } from 'Routes/Profile/reducer/types';
+import { DeepReadonly } from 'utility-types';
+
 import { ButtonNeon } from 'Components/UI';
+import { selectWishedPlatforms } from 'Routes/Profile/reducer/selectors';
+
+import { GameLotContainer } from './components';
 
 import styles from './WishList.module.scss';
 
-function WishList(props) {
-  const { profileInfo } = props;
-  const [wishedList, setWishedList] = useState([]);
+export function WishList(): JSX.Element {
+  const wishedPlatforms = useSelector(selectWishedPlatforms);
+  const history = useHistory();
+  const [wishedList, setWishedList] = useState<DeepReadonly<Array<IProfilePlatform>>>([]);
 
   useEffect(() => {
-    if (profileInfo) {
-      setWishedList(profileInfo?.wish_list?.platforms || []);
-    } else {
-      setWishedList([]);
-    }
-  }, [profileInfo]);
+    setWishedList(wishedPlatforms || []);
+  }, [wishedPlatforms]);
 
   const toPlatfromSelecor = () => {
-    props.history.push('/');
+    history.push('/');
   };
 
   return (
@@ -42,11 +44,3 @@ function WishList(props) {
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return {
-    profileInfo: state.profile,
-  };
-}
-
-export default withRouter(connect(mapStateToProps)(WishList));

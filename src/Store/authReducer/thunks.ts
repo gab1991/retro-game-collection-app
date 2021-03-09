@@ -3,7 +3,7 @@ import { Backend, HttpRespStats } from 'Backend';
 
 import { TThunk } from 'Store/types';
 
-import { flushProfile } from 'Store/profileReducer/actions';
+import { flushProfile } from 'Routes/Profile/reducer/actions';
 import { storageHandler } from 'Utils/localStorage';
 
 import { logOut, signIn } from './actions';

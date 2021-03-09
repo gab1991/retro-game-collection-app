@@ -6,9 +6,9 @@ import { ButtonNeon, IButtonNeon } from 'Components/UI';
 import { EAvailableLists } from 'Configs/appConfig';
 import { useGameDetailedContext } from 'Routes/GameDetailed/context';
 import { setIsOwned, setIsWished } from 'Routes/GameDetailed/reducer/actions';
+import { selectProfile } from 'Routes/Profile/reducer/selectors';
 import { showAuthModal } from 'Store/appStateReducer/actions';
 import { selectLoggedUser } from 'Store/authReducer/selectors';
-import { selectProfile } from 'Store/profileReducer/selectors';
 import { IRawgGameDetails } from 'Typings/RawgData';
 
 import { checkIfInList } from './helpers';

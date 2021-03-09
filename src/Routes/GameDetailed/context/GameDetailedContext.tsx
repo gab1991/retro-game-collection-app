@@ -9,8 +9,8 @@ import { EAvailableLists, TPlatformNames } from 'Configs/appConfig';
 import { setIsOwned, setIsWished, toggleElmVisibility } from 'Routes/GameDetailed/reducer/actions';
 import { selectGameDetails, selectIsOwned, selectIsWished } from 'Routes/GameDetailed/reducer/selectors';
 import { addGame } from 'Routes/GameDetailed/reducer/thunks';
+import { removeGame } from 'Routes/Profile/reducer/thunks';
 import { selectIsMobile } from 'Store/appStateReducer/selectors';
-import { removeGame } from 'Store/profileReducer/thunks';
 import { IRawgGameDetails } from 'Typings/RawgData';
 
 const GameDetailedContext = React.createContext<null | IGameDetailedProviderValue>(null);
