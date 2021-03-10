@@ -3,8 +3,8 @@ import React from 'react';
 import styles from './Backdrop.module.scss';
 
 interface IBackdropProps {
+  onClick?: () => void;
   show: boolean;
-  onClick: () => void;
 }
 
 export function Backdrop(props: IBackdropProps): JSX.Element {
