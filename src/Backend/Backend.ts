@@ -5,7 +5,7 @@ import { TBackend, TErrCb } from './types';
 import { server_adress } from '../Configs/server.config';
 import { getToken } from '../Store/store';
 
-import api from './api_config';
+import { api } from './api_config';
 
 const axios = axios_base.create({
   baseURL: server_adress,

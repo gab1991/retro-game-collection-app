@@ -41,8 +41,6 @@ export const getEbayItems = (platform: TPlatformNames, game: string, sortOrder =
     } else {
       const { data = null } = await Backend.getEbayItems(platform, game, sortOrder, errHandler);
 
-      console.log(data);
-
       if (data && data[0]) {
         const { item: ebayitems = [] } = data[0];
         items = ebayitems;
@@ -203,12 +201,6 @@ export const watchEbayCard = (
       }
       dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, false));
     };
-
-    console.log({
-      ebayItemId,
-      game,
-      platform,
-    });
 
     const { status } = await Backend.watchEbayCard(
       {
