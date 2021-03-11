@@ -1,8 +1,7 @@
 import React, { ReactNode } from 'react';
 import { useSelector } from 'react-redux';
-import { Header } from 'Components';
+import { AuthModal, Header } from 'Components';
 
-import AuthModal from '../AuthModal/AuthModal';
 import { CornerNotifier, ErrorModal, InfoModal } from 'Components/UI/Modals';
 import {
   selectAuthModalShowState,
@@ -38,7 +37,8 @@ export function Layout({ children }: ILayoutProps): JSX.Element {
           </a>
         </p>
       </footer>
-      {showAuth && <AuthModal />}
+      {/* {showAuth && <AuthModal />} */}
+      <AuthModal />
       {showErr && <ErrorModal {...restErrModalProps} />}
       {showInfo && <InfoModal {...restInfoModalProps} />}
       <CornerNotifier show={showCornNotifier} {...restCornNotifierProps} />

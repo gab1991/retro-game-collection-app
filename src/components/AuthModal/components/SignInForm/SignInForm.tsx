@@ -3,14 +3,14 @@ import { useDispatch } from 'react-redux';
 import { Backend } from 'Backend';
 import { validate } from 'Validation';
 
-import { showAuthModal } from '../../../Store/appStateReducer/actions';
+import { showAuthModal } from '../../../../Store/appStateReducer/actions';
 import { ButtonNeon, InputAuth, OvalSpinner } from 'Components/UI';
 import { CloseSvg } from 'Components/UI/LogoSvg';
 import { signIn } from 'Store/authReducer/actions';
 
 import styles from './SignInForm.module.scss';
 
-export default function SignInForm(props) {
+export function SignInForm(props): JSX.Element {
   const { toSignUp } = props;
   const [wrongInputs, setWrongInputs] = useState({});
   const dispatch = useDispatch();
@@ -33,16 +33,16 @@ export default function SignInForm(props) {
 
   const validityChecker = (name, value) => {
     if (value.length === 0) {
-      wrongListHandler(name, 'length 0');
+      wrongListHandler(name, 'length 0', '');
     } else {
       if (name === 'username') {
         const isValid = validate('username', value);
-        if (isValid) wrongListHandler(name, 'remove');
+        if (isValid) wrongListHandler(name, 'remove', '');
         else wrongListHandler(name, 'set', 'Only numbers and letters allowed');
       }
       if (name === 'password') {
         const isValid = validate('password', value);
-        if (isValid) wrongListHandler(name, 'remove');
+        if (isValid) wrongListHandler(name, 'remove', '');
         else
           wrongListHandler(
             name,
@@ -108,7 +108,7 @@ export default function SignInForm(props) {
     });
 
     if (entireFormValid) {
-      const sendObj = {};
+      const sendObj = { email: '', password: '', username: '' };
       inputsNames.forEach((name) => (sendObj[name] = inputs.current[name].value));
       sendLoginReq(sendObj);
     }

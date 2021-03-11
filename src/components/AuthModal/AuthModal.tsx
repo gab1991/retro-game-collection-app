@@ -1,26 +1,28 @@
 import React, { useState } from 'react';
 
-import SignInForm from './SigInForm/SignInForm';
-import SignUpForm from './SignUpForm/SignUpForm';
 import { Backdrop } from 'Components/UI';
+
+import { SignInForm, SignUpForm } from './components';
 
 import styles from './Authmodal.module.scss';
 
-export default function AuthModal(props) {
-  const { activeSideProps } = props;
-  const [activeSide, setActiveSide] = useState(activeSideProps || 'ActiveSignIn');
+enum EActiveSide {
+  'ActiveSignIn' = 'ActiveSignIn',
+  'ActiveSignUp' = 'ActiveSignUp',
+}
+
+export function AuthModal(): JSX.Element {
+  const [activeSide, setActiveSide] = useState(EActiveSide.ActiveSignIn);
 
   const backToSignIn = (e) => {
     if (e) e.preventDefault();
-    setActiveSide('ActiveSignIn');
+    setActiveSide(EActiveSide.ActiveSignIn);
   };
 
   const toSignUp = (e) => {
     if (e) e.preventDefault();
-    setActiveSide('ActiveSignUp');
+    setActiveSide(EActiveSide.ActiveSignUp);
   };
-
-  const hideAuthModal = () => {};
 
   return (
     <div className={styles.AuthModal}>
@@ -28,7 +30,7 @@ export default function AuthModal(props) {
         <SignInForm toSignUp={toSignUp} />
         <SignUpForm backToSignIn={backToSignIn} />
       </div>
-      <Backdrop onClick={hideAuthModal} closeIcon={true} show />
+      <Backdrop show />
     </div>
   );
 }

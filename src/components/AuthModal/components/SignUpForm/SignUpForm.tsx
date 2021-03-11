@@ -6,14 +6,16 @@ import { validate } from 'Validation';
 
 import { ButtonNeon, InputAuth, OvalSpinner, TogglerOptions } from 'Components/UI';
 import { CloseSvg } from 'Components/UI/LogoSvg';
+import { ECornerNotifierCorners } from 'Components/UI/Modals';
 import { showAuthModal, showCornerNotifier } from 'Store/appStateReducer/actions';
+import { signUpThunk } from 'Store/authReducer/thunks';
 
-import sassVar from '../../../Configs/Variables.scss';
 import styles from './SignUpForm.module.scss';
+import sassVar from 'Configs/Variables.scss';
 
 const mobileBreakPointWidth = parseInt(sassVar['breakpoints-mobile']);
 
-export default function SignUpForm(props) {
+export function SignUpForm(props): JSX.Element {
   const { backToSignIn } = props;
   const [wrongInputs, setWrongInputs] = useState({});
   const [isSending, setIsSending] = useState(false);
@@ -68,21 +70,21 @@ export default function SignUpForm(props) {
 
   const validityChecker = (name, value) => {
     if (value.length === 0) {
-      wrongListHandler(name, 'length 0');
+      wrongListHandler(name, 'length 0', '');
     } else {
       if (name === 'username') {
         const isValid = validate('username', value);
-        if (isValid) wrongListHandler(name, 'remove');
+        if (isValid) wrongListHandler(name, 'remove', '');
         else wrongListHandler(name, 'set', 'Only numbers and letters allowed');
       }
       if (name === 'password' || name === 'passConfirm') {
         const isValid = validate('password', value);
-        if (isValid) wrongListHandler(name, 'remove');
+        if (isValid) wrongListHandler(name, 'remove', '');
         else wrongListHandler(name, 'set', 'Password must contain at least one number and 4 to 15 chars');
       }
       if (name === 'email') {
         const isValid = validate('email', value);
-        if (isValid) wrongListHandler(name, 'remove');
+        if (isValid) wrongListHandler(name, 'remove', '');
         else wrongListHandler(name, 'set', 'Wrong email');
       }
     }
@@ -112,34 +114,36 @@ export default function SignUpForm(props) {
     }
 
     if (entireFormValid) {
-      const sendObj = {};
+      const sendObj = { email: '', password: '', username: '' };
+
       inputsNames.forEach((name) => {
         if (name !== 'passConfirm') sendObj[name] = inputs.current[name].value;
       });
 
       setIsSending(true);
 
-      Backend.postSignUp(sendObj)
-        .then((res) => {
-          setIsSending(false);
-          backToSignIn();
-          if (!isMobile) {
-            dispatch(
-              showCornerNotifier({
-                corner: 'bottomLeft',
-                message: 'Account is successfully created',
-                removeTime: 1000,
-                show: true,
-              })
-            );
-          }
-        })
-        .catch((err) => {
-          if (err.status === 400 && err.body.field) {
-            setIsSending(false);
-            wrongListHandler(err.body.field, 'set', err.body.err_message);
-          }
-        });
+      dispatch(signUpThunk(sendObj));
+      // Backend.postSignUp(sendObj)
+      //   .then(() => {
+      //     setIsSending(false);
+      //     backToSignIn();
+      //     if (!isMobile) {
+      //       dispatch(
+      //         showCornerNotifier({
+      //           corner: ECornerNotifierCorners.bottomLeft,
+      //           message: 'Account is successfully created',
+      //           removeTime: 1000,
+      //           show: true,
+      //         })
+      //       );
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     if (err.status === 400 && err.body.field) {
+      //       setIsSending(false);
+      //       wrongListHandler(err.body.field, 'set', err.body.err_message);
+      //     }
+      //   });
     }
   };
 
