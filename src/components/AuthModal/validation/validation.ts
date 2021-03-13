@@ -1,4 +1,4 @@
-import { ESignUpInputs } from 'Components/AuthModal/types';
+import { ESignUpInputs, TAuthModalInputs } from 'Components/AuthModal/types';
 
 const regexList = {
   email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -24,7 +24,7 @@ interface IValidateAuthModalInputsReturn {
   isValid: boolean;
 }
 
-export const validateAuthModalInput = (input: ESignUpInputs, value: string): IValidateAuthModalInputsReturn => {
+export const validateAuthModalInput = (input: TAuthModalInputs, value: string): IValidateAuthModalInputsReturn => {
   let isValid = true;
   let errMessage = '';
 

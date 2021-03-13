@@ -5,6 +5,11 @@ export enum ESignUpInputs {
   username = 'username',
 }
 
+export enum ESignInInputs {
+  password = 'password',
+  username = 'username',
+}
+
 export interface IInputBody {
   errMsg?: string;
   label: string;
@@ -15,3 +20,5 @@ export interface IInputBody {
 }
 
 export type TSignUpInputs = { [key in ESignUpInputs]: IInputBody };
+export type TSignInInputs = { [key in ESignInInputs]: IInputBody };
+export type TAuthModalInputs = ESignUpInputs | ESignInInputs;

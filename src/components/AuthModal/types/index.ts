@@ -1,1 +1,8 @@
-export { ESignUpInputs, IInputBody, TSignUpInputs } from './authModalTypes';
+export {
+  ESignInInputs,
+  ESignUpInputs,
+  IInputBody,
+  TAuthModalInputs,
+  TSignInInputs,
+  TSignUpInputs,
+} from './authModalTypes';

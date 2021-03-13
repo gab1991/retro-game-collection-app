@@ -37,8 +37,8 @@ export function Layout({ children }: ILayoutProps): JSX.Element {
           </a>
         </p>
       </footer>
-      {showAuth && <AuthModal />}
-      {/* <AuthModal /> */}
+      {/* {showAuth && <AuthModal />} */}
+      <AuthModal />
       {showErr && <ErrorModal {...restErrModalProps} />}
       {showInfo && <InfoModal {...restInfoModalProps} />}
       <CornerNotifier show={showCornNotifier} {...restCornNotifierProps} />
