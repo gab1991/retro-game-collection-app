@@ -1,14 +1,16 @@
 import React, { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Backend } from 'Backend';
 import { useWindowSize } from 'CustomHooks';
 import { validate } from 'Validation';
 
+import { authModalReducer } from '../../reducer/reducer';
+import { selectIsSending } from 'Components/AuthModal/reducer/selectors';
+import { signUpThunk } from 'Components/AuthModal/reducer/thunks';
 import { ButtonNeon, InputAuth, OvalSpinner, TogglerOptions } from 'Components/UI';
 import { CloseSvg } from 'Components/UI/LogoSvg';
 import { ECornerNotifierCorners } from 'Components/UI/Modals';
 import { showAuthModal, showCornerNotifier } from 'Store/appStateReducer/actions';
-import { signUpThunk } from 'Store/authReducer/thunks';
 
 import styles from './SignUpForm.module.scss';
 import sassVar from 'Configs/Variables.scss';
@@ -18,9 +20,9 @@ const mobileBreakPointWidth = parseInt(sassVar['breakpoints-mobile']);
 export function SignUpForm(props): JSX.Element {
   const { backToSignIn } = props;
   const [wrongInputs, setWrongInputs] = useState({});
-  const [isSending, setIsSending] = useState(false);
   const { width } = useWindowSize();
   const isMobile = mobileBreakPointWidth > width;
+  const isSending = useSelector(selectIsSending);
   const dispatch = useDispatch();
   const inputs = useRef({
     email: {
@@ -120,7 +122,7 @@ export function SignUpForm(props): JSX.Element {
         if (name !== 'passConfirm') sendObj[name] = inputs.current[name].value;
       });
 
-      setIsSending(true);
+      // setIsSending(true);
 
       dispatch(signUpThunk(sendObj));
       // Backend.postSignUp(sendObj)

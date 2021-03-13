@@ -34,8 +34,3 @@ export const logOutThunk = (): TThunk => async (dispatch) => {
     dispatch(flushProfile());
   });
 };
-
-export const signUpThunk = (signUpData: ISignUpData): TThunk => async (dispatch) => {
-  const errCb = () => {};
-  await Backend.postSignUp(signUpData);
-};
