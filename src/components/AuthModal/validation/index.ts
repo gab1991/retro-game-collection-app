@@ -1,0 +1,1 @@
+export { validateAuthModalInput } from './validation';

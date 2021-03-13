@@ -1,170 +1,152 @@
-import React, { useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Backend } from 'Backend';
-import { useWindowSize } from 'CustomHooks';
-import { validate } from 'Validation';
+import React, { SyntheticEvent, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { AxiosError } from 'axios';
+import { Backend, HttpRespStats } from 'Backend';
 
-import { authModalReducer } from '../../reducer/reducer';
-import { selectIsSending } from 'Components/AuthModal/reducer/selectors';
-import { signUpThunk } from 'Components/AuthModal/reducer/thunks';
-import { ButtonNeon, InputAuth, OvalSpinner, TogglerOptions } from 'Components/UI';
+import { ISignUpData } from 'Backend/types';
+import { ESignUpInputs, TSignUpInputs } from 'Components/AuthModal/types';
+
+import { useAuthModalContext } from 'Components/AuthModal/context';
+import { validateAuthModalInput } from 'Components/AuthModal/validation';
+import { ButtonNeon, InputAuth, OvalSpinner } from 'Components/UI';
 import { CloseSvg } from 'Components/UI/LogoSvg';
 import { ECornerNotifierCorners } from 'Components/UI/Modals';
 import { showAuthModal, showCornerNotifier } from 'Store/appStateReducer/actions';
 
 import styles from './SignUpForm.module.scss';
-import sassVar from 'Configs/Variables.scss';
 
-const mobileBreakPointWidth = parseInt(sassVar['breakpoints-mobile']);
+const SIGN_UP_INPUTS: TSignUpInputs = {
+  email: {
+    label: 'Email',
+    placeholder: 'Current email',
+    type: 'email',
+    valid: false,
+    value: '',
+  },
+  passConfirm: {
+    label: 'Confirm Password',
+    placeholder: 'Confirm your password once again',
+    type: 'password',
+    valid: false,
+    value: '',
+  },
+  password: {
+    label: 'Password',
+    placeholder: 'Type your password',
+    type: 'password',
+    valid: false,
+    value: '',
+  },
+  username: {
+    label: 'Username',
+    placeholder: 'Type name of your account',
+    type: 'text',
+    valid: false,
+    value: '',
+  },
+};
 
-export function SignUpForm(props): JSX.Element {
-  const { backToSignIn } = props;
-  const [wrongInputs, setWrongInputs] = useState({});
-  const { width } = useWindowSize();
-  const isMobile = mobileBreakPointWidth > width;
-  const isSending = useSelector(selectIsSending);
+export function SignUpForm(props: any): JSX.Element {
   const dispatch = useDispatch();
-  const inputs = useRef({
-    email: {
-      label: 'Email',
-      placeholder: 'Current email',
-      type: 'email',
-      valid: false,
-      value: '',
-    },
-    passConfirm: {
-      label: 'Confirm Password',
-      placeholder: 'Confirm your password once again',
-      type: 'password',
-      valid: false,
-      value: '',
-    },
-    password: {
-      label: 'Password',
-      placeholder: 'Type your password',
-      type: 'password',
-      valid: false,
-      value: '',
-    },
-    username: {
-      label: 'Username',
-      placeholder: 'Type name of your account',
-      type: 'text',
-      valid: false,
-      value: '',
-    },
-  });
+  const { isMobile } = useAuthModalContext();
+  const { backToSignIn } = props;
+  const [isSending, setIsSending] = useState(false);
+  const [inputs, setInputs] = useState(SIGN_UP_INPUTS);
 
-  const wrongListHandler = (name, action, message) => {
-    if (action === 'set') {
-      inputs.current[name].valid = false;
-    } else if (action === 'length 0') {
-      inputs.current[name].valid = false;
-    } else {
-      inputs.current[name].valid = true;
-    }
-    setWrongInputs((prevState) => {
-      const wronginputs = { ...prevState };
-      wronginputs[name] = message;
-      return wronginputs;
-    });
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>, input: ESignUpInputs) => {
+    const currentValue = e.currentTarget.value;
+
+    setInputs((prev) => ({ ...prev, [input]: { ...prev[input], value: currentValue } }));
+
+    const { errMessage, isValid } = validateAuthModalInput(input, currentValue);
+
+    isValid
+      ? setInputs((prev) => ({ ...prev, [input]: { ...prev[input], errMsg: '', valid: true } }))
+      : setInputs((prev) => ({ ...prev, [input]: { ...prev[input], errMsg: errMessage, valid: false } }));
   };
 
-  const validityChecker = (name, value) => {
-    if (value.length === 0) {
-      wrongListHandler(name, 'length 0', '');
-    } else {
-      if (name === 'username') {
-        const isValid = validate('username', value);
-        if (isValid) wrongListHandler(name, 'remove', '');
-        else wrongListHandler(name, 'set', 'Only numbers and letters allowed');
-      }
-      if (name === 'password' || name === 'passConfirm') {
-        const isValid = validate('password', value);
-        if (isValid) wrongListHandler(name, 'remove', '');
-        else wrongListHandler(name, 'set', 'Password must contain at least one number and 4 to 15 chars');
-      }
-      if (name === 'email') {
-        const isValid = validate('email', value);
-        if (isValid) wrongListHandler(name, 'remove', '');
-        else wrongListHandler(name, 'set', 'Wrong email');
-      }
-    }
-  };
-
-  const changeHandler = (e, name) => {
-    const currentValue = e.target.value;
-    inputs.current[name].value = currentValue;
-    validityChecker(name, currentValue);
-  };
-
-  const submitHandler = (e) => {
+  const submitHandler = (e: SyntheticEvent) => {
     e.preventDefault();
 
     let entireFormValid = true;
-    const inputsNames = Object.keys(inputs.current);
-    inputsNames.forEach((name) => {
-      if (inputs.current[name].valid === false) {
+
+    const inputsNames = Object.keys(inputs) as Array<ESignUpInputs>;
+
+    inputsNames.forEach((input) => {
+      if (!inputs[input].valid) {
         entireFormValid = false;
-        wrongListHandler(name, 'set', 'fill the field');
+        setInputs((prev) => ({ ...prev, [input]: { ...prev[input], errMsg: 'Fill this field', valid: false } }));
       }
     });
 
-    if (inputs.current.password.value !== inputs.current.passConfirm.value) {
+    if (inputs.password.value !== inputs.passConfirm.value) {
       entireFormValid = false;
-      wrongListHandler('passConfirm', 'set', 'Passwords must macth');
+      setInputs((prev) => ({
+        ...prev,
+        passConfirm: { ...prev.passConfirm, errMsg: 'Passwords must match', valid: false },
+      }));
     }
 
     if (entireFormValid) {
       const sendObj = { email: '', password: '', username: '' };
 
       inputsNames.forEach((name) => {
-        if (name !== 'passConfirm') sendObj[name] = inputs.current[name].value;
+        if (name !== 'passConfirm') {
+          sendObj[name] = inputs[name].value;
+        }
       });
 
-      // setIsSending(true);
-
-      dispatch(signUpThunk(sendObj));
-      // Backend.postSignUp(sendObj)
-      //   .then(() => {
-      //     setIsSending(false);
-      //     backToSignIn();
-      //     if (!isMobile) {
-      //       dispatch(
-      //         showCornerNotifier({
-      //           corner: ECornerNotifierCorners.bottomLeft,
-      //           message: 'Account is successfully created',
-      //           removeTime: 1000,
-      //           show: true,
-      //         })
-      //       );
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     if (err.status === 400 && err.body.field) {
-      //       setIsSending(false);
-      //       wrongListHandler(err.body.field, 'set', err.body.err_message);
-      //     }
-      //   });
+      postSignUp(sendObj);
     }
+  };
+
+  const postSignUp = async (signUpData: ISignUpData) => {
+    setIsSending(true);
+
+    const { data } = await Backend.postSignUp(
+      signUpData,
+      (err: AxiosError<{ err_message: string; field: ESignUpInputs }>) => {
+        if (err.response?.status === HttpRespStats.badRequest && err.response.data.field) {
+          const { err_message, field } = err.response.data;
+          setInputs((prev) => ({ ...prev, [field]: { ...prev[field], errMsg: err_message, valid: false } }));
+        }
+      }
+    );
+
+    if (data) {
+      backToSignIn();
+      !isMobile &&
+        dispatch(
+          showCornerNotifier({
+            corner: ECornerNotifierCorners.bottomLeft,
+            message: 'Account is successfully created',
+            removeTime: 1000,
+            show: true,
+          })
+        );
+    }
+
+    setIsSending(false);
   };
 
   const closeModalHandler = () => {
     dispatch(showAuthModal(false));
   };
+
   return (
     <div className={`${styles.SignUp}`}>
       <h1>Start Your Journey</h1>
       <form onSubmit={submitHandler}>
         <div className={styles.InputsSection}>
-          {Object.keys(inputs.current).map((name) => (
+          {Object.keys(inputs).map((name) => (
             <div key={name} className={styles.InputWrapper}>
               <InputAuth
-                {...inputs.current[name]}
-                dataDesc={name}
-                addToggler={inputs.current[name].type === 'password' ? TogglerOptions['hideShowToggler'] : null}
-                onChange={changeHandler}
-                wrong={wrongInputs[name]}
+                type={inputs[name].type}
+                placeholder={inputs[name].placeholder}
+                value={inputs[name].value}
+                addToggler={inputs[name].type === 'password'}
+                onChange={(e) => changeHandler(e, name as ESignUpInputs)}
+                wrong={inputs[name].errMsg}
                 disabled={isSending}
               />
             </div>
@@ -175,7 +157,13 @@ export function SignUpForm(props): JSX.Element {
           <ButtonNeon txtContent={`Back to Sign In`} rectangular onClick={backToSignIn} />
         </div>
       </form>
-      <div className={styles.CloseSvgWrapper} onClick={closeModalHandler}>
+      <div
+        className={styles.CloseSvgWrapper}
+        onClick={closeModalHandler}
+        onKeyPress={closeModalHandler}
+        role={'button'}
+        tabIndex={0}
+      >
         <CloseSvg />
       </div>
       {isSending && (
