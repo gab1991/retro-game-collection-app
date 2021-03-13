@@ -6,9 +6,10 @@ import { Backend, HttpRespStats } from 'Backend';
 import { ISignUpData } from 'Backend/types';
 import { ESignUpInputs, TSignUpInputs } from 'Components/AuthModal/types';
 
+import { AuthFormSpinner } from '../AuthFormSpinner';
 import { useAuthModalContext } from 'Components/AuthModal/context';
 import { validateAuthModalInput } from 'Components/AuthModal/validation';
-import { ButtonNeon, InputAuth, OvalSpinner } from 'Components/UI';
+import { ButtonNeon, InputAuth } from 'Components/UI';
 import { CloseSvg } from 'Components/UI/LogoSvg';
 import { ECornerNotifierCorners } from 'Components/UI/Modals';
 import { showAuthModal, showCornerNotifier } from 'Store/appStateReducer/actions';
@@ -166,13 +167,7 @@ export function SignUpForm(props: any): JSX.Element {
       >
         <CloseSvg />
       </div>
-      {isSending && (
-        <div className={styles.SendingBackdrop}>
-          <div className={styles.OvalSpinnerWrapper}>
-            <OvalSpinner />
-          </div>
-        </div>
-      )}
+      {isSending && <AuthFormSpinner />}
     </div>
   );
 }

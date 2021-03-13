@@ -1,0 +1,1 @@
+export { AuthFormSpinner } from './AuthFormSpinner';
