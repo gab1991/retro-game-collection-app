@@ -4,10 +4,9 @@ import { Backend } from 'Backend';
 
 import { ESignInInputs } from 'Components/AuthModal/types';
 
-import { AuthFormSpinner } from 'Components/AuthModal/components';
+import { AuthFormSpinner, CloseAuthModal } from 'Components/AuthModal/components';
 import { useAuthModalContext } from 'Components/AuthModal/context';
 import { ButtonNeon, InputAuth } from 'Components/UI';
-import { CloseSvg } from 'Components/UI/LogoSvg';
 import { showAuthModal } from 'Store/appStateReducer/actions';
 import { signIn } from 'Store/authReducer/actions';
 
@@ -84,15 +83,7 @@ export function SignInForm(props: any): JSX.Element {
           <ButtonNeon txtContent={`Sign Up`} rectangular onClick={toSignUp} />
         </div>
       </form>
-      <div
-        className={styles.CloseSvgWrapper}
-        onClick={closeModalHandler}
-        onKeyPress={closeModalHandler}
-        role={'button'}
-        tabIndex={0}
-      >
-        <CloseSvg />
-      </div>
+      <CloseAuthModal />
       {isSending && <AuthFormSpinner />}
     </div>
   );

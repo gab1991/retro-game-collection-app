@@ -6,13 +6,12 @@ import { Backend, HttpRespStats } from 'Backend';
 import { ISignUpData } from 'Backend/types';
 import { ESignUpInputs, TSignUpInputs } from 'Components/AuthModal/types';
 
-import { AuthFormSpinner } from '../AuthFormSpinner';
+import { AuthFormSpinner, CloseAuthModal } from 'Components/AuthModal/components';
 import { useAuthModalContext } from 'Components/AuthModal/context';
 import { validateAuthModalInput } from 'Components/AuthModal/validation';
 import { ButtonNeon, InputAuth } from 'Components/UI';
-import { CloseSvg } from 'Components/UI/LogoSvg';
 import { ECornerNotifierCorners } from 'Components/UI/Modals';
-import { showAuthModal, showCornerNotifier } from 'Store/appStateReducer/actions';
+import { showCornerNotifier } from 'Store/appStateReducer/actions';
 
 import styles from './SignUpForm.module.scss';
 
@@ -130,10 +129,6 @@ export function SignUpForm(props: any): JSX.Element {
     setIsSending(false);
   };
 
-  const closeModalHandler = () => {
-    dispatch(showAuthModal(false));
-  };
-
   return (
     <div className={`${styles.SignUp}`}>
       <h1>Start Your Journey</h1>
@@ -158,15 +153,7 @@ export function SignUpForm(props: any): JSX.Element {
           <ButtonNeon txtContent={`Back to Sign In`} rectangular onClick={backToSignIn} />
         </div>
       </form>
-      <div
-        className={styles.CloseSvgWrapper}
-        onClick={closeModalHandler}
-        onKeyPress={closeModalHandler}
-        role={'button'}
-        tabIndex={0}
-      >
-        <CloseSvg />
-      </div>
+      <CloseAuthModal />
       {isSending && <AuthFormSpinner />}
     </div>
   );
