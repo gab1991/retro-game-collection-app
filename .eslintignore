@@ -6,3 +6,6 @@ node_modules/*
 
 #Ignoring Webpack configs
 webpack/*
+
+#ignoring rootConfigs
+*.config.js
