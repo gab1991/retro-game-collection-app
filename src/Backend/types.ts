@@ -26,7 +26,7 @@ export type TBackend = {
   isWatchedEbayCard: (ebayCard: IEbayCardObj, errCb?: TErrCb) => AxiosPromise<{ success?: string }>;
   notWatchEbayCard: (ebayCard: IEbayCardObj, errCb?: TErrCb) => AxiosPromise;
   postSignIn: (username: string, password: string, errCb?: TErrCb) => AxiosPromise;
-  postSignUp: (data: ISignUpData, errCb?: TErrCb) => AxiosPromise;
+  postSignUp: (data: ISignUpData, errCb?: TErrCb) => AxiosPromise<{ user_id: number }>;
   toggleEbayVisibility: (game: string, platform: TPlatformNames, isShowed: boolean, errCb?: TErrCb) => AxiosPromise;
   //rewrite this method
   updateProfile: (obj: TUpdProfObj, errCb?: TErrCb) => AxiosPromise;
@@ -72,7 +72,7 @@ interface IEbayCardObj {
   platform: TPlatformNames;
 }
 
-interface ISignUpData {
+export interface ISignUpData {
   email: string;
   password: string;
   username: string;
