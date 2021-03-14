@@ -1,6 +1,7 @@
 import { batch } from 'react-redux';
 import { Backend, HttpRespStats } from 'Backend';
 
+import { ISignUpData } from 'Backend/types';
 import { TThunk } from 'Store/types';
 
 import { flushProfile } from 'Routes/Profile/reducer/actions';

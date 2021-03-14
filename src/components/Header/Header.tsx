@@ -1,13 +1,13 @@
 import React, { useMemo, useReducer } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { batch, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { EHeaderReducerActions } from './reducer/types';
 
 import { Backdrop, ButtonNeon, MenuSideSlider } from 'Components/UI';
 import { showAuthModal } from 'Store/appStateReducer/actions';
-import { logOut } from 'Store/authReducer/actions';
 import { selectLoggedUser } from 'Store/authReducer/selectors';
+import { logOutThunk } from 'Store/authReducer/thunks';
 
 import { headerReducer, initial } from './reducer';
 
@@ -37,9 +37,11 @@ export function Header(): JSX.Element {
   };
 
   const loggingOut = () => {
-    toPlatformSelector();
-    hideMenu();
-    dispatchGlobal(logOut());
+    batch(() => {
+      toPlatformSelector();
+      hideMenu();
+      dispatchGlobal(logOutThunk());
+    });
   };
 
   const showAuth = () => {

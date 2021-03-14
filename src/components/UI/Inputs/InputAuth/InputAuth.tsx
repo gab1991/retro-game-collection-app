@@ -4,19 +4,14 @@ import eyeicon from '../../../../Assets/images/svg/eye-regular.svg';
 
 import styles from './InputAuth.module.scss';
 
-export enum TogglerOptions {
-  'hideShowToggler',
-}
-
 interface IInputAuthProps {
-  addToggler: TogglerOptions;
-  autoComplete: 'on' | 'off';
-  dataDesc: string;
+  addToggler?: boolean;
+  autoComplete?: 'on' | 'off';
   disabled: boolean;
-  label: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>, dataDesc: string) => void;
-  onKeyPress: () => void;
-  placeholder: string;
+  label?: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  // onKeyPress: () => void;
+  placeholder?: string;
   type: string;
   value: string;
   wrong: boolean;
@@ -29,11 +24,11 @@ export function InputAuth(props: IInputAuthProps): JSX.Element {
     value,
     placeholder,
     disabled,
-    dataDesc,
+    // dataDesc,
     onChange,
-    onKeyPress,
+    // onKeyPress,
     wrong,
-    addToggler,
+    addToggler = false,
     autoComplete = 'on',
   } = props;
 
@@ -52,15 +47,14 @@ export function InputAuth(props: IInputAuthProps): JSX.Element {
         ${wrong ? styles.WrongInput : null}
         `}
           autoComplete={autoComplete}
-          data-desc={dataDesc}
-          type={typeChanger}
+          type={type}
           placeholder={placeholder}
-          onChange={(e) => onChange(e, dataDesc)}
-          onKeyPress={onKeyPress}
+          onChange={onChange}
+          onKeyPress={() => null}
           disabled={disabled}
           value={value}
         />
-        {addToggler === TogglerOptions['hideShowToggler'] && (
+        {addToggler && (
           <div
             className={`${styles.HideShowToggler} ${typeChanger === 'text' ? styles.HideShowTogglerActive : null}`}
             onClick={passVisibilityHandler}
