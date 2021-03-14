@@ -8,7 +8,7 @@ interface IKnobTogglerProps {
   checked: boolean;
   labelTxt: string;
   onChangeHandler: () => void;
-  width: string;
+  width?: string;
 }
 
 export function KnobToggler(props: IKnobTogglerProps): JSX.Element {

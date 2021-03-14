@@ -8,4 +8,4 @@ node_modules/*
 webpack/*
 
 #ignoring rootConfigs
-*.config.js
+*.config.[t|j]s
