@@ -1,34 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Backdrop } from 'Components/UI';
 
 import { SignInForm, SignUpForm } from './components';
+import { useAuthModalContext } from './context';
 
 import styles from './Authmodal.module.scss';
 
-enum EActiveSide {
-  'ActiveSignIn' = 'ActiveSignIn',
-  'ActiveSignUp' = 'ActiveSignUp',
-}
-
 export function AuthModal(): JSX.Element {
-  const [activeSide, setActiveSide] = useState(EActiveSide.ActiveSignIn);
-
-  const backToSignIn = (e) => {
-    if (e) e.preventDefault();
-    setActiveSide(EActiveSide.ActiveSignIn);
-  };
-
-  const toSignUp = (e) => {
-    if (e) e.preventDefault();
-    setActiveSide(EActiveSide.ActiveSignUp);
-  };
+  const { activeSide } = useAuthModalContext();
 
   return (
     <div className={styles.AuthModal}>
       <div className={`${styles.AuthCard} ${styles[activeSide]}`}>
-        <SignInForm toSignUp={toSignUp} />
-        <SignUpForm backToSignIn={backToSignIn} />
+        <SignInForm />
+        <SignUpForm />
       </div>
       <Backdrop show />
     </div>

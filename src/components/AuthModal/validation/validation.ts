@@ -20,13 +20,13 @@ enum EValidateAuthModalInputErrors {
 }
 
 interface IValidateAuthModalInputsReturn {
-  errMessage: string;
+  errMessage: EValidateAuthModalInputErrors | null;
   isValid: boolean;
 }
 
 export const validateAuthModalInput = (input: TAuthModalInputs, value: string): IValidateAuthModalInputsReturn => {
   let isValid = true;
-  let errMessage = '';
+  let errMessage: EValidateAuthModalInputErrors | null = null;
 
   if (!value) {
     isValid = false;

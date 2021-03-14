@@ -26,15 +26,15 @@
   }
 }
 
-.ActiveSignIn > div:last-child {
+.signIn > div:last-child {
   z-index: -1;
   transform: perspective(1000px) rotateY(-180deg);
 }
 
-.ActiveSignUp > div:first-child {
+.signUp > div:first-child {
   transform: perspective(1000px) rotateY(180deg);
 }
 
-.ActiveSignUp > div:last-child {
+.signUp > div:last-child {
   transform: perspective(1000px) rotateY(0deg);
 }

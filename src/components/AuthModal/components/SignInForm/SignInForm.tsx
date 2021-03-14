@@ -1,5 +1,5 @@
 import React, { SyntheticEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { batch, useDispatch } from 'react-redux';
 import { Backend } from 'Backend';
 
 import { ESignInInputs } from 'Components/AuthModal/types';
@@ -12,11 +12,16 @@ import { signIn } from 'Store/authReducer/actions';
 
 import styles from './SignInForm.module.scss';
 
-export function SignInForm(props: any): JSX.Element {
-  const { toSignUp } = props;
+export function SignInForm(): JSX.Element {
   const dispatch = useDispatch();
   const [isSending, setIsSending] = useState(false);
-  const { signInInputChangeHandler, signInInputs, validateSignInInputs, signInErrorCallBack } = useAuthModalContext();
+  const {
+    signInInputChangeHandler,
+    signInInputs,
+    validateSignInInputs,
+    signInErrorCallBack,
+    toSignUp,
+  } = useAuthModalContext();
 
   const sendLoginReq = async ({ username, password }) => {
     setIsSending(true);
@@ -27,8 +32,10 @@ export function SignInForm(props: any): JSX.Element {
       } = await Backend.postSignIn(username, password, signInErrorCallBack);
 
       if (token && username) {
-        dispatch(signIn(username, token));
-        closeModalHandler();
+        batch(() => {
+          dispatch(signIn(username, token));
+          dispatch(showAuthModal(false));
+        });
       }
     } catch (err) {
     } finally {
@@ -52,8 +59,9 @@ export function SignInForm(props: any): JSX.Element {
     sendLoginReq({ password: 'guest1', username: 'guest' });
   };
 
-  const closeModalHandler = () => {
-    dispatch(showAuthModal(false));
+  const toSignUpLocal = (e: SyntheticEvent) => {
+    e.preventDefault();
+    toSignUp();
   };
 
   return (
@@ -80,7 +88,7 @@ export function SignInForm(props: any): JSX.Element {
         </div>
         <div className={styles.BtnSection}>
           <ButtonNeon txtContent={`Sign in`} onClick={regularLogin} style={{ zIndex: 100 }} rectangular />
-          <ButtonNeon txtContent={`Sign Up`} rectangular onClick={toSignUp} />
+          <ButtonNeon txtContent={`Sign Up`} rectangular onClick={toSignUpLocal} />
         </div>
       </form>
       <CloseAuthModal />
