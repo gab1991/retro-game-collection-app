@@ -10,6 +10,8 @@
     "browsers": "npx browserslist",
     "serve": "serve -s build",
     "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "lint": "eslint --fix src/**/*.{js,jsx,ts,tsx}"
   },
   "browserslist": {
@@ -23,12 +25,6 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ]
-  },
-  "babel": {
-    "presets": [
-      "@babel/preset-env",
-      "@babel/preset-react"
     ]
   },
   "dependencies": {
