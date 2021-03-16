@@ -36,18 +36,18 @@ export const validateAuthModalInput = (input: TAuthModalInputs, value: string): 
   switch (input) {
     case ESignUpInputs.username: {
       isValid = validate('username', value);
-      errMessage = EValidateAuthModalInputErrors.username;
+      errMessage = isValid ? null : EValidateAuthModalInputErrors.username;
       break;
     }
     case ESignUpInputs.email: {
       isValid = validate('email', value);
-      errMessage = EValidateAuthModalInputErrors.email;
+      errMessage = isValid ? null : EValidateAuthModalInputErrors.email;
       break;
     }
     case ESignUpInputs.password:
     case ESignUpInputs.passConfirm: {
       isValid = validate('password', value);
-      errMessage = EValidateAuthModalInputErrors.password;
+      errMessage = isValid ? null : EValidateAuthModalInputErrors.password;
       break;
     }
   }

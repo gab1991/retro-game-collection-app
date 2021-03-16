@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { Backend } from 'Backend';
 
 import { ISignUpData } from 'Backend/types';
-import { ESignUpInputs } from 'Components/AuthModal/types';
 
 import { AuthFormSpinner, CloseAuthModal } from 'Components/AuthModal/components';
 import { useAuthModalContext } from 'Components/AuthModal/context';
@@ -33,9 +32,9 @@ export function SignUpForm(): JSX.Element {
     if (entireFormValid) {
       const sendObj = { email: '', password: '', username: '' };
 
-      Object.keys(signUpInputs).forEach((name) => {
+      signUpInputs.forEach(({ name, value }) => {
         if (name === 'passConfirm') return;
-        sendObj[name] = signUpInputs[name].value;
+        sendObj[name] = value;
       });
 
       postSignUp(sendObj);
@@ -73,15 +72,15 @@ export function SignUpForm(): JSX.Element {
       <h1>Start Your Journey</h1>
       <form onSubmit={submitHandler}>
         <div className={styles.InputsSection}>
-          {Object.keys(signUpInputs).map((name) => (
-            <div key={name} className={styles.InputWrapper}>
+          {signUpInputs.map((input) => (
+            <div key={input.name} className={styles.InputWrapper}>
               <InputAuth
-                type={signUpInputs[name].type}
-                placeholder={signUpInputs[name].placeholder}
-                value={signUpInputs[name].value}
-                addToggler={signUpInputs[name].type === 'password'}
-                onChange={(e) => signUpInputChangeHandler(e, name as ESignUpInputs)}
-                wrong={signUpInputs[name].errMsg}
+                type={input.type}
+                placeholder={input.placeholder}
+                value={input.value}
+                addToggler={input.type === 'password'}
+                onChange={(e) => signUpInputChangeHandler(e, input.name)}
+                errorMsg={input.errMsg}
                 disabled={isSending}
               />
             </div>

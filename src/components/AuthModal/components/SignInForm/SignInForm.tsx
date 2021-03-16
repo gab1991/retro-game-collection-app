@@ -50,7 +50,9 @@ export function SignInForm(): JSX.Element {
 
     if (entireFormValid) {
       const sendObj = { email: '', password: '', username: '' };
-      Object.keys(signInInputs).forEach((name) => (sendObj[name] = signInInputs[name].value));
+
+      signInInputs.forEach(({ name, value }) => (sendObj[name] = value));
+
       sendLoginReq(sendObj);
     }
   };
@@ -69,15 +71,17 @@ export function SignInForm(): JSX.Element {
       <h1>Seen you lately?</h1>
       <form onSubmit={regularLogin}>
         <div className={styles.InputsSection}>
-          {Object.keys(signInInputs).map((name) => (
-            <div key={name} className={styles.InputWrapper}>
+          {signInInputs.map((input) => (
+            <div key={input.name} className={styles.InputWrapper}>
               <InputAuth
-                type={signInInputs[name].type}
-                placeholder={signInInputs[name].placeholder}
-                value={signInInputs[name].value}
-                addToggler={signInInputs[name].type === 'password'}
-                onChange={(e) => signInInputChangeHandler(e, name as ESignInInputs)}
-                wrong={signInInputs[name].errMsg}
+                type={input.type}
+                placeholder={input.placeholder}
+                value={input.value}
+                addToggler={input.type === 'password'}
+                onChange={(e) => {
+                  signInInputChangeHandler(e, input.name);
+                }}
+                errorMsg={input.errMsg}
                 disabled={isSending}
               />
             </div>

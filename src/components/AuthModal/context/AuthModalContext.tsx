@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { AxiosError } from 'axios';
 import { HttpRespStats } from 'Backend';
+import { produce } from 'immer';
 
 import {
   EAuthModalSides,
@@ -37,32 +38,37 @@ interface IAuthModalProviderContext {
   validateSignUpInputs: () => boolean;
 }
 
-export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.Element {
-  const [activeSide, setActiveSide] = useState(EAuthModalSides.signIn);
-  const [signInInputs, setSignInInputs] = useState(SIGN_IN_INPUTS);
-  const [signUpInputs, setSignUpInputs] = useState(SIGN_UP_INPUTS);
-  const isMobile = useSelector(selectIsMobile);
+type TSideInputs = { [EAuthModalSides.signIn]: TSignInInputs; [EAuthModalSides.signUp]: TSignUpInputs };
 
-  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>, input: TAuthModalInputs, side: EAuthModalSides) => {
+export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.Element {
+  const isMobile = useSelector(selectIsMobile);
+  const [activeSide, setActiveSide] = useState(EAuthModalSides.signIn);
+  const [inputs, setInputs] = useState<TSideInputs>({ signIn: SIGN_IN_INPUTS, signUp: SIGN_UP_INPUTS });
+  const signInInputs = inputs.signIn;
+  const signUpInputs = inputs.signUp;
+
+  const changeHandler = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    inputName: TAuthModalInputs,
+    side: EAuthModalSides
+  ) => {
     const currentValue = e.currentTarget.value;
 
-    if (side === EAuthModalSides.signIn) {
-      setSignInInputs((prev) => ({ ...prev, [input]: { ...prev[input], value: currentValue } }));
-    } else if (side === EAuthModalSides.signUp) {
-      setSignUpInputs((prev) => ({ ...prev, [input]: { ...prev[input], value: currentValue } }));
+    const inputInd = inputs[side].findIndex((input) => input.name === inputName);
+
+    if (inputInd < 0) {
+      return;
     }
 
-    const { errMessage, isValid } = validateAuthModalInput(input, currentValue);
+    const { errMessage, isValid } = validateAuthModalInput(inputName, currentValue);
 
-    if (side === EAuthModalSides.signIn) {
-      isValid
-        ? setSignInInputs((prev) => ({ ...prev, [input]: { ...prev[input], errMsg: '', valid: true } }))
-        : setSignInInputs((prev) => ({ ...prev, [input]: { ...prev[input], errMsg: errMessage, valid: false } }));
-    } else if (side === EAuthModalSides.signUp) {
-      isValid
-        ? setSignUpInputs((prev) => ({ ...prev, [input]: { ...prev[input], errMsg: '', valid: true } }))
-        : setSignUpInputs((prev) => ({ ...prev, [input]: { ...prev[input], errMsg: errMessage, valid: false } }));
-    }
+    const updInputs = produce(inputs, (draft) => {
+      draft[side][inputInd].value = currentValue;
+      draft[side][inputInd].valid = isValid ? true : false;
+      draft[side][inputInd].errMsg = errMessage ? errMessage : '';
+    });
+
+    setInputs(updInputs);
   };
 
   const signInInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, input: ESignInInputs) =>
@@ -72,27 +78,20 @@ export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.El
     changeHandler(e, input, EAuthModalSides.signUp);
 
   const validateInputs = (side: EAuthModalSides) => {
-    const isSignInSide = side === EAuthModalSides.signIn;
-
     let isValid = true;
 
-    const currentInputs = isSignInSide ? signInInputs : signUpInputs;
-    const inputsNames = Object.keys(currentInputs);
-
-    inputsNames.forEach((input) => {
-      if (!currentInputs[input].valid) {
-        isValid = false;
-        isSignInSide
-          ? setSignInInputs((prev) => ({
-              ...prev,
-              [input]: { ...prev[input], errMsg: 'This field is empty', valid: false },
-            }))
-          : setSignUpInputs((prev) => ({
-              ...prev,
-              [input]: { ...prev[input], errMsg: 'This field is empty', valid: false },
-            }));
-      }
+    const updInputs = produce(inputs, (draft) => {
+      draft[side].forEach((input) => {
+        if (!input.valid) {
+          isValid = false;
+          if (input.value.length === 0) {
+            input.errMsg = 'This field is empty';
+          }
+        }
+      });
     });
+
+    setInputs(updInputs);
 
     return isValid;
   };
@@ -104,14 +103,14 @@ export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.El
   const signInErrorCallBack = (err: AxiosError<{ err_message: string; field: ESignInInputs }>) => {
     if (err.response?.status === HttpRespStats.badRequest && err.response.data.field) {
       const { err_message, field } = err.response.data;
-      setSignInInputs((prev) => ({ ...prev, [field]: { ...prev[field], errMsg: err_message, valid: false } }));
+      // setSignInInputs((prev) => ({ ...prev, [field]: { ...prev[field], errMsg: err_message, valid: false } }));
     }
   };
 
   const signUpErrorCallBack = (err: AxiosError<{ err_message: string; field: ESignInInputs }>) => {
     if (err.response?.status === HttpRespStats.badRequest && err.response.data.field) {
       const { err_message, field } = err.response.data;
-      setSignUpInputs((prev) => ({ ...prev, [field]: { ...prev[field], errMsg: err_message, valid: false } }));
+      // setSignUpInputs((prev) => ({ ...prev, [field]: { ...prev[field], errMsg: err_message, valid: false } }));
     }
   };
 
