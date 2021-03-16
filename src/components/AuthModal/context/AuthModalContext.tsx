@@ -12,56 +12,9 @@ import {
   TSignUpInputs,
 } from 'Components/AuthModal/types';
 
+import { SIGN_IN_INPUTS, SIGN_UP_INPUTS } from 'Components/AuthModal/inputs';
 import { validateAuthModalInput } from 'Components/AuthModal/validation';
 import { selectIsMobile } from 'Store/appStateReducer/selectors';
-
-const SIGN_IN_INPUTS: TSignInInputs = {
-  password: {
-    label: 'Password',
-    placeholder: 'Type your password',
-    type: 'password',
-    valid: false,
-    value: '',
-  },
-  username: {
-    label: 'Username',
-    placeholder: 'Type name of your account',
-    type: 'text',
-    valid: false,
-    value: '',
-  },
-};
-
-const SIGN_UP_INPUTS: TSignUpInputs = {
-  email: {
-    label: 'Email',
-    placeholder: 'Current email',
-    type: 'email',
-    valid: false,
-    value: '',
-  },
-  passConfirm: {
-    label: 'Confirm Password',
-    placeholder: 'Confirm your password once again',
-    type: 'password',
-    valid: false,
-    value: '',
-  },
-  password: {
-    label: 'Password',
-    placeholder: 'Type your password',
-    type: 'password',
-    valid: false,
-    value: '',
-  },
-  username: {
-    label: 'Username',
-    placeholder: 'Type name of your account',
-    type: 'text',
-    valid: false,
-    value: '',
-  },
-};
 
 const AuthModalContext = React.createContext<null | IAuthModalProviderContext>(null);
 
@@ -86,8 +39,8 @@ interface IAuthModalProviderContext {
 
 export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.Element {
   const [activeSide, setActiveSide] = useState(EAuthModalSides.signIn);
-  const [signInInputs, setSignInInputs] = useState<TSignInInputs>(SIGN_IN_INPUTS);
-  const [signUpInputs, setSignUpInputs] = useState<TSignUpInputs>(SIGN_UP_INPUTS);
+  const [signInInputs, setSignInInputs] = useState(SIGN_IN_INPUTS);
+  const [signUpInputs, setSignUpInputs] = useState(SIGN_UP_INPUTS);
   const isMobile = useSelector(selectIsMobile);
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>, input: TAuthModalInputs, side: EAuthModalSides) => {
