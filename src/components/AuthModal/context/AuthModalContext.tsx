@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { AxiosError } from 'axios';
 import { HttpRespStats } from 'Backend';
@@ -102,17 +102,30 @@ export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.El
 
   const validateSignUpInputs = () => validateInputs(EAuthModalSides.signUp);
 
+  const setErrCallBackField = (err_message: string, field: TAuthModalInputs) => {
+    const updInputs = produce(inputs, (draft) => {
+      const updInput = draft.signIn.find((input) => input.name === field);
+
+      if (!updInput) return;
+
+      updInput.errMsg = err_message;
+      updInput.valid = false;
+    });
+
+    setInputs(updInputs);
+  };
+
   const signInErrorCallBack = (err: AxiosError<{ err_message: string; field: ESignInInputs }>) => {
     if (err.response?.status === HttpRespStats.badRequest && err.response.data.field) {
       const { err_message, field } = err.response.data;
-      // setSignInInputs((prev) => ({ ...prev, [field]: { ...prev[field], errMsg: err_message, valid: false } }));
+      setErrCallBackField(err_message, field);
     }
   };
 
   const signUpErrorCallBack = (err: AxiosError<{ err_message: string; field: ESignInInputs }>) => {
     if (err.response?.status === HttpRespStats.badRequest && err.response.data.field) {
       const { err_message, field } = err.response.data;
-      // setSignUpInputs((prev) => ({ ...prev, [field]: { ...prev[field], errMsg: err_message, valid: false } }));
+      setErrCallBackField(err_message, field);
     }
   };
 
