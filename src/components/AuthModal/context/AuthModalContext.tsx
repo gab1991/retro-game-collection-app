@@ -8,6 +8,8 @@ import {
   EAuthModalSides,
   ESignInInputs,
   ESignUpInputs,
+  ISignInInput,
+  ISignUpInput,
   TAuthModalInputs,
   TSignInInputs,
   TSignUpInputs,
@@ -54,7 +56,7 @@ export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.El
   ) => {
     const currentValue = e.currentTarget.value;
 
-    const inputInd = inputs[side].findIndex((input) => input.name === inputName);
+    const inputInd = inputs[side].findIndex((input: ISignInInput | ISignUpInput) => input.name === inputName);
 
     if (inputInd < 0) {
       return;
@@ -81,7 +83,7 @@ export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.El
     let isValid = true;
 
     const updInputs = produce(inputs, (draft) => {
-      draft[side].forEach((input) => {
+      draft[side].forEach((input: ISignInInput | ISignUpInput) => {
         if (!input.valid) {
           isValid = false;
           if (input.value.length === 0) {
