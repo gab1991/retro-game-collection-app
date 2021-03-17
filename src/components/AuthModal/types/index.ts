@@ -24,6 +24,14 @@ export interface IInputBody {
   value: string;
 }
 
-export type TSignUpInputs = { [key in ESignUpInputs]: IInputBody };
-export type TSignInInputs = { [key in ESignInInputs]: IInputBody };
+export interface ISignUpInput extends IInputBody {
+  name: ESignUpInputs;
+}
+export interface ISignInInput extends IInputBody {
+  name: ESignInInputs;
+}
+
+export type TSignUpInputs = Array<ISignUpInput>;
+export type TSignInInputs = Array<ISignInInput>;
+
 export type TAuthModalInputs = ESignUpInputs | ESignInInputs;

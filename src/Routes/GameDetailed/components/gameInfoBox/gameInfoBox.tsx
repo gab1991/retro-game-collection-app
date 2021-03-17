@@ -10,7 +10,7 @@ import { getBoxArt } from 'Store/contentReducer/thunks';
 import { IRawgGameDetails } from 'Typings/RawgData';
 import { trimName } from 'Utils/helperFunctions';
 
-import styles from './gameInfoBox.module.scss';
+import styles from './GameInfoBox.module.scss';
 
 interface IGameInfoBoxProps {
   gameDetails: DeepReadonly<IRawgGameDetails>;

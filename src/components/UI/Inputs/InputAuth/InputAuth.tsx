@@ -8,13 +8,13 @@ interface IInputAuthProps {
   addToggler?: boolean;
   autoComplete?: 'on' | 'off';
   disabled: boolean;
+  errorMsg?: string;
   label?: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   // onKeyPress: () => void;
   placeholder?: string;
   type: string;
   value: string;
-  wrong: boolean;
 }
 
 export function InputAuth(props: IInputAuthProps): JSX.Element {
@@ -27,7 +27,7 @@ export function InputAuth(props: IInputAuthProps): JSX.Element {
     // dataDesc,
     onChange,
     // onKeyPress,
-    wrong,
+    errorMsg,
     addToggler = false,
     autoComplete = 'on',
   } = props;
@@ -44,7 +44,7 @@ export function InputAuth(props: IInputAuthProps): JSX.Element {
       <div className={styles.InputContainer}>
         <input
           className={`${styles.InputAuth}
-        ${wrong ? styles.WrongInput : null}
+        ${errorMsg ? styles.WrongInput : null}
         `}
           autoComplete={autoComplete}
           type={type}
@@ -66,7 +66,7 @@ export function InputAuth(props: IInputAuthProps): JSX.Element {
           </div>
         )}
       </div>
-      {wrong && <div className={styles.WrongMessage}>{wrong}</div>}
+      {errorMsg && <div className={styles.WrongMessage}>{errorMsg}</div>}
     </>
   );
 }
