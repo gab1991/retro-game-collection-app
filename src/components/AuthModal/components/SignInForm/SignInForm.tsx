@@ -2,8 +2,6 @@ import React, { SyntheticEvent, useState } from 'react';
 import { batch, useDispatch } from 'react-redux';
 import { Backend } from 'Backend';
 
-import { ESignInInputs } from 'Components/AuthModal/types';
-
 import { AuthFormSpinner, CloseAuthModal } from 'Components/AuthModal/components';
 import { useAuthModalContext } from 'Components/AuthModal/context';
 import { ButtonNeon, InputAuth } from 'Components/UI';
@@ -74,6 +72,7 @@ export function SignInForm(): JSX.Element {
           {signInInputs.map((input) => (
             <div key={input.name} className={styles.InputWrapper}>
               <InputAuth
+                label={input.label}
                 type={input.type}
                 placeholder={input.placeholder}
                 value={input.value}

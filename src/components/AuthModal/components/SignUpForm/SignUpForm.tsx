@@ -75,6 +75,7 @@ export function SignUpForm(): JSX.Element {
           {signUpInputs.map((input) => (
             <div key={input.name} className={styles.InputWrapper}>
               <InputAuth
+                label={input.label}
                 type={input.type}
                 placeholder={input.placeholder}
                 value={input.value}
