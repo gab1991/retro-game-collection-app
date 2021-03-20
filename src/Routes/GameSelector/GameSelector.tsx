@@ -1,15 +1,19 @@
 import React, { ChangeEvent, SyntheticEvent, useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { match } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 import { Paginator } from 'Components';
-import { History } from 'history';
-
-import { IGameSelectorQuery } from 'Routes/GameSelector/reducer/types';
 
 import { DotSpinner, SearchInput, SelectBox } from 'Components/UI';
 import { appConfig, TPlatformNames } from 'Configs/appConfig';
 import { setSearchInputValue } from 'Routes/GameSelector/reducer/actions';
-import { selectGamesToShow, selectPageData } from 'Routes/GameSelector/reducer/selectors';
+import {
+  selectGamesToShow,
+  selectIsLoading,
+  selectNoGamesFound,
+  selectPageData,
+  selectQuery,
+  selectSearchInputValue,
+} from 'Routes/GameSelector/reducer/selectors';
 import {
   changePage,
   getGamesForPlatform,
@@ -17,7 +21,6 @@ import {
   setNewOrdering,
   startNewSearch,
 } from 'Routes/GameSelector/reducer/thunks';
-import { IRawgGame, IRawgPageData } from 'Typings/RawgData';
 
 import { GameCard } from './components';
 
@@ -25,33 +28,21 @@ import styles from './GameSelector.module.scss';
 
 const orderingOptions = appConfig.GameSelector.ordering;
 
-interface IGameSelectorProps {
-  gamesToShow: Array<IRawgGame>;
-  history: History;
-  isLoading: boolean;
-  match: match<IGameSelecorMatchParams>;
-  noGamesFound: boolean;
-  pageData: IRawgPageData;
-  query: IGameSelectorQuery;
-  searchInputValue: string;
-}
-
-interface IGameSelecorMatchParams {
-  platformName: TPlatformNames;
-}
-
 interface ISendReqEvent extends SyntheticEvent {
   key?: string;
 }
 
-function _GameSelector(props: IGameSelectorProps) {
-  const { isLoading, noGamesFound, query, searchInputValue, history, match } = props;
-  const { platformName } = match.params;
-  const { ordername, page: queryPage, search: searchQuery, direction } = query;
+export function GameSelector(): JSX.Element {
+  const history = useHistory();
   const dispatch = useDispatch();
-
+  const query = useSelector(selectQuery);
   const gamesToShow = useSelector(selectGamesToShow);
   const pageData = useSelector(selectPageData);
+  const searchInputValue = useSelector(selectSearchInputValue);
+  const isLoading = useSelector(selectIsLoading);
+  const noGamesFound = useSelector(selectNoGamesFound);
+  const { platformName } = useParams<{ platformName: TPlatformNames }>();
+  const { ordername, page: queryPage, search: searchQuery, direction } = query;
 
   useEffect(() => {
     dispatch(parseQueryParams(history.location.search));
@@ -75,7 +66,7 @@ function _GameSelector(props: IGameSelectorProps) {
       dispatch(startNewSearch(searchInputValue));
     }
   };
-  const selectChangeHandler = (option) => {
+  const selectChangeHandler = (option: string) => {
     dispatch(setNewOrdering(option));
   };
 
@@ -137,15 +128,3 @@ function _GameSelector(props: IGameSelectorProps) {
     </section>
   );
 }
-function mapStateToProps(state) {
-  return {
-    // gamesToShow: state.gameSelector.gamesToShow,
-    isLoading: state.gameSelector.isLoading,
-    noGamesFound: state.gameSelector.noGamesFound,
-    pageData: state.gameSelector.pageData,
-    query: state.gameSelector.query,
-    searchInputValue: state.gameSelector.searchInputValue,
-  };
-}
-
-export const GameSelector = connect(mapStateToProps)(_GameSelector);
