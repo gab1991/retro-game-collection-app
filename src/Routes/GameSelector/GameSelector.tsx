@@ -1,13 +1,13 @@
 import React, { ChangeEvent, SyntheticEvent, useEffect } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { match } from 'react-router-dom';
+import { Paginator } from 'Components';
 import { History } from 'history';
 
 import { IGameSelectorQuery } from 'Routes/GameSelector/reducer/types';
 
-import Paginator from '../../Components/Paginator/Paginator.js';
-import { appConfig, TPlatformNames } from '../../Configs/appConfig';
 import { DotSpinner, SearchInput, SelectBox } from 'Components/UI';
+import { appConfig, TPlatformNames } from 'Configs/appConfig';
 import { setSearchInputValue } from 'Routes/GameSelector/reducer/actions';
 import { selectGamesToShow, selectPageData } from 'Routes/GameSelector/reducer/selectors';
 import {
