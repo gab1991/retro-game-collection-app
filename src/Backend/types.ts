@@ -7,7 +7,7 @@ import { IEbayCardRawData, IEbayCardShippingDetails, TEbayCardPreviewRawData } f
 import { IRawgGameDetails, IRawgScreenshot } from 'Typings/RawgData';
 
 export type TBackend = {
-  checkCredentials: (token: string, username: string, errCb?: TErrCb) => AxiosPromise;
+  checkCredentials: (token: string, username: string) => AxiosPromise<{ success: string }>;
   getBoxArt: (platform: TPlatformNames, slug: string, errCb?: TErrCb) => AxiosPromise<string>;
   getEbayItems: (
     platform: TPlatformNames,

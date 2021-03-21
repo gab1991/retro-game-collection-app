@@ -1,9 +1,9 @@
-import axios_base, { AxiosRequestConfig } from 'axios';
+import axios_base, { AxiosError, AxiosRequestConfig } from 'axios';
 
 import { TBackend, TErrCb } from './types';
 
-import { server_adress } from '../Configs/server.config';
-import { getToken } from '../Store/store';
+import { server_adress } from 'Configs/server.config';
+import { getToken } from 'Store/store';
 
 import { api } from './api_config';
 
@@ -36,28 +36,26 @@ const axiosExecute = async (config: AxiosRequestConfig = {}, errCb?: TErrCb) => 
     return res;
   } catch (err) {
     console.error('ERROR', err);
+    throw err;
 
-    if (typeof errCb === 'function') errCb(err);
+    // if (typeof errCb === 'function') errCb(err);
 
-    return { ...err };
+    // return { ...err };
   }
 };
 
 export const Backend: TBackend = {
-  checkCredentials: (token, username, errCb) => {
-    return axiosExecute(
-      {
-        data: {
-          username,
-        },
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-        method: 'POST',
-        url: `/api/auth/check_credentials`,
+  checkCredentials: (token, username) => {
+    return axiosExecute({
+      data: {
+        username,
       },
-      errCb
-    );
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+      method: 'POST',
+      url: `/api/auth/check_credentials`,
+    });
   },
 
   getBoxArt: (platform, slug, errCb) => {
@@ -271,3 +269,6 @@ export const HttpRespStats = {
   success: 200,
   unathorized: 401,
 };
+
+//Error TypeGuard
+export const isAxiosError = <T>(err: any): err is AxiosError<T> => err?.isAxiosError;

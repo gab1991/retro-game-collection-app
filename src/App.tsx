@@ -8,7 +8,7 @@ import { Layout } from 'Components/Layout';
 import { getProfileInfo } from 'Routes/Profile/reducer/thunks';
 import { setIsMobile } from 'Store/appStateReducer/actions';
 import { selectLoggedUser } from 'Store/authReducer/selectors';
-import { checkCredentials } from 'Store/authReducer/thunks';
+import { checkCredentialsThunk } from 'Store/authReducer/thunks';
 
 import styles from './App.module.scss';
 import sassVars from 'Configs/Variables.scss';
@@ -28,7 +28,7 @@ export function App(): JSX.Element {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(checkCredentials());
+    dispatch(checkCredentialsThunk());
   }, [dispatch]);
 
   useEffect(() => {

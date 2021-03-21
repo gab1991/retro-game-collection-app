@@ -1,7 +1,6 @@
 import { batch } from 'react-redux';
-import { Backend, HttpRespStats } from 'Backend';
+import { Backend, HttpRespStats, isAxiosError } from 'Backend';
 
-import { ISignUpData } from 'Backend/types';
 import { TThunk } from 'Store/types';
 
 import { flushProfile } from 'Routes/Profile/reducer/actions';
@@ -9,20 +8,26 @@ import { storageHandler } from 'Utils/localStorage';
 
 import { logOut, signIn } from './actions';
 
-export const checkCredentials = (): TThunk => async (dispatch) => {
+export const checkCredentialsThunk = (): TThunk => async (dispatch) => {
   const { token, username } = storageHandler.getItems(['token', 'username']);
   if (!token || !username) return;
 
-  const { status } = await Backend.checkCredentials(token, username, (err) => {
+  try {
+    const { status } = await Backend.checkCredentials(token, username);
+
+    if (status === HttpRespStats.success) {
+      dispatch(signIn(username, token));
+    }
+  } catch (err) {
+    if (!isAxiosError(err)) {
+      return;
+    }
+
     const { status } = err?.response || {};
 
     if (status === HttpRespStats.badRequest || status === HttpRespStats.unathorized) {
       storageHandler.removeItems(['username', 'token']);
     }
-  });
-
-  if (status === HttpRespStats.success) {
-    dispatch(signIn(username, token));
   }
 };
 
