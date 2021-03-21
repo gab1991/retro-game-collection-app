@@ -8,7 +8,7 @@ import { TThunk } from 'Store/types';
 import { EAvailableLists, TPlatformNames } from 'Configs/appConfig';
 import { addGame as addGameTopProfile } from 'Routes/Profile/reducer/thunks';
 import { showErrModal } from 'Store/appStateReducer/actions';
-import { getEbayItems as getEbayItemsCore } from 'Store/ebayItemsReducer/thunks';
+import { getEbayItemsThunk } from 'Store/ebayItemsReducer/thunks';
 import { IRawgGameDetails } from 'Typings/RawgData';
 
 import {
@@ -26,17 +26,15 @@ const ADD_GAME_NOTIFIER_SHOWTIME = 2000;
 
 export const getGameDetails = (slug: string): TThunk => {
   return async (dispatch) => {
-    const { data: gameDetails } = await Backend.getGameDetails(slug, () =>
-      //error handling cb
-      dispatch(showErrModal({ message: 'Something wrong happens! Try again later' }))
-    );
-
-    if (!gameDetails) return;
-
-    batch(() => {
-      dispatch(setGameDetails(gameDetails));
-      dispatch(setDescriptionParsed(gameDetails.description));
-    });
+    try {
+      const { data: gameDetails } = await Backend.getGameDetails(slug);
+      batch(() => {
+        dispatch(setGameDetails(gameDetails));
+        dispatch(setDescriptionParsed(gameDetails.description));
+      });
+    } catch (err) {
+      dispatch(showErrModal({ message: 'Something wrong happens! Try again later' }));
+    }
   };
 };
 
@@ -99,10 +97,10 @@ export const addGame = (gameDetails: IRawgGameDetails, list: EAvailableLists, pl
   };
 };
 
-export const getEbayItems = (platform: TPlatformNames, game: string, sortOrder: EEbaySortOrder): TThunk => {
+export const getEbayItemsGDThunk = (platform: TPlatformNames, game: string, sortOrder: EEbaySortOrder): TThunk => {
   return async (dispatch) => {
     dispatch(setEbaySectionLoading(true));
-    dispatch(getEbayItemsCore(platform, game, sortOrder));
+    dispatch(getEbayItemsThunk(platform, game, sortOrder));
     dispatch(setEbaySectionLoading(false));
   };
 };

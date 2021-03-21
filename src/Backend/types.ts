@@ -8,17 +8,16 @@ import { IRawgGameDetails, IRawgScreenshot } from 'Typings/RawgData';
 
 export type TBackend = {
   checkCredentials: (token: string, username: string) => AxiosPromise<{ success: string }>;
-  getBoxArt: (platform: TPlatformNames, slug: string, errCb?: TErrCb) => AxiosPromise<string>;
+  getBoxArt: (platform: TPlatformNames, slug: string) => AxiosPromise<string>;
   getEbayItems: (
     platform: TPlatformNames,
     game: string,
-    sortOrder: EEbaySortOrder,
-    errCb?: TErrCb
+    sortOrder: EEbaySortOrder
   ) => AxiosPromise<{ item: Array<Array<TEbayCardPreviewRawData>> }>;
-  getEbaySingleItem: (id: number, errCb?: TErrCb) => AxiosPromise<{ Item: IEbayCardRawData }>;
-  getGameDetails: (slug: string, errCb?: TErrCb) => AxiosPromise<IRawgGameDetails>;
-  getGameWatchedCards: (platform: TPlatformNames, game: string, errCb?: TErrCb) => AxiosPromise;
-  getGamesForPlatform: (params: IGetGamesForPlatParams, errCb?: TErrCb) => AxiosPromise;
+  getEbaySingleItem: (id: number) => AxiosPromise<{ Item: IEbayCardRawData }>;
+  getGameDetails: (slug: string) => AxiosPromise<IRawgGameDetails>;
+  getGameWatchedCards: (platform: TPlatformNames, game: string) => AxiosPromise<Array<{ id: string }>>;
+  getGamesForPlatform: (params: IGetGamesForPlatParams) => AxiosPromise;
   getProfileInfo: (errCb?: TErrCb) => AxiosPromise<IProfile>;
   getScreenshots: (slug: string, errCb?: TErrCb) => AxiosPromise<{ results: Array<IRawgScreenshot> }>;
   getShippingCosts: (itemId: number, errCb?: TErrCb) => AxiosPromise<IEbayCardShippingDetails>;
@@ -58,7 +57,7 @@ interface IAddGame {
   platform: TPlatformNames;
 }
 
-interface IGetGamesForPlatParams {
+export interface IGetGamesForPlatParams {
   ordering: string;
   page: number;
   page_size: number;

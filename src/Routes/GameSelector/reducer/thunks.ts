@@ -3,6 +3,7 @@ import { history } from 'index';
 import { parse, stringify } from 'query-string';
 
 import { ISetNewOrdering } from './types';
+import { IGetGamesForPlatParams } from 'Backend/types';
 import { TThunk } from 'Store/types';
 
 import { appConfig } from 'Configs/appConfig';
@@ -24,7 +25,7 @@ export const getGamesForPlatform = (platformName: string): TThunk => {
     const { page, direction, ordername, search } = state.gameSelector.query;
     const platformID = appConfig.platformIdList[platformName];
 
-    const req = {
+    const req: IGetGamesForPlatParams = {
       ordering: `${direction === '↓' ? '-' : ''}${ordername}`,
       page: page || 1,
       page_size: appConfig.GameSelector.gamesPerRequest,
@@ -33,22 +34,23 @@ export const getGamesForPlatform = (platformName: string): TThunk => {
     };
 
     dispatch(setIsLoading(true));
+    try {
+      const { data } = await Backend.getGamesForPlatform(req);
+      console.log(data);
+      dispatch(writePageData({ ...data }));
 
-    const { data } = await Backend.getGamesForPlatform(req, () => {
-      //error handling cb
+      const { results: games } = data;
+
+      if (!games?.length) {
+        dispatch(setNoGamesFound(true));
+      } else {
+        dispatch(setNoGamesFound(false));
+      }
+      dispatch(setGamesToShow(games));
+    } catch (err) {
+    } finally {
       dispatch(setIsLoading(false));
-    });
-    dispatch(writePageData({ ...data }));
-    dispatch(setIsLoading(false));
-
-    const { results: games } = data;
-    if (!games?.length) {
-      dispatch(setNoGamesFound(true));
-    } else {
-      dispatch(setNoGamesFound(false));
     }
-
-    dispatch(setGamesToShow(games));
   };
 };
 

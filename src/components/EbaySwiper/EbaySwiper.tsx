@@ -8,7 +8,7 @@ import { IRootState } from 'Store/types';
 import { EbayItemCard } from './components/EbayItemCard';
 import { DotSpinner, SwiperConfigured, TSwiperConfiguredSlides } from 'Components/UI';
 import { TPlatformNames } from 'Configs/appConfig';
-import { getEbayItems } from 'Routes/GameDetailed/reducer/thunks';
+import { getEbayItemsGDThunk } from 'Routes/GameDetailed/reducer/thunks';
 import { selectEbayCardItems } from 'Store/ebayItemsReducer/selectors';
 
 import styles from './EbaySwiper.module.scss';
@@ -31,7 +31,7 @@ export function EbaySwiper(props: IEbaySwiperProps): JSX.Element {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getEbayItems(platform, gameName, sortOrder));
+    dispatch(getEbayItemsGDThunk(platform, gameName, sortOrder));
   }, [platform, gameName, sortOrder, dispatch]);
 
   useEffect(() => {

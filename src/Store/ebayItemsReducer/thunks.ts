@@ -4,6 +4,7 @@ import { Backend, HttpRespStats } from 'Backend';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 
+import { EEbaySortOrder } from 'Backend/types';
 import { IRootState, TThunk } from 'Store/types';
 
 import { appConfig, TPlatformNames } from 'Configs/appConfig';
@@ -22,7 +23,7 @@ import { selectEbayCardItemId } from './selectors';
 
 const DEFAULT_SORT_ORDER = appConfig.EbayCards.defaultSortOrder;
 
-export const getEbayItems = (platform: TPlatformNames, game: string, sortOrder = DEFAULT_SORT_ORDER): TThunk => {
+export const getEbayItemsThunk = (platform: TPlatformNames, game: string, sortOrder = DEFAULT_SORT_ORDER): TThunk => {
   return async (dispatch, getState) => {
     const { ebayItems } = getState();
 
@@ -30,21 +31,20 @@ export const getEbayItems = (platform: TPlatformNames, game: string, sortOrder =
     if (ebayItems?.[platform]?.[game]?.[sortOrder]) return;
     let items: Array<TEbayCardPreviewRawData> = [];
 
-    const errHandler = () => {
-      dispatch(showErrModal({ message: 'Cannot fetch ebay cards! Try again later' }));
-    };
+    try {
+      if (sortOrder === EEbaySortOrder.Watched) {
+        const { data: ebayItems = [] } = await Backend.getGameWatchedCards(platform, game);
+        items = ebayItems.map((ebayItem) => ({ itemId: [ebayItem.id] }));
+      } else {
+        const { data = null } = await Backend.getEbayItems(platform, game, sortOrder);
 
-    if (sortOrder === 'Watched') {
-      const { data: ebayItems = { ebayItems: [] } } = await Backend.getGameWatchedCards(platform, game, errHandler);
-
-      items = ebayItems.map((ebayItem) => ({ itemId: [ebayItem.id] }));
-    } else {
-      const { data = null } = await Backend.getEbayItems(platform, game, sortOrder, errHandler);
-
-      if (data && data[0]) {
-        const { item: ebayitems = [] } = data[0];
-        items = ebayitems;
+        if (data && data[0]) {
+          const { item: ebayitems = [] } = data[0];
+          items = ebayitems;
+        }
       }
+    } catch (err) {
+      dispatch(showErrModal({ message: 'Cannot fetch ebay cards! Try again later' }));
     }
 
     if (items.length) {
@@ -221,24 +221,29 @@ const getEbaySingleItem = async (
   itemId: number,
   dispatch: ThunkDispatch<IRootState, unknown, Action<string>>
 ): Promise<IEbayCardItemData | null> => {
-  const { data: { Item: item } = { Item: null } } = await Backend.getEbaySingleItem(itemId, () => {
+  try {
+    const { data: { Item: item } = { Item: null } } = await Backend.getEbaySingleItem(itemId);
+
+    if (!item) {
+      return null;
+    }
+
+    return {
+      bidCount: item?.BidCount,
+      convertedCurrentPrice: item?.ConvertedCurrentPrice,
+      currency: item?.ConvertedCurrentPrice.CurrencyID,
+      currentPrice: Number(item?.ConvertedCurrentPrice.Value.toFixed(2)),
+      deliveryPrice: Number(item?.ShippingServiceCost ? item?.ShippingServiceCost.Value : '') || 0,
+      endTime: item?.EndTime,
+      itemId: itemId,
+      itemUrl: item?.ViewItemURLForNaturalSearch,
+      listingType: item?.ListingType,
+      pictures: item?.PictureURL,
+      shipping: item?.ShippingCostSummary,
+      title: item?.Title,
+    };
+  } catch (err) {
     dispatch(showErrModal({ message: 'Something wrong happened.Try again later' }));
-  });
-
-  if (!item) return null;
-
-  return {
-    bidCount: item?.BidCount,
-    convertedCurrentPrice: item?.ConvertedCurrentPrice,
-    currency: item?.ConvertedCurrentPrice.CurrencyID,
-    currentPrice: Number(item?.ConvertedCurrentPrice.Value.toFixed(2)),
-    deliveryPrice: Number(item?.ShippingServiceCost ? item?.ShippingServiceCost.Value : '') || 0,
-    endTime: item?.EndTime,
-    itemId: itemId,
-    itemUrl: item?.ViewItemURLForNaturalSearch,
-    listingType: item?.ListingType,
-    pictures: item?.PictureURL,
-    shipping: item?.ShippingCostSummary,
-    title: item?.Title,
-  };
+  }
+  return null;
 };

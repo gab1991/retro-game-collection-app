@@ -5,7 +5,7 @@ import { TBackend, TErrCb } from './types';
 import { server_adress } from 'Configs/server.config';
 import { getToken } from 'Store/store';
 
-import { api } from './api_config';
+import { api, insertApiKey } from './api_config';
 
 const axios = axios_base.create({
   baseURL: server_adress,
@@ -58,69 +58,51 @@ export const Backend: TBackend = {
     });
   },
 
-  getBoxArt: (platform, slug, errCb) => {
-    return axiosExecute(
-      {
-        method: 'GET',
-        url: `${api.appServer.boxArtworkUrl}/${platform}/${encodeURIComponent(slug)}`,
-      },
-      errCb
-    );
+  getBoxArt: (platform, slug) => {
+    return axiosExecute({
+      method: 'GET',
+      url: `${api.appServer.boxArtworkUrl}/${platform}/${encodeURIComponent(slug)}`,
+    });
   },
 
-  getEbayItems: (platform, gameName, sortOrder, errCb) => {
-    return axiosExecute(
-      {
-        method: 'GET',
-        url: `${api.appServer.ebayItemsUrl}/${platform}/${encodeURIComponent(gameName)}/${sortOrder}`,
-      },
-      errCb
-    );
+  getEbayItems: (platform, gameName, sortOrder) => {
+    return axiosExecute({
+      method: 'GET',
+      url: `${api.appServer.ebayItemsUrl}/${platform}/${encodeURIComponent(gameName)}/${sortOrder}`,
+    });
   },
 
-  getEbaySingleItem: (id, errCb) => {
-    return axiosExecute(
-      {
-        method: 'GET',
-        url: `${api.appServer.ebaySingleItemUrl}/${id}`,
-      },
-      errCb
-    );
+  getEbaySingleItem: (id) => {
+    return axiosExecute({
+      method: 'GET',
+      url: `${api.appServer.ebaySingleItemUrl}/${id}`,
+    });
   },
 
-  getGameDetails: (slug, errCb) => {
-    return axiosExecute(
-      {
-        method: 'GET',
-        url: `${api.game.getDetailsUrl}${slug}`,
-      },
-      errCb
-    );
+  getGameDetails: (slug) => {
+    return axiosExecute({
+      method: 'GET',
+      url: `${api.game.getDetailsUrl}/${slug}?${insertApiKey()}`,
+    });
   },
 
-  getGameWatchedCards: (platform, game, errCb) => {
-    return axiosExecute(
-      {
-        headers: {
-          authorization: `Bearer ${getToken()}`,
-        },
-        method: 'GET',
-        url: `${api.appServer.profileUrl}/getGameWatchedCards/${platform}/${game}`,
+  getGameWatchedCards: (platform, game) => {
+    return axiosExecute({
+      headers: {
+        authorization: `Bearer ${getToken()}`,
       },
-      errCb
-    );
+      method: 'GET',
+      url: `${api.appServer.profileUrl}/getGameWatchedCards/${platform}/${game}`,
+    });
   },
 
-  getGamesForPlatform: (params, errCb) => {
+  getGamesForPlatform: (params) => {
     const paramsStr = queryParamBuilder({ ...params });
-    const url = `${api.games.getGamesUrl}${paramsStr}`;
-    return axiosExecute(
-      {
-        method: 'GET',
-        url,
-      },
-      errCb
-    );
+    const url = `${api.games.getGamesUrl}${paramsStr}&${insertApiKey()}`;
+    return axiosExecute({
+      method: 'GET',
+      url,
+    });
   },
 
   getProfileInfo: (errCb) => {
@@ -140,7 +122,7 @@ export const Backend: TBackend = {
     return axiosExecute(
       {
         method: 'GET',
-        url: `${api.game.getDetailsUrl}${slug}/screenshots`,
+        url: `${api.game.getDetailsUrl}/${slug}/screenshots?${insertApiKey()}`,
       },
       errCb
     );
