@@ -1,6 +1,7 @@
 const isProduction = process.env.NODE_ENV === 'production';
 const apiEndPoint = isProduction ? '/api' : 'http://localhost:8000/api';
-const RAWG_API_KEY = env.RAWG_API_KEY;
+//should remove when move to backend
+const RAWG_API_KEY = '2a65231971864b659dc4deaccdf824eb';
 const RAWG_API_GAMES_ENDPOINT = `https://api.rawg.io/api/games`;
 
 export const api = {
