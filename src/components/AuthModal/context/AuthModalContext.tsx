@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { AxiosError } from 'axios';
-import { HttpRespStats } from 'Backend';
 import { produce } from 'immer';
 
 import {
@@ -28,10 +26,10 @@ interface IAuthModalProviderProps {
 interface IAuthModalProviderContext {
   activeSide: EAuthModalSides;
   isMobile: boolean;
-  signInErrorCallBack: (err: AxiosError<{ err_message: string; field: ESignInInputs }>) => void;
+  setSignInErrField: (err_message: string, field: TAuthModalInputs) => void;
+  setSignUpErrField: (err_message: string, field: TAuthModalInputs) => void;
   signInInputChangeHandler: (e: React.ChangeEvent<HTMLInputElement>, input: ESignInInputs) => void;
   signInInputs: TSignInInputs;
-  signUpErrorCallBack: (err: AxiosError<{ err_message: string; field: ESignInInputs }>) => void;
   signUpInputChangeHandler: (e: React.ChangeEvent<HTMLInputElement>, input: ESignUpInputs) => void;
   signUpInputs: TSignUpInputs;
   toSignIn: () => void;
@@ -102,32 +100,26 @@ export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.El
 
   const validateSignUpInputs = () => validateInputs(EAuthModalSides.signUp);
 
-  const setErrCallBackField = (err_message: string, field: TAuthModalInputs) => {
+  const setErrField = (err_message: string, field: TAuthModalInputs, side: EAuthModalSides) => {
     const updInputs = produce(inputs, (draft) => {
-      const updInput = draft.signIn.find((input) => input.name === field);
+      const updIndex = draft[side].findIndex((input: ISignInInput | ISignUpInput) => input.name === field);
 
-      if (!updInput) return;
+      if (updIndex < -1) {
+        return;
+      }
 
-      updInput.errMsg = err_message;
-      updInput.valid = false;
+      draft[side][updIndex].errMsg = err_message;
+      draft[side][updIndex].valid = false;
     });
 
     setInputs(updInputs);
   };
 
-  const signInErrorCallBack = (err: AxiosError<{ err_message: string; field: ESignInInputs }>) => {
-    if (err.response?.status === HttpRespStats.badRequest && err.response.data.field) {
-      const { err_message, field } = err.response.data;
-      setErrCallBackField(err_message, field);
-    }
-  };
+  const setSignInErrField = (err_message: string, field: TAuthModalInputs) =>
+    setErrField(err_message, field, EAuthModalSides.signIn);
 
-  const signUpErrorCallBack = (err: AxiosError<{ err_message: string; field: ESignInInputs }>) => {
-    if (err.response?.status === HttpRespStats.badRequest && err.response.data.field) {
-      const { err_message, field } = err.response.data;
-      setErrCallBackField(err_message, field);
-    }
-  };
+  const setSignUpErrField = (err_message: string, field: TAuthModalInputs) =>
+    setErrField(err_message, field, EAuthModalSides.signUp);
 
   const toSignUp = () => setActiveSide(EAuthModalSides.signUp);
 
@@ -138,10 +130,10 @@ export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.El
       value={{
         activeSide,
         isMobile,
-        signInErrorCallBack,
+        setSignInErrField,
+        setSignUpErrField,
         signInInputChangeHandler,
         signInInputs,
-        signUpErrorCallBack,
         signUpInputChangeHandler,
         signUpInputs,
         toSignIn,

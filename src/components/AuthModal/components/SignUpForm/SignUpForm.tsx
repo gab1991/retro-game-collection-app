@@ -1,8 +1,9 @@
 import React, { SyntheticEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Backend } from 'Backend';
+import { Backend, HttpRespStats, isAxiosError } from 'Backend';
 
 import { ISignUpData } from 'Backend/types';
+import { ESignUpInputs } from 'Components/AuthModal/types';
 
 import { AuthFormSpinner, CloseAuthModal } from 'Components/AuthModal/components';
 import { useAuthModalContext } from 'Components/AuthModal/context';
@@ -20,7 +21,7 @@ export function SignUpForm(): JSX.Element {
     signUpInputs,
     signUpInputChangeHandler,
     validateSignUpInputs,
-    signUpErrorCallBack,
+    setSignUpErrField,
   } = useAuthModalContext();
   const [isSending, setIsSending] = useState(false);
 
@@ -44,10 +45,11 @@ export function SignUpForm(): JSX.Element {
   const postSignUp = async (signUpData: ISignUpData) => {
     setIsSending(true);
 
-    const { data } = await Backend.postSignUp(signUpData, signUpErrorCallBack);
+    try {
+      await Backend.postSignUp(signUpData);
 
-    if (data) {
       toSignIn();
+
       !isMobile &&
         dispatch(
           showCornerNotifier({
@@ -57,9 +59,18 @@ export function SignUpForm(): JSX.Element {
             show: true,
           })
         );
+    } catch (err) {
+      if (
+        isAxiosError<{ err_message: string; field: ESignUpInputs }>(err) &&
+        err.response?.status === HttpRespStats.badRequest &&
+        err.response.data.field
+      ) {
+        const { err_message, field } = err.response.data;
+        setSignUpErrField(err_message, field);
+      }
+    } finally {
+      setIsSending(false);
     }
-
-    setIsSending(false);
   };
 
   const toSignInLocal = (e: SyntheticEvent) => {

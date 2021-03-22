@@ -1,6 +1,8 @@
 import React, { SyntheticEvent, useState } from 'react';
 import { batch, useDispatch } from 'react-redux';
-import { Backend } from 'Backend';
+import { Backend, HttpRespStats, isAxiosError } from 'Backend';
+
+import { ESignInInputs } from 'Components/AuthModal/types';
 
 import { AuthFormSpinner, CloseAuthModal } from 'Components/AuthModal/components';
 import { useAuthModalContext } from 'Components/AuthModal/context';
@@ -17,7 +19,7 @@ export function SignInForm(): JSX.Element {
     signInInputChangeHandler,
     signInInputs,
     validateSignInInputs,
-    signInErrorCallBack,
+    setSignInErrField,
     toSignUp,
   } = useAuthModalContext();
 
@@ -27,7 +29,7 @@ export function SignInForm(): JSX.Element {
     try {
       const {
         data: { token },
-      } = await Backend.postSignIn(username, password, signInErrorCallBack);
+      } = await Backend.postSignIn(username, password);
 
       if (token && username) {
         batch(() => {
@@ -36,6 +38,14 @@ export function SignInForm(): JSX.Element {
         });
       }
     } catch (err) {
+      if (
+        isAxiosError<{ err_message: string; field: ESignInInputs }>(err) &&
+        err.response?.status === HttpRespStats.badRequest &&
+        err.response.data.field
+      ) {
+        const { err_message, field } = err.response.data;
+        setSignInErrField(err_message, field);
+      }
     } finally {
       setIsSending(false);
     }
