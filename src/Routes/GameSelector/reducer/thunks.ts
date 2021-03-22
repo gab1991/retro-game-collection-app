@@ -36,7 +36,7 @@ export const getGamesForPlatform = (platformName: string): TThunk => {
     dispatch(setIsLoading(true));
     try {
       const { data } = await Backend.getGamesForPlatform(req);
-      console.log(data);
+
       dispatch(writePageData({ ...data }));
 
       const { results: games } = data;

@@ -1,3 +1,4 @@
+import { batch } from 'react-redux';
 import { AxiosError } from 'axios';
 import { Backend, HttpRespStats } from 'Backend';
 
@@ -89,22 +90,23 @@ export const getShippingCosts = (
   return async (dispatch) => {
     dispatch(setEbayItemShippingLoading(game, platform, sortOrder, index, true));
 
-    const {
-      data: { ShippingCostSummary },
-    } = await Backend.getShippingCosts(itemId, () => {
+    try {
+      const {
+        data: { ShippingCostSummary },
+      } = await Backend.getShippingCosts(itemId);
+
+      const { Value: value } = ShippingCostSummary?.ShippingServiceCost || {};
+      const costinNumber = Number(value);
+
+      if (costinNumber) {
+        dispatch(setEbayItemShippingCost(game, platform, sortOrder, index, costinNumber));
+      } else {
+        dispatch(setEbayItemShippingCost(game, platform, sortOrder, index, null));
+        dispatch(setContactSeller(game, platform, sortOrder, index, true));
+      }
+    } catch (error) {
+    } finally {
       dispatch(setEbayItemShippingLoading(game, platform, sortOrder, index, false));
-    });
-
-    const { Value: value } = ShippingCostSummary?.ShippingServiceCost || {};
-    const costinNumber = Number(value);
-
-    dispatch(setEbayItemShippingLoading(game, platform, sortOrder, index, false));
-
-    if (costinNumber) {
-      dispatch(setEbayItemShippingCost(game, platform, sortOrder, index, costinNumber));
-    } else {
-      dispatch(setEbayItemShippingCost(game, platform, sortOrder, index, null));
-      dispatch(setContactSeller(game, platform, sortOrder, index, true));
     }
   };
 };
@@ -125,20 +127,16 @@ export const checkIfCardIsWatched = (
 
     if (!itemId) return;
 
-    const { data: { success } = { success: null } } = await Backend.isWatchedEbayCard(
-      {
+    try {
+      const { data: { success } = { success: null } } = await Backend.isWatchedEbayCard({
         ebayItemId: itemId,
         game,
         platform,
-      },
-      () => {
-        dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, false));
+      });
+      if (success) {
+        dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, true));
       }
-    );
-
-    if (success) {
-      dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, true));
-    } else {
+    } catch (error) {
       dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, false));
     }
   };
@@ -153,24 +151,22 @@ export const notWatchEbayCard = (
 ): TThunk => {
   return async (dispatch) => {
     dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, false));
-
-    const errHandler = () => {
-      dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, true));
-      dispatch(
-        showErrModal({
-          message: 'Something wrong happened.Try again later',
-        })
-      );
-    };
-
-    await Backend.notWatchEbayCard(
-      {
+    try {
+      await Backend.notWatchEbayCard({
         ebayItemId,
         game,
         platform,
-      },
-      errHandler
-    );
+      });
+    } catch (error) {
+      batch(() => {
+        dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, true));
+        dispatch(
+          showErrModal({
+            message: 'Something wrong happened.Try again later',
+          })
+        );
+      });
+    }
   };
 };
 

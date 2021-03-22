@@ -105,100 +105,76 @@ export const Backend: TBackend = {
     });
   },
 
-  getProfileInfo: (errCb) => {
-    return axiosExecute(
-      {
-        headers: {
-          authorization: `Bearer ${getToken()}`,
-        },
-        method: 'GET',
-        url: `/api/profile`,
+  getProfileInfo: () => {
+    return axiosExecute({
+      headers: {
+        authorization: `Bearer ${getToken()}`,
       },
-      errCb
-    );
+      method: 'GET',
+      url: `/api/profile`,
+    });
   },
 
-  getScreenshots: (slug, errCb) => {
-    return axiosExecute(
-      {
-        method: 'GET',
-        url: `${api.game.getDetailsUrl}/${slug}/screenshots?${insertApiKey()}`,
-      },
-      errCb
-    );
+  getScreenshots: (slug) => {
+    return axiosExecute({
+      method: 'GET',
+      url: `${api.game.getDetailsUrl}/${slug}/screenshots?${insertApiKey()}`,
+    });
   },
 
-  getShippingCosts: (itemId, errCb) => {
-    return axiosExecute(
-      {
-        method: 'GET',
-        url: `${api.appServer.shippingCostsUrl}/${itemId}`,
-      },
-      errCb
-    );
+  getShippingCosts: (itemId) => {
+    return axiosExecute({
+      method: 'GET',
+      url: `${api.appServer.shippingCostsUrl}/${itemId}`,
+    });
   },
 
-  getVideo: (videoType, platform, game, errCb) => {
-    return axiosExecute(
-      {
-        method: 'GET',
-        url: `${api.appServer.videoURL}/${videoType}/${platform}/${encodeURIComponent(game)}`,
-      },
-      errCb
-    );
+  getVideo: (videoType, platform, game) => {
+    return axiosExecute({
+      method: 'GET',
+      url: `${api.appServer.videoURL}/${videoType}/${platform}/${encodeURIComponent(game)}`,
+    });
   },
 
-  isWatchedEbayCard: (ebayCard, errCb) => {
-    return axiosExecute(
-      {
-        data: ebayCard,
-        headers: {
-          authorization: `Bearer ${getToken()}`,
-        },
-        method: 'POST',
-        url: `${api.appServer.profileUrl}/isWatchedEbayCard`,
+  isWatchedEbayCard: (ebayCard) => {
+    return axiosExecute({
+      data: ebayCard,
+      headers: {
+        authorization: `Bearer ${getToken()}`,
       },
-      errCb
-    );
+      method: 'POST',
+      url: `${api.appServer.profileUrl}/isWatchedEbayCard`,
+    });
   },
 
-  notWatchEbayCard: (ebayCard, errCb) => {
-    return axiosExecute(
-      {
-        data: ebayCard,
-        headers: {
-          authorization: `Bearer ${getToken()}`,
-        },
-        method: 'POST',
-        url: `${api.appServer.profileUrl}/removeEbayCard`,
+  notWatchEbayCard: (ebayCard) => {
+    return axiosExecute({
+      data: ebayCard,
+      headers: {
+        authorization: `Bearer ${getToken()}`,
       },
-      errCb
-    );
+      method: 'POST',
+      url: `${api.appServer.profileUrl}/removeEbayCard`,
+    });
   },
 
-  postSignIn: (username, password, errCb) => {
-    return axiosExecute(
-      {
-        data: {
-          password,
-          username,
-        },
-        method: 'POST',
-        url: `${api.appServer.signInUrl}`,
+  postSignIn: (username, password) => {
+    return axiosExecute({
+      data: {
+        password,
+        username,
       },
-      errCb
-    );
+      method: 'POST',
+      url: `${api.appServer.signInUrl}`,
+    });
   },
 
-  postSignUp: (data, errCb) => {
-    return axiosExecute(
-      {
-        data,
-        method: 'POST',
-        url: `${api.appServer.signUpUrl}`,
-      },
-      errCb
-    );
+  postSignUp: (data) => {
+    return axiosExecute({
+      data,
+      method: 'POST',
+      url: `${api.appServer.signUpUrl}`,
+    });
   },
 
   toggleEbayVisibility: (game, platform, isShowed, errCb) => {

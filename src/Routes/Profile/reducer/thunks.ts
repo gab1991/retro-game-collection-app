@@ -1,6 +1,7 @@
 import { Backend } from 'Backend';
 
 import { IProfileGame } from './types';
+import { EEbaySortOrder } from 'Backend/types';
 import { TThunk } from 'Store/types';
 
 import { EAvailableLists, TPlatformNames } from 'Configs/appConfig';
@@ -11,29 +12,28 @@ import { IRawgGameDetails } from 'Typings/RawgData';
 import { fillProfile } from './actions';
 
 export const getProfileInfo = (): TThunk => async (dispatch) => {
-  const { data: profile = null } = await Backend.getProfileInfo(() => {
-    dispatch(showErrModal({ message: `Could't get your profile! Try once more` }));
-  });
+  try {
+    const { data: profile } = await Backend.getProfileInfo();
+    dispatch(fillProfile(profile));
 
-  if (!profile) return;
+    //fill possible ebayCards
+    const {
+      wish_list: { platforms: platfromsInWishList = [] },
+    } = profile;
 
-  dispatch(fillProfile(profile));
+    for (const platform of platfromsInWishList) {
+      const { name: platformName, games } = platform || {};
 
-  //fill possible ebayCards
-  const {
-    wish_list: { platforms: platfromsInWishList = [] },
-  } = profile;
-
-  for (const platform of platfromsInWishList) {
-    const { name: platformName, games } = platform || {};
-
-    for (const game of games) {
-      const { name: gameName, watchedEbayOffers } = game || {};
-      const ebayItems = watchedEbayOffers.map((ebayItem) => ({
-        itemId: [ebayItem.id],
-      }));
-      dispatch(setEbayItems(ebayItems, platformName, gameName, 'Watched'));
+      for (const game of games) {
+        const { name: gameName, watchedEbayOffers } = game || {};
+        const ebayItems = watchedEbayOffers.map((ebayItem) => ({
+          itemId: [ebayItem.id],
+        }));
+        dispatch(setEbayItems(ebayItems, platformName, gameName, EEbaySortOrder.Watched));
+      }
     }
+  } catch (err) {
+    dispatch(showErrModal({ message: `Could't get your profile! Try once more` }));
   }
 };
 

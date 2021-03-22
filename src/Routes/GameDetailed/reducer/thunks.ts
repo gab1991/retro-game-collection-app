@@ -40,27 +40,30 @@ export const getGameDetails = (slug: string): TThunk => {
 
 export const getScreenShots = (slug: string): TThunk => {
   return async (dispatch) => {
-    const { data: { results } = { results: [] } } = await Backend.getScreenshots(slug, () => {
+    try {
+      const { data: { results } = { results: [] } } = await Backend.getScreenshots(slug);
+
+      const screenshotsUrls: Array<string> = [];
+
+      results.forEach((obj) => screenshotsUrls.push(obj.image));
+      dispatch(setScreenshots(screenshotsUrls));
+    } catch (err) {
       dispatch(
         showErrModal({
           message: `Couldnt fetch screenshots.Try again if you wish`,
         })
       );
-    });
-    const screenshotsUrls: Array<string> = [];
-
-    results.forEach((obj) => screenshotsUrls.push(obj.image));
-    dispatch(setScreenshots(screenshotsUrls));
+    }
   };
 };
 
 export const getVideo = (type: EVideoType, platform: TPlatformNames, game: string): TThunk => {
   return async (dispatch) => {
-    const { data: url = null } = await Backend.getVideo(type, platform, game);
-    if (!url) return;
-
-    const combinedUrl = `https://www.youtube.com/watch?v=${url}`;
-    dispatch(setVideoUrl(type, combinedUrl));
+    try {
+      const { data: url } = await Backend.getVideo(type, platform, game);
+      const combinedUrl = `https://www.youtube.com/watch?v=${url}`;
+      dispatch(setVideoUrl(type, combinedUrl));
+    } catch (error) {}
   };
 };
 
