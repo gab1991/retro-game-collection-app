@@ -1,6 +1,5 @@
 import { batch } from 'react-redux';
-import { AxiosError } from 'axios';
-import { Backend, HttpRespStats } from 'Backend';
+import { Backend, isAxiosError } from 'Backend';
 
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
@@ -162,7 +161,7 @@ export const notWatchEbayCard = (
         dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, true));
         dispatch(
           showErrModal({
-            message: 'Something wrong happened.Try again later',
+            message: appConfig.defaultApiErr,
           })
         );
       });
@@ -180,8 +179,14 @@ export const watchEbayCard = (
   return async (dispatch) => {
     dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, true));
 
-    const errorCallback = (err: AxiosError<{ show_modal: boolean }>) => {
-      if (err?.response?.data?.show_modal) {
+    try {
+      await Backend.watchEbayCard({
+        ebayItemId,
+        game,
+        platform,
+      });
+    } catch (err) {
+      if (isAxiosError<{ err_message: string; show_modal: boolean }>(err) && err.response?.data.show_modal) {
         dispatch(
           showInfoModal({
             btnTxtContent: 'got it',
@@ -195,19 +200,6 @@ export const watchEbayCard = (
           })
         );
       }
-      dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, false));
-    };
-
-    const { status } = await Backend.watchEbayCard(
-      {
-        ebayItemId,
-        game,
-        platform,
-      },
-      errorCallback
-    );
-
-    if (status !== HttpRespStats.success) {
       dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, false));
     }
   };

@@ -4,7 +4,7 @@ import { IProfileGame } from './types';
 import { EEbaySortOrder } from 'Backend/types';
 import { TThunk } from 'Store/types';
 
-import { EAvailableLists, TPlatformNames } from 'Configs/appConfig';
+import { appConfig, EAvailableLists, TPlatformNames } from 'Configs/appConfig';
 import { showErrModal } from 'Store/appStateReducer/actions';
 import { setEbayItems } from 'Store/ebayItemsReducer/actions';
 import { IRawgGameDetails } from 'Typings/RawgData';
@@ -52,53 +52,52 @@ export const reorderGames = (
 
 export const removeGame = (game: string, list: EAvailableLists, platform: TPlatformNames): TThunk => {
   return async (dispatch) => {
-    await Backend.updateProfile(
-      {
+    try {
+      await Backend.updateProfile({
         action: 'removeGame',
         game,
         list,
         platform,
-      },
-      () => {
-        dispatch(
-          showErrModal({
-            message: 'Something wrong happened.Try again later',
-          })
-        );
-      }
-    );
+      });
+    } catch (err) {
+      dispatch(
+        showErrModal({
+          message: appConfig.defaultApiErr,
+        })
+      );
+    }
   };
 };
 
 export const addGame = (game: IRawgGameDetails, list: EAvailableLists, platform: TPlatformNames): TThunk => {
   return async (dispatch) => {
-    await Backend.updateProfile(
-      {
+    try {
+      await Backend.updateProfile({
         action: 'addGame',
         game,
         list,
         platform,
-      },
-      () => {
-        dispatch(
-          showErrModal({
-            message: 'Something wrong happened.Try again later',
-          })
-        );
-      }
-    );
-  };
-};
-
-export const toggleEbayVisibility = (game: string, platform: TPlatformNames, isShowed: boolean): TThunk => {
-  return async (dispatch) => {
-    console.log(game, platform, isShowed);
-    await Backend.toggleEbayVisibility(game, platform, isShowed, () => {
+      });
+    } catch (err) {
       dispatch(
         showErrModal({
           message: 'Something wrong happened.Try again later',
         })
       );
-    });
+    }
+  };
+};
+
+export const toggleEbayVisibility = (game: string, platform: TPlatformNames, isShowed: boolean): TThunk => {
+  return async (dispatch) => {
+    try {
+      await Backend.toggleEbayVisibility(game, platform, isShowed);
+    } catch (error) {
+      dispatch(
+        showErrModal({
+          message: appConfig.defaultApiErr,
+        })
+      );
+    }
   };
 };

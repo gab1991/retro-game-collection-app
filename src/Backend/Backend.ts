@@ -1,6 +1,6 @@
 import axios_base, { AxiosError, AxiosRequestConfig } from 'axios';
 
-import { TBackend, TErrCb } from './types';
+import { TBackend } from './types';
 
 import { server_adress } from 'Configs/server.config';
 import { getToken } from 'Store/store';
@@ -22,7 +22,7 @@ const queryParamBuilder = (params: Record<string, string | number>) => {
   return `?${result.join('&')}`;
 };
 
-const axiosExecute = async (config: AxiosRequestConfig = {}, errCb?: TErrCb) => {
+const axiosExecute = async (config: AxiosRequestConfig = {}) => {
   try {
     const res = await axios(config);
     const {
@@ -37,10 +37,6 @@ const axiosExecute = async (config: AxiosRequestConfig = {}, errCb?: TErrCb) => 
   } catch (err) {
     console.error('ERROR', err);
     throw err;
-
-    // if (typeof errCb === 'function') errCb(err);
-
-    // return { ...err };
   }
 };
 
@@ -177,48 +173,39 @@ export const Backend: TBackend = {
     });
   },
 
-  toggleEbayVisibility: (game, platform, isShowed, errCb) => {
-    return axiosExecute(
-      {
-        data: { game, isShowed, platform },
-        headers: {
-          authorization: `Bearer ${getToken()}`,
-        },
-        method: 'POST',
-        url: `${api.appServer.profileUrl}/toggleEbaySection`,
+  toggleEbayVisibility: (game, platform, isShowed) => {
+    return axiosExecute({
+      data: { game, isShowed, platform },
+      headers: {
+        authorization: `Bearer ${getToken()}`,
       },
-      errCb
-    );
+      method: 'POST',
+      url: `${api.appServer.profileUrl}/toggleEbaySection`,
+    });
   },
 
-  updateProfile: (obj, errCb) => {
-    return axiosExecute(
-      {
-        data: obj,
-        headers: {
-          authorization: `Bearer ${getToken()}`,
-        },
-        method: 'POST',
-        url: `${api.appServer.profileUrl}/update`,
+  updateProfile: (obj) => {
+    return axiosExecute({
+      data: obj,
+      headers: {
+        authorization: `Bearer ${getToken()}`,
       },
-      errCb
-    );
+      method: 'POST',
+      url: `${api.appServer.profileUrl}/update`,
+    });
   },
 
-  watchEbayCard: (obj, errCb) => {
-    return axiosExecute(
-      {
-        data: {
-          ...obj,
-        },
-        headers: {
-          authorization: `Bearer ${getToken()}`,
-        },
-        method: 'POST',
-        url: `${api.appServer.profileUrl}/addEbayCard`,
+  watchEbayCard: (obj) => {
+    return axiosExecute({
+      data: {
+        ...obj,
       },
-      errCb
-    );
+      headers: {
+        authorization: `Bearer ${getToken()}`,
+      },
+      method: 'POST',
+      url: `${api.appServer.profileUrl}/addEbayCard`,
+    });
   },
 };
 

@@ -1,4 +1,4 @@
-import { AxiosError, AxiosPromise } from 'axios';
+import { AxiosPromise } from 'axios';
 
 import { IProfile, IProfileGame } from 'Routes/Profile/reducer/types';
 
@@ -22,20 +22,18 @@ export type TBackend = {
   getScreenshots: (slug: string) => AxiosPromise<{ results: Array<IRawgScreenshot> }>;
   getShippingCosts: (itemId: number) => AxiosPromise<IEbayCardShippingDetails>;
   getVideo: (videoType: TVideoType, platform: TPlatformNames, game: string) => AxiosPromise<string>;
-  isWatchedEbayCard: (ebayCard: IEbayCardObj) => AxiosPromise<{ success?: string }>;
+  isWatchedEbayCard: (ebayCard: IEbayCardObj) => AxiosPromise<{ success: string }>;
   notWatchEbayCard: (ebayCard: IEbayCardObj) => AxiosPromise;
   postSignIn: (
     username: string,
     password: string
   ) => AxiosPromise<{ success: string; token: string; username: string }>;
   postSignUp: (data: ISignUpData) => AxiosPromise<{ user_id: number }>;
-  toggleEbayVisibility: (game: string, platform: TPlatformNames, isShowed: boolean, errCb?: TErrCb) => AxiosPromise;
+  toggleEbayVisibility: (game: string, platform: TPlatformNames, isShowed: boolean) => AxiosPromise;
   //rewrite this method
-  updateProfile: (obj: TUpdProfObj, errCb?: TErrCb) => AxiosPromise;
-  watchEbayCard: (ebayCard: IEbayCardObj, errCb?: TErrCb) => AxiosPromise;
+  updateProfile: (obj: TUpdProfObj) => AxiosPromise;
+  watchEbayCard: (ebayCard: IEbayCardObj) => AxiosPromise;
 };
-
-export type TErrCb = (err: AxiosError) => void;
 
 type TUpdProfObj = IReodredGames | IRemoveGame | IAddGame;
 

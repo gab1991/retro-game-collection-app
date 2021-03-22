@@ -72,7 +72,7 @@ export enum EAvailableLists {
   wishList = 'wish_list',
 }
 
-const appConfig = {
+export const appConfig = {
   EbayCards: {
     defaultSortOrder: EEbaySortOrder.Relevance,
   },
@@ -85,15 +85,11 @@ const appConfig = {
     gamesPerRequest: 18,
     ordering: ['name ↓', 'name ↑', 'released ↓', 'released ↑', 'rating ↓', 'rating ↑'],
   },
-
-  assetsMapping: {
-    gamepadMap: {},
-  },
-
+  defaultApiErr: 'Something wrong happened.Try again later',
   platformIdList: EPlatformList,
 };
 
-const images = {
+export const images = {
   Genesis: {
     gamepad: { src: require('../Assets/images/gamepad_icons/Sega Genesis.png') },
     logo: {
@@ -114,7 +110,6 @@ const images = {
   },
 };
 
-const textMessages = {
+export const textMessages = {
   fromWishToOwn: 'You added game to Collection. Do you want to remove it from WishList?',
 };
-export { appConfig, images, textMessages };
