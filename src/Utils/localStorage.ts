@@ -15,10 +15,10 @@ export const storageHandler: IStorageHandler = {
     return localStorage[key];
   },
   getItems: (arrOfKeys) => {
-    const result = {};
+    const result: Record<string, string> = {};
 
     arrOfKeys.forEach((key) => {
-      result[key] = storageHandler.getItem(key);
+      result[key] = storageHandler.getItem(key) || '';
     });
     return result;
   },

@@ -1,3 +1,4 @@
+import { EEbaySortOrder } from 'Backend/types';
 import { createAction } from 'typesafe-actions';
 
 import { TPlatformNames } from 'Configs/appConfig';
@@ -5,7 +6,7 @@ import { IEbayCardItemData, TEbayCardPreviewRawData } from 'Typings/EbayData';
 
 export const setEbayItems = createAction(
   'ebayItems/setEbayItems',
-  (items: Array<TEbayCardPreviewRawData>, platform: TPlatformNames, game: string, sortOrder: string) => ({
+  (items: Array<TEbayCardPreviewRawData>, platform: TPlatformNames, game: string, sortOrder: EEbaySortOrder) => ({
     game,
     items,
     platform,
@@ -15,7 +16,7 @@ export const setEbayItems = createAction(
 
 export const setEbaySingleItemData = createAction(
   'ebayItems/setEbaySingleItemData',
-  (platform: TPlatformNames, game: string, index: number, itemData: IEbayCardItemData, sortOrder: string) => ({
+  (platform: TPlatformNames, game: string, index: number, itemData: IEbayCardItemData, sortOrder: EEbaySortOrder) => ({
     game,
     index,
     itemData,
@@ -26,12 +27,17 @@ export const setEbaySingleItemData = createAction(
 
 export const calculateTotalPrice = createAction(
   'ebayItems/calculateTotalPrice',
-  (platform: TPlatformNames, game: string, index: number, sortOrder: string) => ({ game, index, platform, sortOrder })
+  (platform: TPlatformNames, game: string, index: number, sortOrder: EEbaySortOrder) => ({
+    game,
+    index,
+    platform,
+    sortOrder,
+  })
 )();
 
 export const setIsWatchedEbayCard = createAction(
   'ebayItems/setIsWatchedEbayCard',
-  (platform: TPlatformNames, game: string, sortOrder: string, index: number, bool: boolean) => ({
+  (platform: TPlatformNames, game: string, sortOrder: EEbaySortOrder, index: number, bool: boolean) => ({
     bool,
     game,
     index,
@@ -42,7 +48,7 @@ export const setIsWatchedEbayCard = createAction(
 
 export const setEbayItemShippingLoading = createAction(
   'ebayItems/setEbayItemShippingLoading',
-  (game: string, platform: TPlatformNames, sortOrder: string, index: number, bool: boolean) => ({
+  (game: string, platform: TPlatformNames, sortOrder: EEbaySortOrder, index: number, bool: boolean) => ({
     bool,
     game,
     index,
@@ -53,7 +59,7 @@ export const setEbayItemShippingLoading = createAction(
 
 export const setEbayItemShippingCost = createAction(
   'ebayItems/setEbayItemShippingCost',
-  (game: string, platform: TPlatformNames, sortOrder: string, index: number, value: number | null) => ({
+  (game: string, platform: TPlatformNames, sortOrder: EEbaySortOrder, index: number, value: number | null) => ({
     game,
     index,
     platform,
@@ -64,7 +70,7 @@ export const setEbayItemShippingCost = createAction(
 
 export const setContactSeller = createAction(
   'ebayItems/setContactSeller',
-  (game: string, platform: TPlatformNames, sortOrder: string, index: number, bool: boolean) => ({
+  (game: string, platform: TPlatformNames, sortOrder: EEbaySortOrder, index: number, bool: boolean) => ({
     bool,
     game,
     index,

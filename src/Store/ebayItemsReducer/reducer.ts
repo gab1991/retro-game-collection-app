@@ -76,11 +76,13 @@ export const ebayItemsReducer = createReducer<TEbayItemsReducer, TEbayItemsActio
       return produce(state, (draft) => {
         const { platform, game, sortOrder, index } = payload;
 
-        if (!game || !platform || (!index && index !== 0)) return;
+        if (!game || !platform || (!index && index !== 0)) {
+          return;
+        }
 
         const ebayCard = draft[platform]?.[game][sortOrder][index];
 
-        if (!ebayCard.itemData.currentPrice) {
+        if (!ebayCard?.itemData?.currentPrice) {
           return;
         }
 

@@ -138,14 +138,14 @@ export function Slider(props: ISlider): JSX.Element {
     }
   };
 
-  const mouseDownHandler = (e) => {
-    if (e.target.getAttribute('data-desc')) return;
+  const mouseDownHandler: React.MouseEventHandler<HTMLDivElement> = (e) => {
+    if (e.currentTarget.getAttribute('data-desc')) return;
     setIsDown(true);
     mouseStatsRef.current.initialX = e.clientX;
     mouseStatsRef.current.initialOffset = mouseStatsRef.current.offset;
   };
 
-  const mouseUpHandler = (e) => {
+  const mouseUpHandler = () => {
     setCurrentImg(activeClass);
 
     setIsDown(false);

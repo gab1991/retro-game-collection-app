@@ -16,4 +16,4 @@ export type TEbayItemsReducer = DeepReadonly<
 >;
 
 type TGameToSortOrder = { [game: string]: TSortOrderToItems };
-type TSortOrderToItems = { [sortOrder in keyof EEbaySortOrder]: Array<TEbayCard> };
+type TSortOrderToItems = { [sortOrder in EEbaySortOrder]: Array<TEbayCard> };
