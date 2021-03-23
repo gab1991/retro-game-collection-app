@@ -8,6 +8,7 @@ import { DeepReadonly } from 'utility-types';
 
 import { ButtonNeon } from 'Components/UI';
 import { selectOwnedPlatforms } from 'Routes/Profile/reducer/selectors';
+import { Routes } from 'Routes/routes';
 
 import { GameBoxContainer } from './components';
 
@@ -23,7 +24,7 @@ export function CollectionList(): JSX.Element {
   }, [ownedPlatforms]);
 
   const toPlatfromSelecor = () => {
-    history.push('/');
+    history.push(Routes.PlatformSelector.makePath());
   };
 
   return (

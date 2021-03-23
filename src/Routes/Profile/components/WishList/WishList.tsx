@@ -8,6 +8,7 @@ import { DeepReadonly } from 'utility-types';
 
 import { ButtonNeon } from 'Components/UI';
 import { selectWishedPlatforms } from 'Routes/Profile/reducer/selectors';
+import { Routes } from 'Routes/routes';
 
 import { GameLotContainer } from './components';
 
@@ -23,7 +24,7 @@ export function WishList(): JSX.Element {
   }, [wishedPlatforms]);
 
   const toPlatfromSelecor = () => {
-    history.push('/');
+    history.push(Routes.PlatformSelector.makePath());
   };
 
   return (

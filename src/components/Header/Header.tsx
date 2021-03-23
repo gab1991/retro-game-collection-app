@@ -1,6 +1,7 @@
 import React, { useMemo, useReducer } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { Routes } from 'Routes';
 
 import { EHeaderReducerActions } from './reducer/types';
 
@@ -28,12 +29,12 @@ export function Header(): JSX.Element {
   };
 
   const toPlatformSelector = () => {
-    history.push('/');
+    history.push(Routes.PlatformSelector.makePath());
     toggleMenuSlider();
   };
 
   const toProfile = () => {
-    history.push('/profile');
+    history.push(Routes.Profile.makePath());
   };
 
   const loggingOut = () => {

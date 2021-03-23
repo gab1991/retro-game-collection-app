@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 
 import { getProfileInfo } from 'Routes/Profile/reducer/thunks';
+import { Routes } from 'Routes/routes';
 import { selectLoggedUser } from 'Store/authReducer/selectors';
 
 import { CollectionList, WishList } from './components';
 
 import styles from './Profile.module.scss';
 
-enum EProfileSections {
+export enum EProfileSections {
   CollectionList = 'CollectionList',
   WishList = 'WishList',
 }
@@ -33,14 +34,14 @@ export function Profile(): JSX.Element {
   }, [loggedUser, activeSection, dispatch]);
 
   const sectionToggler: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-    const name = e.currentTarget.getAttribute('data-desc');
+    const sectionName = e.currentTarget.getAttribute('data-desc');
 
-    if (!isProfileSectionName(name)) {
+    if (!isProfileSectionName(sectionName)) {
       return;
     }
 
-    setActiveSection(name);
-    history.push(`/profile/${name}`);
+    setActiveSection(sectionName);
+    history.push(Routes.Profile.makePath(sectionName));
   };
 
   return (
