@@ -1,12 +1,12 @@
 import React, { ErrorInfo, ReactNode } from 'react';
-import { Redirect } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Routes } from 'Routes';
 
 import { ButtonNeon } from 'Components/UI';
 
 import styles from './ErrorBoundary.module.scss';
 
-interface IErrorBoundaryProps {
+interface IErrorBoundaryProps extends RouteComponentProps {
   children: ReactNode;
 }
 
@@ -16,16 +16,16 @@ interface IErrorBoundaryState {
   timer: number;
 }
 
-export class ErrorBoundary extends React.Component<IErrorBoundaryProps, IErrorBoundaryState, { timer: number }> {
+class _ErrorBoundary extends React.Component<IErrorBoundaryProps, IErrorBoundaryState, { timer: number }> {
   constructor(props: IErrorBoundaryProps) {
     super(props);
     this.state = { count: 9, hasError: false, timer: 0 };
     this.countDown = this.countDown.bind(this);
+    this.goToHome = this.goToHome.bind(this);
   }
 
   componentDidUpdate(): void {
     if (!this.state.count) {
-      window.location.reload();
     }
   }
 
@@ -47,20 +47,37 @@ export class ErrorBoundary extends React.Component<IErrorBoundaryProps, IErrorBo
     console.error(error, info);
   }
 
+  reload(): void {
+    window.location.reload();
+  }
+
+  goToHome(): void {
+    this.props.history.push(Routes.PlatformSelector.makePath());
+    this.reload();
+  }
+
   render(): ReactNode {
     if (this.state.hasError) {
       return (
         <div className={styles.ErrorBoundary}>
           <h1>GAME OVER</h1>
           <p>CONTINUE?</p>
-          <p>{this.state.count}</p>
+          {this.state.count ? (
+            <p>{this.state.count}</p>
+          ) : (
+            <p className={styles.AppCrashedTxt}>
+              {'Unfortunately App Crashed....Choose one of the option below or try to refresh page manually'}
+            </p>
+          )}
           <div className={styles.BtnSection}>
-            <ButtonNeon txtContent={'Yes'} />
+            <ButtonNeon txtContent={'Try to Realod'} onClick={this.reload} />
+            <ButtonNeon txtContent={'Go to Home Page'} onClick={this.goToHome} />
           </div>
-          <Redirect to={Routes.PlatformSelector.makePath()} />
         </div>
       );
     }
     return this.props.children;
   }
 }
+
+export const ErrorBoundary = withRouter(_ErrorBoundary);
