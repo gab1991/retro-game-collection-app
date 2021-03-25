@@ -1,8 +1,9 @@
 import React, { Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
+import { ErrorBoundary } from 'Components';
 import { useWindowSize } from 'CustomHooks';
-import { GameSelector, PlatformSelector, Profile } from 'Routes';
+import { GameSelector, PlatformSelector, Profile, Routes } from 'Routes';
 
 import { Layout } from 'Components/Layout';
 import { getProfileInfo } from 'Routes/Profile/reducer/thunks';
@@ -42,16 +43,18 @@ export function App(): JSX.Element {
 
   return (
     <div className={styles.App}>
-      <Suspense fallback={<div>Загрузка...</div>}>
-        <Layout>
-          <Switch>
-            <Route path='/profile/:section?' component={Profile} />
-            <Route path='/:platformName/:slug' component={GameDetailed} />
-            <Route exact path='/:platformName' component={GameSelector} />
-            <Route exact path='/' component={PlatformSelector} />
-          </Switch>
-        </Layout>
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={<div>Загрузка...</div>}>
+          <Layout>
+            <Switch>
+              <Route path={Routes.Profile.template} component={Profile} />
+              <Route path={Routes.GameDetailed.template} component={GameDetailed} />
+              <Route path={Routes.GameSelector.template} component={GameSelector} />
+              <Route path={Routes.PlatformSelector.template} component={PlatformSelector} />
+            </Switch>
+          </Layout>
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useMemo, useReducer } from 'react';
-import { batch, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Routes } from 'Routes';
 
@@ -38,11 +38,9 @@ export function Header(): JSX.Element {
   };
 
   const loggingOut = () => {
-    batch(() => {
-      toPlatformSelector();
-      hideMenu();
-      dispatchGlobal(logOutThunk());
-    });
+    toPlatformSelector();
+    hideMenu();
+    dispatchGlobal(logOutThunk());
   };
 
   const showAuth = () => {
