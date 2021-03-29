@@ -5,7 +5,7 @@ import { TBackend } from './types';
 import { server_adress } from 'Configs/server.config';
 import { getToken } from 'Store/store';
 
-import { api, insertApiKey } from './api_config';
+import { api } from './api_config';
 
 const axios = axios_base.create({
   baseURL: server_adress,
@@ -78,7 +78,7 @@ export const Backend: TBackend = {
   getGameDetails: (slug) => {
     return axiosExecute({
       method: 'GET',
-      url: `${api.game.getDetailsUrl}/${slug}?${insertApiKey()}`,
+      url: `${api.appServer.getDetailsUrl}/${slug}`,
     });
   },
 
@@ -94,7 +94,7 @@ export const Backend: TBackend = {
 
   getGamesForPlatform: (params) => {
     const paramsStr = queryParamBuilder({ ...params });
-    const url = `${api.games.getGamesUrl}${paramsStr}&${insertApiKey()}`;
+    const url = `${api.appServer.gamesForPlatformUrl}${paramsStr}`;
     return axiosExecute({
       method: 'GET',
       url,
@@ -114,7 +114,7 @@ export const Backend: TBackend = {
   getScreenshots: (slug) => {
     return axiosExecute({
       method: 'GET',
-      url: `${api.game.getDetailsUrl}/${slug}/screenshots?${insertApiKey()}`,
+      url: `${api.appServer.getScreenshotsUrl}/${slug}`,
     });
   },
 
