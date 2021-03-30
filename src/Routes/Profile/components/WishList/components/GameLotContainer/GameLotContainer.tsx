@@ -23,7 +23,7 @@ export function GameLotContainer(props: IGameLotContainerProps): JSX.Element {
     <div className={styles.GameLotContainer}>
       <hr></hr>
       {games.map((game) => (
-        <div key={game.slug} className={`${styles.GameLots}`}>
+        <div key={game.slug} className={styles.GameLots}>
           <EbayLotSection gameData={game} platform={platform} />
         </div>
       ))}

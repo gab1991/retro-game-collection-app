@@ -1,1 +1,1 @@
-export { GameBox } from './GameBox';
+export { GameBox, IGameBoxProps } from './GameBox';

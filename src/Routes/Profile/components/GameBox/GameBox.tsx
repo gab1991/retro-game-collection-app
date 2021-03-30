@@ -12,7 +12,7 @@ import { getBoxArt } from 'Store/contentReducer/thunks';
 
 import styles from './GameBox.module.scss';
 
-interface IGameBoxProps {
+export interface IGameBoxProps {
   className?: string;
   game: { name: string; slug: string };
   platform: TPlatformNames;
