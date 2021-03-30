@@ -5,6 +5,7 @@ import { EbaySwiper } from 'Components';
 import { EEbaySortOrder } from 'Backend/types';
 import { IProfileGame } from 'Routes/Profile/reducer/types';
 import { IRootState } from 'Store/types';
+import { DeepReadonly } from 'utility-types';
 
 import { ButtonNeon, KnobToggler } from 'Components/UI';
 import { CloseSvg } from 'Components/UI/LogoSvg';
@@ -25,7 +26,7 @@ const buttonsToSortOrder = {
 };
 
 interface IEbayLotSectionProps {
-  gameData: IProfileGame;
+  gameData: DeepReadonly<IProfileGame>;
   platform: TPlatformNames;
   showingEbay?: boolean;
 }
