@@ -18,16 +18,16 @@ export function DroppableGameBoxContainer(props: IDroppableGameBoxContainer): JS
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <GameBoxContainer>
-        <Droppable droppableId={props.platform}>
-          {(provided) => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
+      <Droppable droppableId={props.platform} direction={'horizontal'}>
+        {(provided) => (
+          <div ref={provided.innerRef} {...provided.droppableProps}>
+            <GameBoxContainer>
               {props.children}
               {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </GameBoxContainer>
+            </GameBoxContainer>
+          </div>
+        )}
+      </Droppable>
     </DragDropContext>
   );
 }

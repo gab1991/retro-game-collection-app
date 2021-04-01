@@ -3,6 +3,7 @@
 $description-background: getBtnColor('basic');
 
 .GameBox {
+  display: block;
   color: $font-white;
   @include w100v100;
   overflow: visible;
