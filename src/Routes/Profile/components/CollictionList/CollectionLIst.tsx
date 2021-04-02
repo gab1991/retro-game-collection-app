@@ -35,7 +35,6 @@ export function CollectionList(): JSX.Element {
         {ownedList.map(({ name: platformName, games }) => (
           <div key={platformName} className={styles.Shelf}>
             <PlatformBadge className={styles.PlatformLogo} platform={platformName} />
-            {/* <GameBoxContainer platform={platformName} games={games} /> */}
             <DroppableGameBoxContainer platform={platformName}>
               {games.map((game, index) => (
                 <DraggableGameBox key={game.slug} index={index} game={game} platform={platformName} />

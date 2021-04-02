@@ -1,5 +1,6 @@
 import React from 'react';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
+import arrayMove from 'array-move';
 
 import { TPlatformNames } from 'Configs/appConfig';
 import {
@@ -12,8 +13,14 @@ interface IDroppableGameBoxContainer extends IGameBoxContainerProps {
 }
 
 export function DroppableGameBoxContainer(props: IDroppableGameBoxContainer): JSX.Element {
-  const onDragEnd = () => {
-    console.log('drag end');
+  const onDragEnd = (result: DropResult) => {
+    const { source, destination } = result;
+
+    if (!destination) {
+      return;
+    }
+
+    console.log(result);
   };
 
   return (

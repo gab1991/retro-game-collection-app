@@ -12,20 +12,9 @@ import { selectIsMobile } from 'Store/appStateReducer/selectors';
 
 import styles from './GameBoxContainer.module.scss';
 export interface IGameBoxContainerProps {
-  // games: DeepReadonly<Array<IProfileGame>>;
-  // platform: TPlatformNames;
   children?: ReactNode;
 }
 
 export function GameBoxContainer(props: IGameBoxContainerProps): JSX.Element {
-  // const { games, platform } = props;
-
-  return (
-    <div className={styles.GameBoxContainer}>
-      {props.children}
-      {/* {games.map((game) => (
-        <GameBox key={game.name} game={game} platform={platform} />
-      ))} */}
-    </div>
-  );
+  return <div className={styles.GameBoxContainer}>{props.children}</div>;
 }
