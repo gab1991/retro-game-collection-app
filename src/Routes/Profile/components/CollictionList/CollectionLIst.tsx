@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import arrayMove from 'array-move';
 import { PlatformBadge } from 'Components';
+import { produce } from 'immer';
 
 import { IProfilePlatform } from 'Routes/Profile/reducer/types';
 import { DeepReadonly } from 'utility-types';
@@ -28,6 +31,26 @@ export function CollectionList(): JSX.Element {
     history.push(Routes.PlatformSelector.makePath());
   };
 
+  const onDragEnd = (result: DropResult) => {
+    const { source, destination } = result;
+
+    const updPlatformInd = ownedList.findIndex(({ name }) => name === source.droppableId);
+
+    if (!destination || updPlatformInd < 0) {
+      return;
+    }
+
+    const changedPlatform = ownedList[updPlatformInd];
+
+    const newOrderGames = arrayMove(changedPlatform.games, source.index, destination.index);
+
+    const updState = produce(ownedList, (draft) => {
+      draft[updPlatformInd].games = newOrderGames;
+    });
+
+    setOwnedList(updState);
+  };
+
   return (
     <div className={styles.CollectionList}>
       <h1 className={styles.SectionName}>My Collection</h1>
@@ -35,11 +58,13 @@ export function CollectionList(): JSX.Element {
         {ownedList.map(({ name: platformName, games }) => (
           <div key={platformName} className={styles.Shelf}>
             <PlatformBadge className={styles.PlatformLogo} platform={platformName} />
-            <DroppableGameBoxContainer platform={platformName}>
-              {games.map((game, index) => (
-                <DraggableGameBox key={game.slug} index={index} game={game} platform={platformName} />
-              ))}
-            </DroppableGameBoxContainer>
+            <DragDropContext onDragEnd={onDragEnd}>
+              <DroppableGameBoxContainer platform={platformName}>
+                {games.map((game, index) => (
+                  <DraggableGameBox key={game.slug} index={index} game={game} platform={platformName} />
+                ))}
+              </DroppableGameBoxContainer>
+            </DragDropContext>
           </div>
         ))}
         <div className={styles.EmptyList}>
