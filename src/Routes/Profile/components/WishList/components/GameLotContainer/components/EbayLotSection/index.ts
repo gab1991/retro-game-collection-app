@@ -1,1 +1,1 @@
-export { EbayLotSection } from './EbyaLotSection';
+export { EbayLotSection, IEbayLotSectionProps } from './EbyaLotSection';

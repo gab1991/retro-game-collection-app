@@ -1,40 +1,20 @@
 @import 'Configs/Variables.scss';
-$cont-padding: 15px;
 
 .GameLotContainer {
   width: 100%;
+  // overflow-x: auto;
   margin: 2% 0;
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  // justify-content: center;
+  // flex-wrap: wrap;
 
-  hr {
-    width: 100%;
-    margin: $cont-padding;
-    border: 1px solid rgba(82, 82, 82, 0.9);
+  & > div {
+    margin: 15px;
+    height: 370px;
+    width: 370px;
   }
 
   @include respond-to(mobile) {
     flex-direction: column;
-
-    hr {
-      margin: 0px;
-    }
-  }
-}
-
-.GameLots {
-  overflow: hidden;
-  margin-bottom: 2%;
-  margin: $cont-padding;
-
-  &.EbayShowing {
-    flex-basis: 100%;
-  }
-
-  @include respond-to(mobile) {
-    &.EbayShowing {
-      flex: 1;
-    }
   }
 }
