@@ -10,8 +10,10 @@ import { IProfilePlatform } from 'Routes/Profile/reducer/types';
 import { DeepReadonly } from 'utility-types';
 
 import { ButtonNeon } from 'Components/UI';
+import { EAvailableLists } from 'Configs/appConfig';
 import { DraggableGameBox } from 'Routes/Profile/components';
 import { selectOwnedPlatforms } from 'Routes/Profile/reducer/selectors';
+import { reorderGamesThunk } from 'Routes/Profile/reducer/thunks';
 import { Routes } from 'Routes/routes';
 
 import { DroppableGameBoxContainer } from './components';
@@ -46,6 +48,12 @@ export function CollectionList(): JSX.Element {
 
     const updState = produce(ownedList, (draft) => {
       draft[updPlatformInd].games = newOrderGames;
+    });
+
+    reorderGamesThunk({
+      list: EAvailableLists.ownedList,
+      newSortedGames: newOrderGames,
+      platform: changedPlatform.name,
     });
 
     setOwnedList(updState);

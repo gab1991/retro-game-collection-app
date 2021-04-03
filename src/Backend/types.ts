@@ -1,6 +1,6 @@
 import { AxiosPromise } from 'axios';
 
-import { IProfile, IProfileGame } from 'Routes/Profile/reducer/types';
+import { IProfile, IReorderGamesActionArgs } from 'Routes/Profile/reducer/types';
 
 import { EAvailableLists, EPlatformList, TPlatformNames, TVideoType } from 'Configs/appConfig';
 import { IEbayCardRawData, IEbayCardShippingDetails, TEbayCardPreviewRawData } from 'Typings/EbayData';
@@ -37,11 +37,8 @@ export type TBackend = {
 
 type TUpdProfObj = IReodredGames | IRemoveGame | IAddGame;
 
-interface IReodredGames {
+interface IReodredGames extends IReorderGamesActionArgs {
   action: 'reorder';
-  list: EAvailableLists;
-  platform: TPlatformNames;
-  sortedGames: Array<IProfileGame>;
 }
 
 interface IRemoveGame {

@@ -1,7 +1,7 @@
 import { ActionType } from 'typesafe-actions';
 import { DeepReadonly } from 'utility-types';
 
-import { TPlatformNames } from 'Configs/appConfig';
+import { EAvailableLists, TPlatformNames } from 'Configs/appConfig';
 
 import * as profileActions from './actions';
 
@@ -11,10 +11,14 @@ export type TProfileReducer = DeepReadonly<IProfile> | null;
 export interface IProfile {
   createdDate: string;
   email: string;
-  owned_list: { platforms: Array<IProfilePlatform> };
+  [EAvailableLists.ownedList]: IProfileListContent;
   password: string;
   username: string;
-  wish_list: { platforms: Array<IProfilePlatform> };
+  [EAvailableLists.wishList]: IProfileListContent;
+}
+
+interface IProfileListContent {
+  platforms: Array<IProfilePlatform>;
 }
 
 export interface IProfilePlatform {
@@ -33,4 +37,11 @@ export interface IProfileGame {
 interface IProfileWatchEbayCard {
   date: string;
   id: string;
+}
+
+//ACTIONS
+export interface IReorderGamesActionArgs {
+  list: EAvailableLists;
+  newSortedGames: DeepReadonly<Array<IProfileGame>>;
+  platform: TPlatformNames;
 }
