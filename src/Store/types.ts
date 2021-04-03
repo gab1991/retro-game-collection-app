@@ -21,4 +21,7 @@ export interface IRootState {
 
 export type TThunk<ReturnType = void> = ThunkAction<ReturnType, IRootState, unknown, Action<string>>;
 
-export type TSelector<ReturnType> = (state: IRootState) => DeepReadonly<ReturnType>;
+export type TSelector<ReturnType, Args extends unknown[] = unknown[]> = (
+  state: IRootState,
+  ...args: Args
+) => DeepReadonly<ReturnType>;
