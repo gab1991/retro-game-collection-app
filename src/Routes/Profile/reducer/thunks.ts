@@ -50,7 +50,6 @@ export const reorderGamesThunk = (args: IReorderGamesActionArgs): TThunk => asyn
       action: 'reorder',
       ...args,
     });
-    dispatch(reorderGames.success(args));
   } catch (err) {
     batch(() => {
       prevSortedGames && dispatch(reorderGames.failure({ ...args, newSortedGames: prevSortedGames }));

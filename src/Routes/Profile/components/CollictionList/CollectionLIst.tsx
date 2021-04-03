@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import arrayMove from 'array-move';
 import { PlatformBadge } from 'Components';
-import { produce } from 'immer';
 
 import { IProfilePlatform } from 'Routes/Profile/reducer/types';
 import { DeepReadonly } from 'utility-types';
@@ -21,6 +20,7 @@ import { DroppableGameBoxContainer } from './components';
 import styles from './CollectionList.module.scss';
 
 export function CollectionList(): JSX.Element {
+  const dispatch = useDispatch();
   const ownedPlatforms = useSelector(selectOwnedPlatforms);
   const history = useHistory();
   const [ownedList, setOwnedList] = useState<DeepReadonly<Array<IProfilePlatform>>>([]);
@@ -46,17 +46,13 @@ export function CollectionList(): JSX.Element {
 
     const newOrderGames = arrayMove(changedPlatform.games, source.index, destination.index);
 
-    const updState = produce(ownedList, (draft) => {
-      draft[updPlatformInd].games = newOrderGames;
-    });
-
-    reorderGamesThunk({
-      list: EAvailableLists.ownedList,
-      newSortedGames: newOrderGames,
-      platform: changedPlatform.name,
-    });
-
-    setOwnedList(updState);
+    dispatch(
+      reorderGamesThunk({
+        list: EAvailableLists.ownedList,
+        newSortedGames: newOrderGames,
+        platform: changedPlatform.name,
+      })
+    );
   };
 
   return (
