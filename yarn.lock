@@ -1172,12 +1172,21 @@
   dependencies:
     tslib "^2.0.0"
 
-"@dnd-kit/core@^2.1.2":
+"@dnd-kit/core@^2.1.0", "@dnd-kit/core@^2.1.2":
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/@dnd-kit/core/-/core-2.1.2.tgz#08d1fede9dd4c5a0f084cc2b95a434813ee9fda7"
   integrity sha512-mJFKQUWOWq/yuD3jfPON4DuwWVGN/eS8s7GX9I5GbjG3i7Udt8I6ij1ZFinISSTTZxNVdBBcRKO4ctRecDkNKA==
   dependencies:
     "@dnd-kit/accessibility" "^2.0.0"
+    "@dnd-kit/utilities" "^1.0.2"
+    tslib "^2.0.0"
+
+"@dnd-kit/sortable@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/sortable/-/sortable-2.0.1.tgz#27da1a4b8f4e248d794964c5fd8734b000be5791"
+  integrity sha512-HfrIKkIXu+lZge8rRALeELJJA7zhWHubU1bCBAnVgKRhPmPYomN4X6szG81uquSD9Fvq04qBbwyw+uuBp1aJJg==
+  dependencies:
+    "@dnd-kit/core" "^2.1.0"
     "@dnd-kit/utilities" "^1.0.2"
     tslib "^2.0.0"
 
