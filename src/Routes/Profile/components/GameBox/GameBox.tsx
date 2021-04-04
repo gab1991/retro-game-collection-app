@@ -39,11 +39,14 @@ export function GameBox(props: IGameBoxProps): JSX.Element {
   return (
     <Link
       to={Routes.GameDetailed.makePath(platform, slug)}
-      className={cn(styles.GameBox, className, { [styles.Scaling]: scaling })}
+      className={cn(styles.GameBox, { [styles.Scaling]: scaling }, className)}
       onMouseEnter={() => setDescrVisibility(true)}
       onMouseLeave={() => setDescrVisibility(false)}
+      draggable={false}
     >
-      {boxArtUrl && <img src={boxArtUrl} alt={boxArtUrl} className={styles.BoxArtImg} />}
+      {boxArtUrl && (
+        <img src={boxArtUrl} alt={boxArtUrl} className={styles.BoxArtImg} onDragStart={() => false} draggable={false} />
+      )}
       {showDesc && (
         <p className={cn(styles.Desctiprtion, { [styles.DesctiprionVisible]: descrVisibility })}>{gameName}</p>
       )}

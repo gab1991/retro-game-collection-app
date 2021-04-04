@@ -1,22 +1,29 @@
 import React from 'react';
-import { Draggable } from 'react-beautiful-dnd';
+import cn from 'classnames';
 
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import { GameBox, IGameBoxProps } from 'Routes/Profile/components/GameBox';
 
+import styles from './DraggableGameBox.module.scss';
+
 interface IDraggableGameBox extends IGameBoxProps {
-  index: number;
+  index?: number;
 }
 
 export function DraggableGameBox(props: IDraggableGameBox): JSX.Element {
-  const { index, ...gameBoxProps } = props;
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: props.game.slug });
+
+  // console.log(isDragging, props.game.slug);
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition: transition || '',
+  };
 
   return (
-    <Draggable draggableId={props.game.slug} index={index}>
-      {(provided) => (
-        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-          <GameBox {...gameBoxProps} />
-        </div>
-      )}
-    </Draggable>
+    <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+      <GameBox {...props} className={cn({ [styles.Dragging]: isDragging })} />
+    </div>
   );
 }

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Droppable } from 'react-beautiful-dnd';
 
+// import { Droppable } from 'react-beautiful-dnd';
+import { useDroppable } from '@dnd-kit/core';
 import { TPlatformNames } from 'Configs/appConfig';
 import {
   GameBoxContainer,
@@ -12,16 +13,11 @@ interface IDroppableGameBoxContainer extends IGameBoxContainerProps {
 }
 
 export function DroppableGameBoxContainer(props: IDroppableGameBoxContainer): JSX.Element {
+  const { setNodeRef } = useDroppable({ id: props.platform });
+
   return (
-    <Droppable droppableId={props.platform} direction={'horizontal'}>
-      {(provided) => (
-        <div ref={provided.innerRef} {...provided.droppableProps}>
-          <GameBoxContainer>
-            {props.children}
-            {provided.placeholder}
-          </GameBoxContainer>
-        </div>
-      )}
-    </Droppable>
+    <div ref={setNodeRef}>
+      <GameBoxContainer>{props.children}</GameBoxContainer>
+    </div>
   );
 }
