@@ -65,6 +65,10 @@ export enum EPlatformList {
 
 export type TPlatformNames = keyof typeof EPlatformList;
 
+export const isPlatformName = (value: string): value is TPlatformNames => {
+  return EPlatformList[value];
+};
+
 export type TVideoType = 'soundtrack' | 'gameplay';
 
 export enum EAvailableLists {
