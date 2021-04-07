@@ -3,6 +3,7 @@ import cn from 'classnames';
 
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { formSortableId } from 'Routes/Profile/components/CollictionList/sortableHelpers';
 import { GameBox, IGameBoxProps } from 'Routes/Profile/components/GameBox';
 
 import styles from './DraggableGameBox.module.scss';
@@ -12,9 +13,9 @@ interface IDraggableGameBox extends IGameBoxProps {
 }
 
 export function DraggableGameBox(props: IDraggableGameBox): JSX.Element {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: props.game.slug });
-
-  // console.log(isDragging, props.game.slug);
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging, over } = useSortable({
+    id: formSortableId(props.platform, props.game.slug),
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -22,7 +23,13 @@ export function DraggableGameBox(props: IDraggableGameBox): JSX.Element {
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...listeners}
+      {...attributes}
+      className={cn({ [styles.SortableContDragging]: isDragging })}
+    >
       <GameBox {...props} className={cn({ [styles.Dragging]: isDragging })} />
     </div>
   );
