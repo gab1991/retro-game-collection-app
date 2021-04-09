@@ -3,18 +3,15 @@ import cn from 'classnames';
 
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { formSortableId } from 'Routes/Profile/components/CollictionList/sortableHelpers';
 import { GameBox, IGameBoxProps } from 'Routes/Profile/components/GameBox';
 
 import styles from './DraggableGameBox.module.scss';
 
-interface IDraggableGameBox extends IGameBoxProps {
-  index?: number;
-}
+type TDraggableGameBox = IGameBoxProps;
 
-export function DraggableGameBox(props: IDraggableGameBox): JSX.Element {
+export function DraggableGameBox(props: TDraggableGameBox): JSX.Element {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging, isSorting } = useSortable({
-    id: formSortableId(props.platform, props.game.slug),
+    id: props.game.slug,
   });
 
   const style = {

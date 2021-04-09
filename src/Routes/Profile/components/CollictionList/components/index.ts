@@ -1,2 +1,2 @@
-export { DroppableGameBoxContainer } from './DroppableGameBoxContainer';
+export { DndShelf } from './DndShelf';
 export { GameBoxContainer } from './GameBoxContainer';
