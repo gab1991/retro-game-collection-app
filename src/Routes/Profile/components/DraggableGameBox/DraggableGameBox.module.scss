@@ -1,5 +1,8 @@
 .Dragging {
+  opacity: 0;
+}
+
+.Sorting {
   pointer-events: none;
   user-select: none;
-  opacity: 0;
 }

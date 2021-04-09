@@ -13,7 +13,7 @@ interface IDraggableGameBox extends IGameBoxProps {
 }
 
 export function DraggableGameBox(props: IDraggableGameBox): JSX.Element {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging, over } = useSortable({
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging, isSorting } = useSortable({
     id: formSortableId(props.platform, props.game.slug),
   });
 
@@ -30,7 +30,7 @@ export function DraggableGameBox(props: IDraggableGameBox): JSX.Element {
       {...attributes}
       className={cn({ [styles.SortableContDragging]: isDragging })}
     >
-      <GameBox {...props} className={cn({ [styles.Dragging]: isDragging })} />
+      <GameBox {...props} className={cn({ [styles.Dragging]: isDragging, [styles.Sorting]: isSorting })} />
     </div>
   );
 }
