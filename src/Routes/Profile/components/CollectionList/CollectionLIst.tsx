@@ -4,10 +4,9 @@ import { useHistory } from 'react-router-dom';
 import { PlatformBadge } from 'Components';
 
 import { ButtonNeon } from 'Components/UI';
+import { DndShelf } from 'Routes/Profile/components';
 import { selectOwnedPlatforms } from 'Routes/Profile/reducer/selectors';
 import { Routes } from 'Routes/routes';
-
-import { DndShelf } from './components';
 
 import styles from './CollectionList.module.scss';
 

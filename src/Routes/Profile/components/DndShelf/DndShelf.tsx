@@ -5,7 +5,7 @@ import arrayMove from 'array-move';
 import { IProfileGame } from 'Routes/Profile/reducer/types';
 import { DeepReadonly } from 'utility-types';
 
-import { GameBoxContainer } from '../GameBoxContainer';
+import { GameBoxContainer } from '../CollectionList/components/GameBoxContainer';
 import {
   closestCenter,
   DndContext,
