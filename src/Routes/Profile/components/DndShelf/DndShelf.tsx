@@ -5,7 +5,6 @@ import arrayMove from 'array-move';
 import { IProfileGame } from 'Routes/Profile/reducer/types';
 import { DeepReadonly } from 'utility-types';
 
-import { GameBoxContainer } from '../CollectionList/components/GameBoxContainer';
 import {
   closestCenter,
   DndContext,
@@ -21,17 +20,23 @@ import { rectSortingStrategy, SortableContext, sortableKeyboardCoordinates } fro
 import { EAvailableLists, TPlatformNames } from 'Configs/appConfig';
 import { DraggableGameBox } from 'Routes/Profile/components/DraggableGameBox';
 import { GameBox } from 'Routes/Profile/components/GameBox';
+import {
+  DraggableEbayLotSection,
+  EbayLotSection,
+} from 'Routes/Profile/components/WishList/components/GameLotContainer/components';
 import { reorderGamesThunk } from 'Routes/Profile/reducer/thunks';
 
 interface IDndShelfProps {
   games: DeepReadonly<IProfileGame[]>;
+  list: EAvailableLists;
   platform: TPlatformNames;
 }
 
 export function DndShelf(props: IDndShelfProps): JSX.Element {
-  const { games, platform } = props;
+  const { games, platform, list } = props;
   const dispatch = useDispatch();
   const [draggingInd, setDraggingInd] = useState<number | null>(null);
+  const isOwnedList = list === EAvailableLists.ownedList;
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 20 } }),
@@ -68,22 +73,26 @@ export function DndShelf(props: IDndShelfProps): JSX.Element {
 
     dispatch(
       reorderGamesThunk({
-        list: EAvailableLists.ownedList,
+        list,
         newSortedGames,
         platform,
       })
     );
   };
 
+  const DraggableElm = isOwnedList ? DraggableGameBox : DraggableEbayLotSection;
+
+  const DraggableOverlay = isOwnedList ? GameBox : EbayLotSection;
+
   return (
     <DndContext onDragEnd={onDragEnd} onDragStart={onDragStart} sensors={sensors} collisionDetection={closestCenter}>
       <SortableContext items={games.map((game) => game.slug)} strategy={rectSortingStrategy}>
-        <GameBoxContainer>
-          {games.map((game) => (
-            <DraggableGameBox key={game.slug} game={game} platform={platform} />
-          ))}
-          <DragOverlay>{draggingInd !== null && <GameBox game={games[draggingInd]} platform={platform} />}</DragOverlay>
-        </GameBoxContainer>
+        {games.map((game) => (
+          <DraggableElm key={game.slug} game={game} platform={platform} />
+        ))}
+        <DragOverlay>
+          {draggingInd !== null && <DraggableOverlay game={games[draggingInd]} platform={platform} />}
+        </DragOverlay>
       </SortableContext>
     </DndContext>
   );

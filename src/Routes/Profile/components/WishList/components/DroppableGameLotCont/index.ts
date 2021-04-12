@@ -1,1 +1,0 @@
-export { DroppableGameLotCont } from './DroppableGameLotCont';

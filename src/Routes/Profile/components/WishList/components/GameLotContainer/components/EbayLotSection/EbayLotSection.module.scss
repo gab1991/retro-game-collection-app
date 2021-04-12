@@ -1,7 +1,10 @@
 @import 'Configs/Variables.scss';
 
 .EbyaLotSection {
-  @include w100v100;
+  margin: 15px;
+  height: 370px;
+  min-width: 370px;
+
   color: $font-white;
   background-color: rgba(0, 0, 0, 0.3);
   position: relative;
