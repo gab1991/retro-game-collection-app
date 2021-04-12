@@ -1,6 +1,7 @@
+import { batch } from 'react-redux';
 import { Backend } from 'Backend';
 
-import { IProfileGame } from './types';
+import { IProfileGame, IReorderGamesActionArgs } from './types';
 import { EEbaySortOrder } from 'Backend/types';
 import { TThunk } from 'Store/types';
 
@@ -9,7 +10,8 @@ import { showErrModal } from 'Store/appStateReducer/actions';
 import { setEbayItems } from 'Store/ebayItemsReducer/actions';
 import { IRawgGameDetails } from 'Typings/RawgData';
 
-import { fillProfile } from './actions';
+import { fillProfile, reorderGames } from './actions';
+import { selectGamesFromList } from './selectors';
 
 export const getProfileInfo = (): TThunk => async (dispatch) => {
   try {
@@ -33,21 +35,27 @@ export const getProfileInfo = (): TThunk => async (dispatch) => {
       }
     }
   } catch (err) {
-    dispatch(showErrModal({ message: `Could't get your profile! Try once more` }));
+    dispatch(showErrModal({ message: `Couldn't get your profile! Try once more` }));
   }
 };
 
-export const reorderGames = (
-  newSortedGames: Array<IProfileGame>,
-  platform: TPlatformNames,
-  list: EAvailableLists
-): TThunk => async () => {
-  await Backend.updateProfile({
-    action: 'reorder',
-    list,
-    platform,
-    sortedGames: newSortedGames,
-  });
+export const reorderGamesThunk = (args: IReorderGamesActionArgs): TThunk => async (dispatch, getStore) => {
+  const store = getStore();
+  const prevSortedGames = selectGamesFromList(store, args.list, args.platform);
+
+  dispatch(reorderGames.request(args));
+
+  try {
+    await Backend.updateProfile({
+      action: 'reorder',
+      ...args,
+    });
+  } catch (err) {
+    batch(() => {
+      prevSortedGames && dispatch(reorderGames.failure({ ...args, newSortedGames: prevSortedGames }));
+      dispatch(showErrModal({ message: `Couldn't rearrange games! Try later` }));
+    });
+  }
 };
 
 export const removeGame = (game: string, list: EAvailableLists, platform: TPlatformNames): TThunk => {

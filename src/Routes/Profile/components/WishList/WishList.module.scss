@@ -49,23 +49,29 @@
     width: 100%;
   }
 
-  .PlatformLogo {
-    cursor: pointer;
-    height: 80px;
-    width: 30%;
-    transition: all 200ms ease-in-out;
+  hr {
+    width: 96%;
+    margin-top: 15px;
+    border: 1px solid rgba(82, 82, 82, 0.9);
+  }
+}
 
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-    &:hover {
-      transform: scale(1.1);
-    }
-    @include respond-to(mobile) {
-      width: 50%;
-    }
+.PlatformLogo {
+  cursor: pointer;
+  height: 80px;
+  width: 30%;
+  transition: all 200ms ease-in-out;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  &:hover {
+    transform: scale(1.1);
+  }
+  @include respond-to(mobile) {
+    width: 50%;
   }
 }
 
@@ -75,4 +81,22 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+}
+
+.GameLots {
+  // width: 300px;
+  // height: 300px;
+  overflow: hidden;
+  margin-bottom: 2%;
+  margin: 15px;
+
+  &.EbayShowing {
+    flex-basis: 100%;
+  }
+
+  @include respond-to(mobile) {
+    &.EbayShowing {
+      flex: 1;
+    }
+  }
 }

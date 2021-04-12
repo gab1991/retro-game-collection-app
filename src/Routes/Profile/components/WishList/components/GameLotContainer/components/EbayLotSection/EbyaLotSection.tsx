@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import cn from 'classnames';
 import { EbaySwiper } from 'Components';
 
 import { EEbaySortOrder } from 'Backend/types';
 import { IProfileGame } from 'Routes/Profile/reducer/types';
 import { IRootState } from 'Store/types';
+import { DeepReadonly } from 'utility-types';
 
 import { ButtonNeon, KnobToggler } from 'Components/UI';
 import { CloseSvg } from 'Components/UI/LogoSvg';
@@ -24,8 +26,9 @@ const buttonsToSortOrder = {
   Watched: 'Watched',
 };
 
-interface IEbayLotSectionProps {
-  gameData: IProfileGame;
+export interface IEbayLotSectionProps {
+  className?: string;
+  game: DeepReadonly<IProfileGame>;
   platform: TPlatformNames;
   showingEbay?: boolean;
 }
@@ -33,9 +36,10 @@ interface IEbayLotSectionProps {
 export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
   const dispatch = useDispatch();
   const {
-    gameData,
-    gameData: { name: gameName, isShowEbay },
+    game,
+    game: { name: gameName, isShowEbay },
     platform,
+    className,
   } = props;
 
   const [removing, setRemoving] = useState(false);
@@ -70,8 +74,8 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
   };
 
   return (
-    <div className={`${styles.EbyaLotSection} ${removing ? styles.Removing : ''}`}>
-      <GameBox className={styles.Gamebox} game={gameData} platform={platform} showDesc={false} scaling={false} />
+    <div className={cn(styles.EbyaLotSection, { [styles.Removing]: removing }, className)}>
+      <GameBox className={styles.Gamebox} game={game} platform={platform} showDesc={false} scaling={false} />
       <div className={styles.ButtonSection}>
         {Object.keys(buttonsToSortOrder).map((btn) => (
           <ButtonNeon

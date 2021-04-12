@@ -1,1 +1,1 @@
-export { GameLotContainer } from './GameLotContainer';
+export { GameLotContainer, IGameLotContainerProps } from './GameLotContainer';

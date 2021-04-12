@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import cn from 'classnames';
+import { Routes } from 'Routes';
 
 import { IRootState } from 'Store/types';
 
@@ -10,7 +12,7 @@ import { getBoxArt } from 'Store/contentReducer/thunks';
 
 import styles from './GameBox.module.scss';
 
-interface IGameBoxProps {
+export interface IGameBoxProps {
   className?: string;
   game: { name: string; slug: string };
   platform: TPlatformNames;
@@ -36,20 +38,17 @@ export function GameBox(props: IGameBoxProps): JSX.Element {
 
   return (
     <Link
-      to={`/${platform}/${slug}`}
-      className={`${styles.GameBox} ${scaling ? styles.Scaling : ''} ${className}`}
+      to={Routes.GameDetailed.makePath(platform, slug)}
+      className={cn(styles.GameBox, { [styles.Scaling]: scaling }, className)}
       onMouseEnter={() => setDescrVisibility(true)}
       onMouseLeave={() => setDescrVisibility(false)}
-      draggable='false'
+      draggable={false}
     >
-      {boxArtUrl && <img src={boxArtUrl} alt={boxArtUrl} className={styles.BoxArtImg} draggable='false' />}
+      {boxArtUrl && (
+        <img src={boxArtUrl} alt={boxArtUrl} className={styles.BoxArtImg} onDragStart={() => false} draggable={false} />
+      )}
       {showDesc && (
-        <div
-          className={`${styles.Desctiprion} 
-            ${descrVisibility ? styles.DesctiprionVisible : null}`}
-        >
-          {gameName}
-        </div>
+        <p className={cn(styles.Desctiprtion, { [styles.DesctiprionVisible]: descrVisibility })}>{gameName}</p>
       )}
     </Link>
   );
