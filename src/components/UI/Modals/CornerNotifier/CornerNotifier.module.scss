@@ -1,4 +1,4 @@
-@import '../../../../Configs/Variables.scss';
+@import 'Configs/Variables.scss';
 
 $font-color: $font-white;
 $background-color: #434343;
@@ -9,7 +9,6 @@ $background-color: #434343;
   min-width: 500px;
   height: 100px;
   background-color: $background-color;
-  transition: transform 300ms ease-in-out;
   padding: 10px;
   display: flex;
   align-items: center;
@@ -51,5 +50,6 @@ $background-color: #434343;
 }
 
 .Showing {
+  transition: transform 300ms ease-in-out;
   transform: translateX(0);
 }
