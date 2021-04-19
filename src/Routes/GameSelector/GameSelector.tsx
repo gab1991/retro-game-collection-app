@@ -1,28 +1,22 @@
 import React, { ChangeEvent, SyntheticEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Paginator } from 'Components';
 
 import { DotSpinner, SearchInput, SelectBox } from 'Components/UI';
 import { appConfig, TPlatformNames } from 'Configs/appConfig';
-import { setSearchInputValue } from 'Routes/GameSelector/reducer/actions';
+import { flushGameSelectorStore, setSearchInputValue } from 'Routes/GameSelector/reducer/actions';
 import {
   selectGamesToShow,
   selectIsLoading,
   selectNoGamesFound,
   selectPageData,
-  selectQuery,
   selectSearchInputValue,
 } from 'Routes/GameSelector/reducer/selectors';
-import {
-  changePage,
-  getGamesForPlatform,
-  parseQueryParams,
-  setNewOrdering,
-  startNewSearch,
-} from 'Routes/GameSelector/reducer/thunks';
+import { getGamesForPlatform } from 'Routes/GameSelector/reducer/thunks';
 
 import { GameCard } from './components';
+import { useGameSelectorUrl } from './hooks';
 
 import styles from './GameSelector.module.scss';
 
@@ -33,41 +27,33 @@ interface ISendReqEvent extends SyntheticEvent {
 }
 
 export function GameSelector(): JSX.Element {
-  const history = useHistory();
+  const { query, setOrdering, changeSearchStr, changePage } = useGameSelectorUrl();
+  const { ordername, page: queryPage, search: searchQuery, direction } = query;
   const dispatch = useDispatch();
-  const query = useSelector(selectQuery);
   const gamesToShow = useSelector(selectGamesToShow);
   const pageData = useSelector(selectPageData);
   const searchInputValue = useSelector(selectSearchInputValue);
   const isLoading = useSelector(selectIsLoading);
   const noGamesFound = useSelector(selectNoGamesFound);
   const { platformName } = useParams<{ platformName: TPlatformNames }>();
-  const { ordername, page: queryPage, search: searchQuery, direction } = query;
 
   useEffect(() => {
-    dispatch(parseQueryParams(history.location.search));
-
-    const unlisten = history.listen((location) => {
-      dispatch(parseQueryParams(location.search));
-    });
-    return () => unlisten();
-  }, [dispatch, history]);
+    return () => {
+      dispatch(flushGameSelectorStore());
+    };
+  }, []);
 
   useEffect(() => {
     dispatch(getGamesForPlatform(platformName));
   }, [queryPage, searchQuery, ordername, direction, platformName, dispatch]);
 
-  const pageChangeHandler = (pageNumber: number) => dispatch(changePage(pageNumber));
-
   const gameSearchChangeHandler = (e: ChangeEvent<HTMLInputElement>) => dispatch(setSearchInputValue(e.target.value));
 
   const sendRequestHandler = (e: ISendReqEvent) => {
     if (e.key === 'Enter' || e.currentTarget.getAttribute('name') === 'searchBtn') {
-      dispatch(startNewSearch(searchInputValue));
+      changeSearchStr(searchInputValue);
+      changePage(1);
     }
-  };
-  const selectChangeHandler = (option: string) => {
-    dispatch(setNewOrdering(option));
   };
 
   return (
@@ -90,14 +76,14 @@ export function GameSelector(): JSX.Element {
               totalCount={pageData.count}
               itemsPerPage={appConfig.GameSelector.gamesPerRequest}
               currentPage={queryPage}
-              changeCurrentPage={pageChangeHandler}
+              changeCurrentPage={changePage}
               className={styles.Pagination}
             />
           )}
           <SelectBox
             selected={`${ordername} ${direction}`}
             options={orderingOptions}
-            changedSelected={selectChangeHandler}
+            changedSelected={setOrdering}
             className={styles.SelectBoxWrapper}
           />
         </div>
@@ -121,7 +107,7 @@ export function GameSelector(): JSX.Element {
           totalCount={pageData.count}
           itemsPerPage={appConfig.GameSelector.gamesPerRequest}
           currentPage={queryPage}
-          changeCurrentPage={pageChangeHandler}
+          changeCurrentPage={changePage}
           className={styles.BottomPagination}
         />
       )}

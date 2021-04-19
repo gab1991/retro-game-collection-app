@@ -1,28 +1,17 @@
 import { Backend } from 'Backend';
-import { history } from 'index';
-import { parse, stringify } from 'query-string';
 
-import { ISetNewOrdering } from './types';
 import { IGetGamesForPlatParams } from 'Backend/types';
 import { TThunk } from 'Store/types';
 
 import { appConfig } from 'Configs/appConfig';
 
-import {
-  _changeQueryParams,
-  _changeSearchStr,
-  _setNewOrdering,
-  changePageNumber,
-  setGamesToShow,
-  setIsLoading,
-  setNoGamesFound,
-  writePageData,
-} from './actions';
+import { setGamesToShow, setIsLoading, setNoGamesFound, writePageData } from './actions';
+import { selectQuery } from './selectors';
 
 export const getGamesForPlatform = (platformName: string): TThunk => {
   return async (dispatch, getState) => {
     const state = getState();
-    const { page, direction, ordername, search } = state.gameSelector.query;
+    const { page, direction, ordername, search } = selectQuery(state);
     const platformID = appConfig.platformIdList[platformName];
 
     const req: IGetGamesForPlatParams = {
@@ -51,51 +40,5 @@ export const getGamesForPlatform = (platformName: string): TThunk => {
     } finally {
       dispatch(setIsLoading(false));
     }
-  };
-};
-
-export const changePage = (pagenum: number): TThunk => {
-  return (dispatch) => {
-    dispatch(changePageNumber(pagenum));
-    dispatch(updateQueryParams());
-  };
-};
-
-export const changeSearchStr = (str: string): TThunk => {
-  return (dispatch) => {
-    dispatch(_changeSearchStr(str));
-    dispatch(updateQueryParams());
-  };
-};
-
-export const startNewSearch = (searchStr: string): TThunk => {
-  return (dispatch) => {
-    dispatch(changeSearchStr(searchStr));
-    dispatch(changePage(1));
-    dispatch(updateQueryParams());
-  };
-};
-
-export const setNewOrdering = (option: string): TThunk => {
-  const [ordername, direction] = option.split(' ');
-  return (dispatch) => {
-    dispatch(_setNewOrdering({ direction, ordername } as ISetNewOrdering));
-    dispatch(updateQueryParams());
-  };
-};
-
-export const updateQueryParams = (): TThunk => {
-  return (dispatch, getstate) => {
-    const state = getstate();
-    const { query } = state.gameSelector;
-    history.push(`${history.location.pathname}?${stringify(query)}`);
-  };
-};
-
-export const parseQueryParams = (searchStr: string): TThunk => {
-  return (dispatch) => {
-    const currentParams = parse(searchStr);
-
-    dispatch(_changeQueryParams(currentParams));
   };
 };

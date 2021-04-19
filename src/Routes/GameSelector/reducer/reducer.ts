@@ -40,21 +40,21 @@ export const gameSelectorReducer = createReducer<TGameSelectorReducer, TGamwSele
     })
   )
   .handleAction(
-    actions._setNewOrdering,
+    actions.setNewOrdering,
     (state, { payload: { ordername, direction } }): TGameSelectorReducer => ({
       ...state,
       query: { ...state.query, direction, ordername },
     })
   )
   .handleAction(
-    actions._changeSearchStr,
+    actions.changeSearchStrAction,
     (state, { payload }): TGameSelectorReducer => ({
       ...state,
-      query: { ...state.query, search: encodeURI(payload) },
+      query: { ...state.query, search: payload },
     })
   )
   .handleAction(
-    actions._changeQueryParams,
+    actions.setParsedQueryParams,
     (state, { payload }): TGameSelectorReducer => {
       const newParams = payload;
       const query = { ...state.query };
@@ -90,4 +90,5 @@ export const gameSelectorReducer = createReducer<TGameSelectorReducer, TGamwSele
   .handleAction(
     actions.setSearchInputValue,
     (state, { payload }): TGameSelectorReducer => ({ ...state, searchInputValue: payload })
-  );
+  )
+  .handleAction(actions.flushGameSelectorStore, () => initial);

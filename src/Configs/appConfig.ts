@@ -6,10 +6,18 @@ export enum EGameSelectorOrderingName {
   'released' = 'released',
 }
 
+export const isEGameSelectorOrderingName = (str: string): str is EGameSelectorOrderingName => {
+  return Object.values(EGameSelectorOrderingName).includes(str as EGameSelectorOrderingName);
+};
+
 export enum EGameSelectorOrderingDirection {
   'ASC' = '↑',
   'DESC' = '↓',
 }
+
+export const isEGameSelectorOrderingDirection = (str: string): str is EGameSelectorOrderingDirection => {
+  return Object.values(EGameSelectorOrderingDirection).includes(str as EGameSelectorOrderingDirection);
+};
 
 export enum EPlatformList {
   '3DO' = 111,

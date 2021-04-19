@@ -18,9 +18,9 @@ export const setSearchInputValue = createAction('gameSelector/setSearchInputValu
 
 export const changePageNumber = createAction('gameSelector/changePageNumber', (pageNum: number) => pageNum)();
 
-export const _changeSearchStr = createAction('gameSelector/changeSearchStr', (str: string) => str)();
+export const changeSearchStrAction = createAction('gameSelector/changeSearchStr', (str: string) => str)();
 
-export const _setNewOrdering = createAction(
+export const setNewOrdering = createAction(
   'gameSelctor/setNewOrdering',
   ({ direction, ordername }: ISetNewOrdering) => ({
     direction,
@@ -28,7 +28,9 @@ export const _setNewOrdering = createAction(
   })
 )();
 
-export const _changeQueryParams = createAction(
-  'gameSelector/changeQueryParams',
+export const setParsedQueryParams = createAction(
+  'gameSelector/setParsedQueryParams',
   (currentParams: Partial<IGameSelectorQuery>) => currentParams
 )();
+
+export const flushGameSelectorStore = createAction('gameSelector/flushGameSelectorStore')();
