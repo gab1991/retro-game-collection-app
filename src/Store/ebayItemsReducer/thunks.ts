@@ -19,7 +19,7 @@ import {
   setEbaySingleItemData,
   setIsWatchedEbayCard,
 } from './actions';
-import { selectEbayCardItemId, selectEbayCardItems, selectEbayCardItemsReducer } from './selectors';
+import { selectEbayCardItemId, selectEbayCardItemsReducer } from './selectors';
 
 const DEFAULT_SORT_ORDER = appConfig.EbayCards.defaultSortOrder;
 
@@ -151,6 +151,7 @@ export const notWatchEbayCard = (
 ): TThunk => {
   return async (dispatch) => {
     dispatch(setIsWatchedEbayCard(game, platform, sortOrder, index, false));
+
     try {
       await Backend.notWatchEbayCard({
         ebayItemId,

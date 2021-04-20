@@ -1,5 +1,3 @@
-import ReactHtmlParser from 'react-html-parser';
-
 import { EVideoType, TToggleableEmls } from './types';
 import { createAction } from 'typesafe-actions';
 
@@ -7,9 +5,7 @@ import { IRawgGameDetails } from 'Typings/RawgData';
 
 export const setGameDetails = createAction('gameDetailed/setGameDetails')<IRawgGameDetails>();
 
-export const setDescriptionParsed = createAction('gameDetailed/setDescriptionParsed', (html) =>
-  ReactHtmlParser(html)
-)();
+export const setDescriptionHtml = createAction('gameDetailed/setDescriptionHtml', (html) => html)();
 
 export const setScreenshots = createAction(
   'gameDetailed/setScreenshots',

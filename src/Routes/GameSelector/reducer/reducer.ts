@@ -91,4 +91,4 @@ export const gameSelectorReducer = createReducer<TGameSelectorReducer, TGamwSele
     actions.setSearchInputValue,
     (state, { payload }): TGameSelectorReducer => ({ ...state, searchInputValue: payload })
   )
-  .handleAction(actions.flushGameSelectorStore, () => initial);
+  .handleAction(actions.flushGameSelectorStore, (): TGameSelectorReducer => initial);

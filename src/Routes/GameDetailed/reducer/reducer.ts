@@ -6,7 +6,7 @@ import { createReducer } from 'typesafe-actions';
 import * as actions from './actions';
 
 const initial: TGameDetailedReducer = {
-  descriptionParsed: null,
+  descriptionHtml: null,
   gameDetails: null,
   isOwned: false,
   isWished: false,
@@ -31,8 +31,8 @@ export const gameDetailedReducer = createReducer<TGameDetailedReducer, TGameDeta
     (state, { payload }): TGameDetailedReducer => ({ ...state, screenshots: payload })
   )
   .handleAction(
-    actions.setDescriptionParsed,
-    (state, { payload }): TGameDetailedReducer => ({ ...state, descriptionParsed: payload })
+    actions.setDescriptionHtml,
+    (state, { payload }): TGameDetailedReducer => ({ ...state, descriptionHtml: payload })
   )
   .handleAction(
     actions.setVideoUrl,

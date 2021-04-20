@@ -23,7 +23,7 @@ import styles from './GameDetailedPage.module.scss';
 export function GameDetailedPage(): JSX.Element {
   const dispatch = useDispatch();
   const { platformName, slug, isMobile, toggleList } = useGameDetailedContext();
-  const { descriptionParsed, gameDetails, showOwnedNotifier, showWishListWarn, showWishNotifier } = useSelector(
+  const { descriptionHtml, gameDetails, showOwnedNotifier, showWishListWarn, showWishNotifier } = useSelector(
     selectGameDetailed
   );
 
@@ -72,7 +72,7 @@ export function GameDetailedPage(): JSX.Element {
         <div className={styles.InfoSection}>{gameDetails && <GameInfoBox gameDetails={gameDetails} />}</div>
         <div className={styles.DescSection}>
           <hr></hr>
-          {!!descriptionParsed && descriptionParsed}
+          <div dangerouslySetInnerHTML={{ __html: descriptionHtml || 'No description' }} />
         </div>
         <ControlSection />
       </div>

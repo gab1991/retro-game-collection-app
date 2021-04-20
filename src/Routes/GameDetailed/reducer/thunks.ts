@@ -12,7 +12,7 @@ import { getEbayItemsThunk } from 'Store/ebayItemsReducer/thunks';
 import { IRawgGameDetails } from 'Typings/RawgData';
 
 import {
-  setDescriptionParsed,
+  setDescriptionHtml,
   setEbaySectionLoading,
   setGameDetails,
   setScreenshots,
@@ -31,7 +31,7 @@ export const getGameDetails = (slug: string): TThunk => {
       const { data: gameDetails } = await Backend.getGameDetails(slug);
       batch(() => {
         dispatch(setGameDetails(gameDetails));
-        dispatch(setDescriptionParsed(gameDetails.description));
+        dispatch(setDescriptionHtml(gameDetails.description));
       });
     } catch (err) {
       dispatch(showErrModal({ message: 'Something wrong happens! Try again later' }));

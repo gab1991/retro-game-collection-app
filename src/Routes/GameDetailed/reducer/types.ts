@@ -1,5 +1,3 @@
-import { ReactElement } from 'react';
-
 import { ActionType } from 'typesafe-actions';
 import { DeepReadonly } from 'utility-types';
 
@@ -10,7 +8,7 @@ import * as gameDetailedActions from './actions';
 export type TGameDetailedActions = ActionType<typeof gameDetailedActions>;
 
 export type TGameDetailedReducer = DeepReadonly<{
-  descriptionParsed: Array<ReactElement> | null;
+  descriptionHtml: string | null;
   gameDetails: IRawgGameDetails | null;
   isOwned: boolean;
   isWished: boolean;
