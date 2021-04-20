@@ -1,3 +1,4 @@
+import { TEbayItemsReducer } from './types';
 import { EEbaySortOrder } from 'Backend/types';
 import { IRootState } from 'Store/types';
 import { DeepReadonly } from 'utility-types';
@@ -11,6 +12,8 @@ interface ISelEbatCardItemId {
   platform: TPlatformNames;
   sortOrder: EEbaySortOrder;
 }
+
+export const selectEbayCardItemsReducer = (store: IRootState): DeepReadonly<TEbayItemsReducer> => store.ebayItems;
 
 export const selectEbayCardItemId = (
   store: IRootState,

@@ -9,7 +9,7 @@ export type TContentActions = ActionType<typeof contentActions>;
 
 export type TContentReducer = DeepReadonly<{ boxArts: TBoxArts }>;
 
-type TBoxArts = {
+export type TBoxArts = {
   [P in TPlatformNames]?: TGameBoxArUrl;
 };
 type TGameBoxArUrl = {

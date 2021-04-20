@@ -19,13 +19,14 @@ import {
   setEbaySingleItemData,
   setIsWatchedEbayCard,
 } from './actions';
-import { selectEbayCardItemId } from './selectors';
+import { selectEbayCardItemId, selectEbayCardItems, selectEbayCardItemsReducer } from './selectors';
 
 const DEFAULT_SORT_ORDER = appConfig.EbayCards.defaultSortOrder;
 
 export const getEbayItemsThunk = (platform: TPlatformNames, game: string, sortOrder = DEFAULT_SORT_ORDER): TThunk => {
-  return async (dispatch, getState) => {
-    const { ebayItems } = getState();
+  return async (dispatch, getStore) => {
+    const store = getStore();
+    const ebayItems = selectEbayCardItemsReducer(store);
 
     //check if these ebay cards are already in reducer
     if (ebayItems?.[platform]?.[game]?.[sortOrder]) return;
@@ -59,8 +60,8 @@ export const getEbaySingleItemByIndex = (
   index: number,
   sortOrder = DEFAULT_SORT_ORDER
 ): TThunk => {
-  return async (dispatch, getState) => {
-    const itemId = selectEbayCardItemId(getState(), {
+  return async (dispatch, getStore) => {
+    const itemId = selectEbayCardItemId(getStore(), {
       game,
       index,
       platform,
@@ -116,8 +117,8 @@ export const checkIfCardIsWatched = (
   index: number,
   sortOrder = DEFAULT_SORT_ORDER
 ): TThunk => {
-  return async (dispatch, getState) => {
-    const itemId = selectEbayCardItemId(getState(), {
+  return async (dispatch, getStore) => {
+    const itemId = selectEbayCardItemId(getStore(), {
       game,
       index,
       platform,

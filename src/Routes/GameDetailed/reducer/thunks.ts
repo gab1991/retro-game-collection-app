@@ -21,6 +21,7 @@ import {
   setShowWisListWarn,
   setVideoUrl,
 } from './actions';
+import { selectIsWished } from './selectors';
 
 const ADD_GAME_NOTIFIER_SHOWTIME = 2000;
 
@@ -86,11 +87,11 @@ export const showWishedNotifierForTime = (time: number): TThunk => {
 };
 
 export const addGame = (gameDetails: IRawgGameDetails, list: EAvailableLists, platform: TPlatformNames): TThunk => {
-  return async (dispatch, getState) => {
+  return async (dispatch, getStore) => {
+    const store = getStore();
+    const isWished = selectIsWished(store);
+
     dispatch(addGameTopProfile(gameDetails, list, platform));
-    const {
-      gameDetailed: { isWished },
-    } = getState();
 
     if (list === EAvailableLists.wishList) {
       dispatch(showWishedNotifierForTime(ADD_GAME_NOTIFIER_SHOWTIME));

@@ -9,8 +9,8 @@ import { setGamesToShow, setIsLoading, setNoGamesFound, writePageData } from './
 import { selectQuery } from './selectors';
 
 export const getGamesForPlatform = (platformName: string): TThunk => {
-  return async (dispatch, getState) => {
-    const state = getState();
+  return async (dispatch, getStore) => {
+    const state = getStore();
     const { page, direction, ordername, search } = selectQuery(state);
     const platformID = appConfig.platformIdList[platformName];
 
