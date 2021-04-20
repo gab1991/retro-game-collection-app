@@ -133,10 +133,10 @@ export const checkIfCardIsWatched = (
         platform,
       });
       if (success) {
-        dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, true));
+        dispatch(setIsWatchedEbayCard(game, platform, sortOrder, index, true));
       }
     } catch (error) {
-      dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, false));
+      dispatch(setIsWatchedEbayCard(game, platform, sortOrder, index, false));
     }
   };
 };
@@ -149,7 +149,7 @@ export const notWatchEbayCard = (
   sortOrder = DEFAULT_SORT_ORDER
 ): TThunk => {
   return async (dispatch) => {
-    dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, false));
+    dispatch(setIsWatchedEbayCard(game, platform, sortOrder, index, false));
     try {
       await Backend.notWatchEbayCard({
         ebayItemId,
@@ -158,7 +158,7 @@ export const notWatchEbayCard = (
       });
     } catch (error) {
       batch(() => {
-        dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, true));
+        dispatch(setIsWatchedEbayCard(game, platform, sortOrder, index, true));
         dispatch(
           showErrModal({
             message: appConfig.defaultApiErr,
@@ -177,7 +177,7 @@ export const watchEbayCard = (
   sortOrder = DEFAULT_SORT_ORDER
 ): TThunk => {
   return async (dispatch) => {
-    dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, true));
+    dispatch(setIsWatchedEbayCard(game, platform, sortOrder, index, true));
 
     try {
       await Backend.watchEbayCard({
@@ -200,7 +200,7 @@ export const watchEbayCard = (
           })
         );
       }
-      dispatch(setIsWatchedEbayCard(platform, game, sortOrder, index, false));
+      dispatch(setIsWatchedEbayCard(game, platform, sortOrder, index, false));
     }
   };
 };

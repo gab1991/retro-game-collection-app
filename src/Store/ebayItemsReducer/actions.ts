@@ -4,6 +4,20 @@ import { createAction } from 'typesafe-actions';
 import { TPlatformNames } from 'Configs/appConfig';
 import { IEbayCardItemData, TEbayCardPreviewRawData } from 'Typings/EbayData';
 
+const commonEbayActionPayloadCreator = (
+  game: string,
+  platform: TPlatformNames,
+  sortOrder: EEbaySortOrder,
+  index: number,
+  bool: boolean
+) => ({
+  bool,
+  game,
+  index,
+  platform,
+  sortOrder,
+});
+
 export const setEbayItems = createAction(
   'ebayItems/setEbayItems',
   (items: Array<TEbayCardPreviewRawData>, platform: TPlatformNames, game: string, sortOrder: EEbaySortOrder) => ({
@@ -35,26 +49,11 @@ export const calculateTotalPrice = createAction(
   })
 )();
 
-export const setIsWatchedEbayCard = createAction(
-  'ebayItems/setIsWatchedEbayCard',
-  (platform: TPlatformNames, game: string, sortOrder: EEbaySortOrder, index: number, bool: boolean) => ({
-    bool,
-    game,
-    index,
-    platform,
-    sortOrder,
-  })
-)();
+export const setIsWatchedEbayCard = createAction('ebayItems/setIsWatchedEbayCard', commonEbayActionPayloadCreator)();
 
 export const setEbayItemShippingLoading = createAction(
   'ebayItems/setEbayItemShippingLoading',
-  (game: string, platform: TPlatformNames, sortOrder: EEbaySortOrder, index: number, bool: boolean) => ({
-    bool,
-    game,
-    index,
-    platform,
-    sortOrder,
-  })
+  commonEbayActionPayloadCreator
 )();
 
 export const setEbayItemShippingCost = createAction(
@@ -68,13 +67,4 @@ export const setEbayItemShippingCost = createAction(
   })
 )();
 
-export const setContactSeller = createAction(
-  'ebayItems/setContactSeller',
-  (game: string, platform: TPlatformNames, sortOrder: EEbaySortOrder, index: number, bool: boolean) => ({
-    bool,
-    game,
-    index,
-    platform,
-    sortOrder,
-  })
-)();
+export const setContactSeller = createAction('ebayItems/setContactSeller', commonEbayActionPayloadCreator)();

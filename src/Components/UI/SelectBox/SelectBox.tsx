@@ -3,10 +3,10 @@ import React, { SyntheticEvent, useEffect, useState } from 'react';
 import styles from './SelectBox.module.scss';
 
 interface ISelectBoxProps {
-  options: Array<string>;
-  className: string;
-  selected: string;
   changedSelected: (option: string) => void;
+  className: string;
+  options: Array<string>;
+  selected: string;
 }
 
 export function SelectBox(props: ISelectBoxProps): JSX.Element {

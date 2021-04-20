@@ -3,15 +3,15 @@ import React, { ChangeEvent, SyntheticEvent } from 'react';
 import styles from './SearchInput.module.scss';
 
 interface ISearchInput {
-  type: string;
-  placeholder?: string;
+  className?: string;
+  isFocused?: boolean;
   name?: string;
+  onBtnClick?: (e: SyntheticEvent) => void;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onKeyPress?: (e: SyntheticEvent) => void;
-  onBtnClick?: (e: SyntheticEvent) => void;
+  placeholder?: string;
+  type: string;
   value?: string;
-  isFocused?: boolean;
-  className?: string;
 }
 
 export function SearchInput(props: ISearchInput): JSX.Element {

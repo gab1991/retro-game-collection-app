@@ -18,6 +18,7 @@ export const selectEbayCardItemId = (
 ): number | null => {
   if (!store || !platform || !game || !sortOrder) return null;
   const { ebayItems } = store;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore fix it later
   const { itemId: itemIdArr = { itemId: null } } = ebayItems?.[platform]?.[game]?.[sortOrder]?.[index];
   if (!itemIdArr || !itemIdArr[0]) return null;

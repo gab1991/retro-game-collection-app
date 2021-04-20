@@ -8,7 +8,7 @@ export function FailureSvg(): JSX.Element {
       width='100%'
       height='100%'
       viewBox='0 0 1280.000000 1280.000000'
-      style={{ position: 'absolute', top: 0, left: 0 }}
+      style={{ left: 0, position: 'absolute', top: 0 }}
     >
       <g transform='translate(0.000000,1280.000000) scale(0.100000,-0.100000)' fill='currentColor' stroke='none'>
         <path

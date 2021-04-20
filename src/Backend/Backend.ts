@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import axios_base, { AxiosError, AxiosRequestConfig } from 'axios';
 
 import { TBackend } from './types';

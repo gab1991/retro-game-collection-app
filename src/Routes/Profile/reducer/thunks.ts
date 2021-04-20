@@ -1,7 +1,7 @@
 import { batch } from 'react-redux';
 import { Backend } from 'Backend';
 
-import { IProfileGame, IReorderGamesActionArgs } from './types';
+import { IReorderGamesActionArgs } from './types';
 import { EEbaySortOrder } from 'Backend/types';
 import { TThunk } from 'Store/types';
 

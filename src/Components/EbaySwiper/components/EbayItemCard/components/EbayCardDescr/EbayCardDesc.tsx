@@ -30,6 +30,8 @@ interface IEbayCardDescProps {
 
 type TTimeSpreadStingVal = { [k in keyof ITimeSpread]?: string };
 
+//REFACTOR
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export function EbayCardDesc(props: IEbayCardDescProps): JSX.Element {
   const dispatch = useDispatch();
   const { clearHookInterval, setHookInterval } = useInterval();

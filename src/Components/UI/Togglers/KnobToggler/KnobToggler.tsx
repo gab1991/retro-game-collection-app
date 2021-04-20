@@ -5,10 +5,10 @@ import uniqueId from 'lodash/uniqueId';
 import styles from './KnobToggler.module.scss';
 
 interface IKnobTogglerProps {
-  width: string;
+  checked: boolean;
   labelTxt: string;
   onChangeHandler: () => void;
-  checked: boolean;
+  width: string;
 }
 
 export function KnobToggler(props: IKnobTogglerProps): JSX.Element {

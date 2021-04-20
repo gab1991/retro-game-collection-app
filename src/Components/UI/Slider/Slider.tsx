@@ -1,4 +1,6 @@
+/* eslint-disable  */
 // remove this comp
+
 import React, { useEffect, useRef, useState } from 'react';
 
 import sliderArrow from '../../../Assets/images/svg/slider-arrow-left.svg';
