@@ -7,6 +7,7 @@ const { assetsConfig } = require('../modules/assets');
 const { tsConfig } = require('../modules/ts');
 const { jsConfig } = require('../modules/js');
 const { codeSplitting } = require('../modules/codeSplitting');
+const { lintingConfig } = require('../modules/linting');
 
 const createCommon = (isProduction) =>
   merge(
@@ -22,13 +23,15 @@ const createCommon = (isProduction) =>
       },
       target: isProduction ? 'browserslist:production' : 'web', // HMR bug if set dev target to any browserlist options
       resolve: {},
+      plugins: [],
     },
     stylesConfig(isProduction),
     assetsConfig(isProduction),
     htmlConfig(isProduction),
     tsConfig(isProduction),
     jsConfig(isProduction),
-    codeSplitting(isProduction)
+    codeSplitting(isProduction),
+    lintingConfig(isProduction)
   );
 
 module.exports = {
