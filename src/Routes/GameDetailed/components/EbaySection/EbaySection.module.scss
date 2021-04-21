@@ -50,3 +50,10 @@
   width: 0.8rem;
   display: inline-block;
 }
+
+.ChevronSvg {
+  path: {
+    stroke: currentColor;
+    stroke-width: 30;
+  }
+}

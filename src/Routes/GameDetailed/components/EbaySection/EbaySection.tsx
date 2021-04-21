@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { EbaySwiper } from 'Components';
 
-import { ArrowEsc } from 'Components/UI/LogoSvg';
+import { ChevronSvg, EscSvg } from 'Components/UI/LogoSvg';
 import { useGameDetailedContext } from 'Routes/GameDetailed/context';
 import { selectEbaySection } from 'Routes/GameDetailed/reducer/selectors';
 
@@ -24,7 +24,7 @@ export function EbaySection(): JSX.Element {
       >
         <h2>Ebay Offers</h2>
         <div className={styles.DropDownSvgContainer}>
-          <ArrowEsc arrow={!ebaySection.show} />
+          {ebaySection.show ? <EscSvg /> : <ChevronSvg className={styles.ChevronSvg} />}
         </div>
         <hr></hr>
       </div>

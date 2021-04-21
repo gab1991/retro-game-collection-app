@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { EVideoType, IUploadableElmemnt, TToggleableEmls } from 'Routes/GameDetailed/reducer/types';
 
 import { OvalSpinner } from 'Components/UI';
-import { ArrowEsc } from 'Components/UI/LogoSvg';
+import { ChevronSvg, EscSvg } from 'Components/UI/LogoSvg';
 import { useGameDetailedContext } from 'Routes/GameDetailed/context';
 import { selectVideos } from 'Routes/GameDetailed/reducer/selectors';
 import { getVideo } from 'Routes/GameDetailed/reducer/thunks';
@@ -62,7 +62,7 @@ export function VideoSection(): JSX.Element {
           >
             <h2>{heading}</h2>
             <div className={styles.DropDownSvgContainer}>
-              <ArrowEsc arrow={!video.show} />
+              {video.show ? <EscSvg /> : <ChevronSvg className={styles.ChevronSvg} />}
             </div>
             <hr></hr>
           </div>
