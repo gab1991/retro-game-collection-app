@@ -52,7 +52,7 @@ export const Backend: TBackend = {
         authorization: `Bearer ${token}`,
       },
       method: 'POST',
-      url: `/api/auth/check_credentials`,
+      url: api.appServer.checkCredentialUrl,
     });
   },
 
@@ -109,7 +109,7 @@ export const Backend: TBackend = {
         authorization: `Bearer ${getToken()}`,
       },
       method: 'GET',
-      url: `/api/profile`,
+      url: api.appServer.profileUrl,
     });
   },
 
