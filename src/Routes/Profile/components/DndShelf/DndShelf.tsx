@@ -12,7 +12,9 @@ import {
   DragOverlay,
   DragStartEvent,
   KeyboardSensor,
+  MouseSensor,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
@@ -39,9 +41,15 @@ export function DndShelf(props: IDndShelfProps): JSX.Element {
   const isOwnedList = list === EAvailableLists.ownedList;
 
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 20 } }),
+    useSensor(MouseSensor, { activationConstraint: { distance: 20 } }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 100,
+        tolerance: 5,
+      },
     })
   );
 
