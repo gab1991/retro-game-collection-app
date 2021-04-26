@@ -1,5 +1,5 @@
 const isProduction = process.env.NODE_ENV === 'production';
-const apiEndPoint = isProduction ? '/api' : 'http:/localhost:8000/api';
+const apiEndPoint = isProduction ? '/api' : 'http://localhost:8000/api';
 // TO RUN LOCALLY ON WEB
 // const apiEndPoint = isProduction ? '/api' : 'http://192.168.31.51:8000/api';
 
