@@ -1,21 +1,20 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import SwiperCore, { Navigation, Pagination, SwiperOptions } from 'swiper';
+import SwiperCore, { Navigation, Pagination, Virtual } from 'swiper';
 
 import { selectIsMobile } from 'Store/appStateReducer/selectors';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import 'swiper/swiper.scss';
-import 'swiper/components/pagination/pagination.scss';
+import 'swiper/swiper-bundle.min.css';
 import './SwiperConfigured.scss';
 
-SwiperCore.use([Navigation, Pagination]);
+SwiperCore.use([Navigation, Pagination, Virtual]);
 
 interface ISwiperConfProps {
   className?: string;
-  customSwiperProps?: SwiperOptions;
-  images?: Array<string>;
+  customSwiperProps?: Swiper;
   slides?: TSwiperConfiguredSlides;
+  virtual?: boolean;
 }
 
 interface ISwiperRenderFnArgs {
@@ -29,14 +28,21 @@ interface ISwiperRenderFnArgs {
 export type TSwiperConfiguredSlides = Array<JSX.Element | ((args: ISwiperRenderFnArgs) => JSX.Element)>;
 
 export function SwiperConfigured(props: ISwiperConfProps): JSX.Element {
-  const { slides = [], images = [], customSwiperProps = {}, className } = props;
+  const { slides = [], customSwiperProps = {}, className, virtual = true } = props;
   const isMobile = useSelector(selectIsMobile);
 
   return (
     <Swiper
       className={className}
       spaceBetween={15}
-      slidesPerView={'auto'}
+      slidesPerView={3}
+      virtual={
+        virtual
+          ? {
+              slides,
+            }
+          : false
+      }
       watchSlidesVisibility
       navigation={isMobile ? false : true}
       pagination={{
@@ -48,11 +54,6 @@ export function SwiperConfigured(props: ISwiperConfProps): JSX.Element {
     >
       {slides.map((item, index) => (
         <SwiperSlide key={index}>{item}</SwiperSlide>
-      ))}
-      {images.map((item, index) => (
-        <SwiperSlide key={index}>
-          <img src={item} alt={item} />
-        </SwiperSlide>
       ))}
     </Swiper>
   );

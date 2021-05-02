@@ -15,7 +15,9 @@ export function ScreenshotSection(props: IScreenshotSectionProps): JSX.Element {
   return (
     <div className={className}>
       <SwiperConfigured
-        images={[...screenshots]}
+        slides={screenshots.map((url) => (
+          <img src={url} alt={url} key={url} />
+        ))}
         customSwiperProps={{
           loop: true,
           loopedSlides: 3,
