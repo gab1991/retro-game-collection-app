@@ -1,5 +1,5 @@
 import { batch } from 'react-redux';
-import { Backend, isAxiosError } from 'Backend';
+import { api, Backend, isAxiosError } from 'Backend';
 
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
@@ -37,7 +37,7 @@ export const getEbayItemsThunk = (platform: TPlatformNames, game: string, sortOr
         const { data: ebayItems = [] } = await Backend.getGameWatchedCards(platform, game);
         items = ebayItems.map((ebayItem) => ({ itemId: [ebayItem.id] }));
       } else {
-        const { data = null } = await Backend.getEbayItems(platform, game, sortOrder);
+        const { data = null } = await api.getEbayItems(platform, game, sortOrder);
 
         if (data && data[0]) {
           const { item: ebayitems = [] } = data[0];

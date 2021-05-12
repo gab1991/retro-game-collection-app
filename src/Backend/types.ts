@@ -36,7 +36,7 @@ export interface IApiMethods {
   watchEbayCard: (ebayCard: IEbayCardObj) => AxiosPromise;
 }
 
-type TUpdProfObj = IReodredGames | IRemoveGame | IAddGame;
+export type TUpdProfObj = IReodredGames | IRemoveGame | IAddGame;
 
 interface IReodredGames extends IReorderGamesActionArgs {
   action: 'reorder';
@@ -64,7 +64,7 @@ export interface IGetGamesForPlatParams {
   search: string;
 }
 
-interface IEbayCardObj {
+export interface IEbayCardObj {
   ebayItemId: number;
   game: string;
   platform: TPlatformNames;
