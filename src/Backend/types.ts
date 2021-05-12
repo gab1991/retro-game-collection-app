@@ -6,7 +6,8 @@ import { EAvailableLists, EPlatformList, TPlatformNames, TVideoType } from 'Conf
 import { IEbayCardRawData, IEbayCardShippingDetails, TEbayCardPreviewRawData } from 'Typings/EbayData';
 import { IRawgGame, IRawgGameDetails, IRawgScreenshot } from 'Typings/RawgData';
 
-export type TBackend = {
+export type TBackend = IApiMethods;
+export interface IApiMethods {
   checkCredentials: (token: string, username: string) => AxiosPromise<{ success: string }>;
   getBoxArt: (platform: TPlatformNames, slug: string) => AxiosPromise<string>;
   getEbayItems: (
@@ -33,7 +34,7 @@ export type TBackend = {
   //rewrite this method
   updateProfile: (obj: TUpdProfObj) => AxiosPromise;
   watchEbayCard: (ebayCard: IEbayCardObj) => AxiosPromise;
-};
+}
 
 type TUpdProfObj = IReodredGames | IRemoveGame | IAddGame;
 
