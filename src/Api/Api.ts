@@ -1,6 +1,6 @@
-import axios_base, { AxiosError, AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
+import axios_base, { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
 
-import { EEbaySortOrder, IApiMethods, IEbayCardObj, IGetGamesForPlatParams, ISignUpData, TUpdProfObj } from './types';
+import { EEbaySortOrder, IEbayCardObj, IGetGamesForPlatParams, ISignUpData, TUpdProfObj } from './types';
 import { IProfile } from 'Routes/Profile/reducer/types';
 
 import { TPlatformNames, TVideoType } from 'Configs/appConfig';
@@ -8,7 +8,7 @@ import { getToken } from 'Store/store';
 import { IEbayCardRawData, IEbayCardShippingDetails, TEbayCardPreviewRawData } from 'Typings/EbayData';
 import { IRawgGame, IRawgGameDetails, IRawgScreenshot } from 'Typings/RawgData';
 
-import { endpoints } from './api_config';
+import { endpoints } from './config';
 
 const queryParamBuilder = (params: Record<string, string | number>) => {
   const result: Array<string> = [];
@@ -22,7 +22,7 @@ const queryParamBuilder = (params: Record<string, string | number>) => {
 
 type TApiClient = AxiosInstance;
 type TExecReqConfig = AxiosRequestConfig;
-type TReqResult<T = any> = AxiosPromise<T>;
+type TReqResult<T = unknown> = AxiosPromise<T>;
 
 class Api {
   private readonly client: TApiClient;
@@ -37,7 +37,6 @@ class Api {
   async executeReq(config: TExecReqConfig = {}) {
     try {
       const res = await this.client(config);
-      console.log('in api', res);
       //handling ebayApi specific errors
       const {
         data: { Ack: ebayApiError },
@@ -73,6 +72,7 @@ class Api {
       url: `${endpoints.boxArtworkUrl}/${platform}/${encodeURIComponent(slug)}`,
     });
   }
+
   getEbayItems(
     platform: TPlatformNames,
     gameName: string,

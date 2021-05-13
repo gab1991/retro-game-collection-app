@@ -1,5 +1,5 @@
 import { TEbayItemsReducer } from './types';
-import { EEbaySortOrder } from 'Backend/types';
+import { EEbaySortOrder } from 'Api/types';
 import { IRootState } from 'Store/types';
 import { DeepReadonly } from 'utility-types';
 

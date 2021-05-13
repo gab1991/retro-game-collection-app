@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import cn from 'classnames';
 import { EbaySwiper } from 'Components';
 
-import { EEbaySortOrder } from 'Backend/types';
+import { EEbaySortOrder } from 'Api/types';
 import { IProfileGame } from 'Routes/Profile/reducer/types';
 import { IRootState } from 'Store/types';
 import { DeepReadonly } from 'utility-types';

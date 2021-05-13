@@ -1,5 +1,5 @@
 import { batch } from 'react-redux';
-import { api, Backend, HttpRespStats, isAxiosError } from 'Backend';
+import { api, HttpRespStats, isAxiosError } from 'Api';
 
 import { TThunk } from 'Store/types';
 

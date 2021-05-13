@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useState } from 'react';
 import { batch, useDispatch } from 'react-redux';
-import { Backend, HttpRespStats, isAxiosError } from 'Backend';
+import { api, HttpRespStats, isAxiosError } from 'Api';
 
 import { ESignInInputs } from 'Components/AuthModal/types';
 
@@ -29,7 +29,7 @@ export function SignInForm(): JSX.Element {
     try {
       const {
         data: { token },
-      } = await Backend.postSignIn(username, password);
+      } = await api.postSignIn(username, password);
 
       if (token && username) {
         batch(() => {

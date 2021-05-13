@@ -1,4 +1,4 @@
-import { api, Backend } from 'Backend';
+import { api } from 'Api';
 
 import { TThunk } from 'Store/types';
 
