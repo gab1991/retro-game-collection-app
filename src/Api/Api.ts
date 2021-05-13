@@ -1,4 +1,5 @@
 import axios_base, { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
+import { queryParamBuilder } from 'Utils';
 
 import { EEbaySortOrder, IEbayCardObj, IGetGamesForPlatParams, ISignUpData, TUpdProfObj } from './types';
 import { IProfile } from 'Routes/Profile/reducer/types';
@@ -9,16 +10,6 @@ import { IEbayCardRawData, IEbayCardShippingDetails, TEbayCardPreviewRawData } f
 import { IRawgGame, IRawgGameDetails, IRawgScreenshot } from 'Typings/RawgData';
 
 import { endpoints } from './config';
-
-const queryParamBuilder = (params: Record<string, string | number>) => {
-  const result: Array<string> = [];
-  for (const key in params) {
-    if (params.hasOwnProperty(key)) {
-      result.push(`${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`);
-    }
-  }
-  return `?${result.join('&')}`;
-};
 
 type TApiClient = AxiosInstance;
 type TExecReqConfig = AxiosRequestConfig;
