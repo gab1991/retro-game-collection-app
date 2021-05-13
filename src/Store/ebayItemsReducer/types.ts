@@ -1,4 +1,4 @@
-import { EEbaySortOrder } from 'Backend/types';
+import { EEbaySortOrder } from 'Api/types';
 import { ActionType } from 'typesafe-actions';
 import { DeepReadonly } from 'utility-types';
 

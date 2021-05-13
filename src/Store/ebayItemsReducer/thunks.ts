@@ -1,10 +1,10 @@
 import { batch } from 'react-redux';
-import { Backend, isAxiosError } from 'Backend';
+import { api, isAxiosError } from 'Api';
 
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 
-import { EEbaySortOrder } from 'Backend/types';
+import { EEbaySortOrder } from 'Api/types';
 import { IRootState, TThunk } from 'Store/types';
 
 import { appConfig, TPlatformNames } from 'Configs/appConfig';
@@ -34,10 +34,10 @@ export const getEbayItemsThunk = (platform: TPlatformNames, game: string, sortOr
 
     try {
       if (sortOrder === EEbaySortOrder.Watched) {
-        const { data: ebayItems = [] } = await Backend.getGameWatchedCards(platform, game);
+        const { data: ebayItems = [] } = await api.getGameWatchedCards(platform, game);
         items = ebayItems.map((ebayItem) => ({ itemId: [ebayItem.id] }));
       } else {
-        const { data = null } = await Backend.getEbayItems(platform, game, sortOrder);
+        const { data = null } = await api.getEbayItems(platform, game, sortOrder);
 
         if (data && data[0]) {
           const { item: ebayitems = [] } = data[0];
@@ -93,7 +93,7 @@ export const getShippingCosts = (
     try {
       const {
         data: { ShippingCostSummary },
-      } = await Backend.getShippingCosts(itemId);
+      } = await api.getShippingCosts(itemId);
 
       const { Value: value } = ShippingCostSummary?.ShippingServiceCost || {};
       const costinNumber = Number(value);
@@ -128,7 +128,7 @@ export const checkIfCardIsWatched = (
     if (!itemId) return;
 
     try {
-      const { data: { success } = { success: null } } = await Backend.isWatchedEbayCard({
+      const { data: { success } = { success: null } } = await api.isWatchedEbayCard({
         ebayItemId: itemId,
         game,
         platform,
@@ -153,7 +153,7 @@ export const notWatchEbayCard = (
     dispatch(setIsWatchedEbayCard(game, platform, sortOrder, index, false));
 
     try {
-      await Backend.notWatchEbayCard({
+      await api.notWatchEbayCard({
         ebayItemId,
         game,
         platform,
@@ -182,7 +182,7 @@ export const watchEbayCard = (
     dispatch(setIsWatchedEbayCard(game, platform, sortOrder, index, true));
 
     try {
-      await Backend.watchEbayCard({
+      await api.watchEbayCard({
         ebayItemId,
         game,
         platform,
@@ -212,7 +212,7 @@ const getEbaySingleItem = async (
   dispatch: ThunkDispatch<IRootState, unknown, Action<string>>
 ): Promise<IEbayCardItemData | null> => {
   try {
-    const { data: { Item: item } = { Item: null } } = await Backend.getEbaySingleItem(itemId);
+    const { data: { Item: item } = { Item: null } } = await api.getEbaySingleItem(itemId);
 
     if (!item) {
       return null;

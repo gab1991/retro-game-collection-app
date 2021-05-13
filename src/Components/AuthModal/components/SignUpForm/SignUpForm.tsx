@@ -1,8 +1,8 @@
 import React, { SyntheticEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Backend, HttpRespStats, isAxiosError } from 'Backend';
+import { api, HttpRespStats, isAxiosError } from 'Api';
 
-import { ISignUpData } from 'Backend/types';
+import { ISignUpData } from 'Api/types';
 import { ESignUpInputs } from 'Components/AuthModal/types';
 
 import { AuthFormSpinner, CloseAuthModal } from 'Components/AuthModal/components';
@@ -46,7 +46,7 @@ export function SignUpForm(): JSX.Element {
     setIsSending(true);
 
     try {
-      await Backend.postSignUp(signUpData);
+      await api.postSignUp(signUpData);
 
       toSignIn();
 

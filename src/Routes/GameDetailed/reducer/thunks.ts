@@ -1,8 +1,8 @@
 import { batch } from 'react-redux';
-import { Backend } from 'Backend';
+import { api } from 'Api';
 
 import { EVideoType } from './types';
-import { EEbaySortOrder } from 'Backend/types';
+import { EEbaySortOrder } from 'Api/types';
 import { TThunk } from 'Store/types';
 
 import { EAvailableLists, TPlatformNames } from 'Configs/appConfig';
@@ -28,7 +28,7 @@ const ADD_GAME_NOTIFIER_SHOWTIME = 2000;
 export const getGameDetails = (slug: string): TThunk => {
   return async (dispatch) => {
     try {
-      const { data: gameDetails } = await Backend.getGameDetails(slug);
+      const { data: gameDetails } = await api.getGameDetails(slug);
       batch(() => {
         dispatch(setGameDetails(gameDetails));
         dispatch(setDescriptionHtml(gameDetails.description));
@@ -42,7 +42,7 @@ export const getGameDetails = (slug: string): TThunk => {
 export const getScreenShots = (slug: string): TThunk => {
   return async (dispatch) => {
     try {
-      const { data: { results } = { results: [] } } = await Backend.getScreenshots(slug);
+      const { data: { results } = { results: [] } } = await api.getScreenshots(slug);
 
       const screenshotsUrls: Array<string> = [];
 
@@ -61,7 +61,7 @@ export const getScreenShots = (slug: string): TThunk => {
 export const getVideo = (type: EVideoType, platform: TPlatformNames, game: string): TThunk => {
   return async (dispatch) => {
     try {
-      const { data: url } = await Backend.getVideo(type, platform, game);
+      const { data: url } = await api.getVideo(type, platform, game);
       const combinedUrl = `https://www.youtube.com/watch?v=${url}`;
       dispatch(setVideoUrl(type, combinedUrl));
     } catch (error) {}

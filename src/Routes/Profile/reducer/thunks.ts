@@ -1,8 +1,8 @@
 import { batch } from 'react-redux';
-import { Backend } from 'Backend';
+import { api } from 'Api';
 
 import { IReorderGamesActionArgs } from './types';
-import { EEbaySortOrder } from 'Backend/types';
+import { EEbaySortOrder } from 'Api/types';
 import { TThunk } from 'Store/types';
 
 import { appConfig, EAvailableLists, TPlatformNames } from 'Configs/appConfig';
@@ -15,7 +15,7 @@ import { selectGamesFromList } from './selectors';
 
 export const getProfileInfo = (): TThunk => async (dispatch) => {
   try {
-    const { data: profile } = await Backend.getProfileInfo();
+    const { data: profile } = await api.getProfileInfo();
     dispatch(fillProfile(profile));
 
     //fill possible ebayCards
@@ -46,7 +46,7 @@ export const reorderGamesThunk = (args: IReorderGamesActionArgs): TThunk => asyn
   dispatch(reorderGames.request(args));
 
   try {
-    await Backend.updateProfile({
+    await api.updateProfile({
       action: 'reorder',
       ...args,
     });
@@ -61,7 +61,7 @@ export const reorderGamesThunk = (args: IReorderGamesActionArgs): TThunk => asyn
 export const removeGame = (game: string, list: EAvailableLists, platform: TPlatformNames): TThunk => {
   return async (dispatch) => {
     try {
-      await Backend.updateProfile({
+      await api.updateProfile({
         action: 'removeGame',
         game,
         list,
@@ -80,7 +80,7 @@ export const removeGame = (game: string, list: EAvailableLists, platform: TPlatf
 export const addGame = (game: IRawgGameDetails, list: EAvailableLists, platform: TPlatformNames): TThunk => {
   return async (dispatch) => {
     try {
-      await Backend.updateProfile({
+      await api.updateProfile({
         action: 'addGame',
         game,
         list,
@@ -99,7 +99,7 @@ export const addGame = (game: IRawgGameDetails, list: EAvailableLists, platform:
 export const toggleEbayVisibility = (game: string, platform: TPlatformNames, isShowed: boolean): TThunk => {
   return async (dispatch) => {
     try {
-      await Backend.toggleEbayVisibility(game, platform, isShowed);
+      await api.toggleEbayVisibility(game, platform, isShowed);
     } catch (error) {
       dispatch(
         showErrModal({

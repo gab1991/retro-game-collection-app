@@ -1,6 +1,7 @@
+import { api } from 'Api';
+
 import { TThunk } from 'Store/types';
 
-import { Backend } from 'Backend/Backend';
 import { TPlatformNames } from 'Configs/appConfig';
 
 import { setBoxArtUrl } from './actions';
@@ -16,7 +17,7 @@ export const getBoxArt = (platform: TPlatformNames, gameName: string): TThunk =>
       return;
     }
 
-    const { data: boxArtUrl } = await Backend.getBoxArt(platform, gameName);
+    const { data: boxArtUrl } = await api.getBoxArt(platform, gameName);
 
     if (!boxArtUrl) return;
 

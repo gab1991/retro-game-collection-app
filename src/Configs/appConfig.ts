@@ -1,4 +1,4 @@
-import { EEbaySortOrder } from 'Backend/types';
+import { EEbaySortOrder } from 'Api/types';
 
 export enum EGameSelectorOrderingName {
   'name' = 'name',

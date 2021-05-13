@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SwiperOptions } from 'swiper';
 
-import { EEbaySortOrder } from 'Backend/types';
+import { EEbaySortOrder } from 'Api/types';
 import { IRootState } from 'Store/types';
 
 import { EbayItemCard } from './components/EbayItemCard';

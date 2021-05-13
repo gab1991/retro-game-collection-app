@@ -1,6 +1,6 @@
-import { Backend } from 'Backend';
+import { api } from 'Api';
 
-import { IGetGamesForPlatParams } from 'Backend/types';
+import { IGetGamesForPlatParams } from 'Api/types';
 import { TThunk } from 'Store/types';
 
 import { appConfig } from 'Configs/appConfig';
@@ -24,7 +24,7 @@ export const getGamesForPlatform = (platformName: string): TThunk => {
 
     dispatch(setIsLoading(true));
     try {
-      const { data } = await Backend.getGamesForPlatform(req);
+      const { data } = await api.getGamesForPlatform(req);
 
       dispatch(writePageData({ ...data }));
 

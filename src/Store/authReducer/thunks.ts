@@ -1,5 +1,5 @@
 import { batch } from 'react-redux';
-import { Backend, HttpRespStats, isAxiosError } from 'Backend';
+import { api, HttpRespStats, isAxiosError } from 'Api';
 
 import { TThunk } from 'Store/types';
 
@@ -13,7 +13,7 @@ export const checkCredentialsThunk = (): TThunk => async (dispatch) => {
   if (!token || !username) return;
 
   try {
-    const { status } = await Backend.checkCredentials(token, username);
+    const { status } = await api.checkCredentials(token, username);
 
     if (status === HttpRespStats.success) {
       dispatch(signIn(username, token));

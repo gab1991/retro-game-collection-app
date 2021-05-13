@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
 
-import { EEbaySortOrder } from 'Backend/types';
+import { EEbaySortOrder } from 'Api/types';
 import { IRootState } from 'Store/types';
 
 import { OvalSpinner } from 'Components/UI';

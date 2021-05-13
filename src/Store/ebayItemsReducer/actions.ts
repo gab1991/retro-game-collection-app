@@ -1,4 +1,4 @@
-import { EEbaySortOrder } from 'Backend/types';
+import { EEbaySortOrder } from 'Api/types';
 import { createAction } from 'typesafe-actions';
 
 import { TPlatformNames } from 'Configs/appConfig';

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useInterval } from 'CustomHooks';
 
-import { EEbaySortOrder } from 'Backend/types';
+import { EEbaySortOrder } from 'Api/types';
 import { DeepReadonly } from 'utility-types';
 
 import { Button, DotSpinner } from 'Components/UI';
