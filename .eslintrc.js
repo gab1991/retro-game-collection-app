@@ -36,7 +36,6 @@ module.exports = {
     'plugin:import/typescript',
     'plugin:sonarjs/recommended',
     'plugin:promise/recommended',
-    'plugin:jest/recommended',
     'plugin:jsx-a11y/recommended',
     'plugin:compat/recommended',
     'prettier',
@@ -112,7 +111,6 @@ module.exports = {
       },
     ],
     // SONAR
-
     'sonarjs/cognitive-complexity': ['warn', 20],
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     // e.g. "@typescript-eslint/explicit-function-return-type": "off",
