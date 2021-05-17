@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import cn from 'classnames';
 
 import { ButtonNeon } from 'Components/UI';
 import { hideCornerNotifier } from 'Store/appStateReducer/actions';
@@ -31,12 +32,12 @@ export function CornerNotifier(props: ICornerNotifierProps): JSX.Element {
     linkText,
     linkDir,
     btnText,
-    onCancelClickCb = () => null,
+    onCancelClickCb,
     corner = ECornerNotifierCorners.bottomLeft,
     removeTime,
     show,
   } = props;
-  const [showing, setShowing] = useState(true);
+  const [showing, setShowing] = useState(false);
   const [grabbed, setGrabbed] = useState(false);
   const dispatch = useDispatch();
 
@@ -59,31 +60,23 @@ export function CornerNotifier(props: ICornerNotifierProps): JSX.Element {
     setGrabbed(false);
   };
 
-  const grab = (val) => {
-    setGrabbed(val);
+  const grab = (bool: boolean) => setGrabbed(bool);
+
+  const onBtnClick = () => {
+    onCancelClickCb && onCancelClickCb();
+    hide();
   };
 
   return (
     <div
-      className={`${styles.CornerNotifier} ${styles[corner]}  ${showing ? styles.Showing : null} ${
-        grabbed ? styles.Showing : null
-      }`}
+      className={cn(styles.CornerNotifier, styles[corner], { [styles.Showing]: showing || grabbed })}
       onMouseEnter={() => grab(true)}
       onMouseLeave={() => grab(false)}
     >
       <p>
         {message}
         {linkDir && <Link to={linkDir}>{linkText}</Link>}
-        {btnText && (
-          <ButtonNeon
-            txtContent={btnText}
-            color='red'
-            onClick={() => {
-              onCancelClickCb();
-              hide();
-            }}
-          />
-        )}
+        {btnText && <ButtonNeon txtContent={btnText} color='red' onClick={onBtnClick} />}
       </p>
     </div>
   );
