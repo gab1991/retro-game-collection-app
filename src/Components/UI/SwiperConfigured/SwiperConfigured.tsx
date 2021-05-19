@@ -28,14 +28,14 @@ interface ISwiperRenderFnArgs {
 export type TSwiperConfiguredSlides = Array<JSX.Element | ((args: ISwiperRenderFnArgs) => JSX.Element)>;
 
 export function SwiperConfigured(props: ISwiperConfProps): JSX.Element {
-  const { slides = [], customSwiperProps = {}, className, virtual = true } = props;
+  const { slides = [], customSwiperProps = {}, className, virtual = false } = props;
   const isMobile = useSelector(selectIsMobile);
 
   return (
     <Swiper
       className={className}
       spaceBetween={15}
-      slidesPerView={3}
+      slidesPerView={'auto'}
       virtual={
         virtual
           ? {

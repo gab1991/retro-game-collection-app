@@ -2,6 +2,7 @@
 
 $card-color: #eeeeee;
 $card-font-color: gray;
+$skeleton-gradient-color: rgba(0, 0, 0, 0.452);
 
 .EbayItemCard {
   @include w100v100;
@@ -29,4 +30,12 @@ $card-font-color: gray;
   svg {
     stroke: $card-font-color;
   }
+}
+
+.EbayItemCardSkeleton {
+  @include w100v100;
+  background-color: $card-color;
+  color: $card-font-color;
+
+  @include basicSkeleton($skeleton-gradient-color);
 }

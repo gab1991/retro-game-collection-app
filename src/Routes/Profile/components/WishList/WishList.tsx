@@ -18,7 +18,7 @@ export function WishList(): JSX.Element {
   const history = useHistory();
 
   const toPlatfromSelecor = () => {
-    history.push(Routes.PlatformSelector.makePath());
+    history.push(Routes.PlatformSelector.template);
   };
 
   return (

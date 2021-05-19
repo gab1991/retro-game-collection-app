@@ -5,7 +5,7 @@ import { SwiperOptions } from 'swiper';
 import { EEbaySortOrder } from 'Api/types';
 import { IRootState } from 'Store/types';
 
-import { EbayItemCard } from './components/EbayItemCard';
+import { EbayItemCard, EbayItemCardSkeleton } from './components/EbayItemCard';
 import { DotSpinner, SwiperConfigured, TSwiperConfiguredSlides } from 'Components/UI';
 import { TPlatformNames } from 'Configs/appConfig';
 import { getEbayItemsGDThunk } from 'Routes/GameDetailed/reducer/thunks';
@@ -40,14 +40,10 @@ export function EbaySwiper(props: IEbaySwiperProps): JSX.Element {
     const newSlides: TSwiperConfiguredSlides = ebayItems.map(
       (_, index) =>
         function createSlide({ isVisible }) {
-          return (
-            <EbayItemCard
-              platform={platform}
-              game={gameName}
-              isVisible={!!isVisible}
-              sortOrder={sortOrder}
-              index={index}
-            ></EbayItemCard>
+          return isVisible ? (
+            <EbayItemCard platform={platform} game={gameName} sortOrder={sortOrder} index={index}></EbayItemCard>
+          ) : (
+            <EbayItemCardSkeleton />
           );
         }
     );

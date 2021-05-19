@@ -1,1 +1,2 @@
-export { EbayItemCard } from './EbayItemCard';
+export * from './EbayItemCard';
+export * from './EbayItemCard.skeleton';
