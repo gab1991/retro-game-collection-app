@@ -24,6 +24,11 @@ $description-background: getBtnColor('basic');
   object-fit: contain;
 }
 
+.loading {
+  // fill: linear-gradient;
+  fill: cadetblue;
+}
+
 .Desctiprtion {
   z-index: 1;
   width: 100%;

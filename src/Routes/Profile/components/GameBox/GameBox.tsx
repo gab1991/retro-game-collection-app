@@ -6,6 +6,7 @@ import { Routes } from 'Routes';
 
 import { IRootState } from 'Store/types';
 
+import { GenesisBoxSvg } from 'Components/UI/LogoSvg/GenesisBoxSvg/GenesisBoxSvg';
 import { TPlatformNames } from 'Configs/appConfig';
 import { selectBoxArt } from 'Store/contentReducer/selectors';
 import { getBoxArt } from 'Store/contentReducer/thunks';
@@ -45,7 +46,9 @@ export function GameBox(props: IGameBoxProps): JSX.Element {
       draggable={false}
     >
       {boxArtUrl && (
-        <img src={boxArtUrl} alt={boxArtUrl} className={styles.BoxArtImg} onDragStart={() => false} draggable={false} />
+        // <img src={boxArtUrl} alt={boxArtUrl} className={styles.BoxArtImg} onDragStart={() => false} draggable={false} />
+        // <div className={styles.loading}>f</div>
+        <GenesisBoxSvg className={styles.loading} />
       )}
       {showDesc && (
         <p className={cn(styles.Desctiprtion, { [styles.DesctiprionVisible]: descrVisibility })}>{gameName}</p>
