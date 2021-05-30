@@ -46,7 +46,7 @@ export function GameBox(props: IGameBoxProps): JSX.Element {
       draggable={false}
     >
       {boxArtUrl ? (
-        <img src={boxArtUrl} alt={boxArtUrl} className={styles.BoxArtImg} onDragStart={() => false} draggable={false} />
+        <img src={boxArtUrl} alt={''} className={styles.BoxArtImg} onDragStart={() => false} draggable={false} />
       ) : (
         <GameBoxSkeletonController platform={platform} />
       )}
