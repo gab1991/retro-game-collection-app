@@ -40,4 +40,13 @@ $text-color: $font-white;
   background-color: $card-main-color;
   @include flexCenter;
   text-align: center;
+
+  font-size: 1rem;
+}
+
+.GameCardSkeleton {
+  border: 4px solid none;
+  border-radius: 30px;
+
+  @include backgroungGradientTransition($time: 5s);
 }
