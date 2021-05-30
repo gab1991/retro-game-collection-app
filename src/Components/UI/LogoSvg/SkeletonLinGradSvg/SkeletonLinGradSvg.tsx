@@ -1,10 +1,12 @@
 import React from 'react';
 
+import sassVars from 'Configs/Variables.scss';
+
 export const SkeletonLinGradId = 'left-to-right';
 
 export function SkeletonLinGradSvg(): JSX.Element {
-  const color1 = '#0a0a0a';
-  const color2 = '#858585';
+  const color1 = sassVars['colors-skeleton-color-100'];
+  const color2 = sassVars['colors-skeleton-color-200'];
 
   return (
     <defs>

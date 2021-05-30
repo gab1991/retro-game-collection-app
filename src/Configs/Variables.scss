@@ -18,8 +18,8 @@ $font-white: whitesmoke;
 $blue-shine-color: #2196f3;
 $red-shine-color: #f32f21;
 //skeletons colors
-$skleton-color-100: #0a0a0a;
-$skleton-color-200: #858585;
+$skeleton-color-100: #0a0a0a;
+$skeleton-color-200: #858585;
 
 /*      BREAKPOINTS     **/
 $breakpoints: (
@@ -120,7 +120,12 @@ $basic-content-width: 1200px;
   }
 }
 
-@mixin backgroungGradientTransition($deg: 90deg, $color1: $skleton-color-100, $color2: $skleton-color-200, $time: 3s) {
+@mixin backgroungGradientTransition(
+  $deg: 90deg,
+  $color1: $skeleton-color-100,
+  $color2: $skeleton-color-200,
+  $time: 3s
+) {
   background-image: linear-gradient($deg, $color1, $color2);
   background-size: 400% 400%;
   animation: gradient $time linear infinite;
@@ -144,5 +149,9 @@ $basic-content-width: 1200px;
     tablet: map-get($breakpoints, 'tablet');
     mobile: map-get($breakpoints, 'mobile');
     desktop: map-get($breakpoints, 'desktop');
+  }
+  colors : {
+    skeleton-color-100: $skeleton-color-100;
+    skeleton-color-200: $skeleton-color-200;
   }
 }
