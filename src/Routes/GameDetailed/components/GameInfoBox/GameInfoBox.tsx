@@ -35,11 +35,7 @@ export function GameInfoBox(props: IGameInfoBoxProps): JSX.Element {
   return (
     <div className={`${styles.GameInfoBox}`}>
       <div className={styles.ImageContainer}>
-        {boxArtUrl ? (
-          <img src={boxArtUrl} alt={`${name}_boxart`}></img>
-        ) : (
-          <GameBoxSkeletonController platform={platform} />
-        )}
+        {boxArtUrl ? <img src={boxArtUrl} alt={``}></img> : <GameBoxSkeletonController platform={platform} />}
       </div>
       <div className={styles.TextContainer}>
         <h2 className={styles.Name}>{nameTrimmed}</h2>
