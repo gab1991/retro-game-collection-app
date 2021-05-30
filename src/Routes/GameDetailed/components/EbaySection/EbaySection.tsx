@@ -9,7 +9,7 @@ import { selectEbaySection } from 'Routes/GameDetailed/reducer/selectors';
 import styles from './EbaySection.module.scss';
 
 export function EbaySection(): JSX.Element {
-  const { gameDetails, platformName, toggleBlockVisibilty } = useGameDetailedContext();
+  const { gameDetails, platform, toggleBlockVisibilty } = useGameDetailedContext();
   const { ebaySection } = useSelector(selectEbaySection);
 
   return (
@@ -30,7 +30,7 @@ export function EbaySection(): JSX.Element {
       </div>
       {gameDetails && ebaySection.show && (
         <EbaySwiper
-          platform={platformName}
+          platform={platform}
           gameName={gameDetails.name}
           isLoading={ebaySection.isLoading}
           className={styles.EbaySectionContent}

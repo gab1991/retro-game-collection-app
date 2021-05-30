@@ -16,7 +16,7 @@ import { checkIfInList } from './helpers';
 import styles from './ControlSection.module.scss';
 
 export function ControlSection(): JSX.Element {
-  const { platformName, gameDetails, toggleList, isWished, isOwned } = useGameDetailedContext();
+  const { platform, gameDetails, toggleList, isWished, isOwned } = useGameDetailedContext();
   const dispatch = useDispatch();
   const history = useHistory();
   const username = useSelector(selectLoggedUser);
@@ -27,7 +27,7 @@ export function ControlSection(): JSX.Element {
     const listToCheck = [EAvailableLists.ownedList, EAvailableLists.wishList];
 
     for (const list of listToCheck) {
-      const inList = checkIfInList(profileInfo, list, platformName, gameDetails.name);
+      const inList = checkIfInList(profileInfo, list, platform, gameDetails.name);
 
       if (!inList) continue;
 
@@ -42,7 +42,7 @@ export function ControlSection(): JSX.Element {
         }
       }
     }
-  }, [profileInfo, gameDetails, platformName, dispatch]);
+  }, [profileInfo, gameDetails, platform, dispatch]);
 
   const showAuth = () => {
     dispatch(showAuthModal(true));
@@ -56,7 +56,7 @@ export function ControlSection(): JSX.Element {
     {
       color: isWished ? 'red' : 'green',
       disabled: username ? false : true,
-      onClick: () => toggleList(platformName, gameDetails as IRawgGameDetails, EAvailableLists.wishList),
+      onClick: () => toggleList(platform, gameDetails as IRawgGameDetails, EAvailableLists.wishList),
       tooltip: !username
         ? {
             btnOnclick: showAuth,
@@ -68,7 +68,7 @@ export function ControlSection(): JSX.Element {
     {
       color: isOwned ? 'red' : 'green',
       disabled: username ? false : true,
-      onClick: () => toggleList(platformName, gameDetails as IRawgGameDetails, EAvailableLists.ownedList),
+      onClick: () => toggleList(platform, gameDetails as IRawgGameDetails, EAvailableLists.ownedList),
       tooltip: !username
         ? {
             btnOnclick: showAuth,

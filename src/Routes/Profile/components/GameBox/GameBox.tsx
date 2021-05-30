@@ -6,11 +6,10 @@ import { Routes } from 'Routes';
 
 import { IRootState } from 'Store/types';
 
+import { GameBoxSkeletonController } from 'Components/UI/Skeletons';
 import { TPlatformNames } from 'Configs/appConfig';
 import { selectBoxArt } from 'Store/contentReducer/selectors';
 import { getBoxArt } from 'Store/contentReducer/thunks';
-
-import { GameBoxSkeletonController } from './GameBoxSkeletonController';
 
 import styles from './GameBox.module.scss';
 
