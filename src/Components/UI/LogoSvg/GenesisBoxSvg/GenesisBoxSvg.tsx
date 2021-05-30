@@ -5,10 +5,10 @@ import { ISkeletonInjectableSVG } from '../types';
 type TGenesisBoxSvgProps = ISkeletonInjectableSVG;
 
 export function GenesisBoxSvg(props: TGenesisBoxSvgProps): JSX.Element {
-  const { innerComponent, pathFill } = props;
+  const { innerComponent, pathFill, ...rest } = props;
 
   return (
-    <svg viewBox='0 0 298 465' {...props}>
+    <svg viewBox='0 0 298 465' {...rest}>
       {innerComponent}
       <path
         fillRule='evenodd'
