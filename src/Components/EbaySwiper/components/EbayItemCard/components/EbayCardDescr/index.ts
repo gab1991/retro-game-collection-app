@@ -1,1 +1,0 @@
-export { EbayCardDesc } from './EbayCardDesc';

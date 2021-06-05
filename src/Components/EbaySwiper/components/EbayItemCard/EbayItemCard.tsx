@@ -8,7 +8,7 @@ import { TPlatformNames } from 'Configs/appConfig';
 import { selectEbayCard } from 'Store/ebayItemsReducer/selectors';
 import { checkIfCardIsWatched, getEbaySingleItemByIndex } from 'Store/ebayItemsReducer/thunks';
 
-import { EbayCardDesc, EbayCardLeftPart } from './components';
+import { EbayCardLeftPart, EbayCardRightPart } from './components';
 import { EbayItemCardSkeleton } from './EbayItemCard.skeleton';
 
 import styles from './EbayItemCard.module.scss';
@@ -36,7 +36,7 @@ export function EbayItemCard(props: IEbayItemCardProps): JSX.Element {
   return (
     <div className={styles.EbayItemCard}>
       {itemData && <EbayCardLeftPart itemData={itemData} />}
-      {card && itemData && <EbayCardDesc {...props} card={card} itemData={itemData} index={index} />}
+      {card && itemData && <EbayCardRightPart {...props} card={card} itemData={itemData} index={index} />}
       {!itemData && <EbayItemCardSkeleton />}
     </div>
   );

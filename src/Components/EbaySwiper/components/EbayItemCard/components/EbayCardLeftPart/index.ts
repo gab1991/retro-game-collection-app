@@ -1,1 +1,1 @@
-export { EbayCardLeftPart } from './EbayCardLeftPart';
+export * from './EbayCardLeftPart';
