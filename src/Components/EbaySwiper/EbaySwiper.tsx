@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { EbayItemCard } from 'Components';
 
 import { EEbaySortOrder } from 'Api/types';
 import { IRootState } from 'Store/types';
 
-import { EbayItemCard } from './components/EbayItemCard';
 import { DotSpinner, SwiperConfigured, TSwiperConfiguredSlides } from 'Components/UI';
 import { TPlatformNames } from 'Configs/appConfig';
 import { getEbayItemsGDThunk } from 'Routes/GameDetailed/reducer/thunks';
