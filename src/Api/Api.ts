@@ -27,17 +27,7 @@ class Api {
 
   async executeReq(config: TExecReqConfig = {}) {
     try {
-      const res = await this.client(config);
-      //handling ebayApi specific errors
-      const {
-        data: { Ack: ebayApiError },
-      } = res;
-
-      if (ebayApiError === 'Failure') {
-        throw res;
-      }
-
-      return res;
+      return await this.client(config);
     } catch (err) {
       console.error('ERROR', err);
       throw err;
