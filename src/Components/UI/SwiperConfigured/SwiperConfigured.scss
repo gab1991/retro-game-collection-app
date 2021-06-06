@@ -43,7 +43,6 @@
     }
   }
   .swiper-button-prev {
-    position: absolute;
     left: 0;
     background: linear-gradient(90deg, rgba(0, 0, 0, 0.5746673669467788) 0%, rgba(0, 0, 0, 0.247) 100%);
   }
@@ -60,7 +59,12 @@
       opacity: 1;
       visibility: visible;
     }
+    .swiper-button-disabled {
+      opacity: 0;
+      visibility: hidden;
+    }
   }
+
   @include respond-to(mobile) {
     :global .swiper-container {
       width: 100%;
