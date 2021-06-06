@@ -32,10 +32,48 @@ $skeleton-gradient-color: rgba(0, 0, 0, 0.452);
   }
 }
 
+//SKELTON STYLES
+$skeleton-background-clr: #d6d6d6;
+
 .EbayItemCardSkeleton {
   @include w100v100;
+  display: flex;
   background-color: $card-color;
   color: $card-font-color;
+}
 
-  @include basicSkeleton($skeleton-gradient-color);
+.SkeletonLeftPart {
+  flex: 1;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .SkeletonImg {
+    height: 80%;
+    width: 80%;
+    @include basicSkeleton($skeleton-background-clr);
+  }
+
+  .SkeletonAuction {
+    height: 10%;
+    width: 80%;
+    border-radius: 5px;
+    @include basicSkeleton($skeleton-background-clr);
+  }
+}
+
+.SkeletonRightPart {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  .SkeletonBar {
+    width: 80%;
+    height: 6%;
+    border-radius: 5px;
+
+    @include basicSkeleton($skeleton-background-clr);
+  }
 }

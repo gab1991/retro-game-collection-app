@@ -35,10 +35,9 @@ export function EbayItemCard(props: IEbayItemCardProps): JSX.Element {
 
   return (
     <div className={styles.EbayItemCard}>
-      {/* {itemData && <EbayCardLeftPart itemData={itemData} />}
+      {itemData && <EbayCardLeftPart itemData={itemData} />}
       {card && itemData && <EbayCardRightPart {...props} card={card} itemData={itemData} index={index} />}
-      {!itemData && <EbayItemCardSkeleton />} */}
-      <EbayItemCardSkeleton />
+      {!itemData && <EbayItemCardSkeleton />}
     </div>
   );
 }
