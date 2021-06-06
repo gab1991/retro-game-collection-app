@@ -77,12 +77,10 @@ export function EbayCardRightPart(props: IEbayCardDescProps): JSX.Element {
     }
   };
 
-  const sendToEbay = () => {
-    return window.open(itemUrl, '_blank');
-  };
+  const sendToEbay = () => window.open(itemUrl, '_blank');
 
   return (
-    <div className={styles.Description}>
+    <div className={styles.RightPart}>
       <h4>{title}</h4>
       <Button txtContent={isAuction ? 'Place bid' : 'Buy It Now'} onClick={sendToEbay} />
       {username && (
