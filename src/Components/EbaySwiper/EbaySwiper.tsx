@@ -12,10 +12,6 @@ import { selectEbayCardItems } from 'Store/ebayItemsReducer/selectors';
 import { Swiper } from 'swiper/react';
 
 import styles from './EbaySwiper.module.scss';
-import sassVars from 'Configs/Variables.scss';
-
-const desktopBreakpoint = parseInt(sassVars['breakpoints-desktop']);
-const tabletBreakpoint = parseInt(sassVars['breakpoints-tablet']);
 
 interface IEbaySwiperProps {
   className?: string;
@@ -74,18 +70,17 @@ export function EbaySwiper(props: IEbaySwiperProps): JSX.Element {
 
 const customSwiperProps: Swiper = {
   breakpoints: {
-    670: {
-      slidesPerView: 1,
-      spaceBetween: 5,
-    },
-    [desktopBreakpoint]: {
+    [1060]: {
       slidesPerView: 3,
+      spaceBetween: 10,
     },
-    [tabletBreakpoint]: {
+    [750]: {
       slidesPerView: 2,
+      spaceBetween: 5,
     },
   },
   pagination: false,
   slidesPerView: 1,
+  spaceBetween: 5,
   virtual: true,
 };
