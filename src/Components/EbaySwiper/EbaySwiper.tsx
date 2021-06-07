@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import cx from 'classnames';
 import { EbayItemCard } from 'Components';
 
 import { EEbaySortOrder } from 'Api/types';
@@ -53,7 +54,7 @@ export function EbaySwiper(props: IEbaySwiperProps): JSX.Element {
     <div className={`${styles.EbaySwiper} ${className}`}>
       {!isLoading && ebayItems.length > 0 && (
         <SwiperConfigured
-          className={`${isLoading ? styles.SwiperHidden : ''} ${styles.Swiper}`}
+          className={cx(styles.Swiper, { [styles.SwiperHidden]: isLoading })}
           slides={slides}
           customSwiperProps={customSwiperProps}
         />

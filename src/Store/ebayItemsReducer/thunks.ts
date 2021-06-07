@@ -8,6 +8,7 @@ import { EEbaySortOrder } from 'Api/types';
 import { IRootState, TThunk } from 'Store/types';
 
 import { appConfig, TPlatformNames } from 'Configs/appConfig';
+import { setEbaySectionLoading } from 'Routes/GameDetailed/reducer/actions';
 import { showErrModal, showInfoModal } from 'Store/appStateReducer/actions';
 import { IEbayCardItemData, TEbayCardPreviewRawData } from 'Typings/EbayData';
 
@@ -49,7 +50,10 @@ export const getEbayItemsThunk = (platform: TPlatformNames, game: string, sortOr
     }
 
     if (items.length) {
-      dispatch(setEbayItems(items, platform, game, sortOrder));
+      batch(() => {
+        dispatch(setEbayItems(items, platform, game, sortOrder));
+        dispatch(setEbaySectionLoading(false));
+      });
     }
   };
 };
