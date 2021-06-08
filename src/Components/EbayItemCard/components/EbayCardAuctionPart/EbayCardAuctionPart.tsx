@@ -14,7 +14,7 @@ import { IEbayCardItemData, TEbayCard } from 'Typings/EbayData';
 
 import { calcExpiringTime, ITimeSpread } from './countdownConverter';
 
-import styles from './EbayCardRightPart.module.scss';
+import styles from './EbayCardAuctionPart.module.scss';
 
 const REFRESH_TIME_MS = 1000;
 const ADDITIONAL_ZERO_BOUNDARY = 10;
@@ -32,7 +32,7 @@ type TTimeSpreadStingVal = { [k in keyof ITimeSpread]?: string };
 
 //REFACTOR
 // eslint-disable-next-line sonarjs/cognitive-complexity
-export function EbayCardRightPart(props: IEbayCardDescProps): JSX.Element {
+export function EbayCardAuctionPart(props: IEbayCardDescProps): JSX.Element {
   const dispatch = useDispatch();
   const { clearHookInterval, setHookInterval } = useInterval();
   const { index, sortOrder, platform, game, card, itemData } = props;

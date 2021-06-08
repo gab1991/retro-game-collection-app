@@ -1,22 +1,19 @@
 import React from 'react';
 
-import { DeepReadonly } from 'utility-types';
-
+import { useEbayCardContext } from 'Components/EbayItemCard/context';
 import { SwiperConfigured } from 'Components/UI';
 import { EbayLogo } from 'Components/UI/LogoSvg';
 import { Swiper } from 'swiper/react';
-import { IEbayCardItemData } from 'Typings/EbayData';
 
-import styles from './EbayCardLeftPart.module.scss';
+import styles from './EbayCardImagePart.module.scss';
 
-interface IEbayCardLeftPartProps {
-  itemData: DeepReadonly<IEbayCardItemData>;
-}
+export function EbayCardImagePart(): JSX.Element | null {
+  const { itemData } = useEbayCardContext();
 
-export function EbayCardLeftPart(props: IEbayCardLeftPartProps): JSX.Element {
-  const {
-    itemData: { pictures, itemUrl },
-  } = props;
+  if (!itemData) {
+    return null;
+  }
+  const { pictures, itemUrl } = itemData;
 
   const slides = pictures.map((url) => <img src={url} key={url} alt={''} className={styles.slideImg}></img>);
 

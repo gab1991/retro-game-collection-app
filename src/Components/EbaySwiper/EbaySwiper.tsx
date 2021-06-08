@@ -38,13 +38,9 @@ export function EbaySwiper(props: IEbaySwiperProps): JSX.Element {
     if (!ebayItems.length) return;
 
     const newSlides: TSwiperConfiguredSlides = ebayItems.map((_, index) => (
-      <EbayItemCard
-        key={gameName}
-        platform={platform}
-        game={gameName}
-        sortOrder={sortOrder}
-        index={index}
-      ></EbayItemCard>
+      <EbayItemCard key={gameName} platform={platform} game={gameName} sortOrder={sortOrder} index={index}>
+        <EbayItemCard.ImagePart />
+      </EbayItemCard>
     ));
 
     setSlides(newSlides);

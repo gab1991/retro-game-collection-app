@@ -41,7 +41,7 @@ export const EbayCardContextProvier = (props: IEbayCardContextProvierProps): JSX
   return <EbayCardContext.Provider value={{ card, itemData }}>{children}</EbayCardContext.Provider>;
 };
 
-export const useEbayCardContext = () => {
+export const useEbayCardContext = (): IEbayCardContext => {
   const context = useContext(EbayCardContext);
 
   if (!context) {
