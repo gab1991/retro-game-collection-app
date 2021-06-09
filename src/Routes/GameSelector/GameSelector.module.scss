@@ -116,7 +116,7 @@ $controlsHeight: 30px;
 }
 
 .BottomPagination {
-  margin: auto auto 0;
+  margin: auto auto 10px;
   width: 40%;
 
   @include respond-to(tablet) {
