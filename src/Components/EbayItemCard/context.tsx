@@ -42,9 +42,6 @@ export const EbayCardContextProvier = (props: IEbayCardContextProvierProps): JSX
   const itemData = card ? card.itemData : null;
   const itemId = itemData?.itemId;
 
-  // const currentPrice = itemData?.currentPrice;
-  // const shippingCost = card?.shippingCost;
-
   useEffect(() => {
     batch(() => {
       dispatch(getEbaySingleItemByIndex(platform, game, index, sortOrder));

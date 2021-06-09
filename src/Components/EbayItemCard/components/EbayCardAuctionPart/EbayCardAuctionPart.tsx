@@ -27,7 +27,8 @@ export function EbayCardAuctionPart(): JSX.Element | null {
   }, [itemData?.currentPrice, card?.shippingCost]);
 
   useEffect(() => {
-    if (itemData?.endTime) {
+    const endTime = itemData?.endTime;
+    if (endTime) {
       const { days } = calcExpiringTime(endTime);
 
       if (days < 1) {
@@ -50,13 +51,9 @@ export function EbayCardAuctionPart(): JSX.Element | null {
   }
 
   const { isWatched, shippingCost, contactSeller, isLoadingShippingCosts, totalPrice, isAuction } = card;
-  const { bidCount, currency, itemUrl, endTime, title, currentPrice } = itemData;
+  const { bidCount, currency, itemUrl, title, currentPrice } = itemData;
 
   const sendToEbay = () => window.open(itemUrl, '_blank');
-
-  if (!itemData || !card) {
-    return null;
-  }
 
   return (
     <div className={styles.RightPart}>
