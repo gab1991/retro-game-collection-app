@@ -25,7 +25,7 @@ interface IGameDetailedProviderValue {
   isOwned: boolean;
   isWished: boolean;
   name?: string;
-  platformName: TPlatformNames;
+  platform: TPlatformNames;
   slug: string;
   toggleBlockVisibilty: (e: SyntheticEvent) => void;
   toggleList: (platform: TPlatformNames, gameDetails: IRawgGameDetails, list: EAvailableLists) => void;
@@ -69,7 +69,7 @@ export function GameDetailedProvider({ children }: IGameDetailedProviderProps): 
         isOwned,
         isWished,
         name: gameDetails?.name,
-        platformName,
+        platform: platformName,
         slug,
         toggleBlockVisibilty,
         toggleList,

@@ -1,3 +1,8 @@
+/*      FONTS     **/
+$font-main: 'Kanit', sans-serif;
+$font-neon-lamp: 'Warnes', cursive;
+
+/*      PALETTE     **/
 $content-underlayer-color: rgba(44, 44, 44, 0.7);
 $footer-underlayer-color: rgba(82, 82, 82, 0.589);
 $button-neon-color: (
@@ -7,23 +12,28 @@ $button-neon-color: (
   'red': #963e53,
   'disabled': #5a5a5a,
 );
-$font-main: 'Kanit', sans-serif;
-$font-neon-lamp: 'Warnes', cursive;
-
 $nav-color: #422f44;
 $basic-border-gray: rgba(82, 82, 82, 0.9);
 $font-white: whitesmoke;
 $blue-shine-color: #2196f3;
 $red-shine-color: #f32f21;
+//skeletons colors
+$skeleton-color-100: #0a0a0a;
+$skeleton-color-200: #858585;
+
+/*      BREAKPOINTS     **/
 $breakpoints: (
   'mobile': 600px,
   'tablet': 900px,
   'desktop': 1200px,
 );
+
+/*      DIMENSIONS     **/
 $nav-height: 40px;
 $footer-height: 40px;
 $basic-content-width: 1200px;
 
+/*      MIXINS     **/
 @mixin respond-to($breakpoint) {
   @if map-has-key($breakpoints, $breakpoint) {
     @media (max-width: #{map-get($breakpoints, $breakpoint)}) {
@@ -80,9 +90,10 @@ $basic-content-width: 1200px;
   }
 }
 
-@mixin basicSkeleton($color) {
+@mixin basicSkeleton($backgroundClr) {
   position: relative;
   overflow: hidden;
+  background-color: $backgroundClr;
 
   &::after {
     position: absolute;
@@ -90,15 +101,12 @@ $basic-content-width: 1200px;
     right: 0;
     bottom: 0;
     left: 0;
+    background-color: transparent;
+
     transform: translateX(-100%);
-    background-image: linear-gradient(
-      90deg,
-      rgba($skeleton-gradient-color, 0) 0,
-      rgba($skeleton-gradient-color, 0.15) 50%,
-      rgba($skeleton-gradient-color, 0.25) 75%,
-      rgba($skeleton-gradient-color, 0.15) 90%,
-      rgba($skeleton-gradient-color, 0) 100%
-    );
+
+    background: linear-gradient(90deg, transparent 8%, lighten($backgroundClr, 6%), transparent 33%);
+
     animation: shimmer 2s infinite;
     content: '';
   }
@@ -110,10 +118,38 @@ $basic-content-width: 1200px;
   }
 }
 
+@mixin backgroungGradientTransition(
+  $deg: 90deg,
+  $color1: $skeleton-color-100,
+  $color2: $skeleton-color-200,
+  $time: 3s
+) {
+  background-image: linear-gradient($deg, $color1, $color2);
+  background-size: 400% 400%;
+  animation: gradient $time linear infinite;
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+}
+
+/*      EXPORTS     **/
 :export {
   breakpoints : {
     tablet: map-get($breakpoints, 'tablet');
     mobile: map-get($breakpoints, 'mobile');
     desktop: map-get($breakpoints, 'desktop');
+  }
+  colors : {
+    skeleton-color-100: $skeleton-color-100;
+    skeleton-color-200: $skeleton-color-200;
   }
 }

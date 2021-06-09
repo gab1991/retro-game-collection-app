@@ -105,6 +105,5 @@ export const getEbayItemsGDThunk = (platform: TPlatformNames, game: string, sort
   return async (dispatch) => {
     dispatch(setEbaySectionLoading(true));
     dispatch(getEbayItemsThunk(platform, game, sortOrder));
-    dispatch(setEbaySectionLoading(false));
   };
 };

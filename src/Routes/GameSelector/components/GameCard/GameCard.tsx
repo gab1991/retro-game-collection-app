@@ -19,7 +19,7 @@ export function GameCard(props: IGameCardProps): JSX.Element {
   return (
     <Link to={`/${platformName}/${slug}`} className={`${styles.GameCard} ${className}`}>
       <div className={styles.ImgContainer}>
-        <img src={background || images.noPicture.background.src} alt={slug} />
+        <img src={background || images.noPicture.background.src} alt={''} />
       </div>
       <div className={styles.NameSection}>
         <p>{name}</p>

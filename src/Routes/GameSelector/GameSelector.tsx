@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Paginator } from 'Components';
 
-import { DotSpinner, SearchInput, SelectBox } from 'Components/UI';
+import { SearchInput, SelectBox } from 'Components/UI';
 import { appConfig, TPlatformNames } from 'Configs/appConfig';
 import { flushGameSelectorStore, setSearchInputValue } from 'Routes/GameSelector/reducer/actions';
 import {
@@ -15,7 +15,7 @@ import {
 } from 'Routes/GameSelector/reducer/selectors';
 import { getGamesForPlatform } from 'Routes/GameSelector/reducer/thunks';
 
-import { GameCard } from './components';
+import { GameCard, GameCardSkeleton } from './components';
 import { useGameSelectorUrl } from './hooks';
 
 import styles from './GameSelector.module.scss';
@@ -89,15 +89,16 @@ export function GameSelector(): JSX.Element {
         </div>
       </div>
       <div className={styles.GamePicker}>
-        {isLoading && !gamesToShow.length && (
-          <div className={styles.DotSpinnerWrapper}>
-            <DotSpinner />
-          </div>
-        )}
+        {isLoading &&
+          skeletons.map((_, ind) => (
+            <div className={styles.GameCardWrapper} key={ind}>
+              <GameCardSkeleton className={styles.GameCard} />
+            </div>
+          ))}
         {!!gamesToShow.length &&
           gamesToShow.map((game) => (
             <div className={styles.GameCardWrapper} key={game.slug}>
-              <GameCard {...game} platformName={platformName} key={game.slug} />
+              <GameCard {...game} platformName={platformName} key={game.slug} className={styles.GameCard} />
             </div>
           ))}
         {noGamesFound && <h1 className={styles.NoGamesFound}>No results have been found! Try to change the query</h1>}
@@ -114,3 +115,5 @@ export function GameSelector(): JSX.Element {
     </section>
   );
 }
+
+const skeletons = Array.from({ length: appConfig.GameSelector.gamesPerRequest });

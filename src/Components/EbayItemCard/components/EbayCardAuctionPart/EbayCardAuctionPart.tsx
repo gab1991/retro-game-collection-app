@@ -1,52 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useInterval } from 'CustomHooks';
 
-import { EEbaySortOrder } from 'Api/types';
-import { DeepReadonly } from 'utility-types';
-
+import { useEbayCardContext } from 'Components/EbayItemCard/context';
 import { Button, DotSpinner } from 'Components/UI';
-import { TPlatformNames } from 'Configs/appConfig';
 import { selectLoggedUser } from 'Store/authReducer/selectors';
-import { calculateTotalPrice } from 'Store/ebayItemsReducer/actions';
-import { getShippingCosts, notWatchEbayCard, watchEbayCard } from 'Store/ebayItemsReducer/thunks';
-import { IEbayCardItemData, TEbayCard } from 'Typings/EbayData';
 
 import { calcExpiringTime, ITimeSpread } from './countdownConverter';
 
-import styles from './EbayCardDesc.module.scss';
+import styles from './EbayCardAuctionPart.module.scss';
 
 const REFRESH_TIME_MS = 1000;
 const ADDITIONAL_ZERO_BOUNDARY = 10;
 
-interface IEbayCardDescProps {
-  card: DeepReadonly<TEbayCard>;
-  game: string;
-  index: number;
-  itemData: DeepReadonly<IEbayCardItemData>;
-  platform: TPlatformNames;
-  sortOrder: EEbaySortOrder;
-}
-
 type TTimeSpreadStingVal = { [k in keyof ITimeSpread]?: string };
 
-//REFACTOR
 // eslint-disable-next-line sonarjs/cognitive-complexity
-export function EbayCardDesc(props: IEbayCardDescProps): JSX.Element {
-  const dispatch = useDispatch();
+export function EbayCardAuctionPart(): JSX.Element | null {
+  const { itemData, card, calcTotalPrice, defineShippingCosts, onWatchBtnClick } = useEbayCardContext();
   const { clearHookInterval, setHookInterval } = useInterval();
-  const { index, sortOrder, platform, game, card, itemData } = props;
   const username = useSelector(selectLoggedUser);
-  const { isWatched, shippingCost, contactSeller, isLoadingShippingCosts, totalPrice, isAuction } = card;
-  const { bidCount, currency, itemUrl, endTime, itemId, title, currentPrice } = itemData;
-
   const [endingSoon, setIsEndingSoon] = useState<null | TTimeSpreadStingVal>(null);
 
   useEffect(() => {
-    dispatch(calculateTotalPrice(platform, game, index, sortOrder));
-  }, [dispatch, currentPrice, shippingCost]);
+    calcTotalPrice();
+  }, [itemData?.currentPrice, card?.shippingCost]);
 
   useEffect(() => {
+    const endTime = itemData?.endTime;
     if (endTime) {
       const { days } = calcExpiringTime(endTime);
 
@@ -63,33 +44,26 @@ export function EbayCardDesc(props: IEbayCardDescProps): JSX.Element {
       }
       return () => clearHookInterval();
     }
-  }, [endTime]);
+  }, [itemData?.endTime]);
 
-  const defineShippingCosts = () => {
-    dispatch(getShippingCosts(game, platform, itemId, index, sortOrder));
-  };
+  if (!card || !itemData) {
+    return null;
+  }
 
-  const watchHandler = () => {
-    if (!isWatched) {
-      dispatch(watchEbayCard(game, platform, itemId, index));
-    } else {
-      dispatch(notWatchEbayCard(game, platform, itemId, index));
-    }
-  };
+  const { isWatched, shippingCost, contactSeller, isLoadingShippingCosts, totalPrice, isAuction } = card;
+  const { bidCount, currency, itemUrl, title, currentPrice } = itemData;
 
-  const sendToEbay = () => {
-    return window.open(itemUrl, '_blank');
-  };
+  const sendToEbay = () => window.open(itemUrl, '_blank');
 
   return (
-    <div className={styles.Description}>
+    <div className={styles.RightPart}>
       <h4>{title}</h4>
       <Button txtContent={isAuction ? 'Place bid' : 'Buy It Now'} onClick={sendToEbay} />
       {username && (
         <Button
           txtContent={isWatched ? 'Stop watch' : 'Watch'}
           pressed={isWatched ? true : false}
-          onClick={watchHandler}
+          onClick={() => onWatchBtnClick(isWatched)}
         />
       )}
       <div className={styles.AcutionSection}>

@@ -21,7 +21,7 @@ interface IVideoElms {
 
 export function VideoSection(): JSX.Element {
   const dispatch = useDispatch();
-  const { toggleBlockVisibilty, name, platformName } = useGameDetailedContext();
+  const { toggleBlockVisibilty, name, platform } = useGameDetailedContext();
   const { gameplayVideo, soundtrackVideo } = useSelector(selectVideos);
   const videoElms: IVideoElms[] = [
     {
@@ -41,12 +41,12 @@ export function VideoSection(): JSX.Element {
   useEffect(() => {
     if (!name) return;
     if (soundtrackVideo.show && !soundtrackVideo.url) {
-      dispatch(getVideo(EVideoType.soundtrack, platformName, name));
+      dispatch(getVideo(EVideoType.soundtrack, platform, name));
     }
     if (gameplayVideo.show && !gameplayVideo.url) {
-      dispatch(getVideo(EVideoType.gameplay, platformName, name));
+      dispatch(getVideo(EVideoType.gameplay, platform, name));
     }
-  }, [soundtrackVideo, gameplayVideo, name, platformName, dispatch]);
+  }, [soundtrackVideo, gameplayVideo, name, platform, dispatch]);
 
   return (
     <div className={styles.VideoSection}>

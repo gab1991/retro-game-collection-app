@@ -6,6 +6,7 @@ import { Routes } from 'Routes';
 
 import { IRootState } from 'Store/types';
 
+import { GameBoxSkeletonController } from 'Components/UI/Skeletons';
 import { TPlatformNames } from 'Configs/appConfig';
 import { selectBoxArt } from 'Store/contentReducer/selectors';
 import { getBoxArt } from 'Store/contentReducer/thunks';
@@ -44,8 +45,10 @@ export function GameBox(props: IGameBoxProps): JSX.Element {
       onMouseLeave={() => setDescrVisibility(false)}
       draggable={false}
     >
-      {boxArtUrl && (
-        <img src={boxArtUrl} alt={boxArtUrl} className={styles.BoxArtImg} onDragStart={() => false} draggable={false} />
+      {boxArtUrl ? (
+        <img src={boxArtUrl} alt={''} className={styles.BoxArtImg} onDragStart={() => false} draggable={false} />
+      ) : (
+        <GameBoxSkeletonController platform={platform} />
       )}
       {showDesc && (
         <p className={cn(styles.Desctiprtion, { [styles.DesctiprionVisible]: descrVisibility })}>{gameName}</p>

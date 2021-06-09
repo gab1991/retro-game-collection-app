@@ -7,7 +7,7 @@ $desc-font-color: #202526;
 $timleft-font-color: $dark-red;
 $define-delivery-color: $brigh-red;
 
-.Description {
+.RightPart {
   width: 100%;
   padding: 10px;
   display: flex;
@@ -95,6 +95,7 @@ $define-delivery-color: $brigh-red;
   &.RibbonTopLeft {
     top: 0px;
     left: 0px;
+    z-index: 1;
 
     &::before,
     &::after {

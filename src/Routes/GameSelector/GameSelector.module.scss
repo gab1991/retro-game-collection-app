@@ -95,26 +95,15 @@ $controlsHeight: 30px;
       width: 100%;
       padding-top: 100%;
     }
-    & > a {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      font-size: 0.8rem;
-    }
-    p {
-      font-size: 1rem;
-    }
   }
 
-  .DotSpinnerWrapper {
-    position: relative;
-    grid-column: 1/-1;
-    justify-self: center;
-    width: 30%;
-    height: 20vh;
-    color: $basic-border-gray;
+  .GameCard {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    font-size: 0.8rem;
   }
 
   .NoGamesFound {
@@ -127,7 +116,7 @@ $controlsHeight: 30px;
 }
 
 .BottomPagination {
-  margin: auto auto 0;
+  margin: auto auto 10px;
   width: 40%;
 
   @include respond-to(tablet) {

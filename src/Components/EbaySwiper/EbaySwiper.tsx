@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { SwiperOptions } from 'swiper';
+import cx from 'classnames';
+import { EbayItemCard } from 'Components';
 
 import { EEbaySortOrder } from 'Api/types';
 import { IRootState } from 'Store/types';
 
-import { EbayItemCard, EbayItemCardSkeleton } from './components/EbayItemCard';
 import { DotSpinner, SwiperConfigured, TSwiperConfiguredSlides } from 'Components/UI';
 import { TPlatformNames } from 'Configs/appConfig';
 import { getEbayItemsGDThunk } from 'Routes/GameDetailed/reducer/thunks';
 import { selectEbayCardItems } from 'Store/ebayItemsReducer/selectors';
+import { Swiper } from 'swiper/react';
 
 import styles from './EbaySwiper.module.scss';
 
 interface IEbaySwiperProps {
   className?: string;
-  customSwiperProps?: SwiperOptions;
   gameName: string;
   isLoading?: boolean;
   platform: TPlatformNames;
@@ -23,7 +23,7 @@ interface IEbaySwiperProps {
 }
 
 export function EbaySwiper(props: IEbaySwiperProps): JSX.Element {
-  const { className, gameName, platform, isLoading, sortOrder = EEbaySortOrder.Relevance, customSwiperProps } = props;
+  const { className, gameName, platform, isLoading, sortOrder = EEbaySortOrder.Relevance } = props;
   const ebayItems = useSelector((state: IRootState) =>
     selectEbayCardItems(state, { game: gameName, platform, sortOrder })
   );
@@ -37,16 +37,12 @@ export function EbaySwiper(props: IEbaySwiperProps): JSX.Element {
   useEffect(() => {
     if (!ebayItems.length) return;
 
-    const newSlides: TSwiperConfiguredSlides = ebayItems.map(
-      (_, index) =>
-        function createSlide({ isVisible }) {
-          return isVisible ? (
-            <EbayItemCard platform={platform} game={gameName} sortOrder={sortOrder} index={index}></EbayItemCard>
-          ) : (
-            <EbayItemCardSkeleton />
-          );
-        }
-    );
+    const newSlides: TSwiperConfiguredSlides = ebayItems.map((_, index) => (
+      <EbayItemCard key={gameName} platform={platform} game={gameName} sortOrder={sortOrder} index={index}>
+        <EbayItemCard.ImagePart />
+        <EbayItemCard.AuctionPart />
+      </EbayItemCard>
+    ));
 
     setSlides(newSlides);
   }, [ebayItems, gameName, platform]);
@@ -55,7 +51,7 @@ export function EbaySwiper(props: IEbaySwiperProps): JSX.Element {
     <div className={`${styles.EbaySwiper} ${className}`}>
       {!isLoading && ebayItems.length > 0 && (
         <SwiperConfigured
-          className={`${isLoading ? styles.SwiperHidden : ''} ${styles.Swiper}`}
+          className={cx(styles.Swiper, { [styles.SwiperHidden]: isLoading })}
           slides={slides}
           customSwiperProps={customSwiperProps}
         />
@@ -69,3 +65,20 @@ export function EbaySwiper(props: IEbaySwiperProps): JSX.Element {
     </div>
   );
 }
+
+const customSwiperProps: Swiper = {
+  breakpoints: {
+    [1060]: {
+      slidesPerView: 3,
+      spaceBetween: 10,
+    },
+    [750]: {
+      slidesPerView: 2,
+      spaceBetween: 5,
+    },
+  },
+  pagination: false,
+  slidesPerView: 1,
+  spaceBetween: 5,
+  virtual: true,
+};

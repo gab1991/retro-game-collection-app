@@ -53,7 +53,9 @@ export function SwiperConfigured(props: ISwiperConfProps): JSX.Element {
       {...customSwiperProps}
     >
       {slides.map((item, index) => (
-        <SwiperSlide key={index}>{item}</SwiperSlide>
+        <SwiperSlide key={index} virtualIndex={index}>
+          {item}
+        </SwiperSlide>
       ))}
     </Swiper>
   );

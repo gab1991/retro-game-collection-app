@@ -104,7 +104,6 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
             gameName={gameName}
             platform={platform}
             sortOrder={buttonsToSortOrder[activeEbaylist]}
-            customSwiperProps={{ pagination: false }}
           />
         )}
       </div>
