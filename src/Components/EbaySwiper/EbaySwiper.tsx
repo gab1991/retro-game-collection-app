@@ -40,6 +40,7 @@ export function EbaySwiper(props: IEbaySwiperProps): JSX.Element {
     const newSlides: TSwiperConfiguredSlides = ebayItems.map((_, index) => (
       <EbayItemCard key={gameName} platform={platform} game={gameName} sortOrder={sortOrder} index={index}>
         <EbayItemCard.ImagePart />
+        <EbayItemCard.AuctionPart />
       </EbayItemCard>
     ));
 

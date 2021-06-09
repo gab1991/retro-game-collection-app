@@ -6,13 +6,23 @@ import { IRootState } from 'Store/types';
 import { DeepReadonly } from 'utility-types';
 
 import { TPlatformNames } from 'Configs/appConfig';
+import { calculateTotalPrice } from 'Store/ebayItemsReducer/actions';
 import { selectEbayCard } from 'Store/ebayItemsReducer/selectors';
-import { checkIfCardIsWatched, getEbaySingleItemByIndex } from 'Store/ebayItemsReducer/thunks';
+import {
+  checkIfCardIsWatched,
+  getEbaySingleItemByIndex,
+  getShippingCosts,
+  notWatchEbayCard,
+  watchEbayCard,
+} from 'Store/ebayItemsReducer/thunks';
 import { TEbayCard } from 'Typings/EbayData';
 
 interface IEbayCardContext {
+  calcTotalPrice: () => void;
   card: DeepReadonly<TEbayCard> | null;
+  defineShippingCosts: () => void;
   itemData: DeepReadonly<TEbayCard['itemData']> | null;
+  onWatchBtnClick: (isWatched: boolean) => void;
 }
 
 export const EbayCardContext = React.createContext<null | IEbayCardContext>(null);
@@ -30,6 +40,10 @@ export const EbayCardContextProvier = (props: IEbayCardContextProvierProps): JSX
   const dispatch = useDispatch();
   const card = useSelector((state: IRootState) => selectEbayCard(state, { game, index, platform, sortOrder }));
   const itemData = card ? card.itemData : null;
+  const itemId = itemData?.itemId;
+
+  // const currentPrice = itemData?.currentPrice;
+  // const shippingCost = card?.shippingCost;
 
   useEffect(() => {
     batch(() => {
@@ -38,7 +52,28 @@ export const EbayCardContextProvier = (props: IEbayCardContextProvierProps): JSX
     });
   }, []);
 
-  return <EbayCardContext.Provider value={{ card, itemData }}>{children}</EbayCardContext.Provider>;
+  const calcTotalPrice = () => dispatch(calculateTotalPrice(platform, game, index, sortOrder));
+
+  const defineShippingCosts = () => {
+    itemId && dispatch(getShippingCosts(game, platform, itemId, index, sortOrder));
+  };
+
+  const onWatchBtnClick = (isWatched: boolean) => {
+    if (!itemId) {
+      return;
+    }
+    if (!isWatched) {
+      dispatch(watchEbayCard(game, platform, itemId, index));
+    } else {
+      dispatch(notWatchEbayCard(game, platform, itemId, index));
+    }
+  };
+
+  return (
+    <EbayCardContext.Provider value={{ calcTotalPrice, card, defineShippingCosts, itemData, onWatchBtnClick }}>
+      {children}
+    </EbayCardContext.Provider>
+  );
 };
 
 export const useEbayCardContext = (): IEbayCardContext => {
