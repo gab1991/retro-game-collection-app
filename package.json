@@ -25,8 +25,8 @@
     ]
   },
   "dependencies": {
-    "@dnd-kit/core": "^2.1.2",
-    "@dnd-kit/sortable": "^2.0.1",
+    "@dnd-kit/core": "^3.1.0",
+    "@dnd-kit/sortable": "^4.0.0",
     "array-move": "^2.2.2",
     "axios": "^0.21.1",
     "classnames": "^2.2.6",
