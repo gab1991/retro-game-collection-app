@@ -5,7 +5,7 @@ import { PlatformBadge } from 'Components';
 
 import { ButtonNeon } from 'Components/UI';
 import { EAvailableLists } from 'Configs/appConfig';
-import { DndShelf } from 'Routes/Profile/components';
+import { DndWishShelf } from 'Routes/Profile/components';
 import { selectWishedPlatforms } from 'Routes/Profile/reducer/selectors';
 import { Routes } from 'Routes/routes';
 
@@ -30,7 +30,7 @@ export function WishList(): JSX.Element {
             <PlatformBadge className={styles.PlatformLogo} platform={platform} />
             <hr></hr>
             <GameLotContainer>
-              <DndShelf games={games} platform={platform} list={EAvailableLists.wishList} />
+              <DndWishShelf games={games} platform={platform} list={EAvailableLists.wishList} />
             </GameLotContainer>
           </div>
         ))}
