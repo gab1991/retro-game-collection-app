@@ -8,4 +8,5 @@ export * from './InfoSvg';
 export * from './MagnifyingGlass';
 export * from './NesBoxSvg';
 export * from './PsOneBoxSvg';
+export * from './SixDots';
 export * from './SkeletonLinGradSvg';
