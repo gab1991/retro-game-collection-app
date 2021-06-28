@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { HTMLAttributes, ReactNode, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cn from 'classnames';
 import { EbaySwiper } from 'Components';
@@ -27,6 +27,7 @@ const buttonsToSortOrder = {
 };
 
 export interface IEbayLotSectionProps {
+  children?: ReactNode;
   className?: string;
   game: DeepReadonly<IProfileGame>;
   platform: TPlatformNames;
@@ -40,6 +41,7 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
     game: { name: gameName, isShowEbay },
     platform,
     className,
+    children,
   } = props;
 
   const [removing, setRemoving] = useState(false);
@@ -97,16 +99,18 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
           onChangeHandler={knobEbayHandler}
         />
       </div>
-      <div className={`${styles.EbaySwiper} ${isEbayTogglerOn ? styles.Expand : ''}`}>
+      <div className={cn(styles.EbaySwiper, { [styles.EbaySwiper_expand]: isEbayTogglerOn })}>
         {isEbayTogglerOn && (
           <EbaySwiper
             className={styles.EbaySectionSwiper}
             gameName={gameName}
             platform={platform}
             sortOrder={buttonsToSortOrder[activeEbaylist]}
+            swiperProps={{ breakpoints: undefined }}
           />
         )}
       </div>
+      {children}
       <div
         className={styles.CloseSvgWrapper}
         onClick={() => setShowWarn(true)}
@@ -130,3 +134,11 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
     </div>
   );
 }
+
+type TControlSectionProps = HTMLAttributes<HTMLDivElement>;
+
+export function ControlSection(props: TControlSectionProps): JSX.Element {
+  return <div className={(cn(styles.Controls), props.className)}>{props.children}</div>;
+}
+
+EbayLotSection.Controls = ControlSection;

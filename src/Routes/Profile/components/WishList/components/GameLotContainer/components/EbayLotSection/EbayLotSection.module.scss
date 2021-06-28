@@ -11,7 +11,7 @@
   display: grid;
   grid-template-areas:
     'gamebox btns ebay '
-    'name toggler ebay';
+    'name toggler controls';
   grid-template-columns: 200px 170px auto;
   grid-template-rows: 300px auto;
 
@@ -108,15 +108,25 @@
 
 .EbaySwiper {
   grid-area: ebay;
-  @include w100v100;
+  width: 0px;
   overflow: hidden;
   position: relative;
+  transition: width 300ms ease-in-out;
+
+  &_expand {
+    width: 400px;
+    background-color: aqua;
+  }
 
   .NoItemToShow {
     @include w100v100;
     @include flexCenter;
     font-size: 1.4rem;
     text-transform: uppercase;
+  }
+
+  .Controls {
+    grid-area: controls;
   }
 
   .EbaySectionSwiper {

@@ -6,3 +6,17 @@
   pointer-events: none;
   user-select: none;
 }
+
+.Controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.DragHandle {
+  height: 50px;
+  width: 50px;
+  fill: currentColor;
+  transform: rotate(90deg);
+  cursor: grab;
+}

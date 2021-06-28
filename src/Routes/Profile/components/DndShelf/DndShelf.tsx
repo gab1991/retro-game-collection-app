@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useDispatch } from 'react-redux';
 import arrayMove from 'array-move';
 
@@ -17,7 +18,12 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import { rectSortingStrategy, SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import {
+  horizontalListSortingStrategy,
+  rectSortingStrategy,
+  SortableContext,
+  sortableKeyboardCoordinates,
+} from '@dnd-kit/sortable';
 import { EAvailableLists, TPlatformNames } from 'Configs/appConfig';
 import { DraggableGameBox } from 'Routes/Profile/components/DraggableGameBox';
 import { GameBox } from 'Routes/Profile/components/GameBox';
@@ -93,14 +99,22 @@ export function DndShelf(props: IDndShelfProps): JSX.Element {
 
   return (
     <DndContext onDragEnd={onDragEnd} onDragStart={onDragStart} sensors={sensors} collisionDetection={closestCenter}>
-      <SortableContext items={games.map((game) => game.slug)} strategy={rectSortingStrategy}>
+      <SortableContext
+        items={games.map((game) => game.slug)}
+        strategy={isOwnedList ? rectSortingStrategy : horizontalListSortingStrategy}
+      >
         {games.map((game) => (
           <DraggableElm key={game.slug} game={game} platform={platform} />
         ))}
-        <DragOverlay>
-          {draggingInd !== null && <DraggableOverlay game={games[draggingInd]} platform={platform} />}
-        </DragOverlay>
       </SortableContext>
+      {createPortal(
+        draggingInd !== null ? (
+          <DragOverlay adjustScale={false}>
+            <DraggableOverlay game={games[draggingInd]} platform={platform} />
+          </DragOverlay>
+        ) : null,
+        document.body
+      )}
     </DndContext>
   );
 }

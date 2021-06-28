@@ -20,10 +20,11 @@ interface IEbaySwiperProps {
   isLoading?: boolean;
   platform: TPlatformNames;
   sortOrder?: EEbaySortOrder;
+  swiperProps?: Swiper;
 }
 
 export function EbaySwiper(props: IEbaySwiperProps): JSX.Element {
-  const { className, gameName, platform, isLoading, sortOrder = EEbaySortOrder.Relevance } = props;
+  const { className, gameName, platform, isLoading, sortOrder = EEbaySortOrder.Relevance, swiperProps } = props;
   const ebayItems = useSelector((state: IRootState) =>
     selectEbayCardItems(state, { game: gameName, platform, sortOrder })
   );
@@ -53,7 +54,7 @@ export function EbaySwiper(props: IEbaySwiperProps): JSX.Element {
         <SwiperConfigured
           className={cx(styles.Swiper, { [styles.SwiperHidden]: isLoading })}
           slides={slides}
-          customSwiperProps={customSwiperProps}
+          customSwiperProps={{ ...defaultSwiperProps, ...swiperProps }}
         />
       )}
       {!isLoading && ebayItems.length === 0 && <h3 className={styles.NoItems}>No lots have been found</h3>}
@@ -66,7 +67,7 @@ export function EbaySwiper(props: IEbaySwiperProps): JSX.Element {
   );
 }
 
-const customSwiperProps: Swiper = {
+const defaultSwiperProps: Swiper = {
   breakpoints: {
     [1060]: {
       slidesPerView: 3,
