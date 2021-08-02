@@ -6,6 +6,7 @@ import { IRootState } from 'Store/types';
 import { DeepReadonly } from 'utility-types';
 
 import { TPlatformNames } from 'Configs/appConfig';
+import { selectLoggedUser } from 'Store/authReducer/selectors';
 import { calculateTotalPrice } from 'Store/ebayItemsReducer/actions';
 import { selectEbayCard } from 'Store/ebayItemsReducer/selectors';
 import {
@@ -39,13 +40,14 @@ export const EbayCardContextProvier = (props: IEbayCardContextProvierProps): JSX
   const { game, index, platform, sortOrder, children } = props;
   const dispatch = useDispatch();
   const card = useSelector((state: IRootState) => selectEbayCard(state, { game, index, platform, sortOrder }));
+  const isLogged = useSelector(selectLoggedUser);
   const itemData = card ? card.itemData : null;
   const itemId = itemData?.itemId;
 
   useEffect(() => {
     batch(() => {
       dispatch(getEbaySingleItemByIndex(platform, game, index, sortOrder));
-      dispatch(checkIfCardIsWatched(game, platform, index, sortOrder));
+      isLogged && dispatch(checkIfCardIsWatched(game, platform, index, sortOrder));
     });
   }, []);
 
