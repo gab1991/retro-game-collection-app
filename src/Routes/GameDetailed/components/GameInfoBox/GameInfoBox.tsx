@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { IRootState } from 'Store/types';
 import { DeepReadonly } from 'utility-types';
 
-import { GameBoxSkeletonController } from 'Components/UI/Skeletons';
+import { GameBoxWithSkeleton } from 'Components/UI/Skeletons';
 import { useGameDetailedContext } from 'Routes/GameDetailed/context';
-import { selectBoxArt } from 'Store/contentReducer/selectors';
 import { getBoxArt } from 'Store/contentReducer/thunks';
 import { IRawgGameDetails } from 'Typings/RawgData';
 import { trimName } from 'Utils/helperFunctions';
@@ -23,9 +21,7 @@ export function GameInfoBox(props: IGameInfoBoxProps): JSX.Element {
   const {
     gameDetails: { name, released, developers, publishers },
   } = props;
-  const boxArtUrl = String(
-    useSelector<IRootState, string | void>((state) => selectBoxArt(state, platform, name))
-  );
+
   const nameTrimmed = trimName(name);
 
   useEffect(() => {
@@ -35,7 +31,7 @@ export function GameInfoBox(props: IGameInfoBoxProps): JSX.Element {
   return (
     <div className={`${styles.GameInfoBox}`}>
       <div className={styles.ImageContainer}>
-        {boxArtUrl ? <img src={boxArtUrl} alt={``}></img> : <GameBoxSkeletonController platform={platform} />}
+        <GameBoxWithSkeleton name={name} platform={platform} />
       </div>
       <div className={styles.TextContainer}>
         <h2 className={styles.Name}>{nameTrimmed}</h2>
