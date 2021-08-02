@@ -8,14 +8,13 @@ import { appConfig, TPlatformNames } from 'Configs/appConfig';
 import { flushGameSelectorStore, setSearchInputValue } from 'Routes/GameSelector/reducer/actions';
 import {
   selectGamesToShow,
-  selectIsLoading,
   selectNoGamesFound,
   selectPageData,
   selectSearchInputValue,
 } from 'Routes/GameSelector/reducer/selectors';
 import { getGamesForPlatform } from 'Routes/GameSelector/reducer/thunks';
 
-import { GameCard, GameCardSkeleton } from './components';
+import { GameCard } from './components';
 import { useGameSelectorUrl } from './hooks';
 
 import styles from './GameSelector.module.scss';
@@ -33,7 +32,6 @@ export function GameSelector(): JSX.Element {
   const gamesToShow = useSelector(selectGamesToShow);
   const pageData = useSelector(selectPageData);
   const searchInputValue = useSelector(selectSearchInputValue);
-  const isLoading = useSelector(selectIsLoading);
   const noGamesFound = useSelector(selectNoGamesFound);
   const { platformName } = useParams<{ platformName: TPlatformNames }>();
 
@@ -89,18 +87,11 @@ export function GameSelector(): JSX.Element {
         </div>
       </div>
       <div className={styles.GamePicker}>
-        {isLoading &&
-          skeletons.map((_, ind) => (
-            <div className={styles.GameCardWrapper} key={ind}>
-              <GameCardSkeleton className={styles.GameCard} />
-            </div>
-          ))}
-        {!!gamesToShow.length &&
-          gamesToShow.map((game) => (
-            <div className={styles.GameCardWrapper} key={game.slug}>
-              <GameCard {...game} platformName={platformName} key={game.slug} className={styles.GameCard} />
-            </div>
-          ))}
+        {gamesToShow.map((game) => (
+          <div className={styles.GameCardWrapper} key={game.slug}>
+            <GameCard {...game} platformName={platformName} key={game.slug} className={styles.GameCard} />
+          </div>
+        ))}
         {noGamesFound && <h1 className={styles.NoGamesFound}>No results have been found! Try to change the query</h1>}
       </div>
       {pageData && (
@@ -115,5 +106,3 @@ export function GameSelector(): JSX.Element {
     </section>
   );
 }
-
-const skeletons = Array.from({ length: appConfig.GameSelector.gamesPerRequest });
