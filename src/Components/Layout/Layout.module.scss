@@ -9,11 +9,9 @@
   width: 100%;
 
   main {
-    & > * {
-      @include contentWidth;
-      @include minHeight;
-      background-color: $content-underlayer-color;
-    }
+    @include contentWidth;
+    @include minHeight;
+    background-color: $content-underlayer-color;
   }
 }
 
