@@ -6,7 +6,7 @@ const codeSplitting = (isProduction) => ({
     runtimeChunk: 'single', // detach code responsible for individual chunk uploads from main
     splitChunks: {
       chunks: 'all',
-      minSize: 30 * 1000, // minimal size in kbytes for chunk to be detached
+      minSize: 1 * 1000, // minimal size in bytes for chunk to be detached
 
       cacheGroups: {
         //detach each module into individual chunks if it exceeds the minChunk
@@ -23,9 +23,9 @@ const codeSplitting = (isProduction) => ({
           test: /[\\/]node_modules[\\/]((react-player).*)[\\/]/,
           name: 'player',
         },
-        vendor: {
-          test: /[\\/]node_modules[\\/](!react-player)[\\/]/,
-          name: 'vendor',
+        restVendors: {
+          test: /[\\/]node_modules[\\/]((?!(react-player)).*)[\\/]/,
+          name: 'restVendors',
         },
       },
     },
