@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cn from 'classnames';
 import { EbaySwiper } from 'Components';
@@ -9,7 +9,7 @@ import { IRootState } from 'Store/types';
 import { DeepReadonly } from 'utility-types';
 
 import { ButtonNeon, KnobToggler } from 'Components/UI';
-import { CloseSvg } from 'Components/UI/LogoSvg';
+import { CloseSvg, SixDots } from 'Components/UI/LogoSvg';
 import { WarnModal } from 'Components/UI/Modals';
 import { TPlatformNames } from 'Configs/appConfig';
 import { GameBox } from 'Routes/Profile/components';
@@ -110,7 +110,8 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
           />
         )}
       </div>
-      {children}
+      <div className={styles.ControlsSection}>{children || <SixDots className={cn(styles.sixDotsSvg)} />}</div>
+
       <div
         className={styles.CloseSvgWrapper}
         onClick={() => setShowWarn(true)}
@@ -134,11 +135,3 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
     </div>
   );
 }
-
-type TControlSectionProps = HTMLAttributes<HTMLDivElement>;
-
-export function ControlSection(props: TControlSectionProps): JSX.Element {
-  return <div className={(cn(styles.Controls), props.className)}>{props.children}</div>;
-}
-
-EbayLotSection.Controls = ControlSection;

@@ -2,8 +2,8 @@
 
 .EbyaLotSection {
   margin: 15px;
-  height: 370px;
   min-width: 370px;
+  border-radius: 5px;
 
   color: $font-white;
   background-color: rgba(0, 0, 0, 0.3);
@@ -80,19 +80,19 @@
   padding: 10px;
   display: flex;
   align-items: center;
+}
 
-  .NameBadge {
-    user-select: none;
-    width: 100%;
-    padding: 5px;
-    border-radius: 5px;
-    background-color: getBtnColor('basic');
-    text-align: center;
-    @include flexCenter;
+.NameBadge {
+  user-select: none;
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: getBtnColor('basic');
+  text-align: center;
+  @include flexCenter;
 
-    @include respond-to(mobile) {
-      font-size: 0.9rem;
-    }
+  @include respond-to(mobile) {
+    font-size: 0.9rem;
   }
 }
 
@@ -115,17 +115,6 @@
 
   &_expand {
     width: 400px;
-  }
-
-  .NoItemToShow {
-    @include w100v100;
-    @include flexCenter;
-    font-size: 1.4rem;
-    text-transform: uppercase;
-  }
-
-  .Controls {
-    grid-area: controls;
   }
 
   .EbaySectionSwiper {
@@ -151,6 +140,14 @@
   }
 }
 
+.sixDotsSvg {
+  height: 50px;
+  width: 50px;
+  fill: currentColor;
+  transform: rotate(90deg);
+  cursor: grab;
+}
+
 .CloseSvgWrapper {
   cursor: pointer;
   position: absolute;
@@ -161,4 +158,11 @@
   opacity: 0;
   visibility: hidden;
   transition: all 200ms ease-in-out;
+}
+
+.ControlsSection {
+  grid-area: controls;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
