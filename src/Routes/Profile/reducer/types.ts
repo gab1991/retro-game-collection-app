@@ -30,7 +30,6 @@ export interface IProfileGame {
   date: string;
   isShowEbay: boolean;
   name: string;
-  slug: string;
   watchedEbayOffers: Array<IProfileWatchEbayCard>;
 }
 

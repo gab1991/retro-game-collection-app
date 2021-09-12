@@ -5,7 +5,6 @@ import { AxiosError } from 'axios';
 import { IReorderGamesActionArgs } from 'Routes/Profile/reducer/types';
 
 import { EAvailableLists, EPlatformList, TPlatformNames } from 'Configs/appConfig';
-import { IRawgGameDetails } from 'Typings/RawgData';
 
 export const HttpRespStats = {
   badRequest: 400,
@@ -26,7 +25,7 @@ export interface IRemoveGame {
 }
 
 export interface IAddGame {
-  game: IRawgGameDetails;
+  game: string;
   list: EAvailableLists;
   platform: TPlatformNames;
 }

@@ -14,7 +14,6 @@ import {
 import { flushGameDetailed, setShowWisListWarn } from 'Routes/GameDetailed/reducer/actions';
 import { selectGameDetailed } from 'Routes/GameDetailed/reducer/selectors';
 import { getGameDetails, getScreenShots } from 'Routes/GameDetailed/reducer/thunks';
-import { IRawgGameDetails } from 'Typings/RawgData';
 
 import { useGameDetailedContext } from './context';
 
@@ -46,7 +45,7 @@ export function GameDetailedPage(): JSX.Element {
   };
 
   const warnYesClickHandler = () => {
-    toggleList(platform, gameDetails as IRawgGameDetails, EAvailableLists.wishList);
+    gameDetails && toggleList(platform, gameDetails.name, EAvailableLists.wishList);
     dispatch(setShowWisListWarn(false));
   };
 
@@ -54,13 +53,13 @@ export function GameDetailedPage(): JSX.Element {
     {
       linkDir: '/profile/WishList',
       linkText: 'Wish List',
-      onCancelClick: () => toggleList(platform, gameDetails as IRawgGameDetails, EAvailableLists.wishList),
+      onCancelClick: () => gameDetails && toggleList(platform, gameDetails.name, EAvailableLists.wishList),
       show: showWishNotifier,
     },
     {
       linkDir: '/profile/CollectionList',
       linkText: 'Owned List',
-      onCancelClick: () => toggleList(platform, gameDetails as IRawgGameDetails, EAvailableLists.ownedList),
+      onCancelClick: () => gameDetails && toggleList(platform, gameDetails.name, EAvailableLists.ownedList),
       show: showOwnedNotifier,
     },
   ];

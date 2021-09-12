@@ -8,7 +8,6 @@ import { TThunk } from 'Store/types';
 import { appConfig, EAvailableLists, TPlatformNames } from 'Configs/appConfig';
 import { showErrModal } from 'Store/appStateReducer/actions';
 import { getEbayItemsThunk } from 'Store/ebayItemsReducer/thunks';
-import { IRawgGameDetails } from 'Typings/RawgData';
 
 import {
   setDescriptionHtml,
@@ -86,14 +85,14 @@ export const showWishedNotifierForTime = (time: number): TThunk => {
   };
 };
 
-export const addGame = (gameDetails: IRawgGameDetails, list: EAvailableLists, platform: TPlatformNames): TThunk => {
+export const addGame = (gameName: string, list: EAvailableLists, platform: TPlatformNames): TThunk => {
   return async (dispatch, getStore) => {
     const store = getStore();
     const isWished = selectIsWished(store);
 
     try {
       await api.addGame({
-        game: gameDetails,
+        game: gameName,
         list,
         platform,
       });

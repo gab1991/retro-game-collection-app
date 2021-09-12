@@ -9,12 +9,12 @@ import { setIsOwned, setIsWished } from 'Routes/GameDetailed/reducer/actions';
 import { selectProfile } from 'Routes/Profile/reducer/selectors';
 import { showAuthModal } from 'Store/appStateReducer/actions';
 import { selectLoggedUser } from 'Store/authReducer/selectors';
-import { IRawgGameDetails } from 'Typings/RawgData';
 
 import { checkIfInList } from './helpers';
 
 import styles from './ControlSection.module.scss';
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export function ControlSection(): JSX.Element {
   const { platform, gameDetails, toggleList, isWished, isOwned } = useGameDetailedContext();
   const dispatch = useDispatch();
@@ -56,7 +56,7 @@ export function ControlSection(): JSX.Element {
     {
       color: isWished ? 'red' : 'green',
       disabled: username ? false : true,
-      onClick: () => toggleList(platform, gameDetails as IRawgGameDetails, EAvailableLists.wishList),
+      onClick: () => gameDetails && toggleList(platform, gameDetails.name, EAvailableLists.wishList),
       tooltip: !username
         ? {
             btnOnclick: showAuth,
@@ -68,7 +68,7 @@ export function ControlSection(): JSX.Element {
     {
       color: isOwned ? 'red' : 'green',
       disabled: username ? false : true,
-      onClick: () => toggleList(platform, gameDetails as IRawgGameDetails, EAvailableLists.ownedList),
+      onClick: () => gameDetails && toggleList(platform, gameDetails.name, EAvailableLists.ownedList),
       tooltip: !username
         ? {
             btnOnclick: showAuth,
