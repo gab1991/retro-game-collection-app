@@ -49,7 +49,7 @@ export const EbayCardContextProvier = (props: IEbayCardContextProvierProps): JSX
       dispatch(getEbaySingleItemByIndex(platform, game, index, sortOrder));
       isLogged && dispatch(checkIfCardIsWatched(game, platform, index, sortOrder));
     });
-  }, []);
+  }, [platform, game, sortOrder]);
 
   const calcTotalPrice = () => dispatch(calculateTotalPrice(platform, game, index, sortOrder));
 

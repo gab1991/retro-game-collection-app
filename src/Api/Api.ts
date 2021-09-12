@@ -86,7 +86,7 @@ class Api {
         authorization: `Bearer ${getToken()}`,
       },
       method: 'GET',
-      url: `${endpoints.profileUrl}/getGameWatchedCards/${platform}/${game}`,
+      url: `${endpoints.profileUrl}/ebayCards/watched/${platform}/${game}`,
     });
   }
 
@@ -119,7 +119,7 @@ class Api {
   getShippingCosts(itemId: number): TReqResult<IEbayCardShippingDetails> {
     return this.executeReq({
       method: 'GET',
-      url: `${endpoints.shippingCostsUrl}/${itemId}`,
+      url: `${endpoints.shippingCostsUrl}/${itemId}/shopingCosts`,
     });
   }
 
@@ -146,8 +146,8 @@ class Api {
       headers: {
         authorization: `Bearer ${getToken()}`,
       },
-      method: 'POST',
-      url: `${endpoints.profileUrl}/removeEbayCard`,
+      method: 'DELETE',
+      url: `${endpoints.profileUrl}/ebayCards`,
     });
   }
 

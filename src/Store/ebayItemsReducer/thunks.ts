@@ -30,7 +30,9 @@ export const getEbayItemsThunk = (platform: TPlatformNames, game: string, sortOr
     const ebayItems = selectEbayCardItemsReducer(store);
 
     //check if these ebay cards are already in reducer
-    if (ebayItems?.[platform]?.[game]?.[sortOrder]) return;
+    if (ebayItems?.[platform]?.[game]?.[sortOrder]) {
+      return;
+    }
     let items: Array<TEbayCardPreviewRawData> = [];
 
     try {

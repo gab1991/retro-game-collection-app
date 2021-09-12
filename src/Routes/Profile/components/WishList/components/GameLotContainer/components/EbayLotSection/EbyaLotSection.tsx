@@ -20,11 +20,11 @@ import { trimName } from 'Utils/helperFunctions';
 import styles from './EbayLotSection.module.scss';
 
 const buttonsToSortOrder = {
-  'Lowest Price': 'PricePlusShippingLowest',
-  'New Offers': 'StartTimeNewest',
-  Relevance: 'BestMatch',
-  Watched: 'Watched',
-};
+  'Lowest Price': EEbaySortOrder['Lowest Price'],
+  'New Offers': EEbaySortOrder['New Offers'],
+  Relevance: EEbaySortOrder['Relevance'],
+  Watched: EEbaySortOrder['Watched'],
+} as const;
 
 export interface IEbayLotSectionProps {
   children?: ReactNode;
@@ -50,9 +50,9 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
   const watchedEbayCards = useSelector((state: IRootState) =>
     selectEbayCardItems(state, { game: gameName, platform, sortOrder: EEbaySortOrder.Watched })
   );
-  const [activeEbaylist, setActiveEbaylist] = useState(
-    watchedEbayCards.length ? EEbaySortOrder.Watched : EEbaySortOrder['New Offers']
-  );
+  const initialEbayList = watchedEbayCards.length ? EEbaySortOrder.Watched : EEbaySortOrder['New Offers'];
+
+  const [activeEbaylist, setActiveEbaylist] = useState<EEbaySortOrder>(initialEbayList);
 
   useEffect(() => {
     dispatch(toggleEbayVisibility(gameName, platform, isEbayTogglerOn));
@@ -60,8 +60,9 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
 
   const toggleEbayList: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     const desc = e.currentTarget.textContent;
-    if (desc && Object.keys(EEbaySortOrder).includes(desc)) {
-      setActiveEbaylist(desc as EEbaySortOrder);
+
+    if (desc && Object.keys(buttonsToSortOrder).includes(desc)) {
+      setActiveEbaylist(buttonsToSortOrder[desc]);
     }
 
     setIsEbayTogglerOn(true);
@@ -84,7 +85,7 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
             key={btn}
             txtContent={btn}
             onClick={toggleEbayList}
-            color={activeEbaylist === btn && isEbayTogglerOn ? 'gray' : undefined}
+            color={activeEbaylist === buttonsToSortOrder[btn] && isEbayTogglerOn ? 'gray' : undefined}
           />
         ))}
       </div>
@@ -105,7 +106,7 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
             className={styles.EbaySectionSwiper}
             gameName={gameName}
             platform={platform}
-            sortOrder={buttonsToSortOrder[activeEbaylist]}
+            sortOrder={activeEbaylist}
             swiperProps={{ breakpoints: undefined }}
           />
         )}
