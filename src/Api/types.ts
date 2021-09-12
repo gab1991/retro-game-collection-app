@@ -19,15 +19,13 @@ interface IReodredGames extends IReorderGamesActionArgs {
   action: 'reorder';
 }
 
-interface IRemoveGame {
-  action: 'removeGame';
+export interface IRemoveGame {
   game: string;
   list: EAvailableLists;
   platform: TPlatformNames;
 }
 
-interface IAddGame {
-  action: 'addGame';
+export interface IAddGame {
   game: IRawgGameDetails;
   list: EAvailableLists;
   platform: TPlatformNames;

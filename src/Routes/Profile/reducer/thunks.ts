@@ -5,10 +5,9 @@ import { IReorderGamesActionArgs } from './types';
 import { EEbaySortOrder } from 'Api/types';
 import { TThunk } from 'Store/types';
 
-import { appConfig, EAvailableLists, TPlatformNames } from 'Configs/appConfig';
+import { appConfig, TPlatformNames } from 'Configs/appConfig';
 import { showErrModal } from 'Store/appStateReducer/actions';
 import { setEbayItems } from 'Store/ebayItemsReducer/actions';
-import { IRawgGameDetails } from 'Typings/RawgData';
 
 import { fillProfile, reorderGames } from './actions';
 import { selectGamesFromList } from './selectors';
@@ -56,44 +55,6 @@ export const reorderGamesThunk = (args: IReorderGamesActionArgs): TThunk => asyn
       dispatch(showErrModal({ message: `Couldn't rearrange games! Try later` }));
     });
   }
-};
-
-export const removeGame = (game: string, list: EAvailableLists, platform: TPlatformNames): TThunk => {
-  return async (dispatch) => {
-    try {
-      await api.updateProfile({
-        action: 'removeGame',
-        game,
-        list,
-        platform,
-      });
-    } catch (err) {
-      dispatch(
-        showErrModal({
-          message: appConfig.defaultApiErr,
-        })
-      );
-    }
-  };
-};
-
-export const addGame = (game: IRawgGameDetails, list: EAvailableLists, platform: TPlatformNames): TThunk => {
-  return async (dispatch) => {
-    try {
-      await api.updateProfile({
-        action: 'addGame',
-        game,
-        list,
-        platform,
-      });
-    } catch (err) {
-      dispatch(
-        showErrModal({
-          message: 'Something wrong happened.Try again later',
-        })
-      );
-    }
-  };
 };
 
 export const toggleEbayVisibility = (game: string, platform: TPlatformNames, isShowed: boolean): TThunk => {

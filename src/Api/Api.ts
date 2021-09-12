@@ -1,3 +1,4 @@
+import { IAddGame, IRemoveGame } from 'Api';
 import axios_base, { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
 import { queryParamBuilder } from 'Utils';
 
@@ -178,6 +179,28 @@ class Api {
       },
       method: 'POST',
       url: `${endpoints.profileUrl}/toggleEbaySection`,
+    });
+  }
+
+  addGame(data: IAddGame) {
+    return this.executeReq({
+      data,
+      headers: {
+        authorization: `Bearer ${getToken()}`,
+      },
+      method: 'POST',
+      url: `${endpoints.profileUrl}/games`,
+    });
+  }
+
+  removeGame(data: IRemoveGame) {
+    return this.executeReq({
+      data,
+      headers: {
+        authorization: `Bearer ${getToken()}`,
+      },
+      method: 'DELETE',
+      url: `${endpoints.profileUrl}/games`,
     });
   }
 

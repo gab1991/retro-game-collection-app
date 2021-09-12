@@ -5,8 +5,7 @@ import { EVideoType } from './types';
 import { EEbaySortOrder } from 'Api/types';
 import { TThunk } from 'Store/types';
 
-import { EAvailableLists, TPlatformNames } from 'Configs/appConfig';
-import { addGame as addGameTopProfile } from 'Routes/Profile/reducer/thunks';
+import { appConfig, EAvailableLists, TPlatformNames } from 'Configs/appConfig';
 import { showErrModal } from 'Store/appStateReducer/actions';
 import { getEbayItemsThunk } from 'Store/ebayItemsReducer/thunks';
 import { IRawgGameDetails } from 'Typings/RawgData';
@@ -15,6 +14,7 @@ import {
   setDescriptionHtml,
   setEbaySectionLoading,
   setGameDetails,
+  setIsWished,
   setScreenshots,
   setShowOwnedNotifier,
   setShowWishNotifier,
@@ -91,10 +91,52 @@ export const addGame = (gameDetails: IRawgGameDetails, list: EAvailableLists, pl
     const store = getStore();
     const isWished = selectIsWished(store);
 
-    dispatch(addGameTopProfile(gameDetails, list, platform));
+    try {
+      await api.addGame({
+        game: gameDetails,
+        list,
+        platform,
+      });
+    } catch (err) {
+      return dispatch(
+        showErrModal({
+          message: 'Something wrong happened.Try again later',
+        })
+      );
+    }
 
     if (list === EAvailableLists.wishList) {
-      dispatch(showWishedNotifierForTime(ADD_GAME_NOTIFIER_SHOWTIME));
+      batch(() => {
+        dispatch(showWishedNotifierForTime(ADD_GAME_NOTIFIER_SHOWTIME));
+        dispatch(setIsWished(!isWished));
+      });
+    } else if (list === EAvailableLists.ownedList) {
+      isWished ? dispatch(setShowWisListWarn(true)) : dispatch(showOwnedNotifierForTime(ADD_GAME_NOTIFIER_SHOWTIME));
+    }
+  };
+};
+
+export const removeGame = (gameName: string, list: EAvailableLists, platform: TPlatformNames): TThunk => {
+  return async (dispatch, getStore) => {
+    const store = getStore();
+    const isWished = selectIsWished(store);
+
+    try {
+      await api.removeGame({
+        game: gameName,
+        list,
+        platform,
+      });
+    } catch (err) {
+      return dispatch(
+        showErrModal({
+          message: appConfig.defaultApiErr,
+        })
+      );
+    }
+
+    if (list === EAvailableLists.wishList) {
+      dispatch(setIsWished(!isWished));
     } else if (list === EAvailableLists.ownedList) {
       isWished ? dispatch(setShowWisListWarn(true)) : dispatch(showOwnedNotifierForTime(ADD_GAME_NOTIFIER_SHOWTIME));
     }

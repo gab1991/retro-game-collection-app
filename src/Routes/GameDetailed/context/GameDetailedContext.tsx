@@ -1,15 +1,14 @@
 import React, { SyntheticEvent } from 'react';
-import { batch, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { isToggleableElms } from 'Routes/GameDetailed/reducer/types';
 import { DeepReadonly } from 'utility-types';
 
 import { EAvailableLists, TPlatformNames } from 'Configs/appConfig';
-import { setIsOwned, setIsWished, toggleElmVisibility } from 'Routes/GameDetailed/reducer/actions';
+import { setIsOwned, toggleElmVisibility } from 'Routes/GameDetailed/reducer/actions';
 import { selectGameDetails, selectIsOwned, selectIsWished } from 'Routes/GameDetailed/reducer/selectors';
-import { addGame } from 'Routes/GameDetailed/reducer/thunks';
-import { removeGame } from 'Routes/Profile/reducer/thunks';
+import { addGame, removeGame } from 'Routes/GameDetailed/reducer/thunks';
 import { selectIsMobile } from 'Store/appStateReducer/selectors';
 import { IRawgGameDetails } from 'Typings/RawgData';
 
@@ -49,12 +48,9 @@ export function GameDetailedProvider({ children }: IGameDetailedProviderProps): 
 
   const toggleList = (platform: TPlatformNames, gameDetails: IRawgGameDetails, list: EAvailableLists) => {
     if (list === EAvailableLists.wishList) {
-      batch(() => {
-        dispatch(setIsWished(!isWished));
-        isWished
-          ? dispatch(removeGame(gameDetails.name, list, platform))
-          : dispatch(addGame(gameDetails, list, platform));
-      });
+      isWished
+        ? dispatch(removeGame(gameDetails.name, list, platform))
+        : dispatch(addGame(gameDetails, list, platform));
     } else if (list === EAvailableLists.ownedList) {
       dispatch(setIsOwned(!isOwned));
       isOwned ? dispatch(removeGame(gameDetails.name, list, platform)) : dispatch(addGame(gameDetails, list, platform));
