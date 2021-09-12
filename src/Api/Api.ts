@@ -1,8 +1,8 @@
-import { IAddGame, IRemoveGame } from 'Api';
+import { IAddGame, IRemoveGame, IReorderGames } from 'Api';
 import axios_base, { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
 import { queryParamBuilder } from 'Utils';
 
-import { EEbaySortOrder, IEbayCardObj, IGetGamesForPlatParams, ISignUpData, TUpdProfObj } from './types';
+import { EEbaySortOrder, IEbayCardObj, IGetGamesForPlatParams, ISignUpData } from './types';
 import { IProfile } from 'Routes/Profile/reducer/types';
 
 import { TPlatformNames, TVideoType } from 'Configs/appConfig';
@@ -204,15 +204,14 @@ class Api {
     });
   }
 
-  //rewrite this method
-  updateProfile(obj: TUpdProfObj): TReqResult {
+  reorderGames(data: IReorderGames): TReqResult {
     return this.executeReq({
-      data: obj,
+      data,
       headers: {
         authorization: `Bearer ${getToken()}`,
       },
-      method: 'POST',
-      url: `${endpoints.profileUrl}/update`,
+      method: 'PUT',
+      url: `${endpoints.profileUrl}/games/reorder`,
     });
   }
 

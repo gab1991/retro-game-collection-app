@@ -1,4 +1,6 @@
-import { IProfile, IReorderGamesActionArgs } from './types';
+import { IReorderGames } from 'Api';
+
+import { IProfile } from './types';
 import { createAction, createAsyncAction } from 'typesafe-actions';
 
 export const fillProfile = createAction('profile/fillProfile', (profile: IProfile) => profile)();
@@ -9,4 +11,4 @@ export const reorderGames = createAsyncAction(
   'profile/flushProfile/request',
   'profile/flushProfile/success',
   'profile/flushProfile/failure'
-)<IReorderGamesActionArgs, IReorderGamesActionArgs, IReorderGamesActionArgs>();
+)<IReorderGames, IReorderGames, IReorderGames>();

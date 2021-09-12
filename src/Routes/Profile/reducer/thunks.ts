@@ -1,8 +1,7 @@
 import { batch } from 'react-redux';
 import { api } from 'Api';
 
-import { IReorderGamesActionArgs } from './types';
-import { EEbaySortOrder } from 'Api/types';
+import { EEbaySortOrder, IReorderGames } from 'Api/types';
 import { TThunk } from 'Store/types';
 
 import { appConfig, TPlatformNames } from 'Configs/appConfig';
@@ -38,15 +37,14 @@ export const getProfileInfo = (): TThunk => async (dispatch) => {
   }
 };
 
-export const reorderGamesThunk = (args: IReorderGamesActionArgs): TThunk => async (dispatch, getStore) => {
+export const reorderGamesThunk = (args: IReorderGames): TThunk => async (dispatch, getStore) => {
   const store = getStore();
   const prevSortedGames = selectGamesFromList(store, args.list, args.platform);
 
   dispatch(reorderGames.request(args));
 
   try {
-    await api.updateProfile({
-      action: 'reorder',
+    await api.reorderGames({
       ...args,
     });
   } catch (err) {

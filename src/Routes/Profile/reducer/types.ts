@@ -37,10 +37,3 @@ interface IProfileWatchEbayCard {
   date: string;
   id: string;
 }
-
-//ACTIONS
-export interface IReorderGamesActionArgs {
-  list: EAvailableLists;
-  newSortedGames: DeepReadonly<Array<IProfileGame>>;
-  platform: TPlatformNames;
-}

@@ -2,7 +2,8 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { AxiosError } from 'axios';
 
-import { IReorderGamesActionArgs } from 'Routes/Profile/reducer/types';
+import { IProfileGame } from 'Routes/Profile/reducer/types';
+import { DeepReadonly } from 'utility-types';
 
 import { EAvailableLists, EPlatformList, TPlatformNames } from 'Configs/appConfig';
 
@@ -12,10 +13,10 @@ export const HttpRespStats = {
   unathorized: 401,
 };
 
-export type TUpdProfObj = IReodredGames | IRemoveGame | IAddGame;
-
-interface IReodredGames extends IReorderGamesActionArgs {
-  action: 'reorder';
+export interface IReorderGames {
+  list: EAvailableLists;
+  newSortedGames: DeepReadonly<Array<IProfileGame>>;
+  platform: TPlatformNames;
 }
 
 export interface IRemoveGame {
