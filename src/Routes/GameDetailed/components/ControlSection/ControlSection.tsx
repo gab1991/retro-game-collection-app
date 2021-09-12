@@ -16,7 +16,7 @@ import styles from './ControlSection.module.scss';
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export function ControlSection(): JSX.Element {
-  const { platform, gameDetails, toggleList, isWished, isOwned } = useGameDetailedContext();
+  const { platform, gameDetails, toggleList, isWished, isOwned, slug } = useGameDetailedContext();
   const dispatch = useDispatch();
   const history = useHistory();
   const username = useSelector(selectLoggedUser);
@@ -56,7 +56,7 @@ export function ControlSection(): JSX.Element {
     {
       color: isWished ? 'red' : 'green',
       disabled: username ? false : true,
-      onClick: () => gameDetails && toggleList(platform, gameDetails.name, EAvailableLists.wishList),
+      onClick: () => gameDetails && toggleList(platform, gameDetails.name, EAvailableLists.wishList, slug),
       tooltip: !username
         ? {
             btnOnclick: showAuth,
@@ -68,7 +68,7 @@ export function ControlSection(): JSX.Element {
     {
       color: isOwned ? 'red' : 'green',
       disabled: username ? false : true,
-      onClick: () => gameDetails && toggleList(platform, gameDetails.name, EAvailableLists.ownedList),
+      onClick: () => gameDetails && toggleList(platform, gameDetails.name, EAvailableLists.ownedList, slug),
       tooltip: !username
         ? {
             btnOnclick: showAuth,

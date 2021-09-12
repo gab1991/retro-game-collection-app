@@ -132,12 +132,11 @@ class Api {
 
   isWatchedEbayCard(ebayCard: IEbayCardObj): TReqResult<{ success: string }> {
     return this.executeReq({
-      data: ebayCard,
       headers: {
         authorization: `Bearer ${getToken()}`,
       },
-      method: 'POST',
-      url: `${endpoints.profileUrl}/isWatchedEbayCard`,
+      method: 'GET',
+      url: `${endpoints.profileUrl}/ebayCards/isWatched/${ebayCard.platform}/${ebayCard.game}/${ebayCard.ebayItemId}`,
     });
   }
 

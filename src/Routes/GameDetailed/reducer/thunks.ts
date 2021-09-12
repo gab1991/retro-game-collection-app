@@ -2,7 +2,7 @@ import { batch } from 'react-redux';
 import { api } from 'Api';
 
 import { EVideoType } from './types';
-import { EEbaySortOrder } from 'Api/types';
+import { EEbaySortOrder, IAddGame } from 'Api/types';
 import { TThunk } from 'Store/types';
 
 import { appConfig, EAvailableLists, TPlatformNames } from 'Configs/appConfig';
@@ -85,16 +85,14 @@ export const showWishedNotifierForTime = (time: number): TThunk => {
   };
 };
 
-export const addGame = (gameName: string, list: EAvailableLists, platform: TPlatformNames): TThunk => {
+export const addGame = (data: IAddGame): TThunk => {
   return async (dispatch, getStore) => {
     const store = getStore();
     const isWished = selectIsWished(store);
 
     try {
       await api.addGame({
-        game: gameName,
-        list,
-        platform,
+        ...data,
       });
     } catch (err) {
       return dispatch(
@@ -104,12 +102,12 @@ export const addGame = (gameName: string, list: EAvailableLists, platform: TPlat
       );
     }
 
-    if (list === EAvailableLists.wishList) {
+    if (data.list === EAvailableLists.wishList) {
       batch(() => {
         dispatch(showWishedNotifierForTime(ADD_GAME_NOTIFIER_SHOWTIME));
         dispatch(setIsWished(!isWished));
       });
-    } else if (list === EAvailableLists.ownedList) {
+    } else if (data.list === EAvailableLists.ownedList) {
       isWished ? dispatch(setShowWisListWarn(true)) : dispatch(showOwnedNotifierForTime(ADD_GAME_NOTIFIER_SHOWTIME));
     }
   };

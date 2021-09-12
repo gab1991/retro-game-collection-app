@@ -45,7 +45,7 @@ export function GameDetailedPage(): JSX.Element {
   };
 
   const warnYesClickHandler = () => {
-    gameDetails && toggleList(platform, gameDetails.name, EAvailableLists.wishList);
+    gameDetails && toggleList(platform, gameDetails.name, EAvailableLists.wishList, slug);
     dispatch(setShowWisListWarn(false));
   };
 
@@ -53,13 +53,13 @@ export function GameDetailedPage(): JSX.Element {
     {
       linkDir: '/profile/WishList',
       linkText: 'Wish List',
-      onCancelClick: () => gameDetails && toggleList(platform, gameDetails.name, EAvailableLists.wishList),
+      onCancelClick: () => gameDetails && toggleList(platform, gameDetails.name, EAvailableLists.wishList, slug),
       show: showWishNotifier,
     },
     {
       linkDir: '/profile/CollectionList',
       linkText: 'Owned List',
-      onCancelClick: () => gameDetails && toggleList(platform, gameDetails.name, EAvailableLists.ownedList),
+      onCancelClick: () => gameDetails && toggleList(platform, gameDetails.name, EAvailableLists.ownedList, slug),
       show: showOwnedNotifier,
     },
   ];

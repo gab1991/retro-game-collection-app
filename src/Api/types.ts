@@ -29,6 +29,7 @@ export interface IAddGame {
   game: string;
   list: EAvailableLists;
   platform: TPlatformNames;
+  slug: string;
 }
 
 export interface IGetGamesForPlatParams {

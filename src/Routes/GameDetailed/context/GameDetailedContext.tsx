@@ -27,7 +27,7 @@ interface IGameDetailedProviderValue {
   platform: TPlatformNames;
   slug: string;
   toggleBlockVisibilty: (e: SyntheticEvent) => void;
-  toggleList: (platform: TPlatformNames, gameName: string, list: EAvailableLists) => void;
+  toggleList: (platform: TPlatformNames, gameName: string, list: EAvailableLists, slug: string) => void;
 }
 
 export function GameDetailedProvider({ children }: IGameDetailedProviderProps): JSX.Element {
@@ -46,12 +46,12 @@ export function GameDetailedProvider({ children }: IGameDetailedProviderProps): 
     }
   };
 
-  const toggleList = (platform: TPlatformNames, gameName: string, list: EAvailableLists) => {
+  const toggleList = (platform: TPlatformNames, game: string, list: EAvailableLists, slug: string) => {
     if (list === EAvailableLists.wishList) {
-      isWished ? dispatch(removeGame(gameName, list, platform)) : dispatch(addGame(gameName, list, platform));
+      isWished ? dispatch(removeGame(game, list, platform)) : dispatch(addGame({ game, list, platform, slug }));
     } else if (list === EAvailableLists.ownedList) {
       dispatch(setIsOwned(!isOwned));
-      isOwned ? dispatch(removeGame(gameName, list, platform)) : dispatch(addGame(gameName, list, platform));
+      isOwned ? dispatch(removeGame(game, list, platform)) : dispatch(addGame({ game, list, platform, slug }));
     }
   };
 
