@@ -223,7 +223,7 @@ class Api {
         authorization: `Bearer ${getToken()}`,
       },
       method: 'POST',
-      url: `${endpoints.profileUrl}/addEbayCard`,
+      url: `${endpoints.profileUrl}/ebayCards`,
     });
   }
 }
