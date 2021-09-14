@@ -162,7 +162,7 @@ class Api {
     });
   }
 
-  postSignUp(data: ISignUpData): TReqResult<{ user_id: number }> {
+  postSignUp(data: ISignUpData): TReqResult<{ success: string; token: string; username: string }> {
     return this.executeReq({
       data,
       method: 'POST',

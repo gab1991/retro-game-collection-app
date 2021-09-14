@@ -1,5 +1,5 @@
 import React, { SyntheticEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { batch, useDispatch } from 'react-redux';
 import { api, HttpRespStats, isAxiosError } from 'Api';
 
 import { ISignUpData } from 'Api/types';
@@ -9,7 +9,8 @@ import { AuthFormSpinner, CloseAuthModal } from 'Components/AuthModal/components
 import { useAuthModalContext } from 'Components/AuthModal/context';
 import { ButtonNeon, InputAuth } from 'Components/UI';
 import { ECornerNotifierCorners } from 'Components/UI/Modals';
-import { showCornerNotifier } from 'Store/appStateReducer/actions';
+import { showAuthModal, showCornerNotifier } from 'Store/appStateReducer/actions';
+import { signIn } from 'Store/authReducer/actions';
 
 import styles from './SignUpForm.module.scss';
 
@@ -46,19 +47,25 @@ export function SignUpForm(): JSX.Element {
     setIsSending(true);
 
     try {
-      await api.postSignUp(signUpData);
+      const {
+        data: { token, username },
+      } = await api.postSignUp(signUpData);
 
-      toSignIn();
-
-      !isMobile &&
-        dispatch(
-          showCornerNotifier({
-            corner: ECornerNotifierCorners.bottomLeft,
-            message: 'Account is successfully created',
-            removeTime: 1000,
-            show: true,
-          })
-        );
+      if (token && username) {
+        batch(() => {
+          dispatch(signIn(username, token));
+          dispatch(showAuthModal(false));
+          !isMobile &&
+            dispatch(
+              showCornerNotifier({
+                corner: ECornerNotifierCorners.bottomLeft,
+                message: 'Account is successfully created',
+                removeTime: 1000,
+                show: true,
+              })
+            );
+        });
+      }
     } catch (err) {
       if (
         isAxiosError<{ err_message: string; field: ESignUpInputs }>(err) &&
@@ -66,6 +73,7 @@ export function SignUpForm(): JSX.Element {
         err.response.data.field
       ) {
         const { err_message, field } = err.response.data;
+
         setSignUpErrField(err_message, field);
       }
     } finally {
