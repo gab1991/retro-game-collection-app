@@ -48,12 +48,12 @@ export function SignUpForm(): JSX.Element {
 
     try {
       const {
-        data: { token, username },
+        data: { status },
       } = await api.postSignUp(signUpData);
 
-      if (token && username) {
+      if (status === 'success') {
         batch(() => {
-          dispatch(signIn(username, token));
+          dispatch(signIn(signUpData.username));
           dispatch(showAuthModal(false));
           !isMobile &&
             dispatch(

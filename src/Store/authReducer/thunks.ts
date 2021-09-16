@@ -9,14 +9,14 @@ import { storageHandler } from 'Utils/localStorage';
 import { logOut, signIn } from './actions';
 
 export const checkCredentialsThunk = (): TThunk => async (dispatch) => {
-  const { token, username } = storageHandler.getItems(['token', 'username']);
-  if (!token || !username) return;
-
   try {
-    const { status } = await api.checkCredentials(token, username);
+    const {
+      status,
+      data: { username },
+    } = await api.checkCredentials();
 
     if (status === HttpRespStats.success) {
-      dispatch(signIn(username, token));
+      dispatch(signIn(username));
     }
   } catch (err) {
     if (!isAxiosError(err)) {

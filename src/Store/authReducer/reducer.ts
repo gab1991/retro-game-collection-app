@@ -4,7 +4,6 @@ import { createReducer } from 'typesafe-actions';
 import * as actions from './actions';
 
 const initial: TAuthReducer = {
-  token: null,
   username: null,
 };
 
@@ -13,8 +12,7 @@ export const authReducer = createReducer<TAuthReducer, TAuthActions>(initial)
     actions.signIn,
     (state, { payload }): TAuthReducer => ({
       ...state,
-      token: payload.token,
-      username: payload.username,
+      username: payload,
     })
   )
   .handleAction(actions.logOut, (): TAuthReducer => initial);

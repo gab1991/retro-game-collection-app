@@ -28,12 +28,12 @@ export function SignInForm(): JSX.Element {
 
     try {
       const {
-        data: { token },
+        data: { username: resUsername },
       } = await api.postSignIn(username, password);
 
-      if (token && username) {
+      if (resUsername) {
         batch(() => {
-          dispatch(signIn(username, token));
+          dispatch(signIn(username));
           dispatch(showAuthModal(false));
         });
       }

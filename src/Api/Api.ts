@@ -6,7 +6,6 @@ import { EEbaySortOrder, IEbayCardObj, IGetGamesForPlatParams, ISignUpData } fro
 import { IProfile } from 'Routes/Profile/reducer/types';
 
 import { TPlatformNames, TVideoType } from 'Configs/appConfig';
-import { getToken } from 'Store/store';
 import { IEbayCardRawData, IEbayCardShippingDetails, TEbayCardPreviewRawData } from 'Typings/EbayData';
 import { IRawgGame, IRawgGameDetails, IRawgScreenshot } from 'Typings/RawgData';
 
@@ -15,6 +14,14 @@ import { endpoints } from './config';
 type TApiClient = AxiosInstance;
 type TExecReqConfig = AxiosRequestConfig;
 type TReqResult<T = unknown> = AxiosPromise<T>;
+type TServerStatus = 'success' | 'fail';
+interface IServerResponse {
+  status: TServerStatus;
+}
+
+interface ICheckCredentialResponse extends IServerResponse {
+  username: string;
+}
 
 class Api {
   private readonly client: TApiClient;
@@ -23,6 +30,7 @@ class Api {
     this.client = axios_base.create({
       baseURL: backendUrl,
       timeout: 4000,
+      withCredentials: true,
     });
   }
 
@@ -35,14 +43,8 @@ class Api {
     }
   }
 
-  checkCredentials(token: string, username: string): TReqResult<{ success: string }> {
+  checkCredentials(): TReqResult<ICheckCredentialResponse> {
     return this.executeReq({
-      data: {
-        username,
-      },
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
       method: 'POST',
       url: endpoints.checkCredentialUrl,
     });
@@ -82,9 +84,6 @@ class Api {
 
   getGameWatchedCards(platform: TPlatformNames, game: string): TReqResult<Array<{ id: string }>> {
     return this.executeReq({
-      headers: {
-        authorization: `Bearer ${getToken()}`,
-      },
       method: 'GET',
       url: `${endpoints.profileUrl}/ebayCards/watched/${platform}/${game}`,
     });
@@ -101,9 +100,6 @@ class Api {
 
   getProfileInfo(): TReqResult<IProfile> {
     return this.executeReq({
-      headers: {
-        authorization: `Bearer ${getToken()}`,
-      },
       method: 'GET',
       url: endpoints.profileUrl,
     });
@@ -132,9 +128,6 @@ class Api {
 
   isWatchedEbayCard(ebayCard: IEbayCardObj): TReqResult<{ success: string }> {
     return this.executeReq({
-      headers: {
-        authorization: `Bearer ${getToken()}`,
-      },
       method: 'GET',
       url: `${endpoints.profileUrl}/ebayCards/isWatched/${ebayCard.platform}/${ebayCard.game}/${ebayCard.ebayItemId}`,
     });
@@ -143,15 +136,13 @@ class Api {
   notWatchEbayCard(ebayCard: IEbayCardObj): TReqResult {
     return this.executeReq({
       data: ebayCard,
-      headers: {
-        authorization: `Bearer ${getToken()}`,
-      },
+
       method: 'DELETE',
       url: `${endpoints.profileUrl}/ebayCards`,
     });
   }
 
-  postSignIn(username: string, password: string): TReqResult<{ success: string; token: string; username: string }> {
+  postSignIn(username: string, password: string): TReqResult<ICheckCredentialResponse> {
     return this.executeReq({
       data: {
         password,
@@ -162,7 +153,7 @@ class Api {
     });
   }
 
-  postSignUp(data: ISignUpData): TReqResult<{ success: string; token: string; username: string }> {
+  postSignUp(data: ISignUpData): TReqResult<IServerResponse> {
     return this.executeReq({
       data,
       method: 'POST',
@@ -173,9 +164,7 @@ class Api {
   toggleEbayVisibility(game: string, platform: TPlatformNames, isShowed: boolean): TReqResult {
     return this.executeReq({
       data: { game, isShowed, platform },
-      headers: {
-        authorization: `Bearer ${getToken()}`,
-      },
+
       method: 'POST',
       url: `${endpoints.profileUrl}/toggleEbaySection`,
     });
@@ -184,9 +173,7 @@ class Api {
   addGame(data: IAddGame) {
     return this.executeReq({
       data,
-      headers: {
-        authorization: `Bearer ${getToken()}`,
-      },
+
       method: 'POST',
       url: `${endpoints.profileUrl}/games`,
     });
@@ -195,9 +182,7 @@ class Api {
   removeGame(data: IRemoveGame) {
     return this.executeReq({
       data,
-      headers: {
-        authorization: `Bearer ${getToken()}`,
-      },
+
       method: 'DELETE',
       url: `${endpoints.profileUrl}/games`,
     });
@@ -206,9 +191,7 @@ class Api {
   reorderGames(data: IReorderGames): TReqResult {
     return this.executeReq({
       data,
-      headers: {
-        authorization: `Bearer ${getToken()}`,
-      },
+
       method: 'PUT',
       url: `${endpoints.profileUrl}/games/reorder`,
     });
@@ -219,9 +202,7 @@ class Api {
       data: {
         ebayCard,
       },
-      headers: {
-        authorization: `Bearer ${getToken()}`,
-      },
+
       method: 'POST',
       url: `${endpoints.profileUrl}/ebayCards`,
     });
