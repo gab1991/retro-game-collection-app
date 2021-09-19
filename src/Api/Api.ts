@@ -15,7 +15,9 @@ type TApiClient = AxiosInstance;
 type TExecReqConfig = AxiosRequestConfig;
 type TReqResult<T = unknown> = AxiosPromise<T>;
 type TServerStatus = 'success' | 'fail';
+type TServerError = unknown;
 interface IServerResponse {
+  errors: TServerError[];
   status: TServerStatus;
 }
 
@@ -47,6 +49,13 @@ class Api {
     return this.executeReq({
       method: 'POST',
       url: endpoints.checkCredentialUrl,
+    });
+  }
+
+  logout(): TReqResult<IServerResponse> {
+    return this.executeReq({
+      method: 'POST',
+      url: endpoints.logoutUrl,
     });
   }
 

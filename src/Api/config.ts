@@ -9,6 +9,7 @@ export const endpoints = {
   gamesForPlatformUrl: `${apiEndPoint}/rawg/gamesForPlatform`,
   getDetailsUrl: `${apiEndPoint}/rawg/gameDetails`,
   getScreenshotsUrl: `${apiEndPoint}/rawg/screenshots`,
+  logoutUrl: `${apiEndPoint}/auth/log_out`,
   profileUrl: `${apiEndPoint}/profile`,
   shippingCostsUrl: `${apiEndPoint}/ebay`,
   signInUrl: `${apiEndPoint}/auth/sign_in`,
