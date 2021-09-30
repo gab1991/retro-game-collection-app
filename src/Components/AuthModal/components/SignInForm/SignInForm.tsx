@@ -28,10 +28,10 @@ export function SignInForm(): JSX.Element {
 
     try {
       const {
-        data: { username: resUsername },
+        data: { status },
       } = await api.postSignIn(username, password);
 
-      if (resUsername) {
+      if (status === 'success') {
         batch(() => {
           dispatch(signIn(username));
           dispatch(showAuthModal(false));
