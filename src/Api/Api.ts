@@ -16,7 +16,8 @@ type TExecReqConfig = AxiosRequestConfig;
 type TReqResult<T = unknown> = AxiosPromise<T>;
 type TServerStatus = 'success' | 'fail';
 type TServerError = unknown;
-interface IServerResponse {
+interface IServerResponse<T = unknown> {
+  data?: T;
   errors: TServerError[];
   status: TServerStatus;
 }
@@ -107,7 +108,7 @@ class Api {
     });
   }
 
-  getProfileInfo(): TReqResult<IProfile> {
+  getProfileInfo(): TReqResult<IServerResponse<IProfile>> {
     return this.executeReq({
       method: 'GET',
       url: endpoints.profileUrl,

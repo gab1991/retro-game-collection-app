@@ -13,7 +13,14 @@ import { selectGamesFromList } from './selectors';
 
 export const getProfileInfo = (): TThunk => async (dispatch) => {
   try {
-    const { data: profile } = await api.getProfileInfo();
+    const {
+      data: { data: profile },
+    } = await api.getProfileInfo();
+
+    if (!profile) {
+      throw new Error('could get your profile');
+    }
+
     dispatch(fillProfile(profile));
 
     //fill possible ebayCards
