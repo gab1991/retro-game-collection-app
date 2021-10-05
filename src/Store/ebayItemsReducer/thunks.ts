@@ -134,12 +134,15 @@ export const checkIfCardIsWatched = (
     if (!itemId) return;
 
     try {
-      const { data: { success } = { success: null } } = await api.isWatchedEbayCard({
+      const {
+        data: { data },
+      } = await api.isWatchedEbayCard({
         ebayItemId: itemId,
         game,
         platform,
       });
-      if (success) {
+
+      if (data && data.inList) {
         dispatch(setIsWatchedEbayCard(game, platform, sortOrder, index, true));
       }
     } catch (error) {

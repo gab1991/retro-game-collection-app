@@ -136,7 +136,7 @@ class Api {
     });
   }
 
-  isWatchedEbayCard(ebayCard: IEbayCardObj): TReqResult<{ success: string }> {
+  isWatchedEbayCard(ebayCard: IEbayCardObj): TReqResult<IServerResponse<{ inList: true }>> {
     return this.executeReq({
       method: 'GET',
       url: `${endpoints.profileUrl}/ebayCards/isWatched/${ebayCard.platform}/${ebayCard.game}/${ebayCard.ebayItemId}`,
