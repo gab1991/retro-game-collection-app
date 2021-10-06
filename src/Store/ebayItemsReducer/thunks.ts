@@ -37,7 +37,9 @@ export const getEbayItemsThunk = (platform: TPlatformNames, game: string, sortOr
 
     try {
       if (sortOrder === EEbaySortOrder.Watched) {
-        const { data: ebayItems = [] } = await api.getGameWatchedCards(platform, game);
+        const {
+          data: { data: ebayItems = [] },
+        } = await api.getGameWatchedCards(platform, game);
         items = ebayItems.map((ebayItem) => ({ itemId: [ebayItem.id] }));
       } else {
         const { data = null } = await api.getEbayItems(platform, game, sortOrder);
@@ -197,7 +199,10 @@ export const watchEbayCard = (
         platform,
       });
     } catch (err) {
-      if (isAxiosError<{ err_message: string; show_modal: boolean }>(err) && err.response?.data.show_modal) {
+      if (
+        isAxiosError<{ additionals: { showModal: boolean }; err_message: string }>(err) &&
+        err.response?.data?.additionals?.showModal
+      ) {
         dispatch(
           showInfoModal({
             btnTxtContent: 'got it',

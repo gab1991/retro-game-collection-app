@@ -71,7 +71,7 @@ class Api {
     platform: TPlatformNames,
     gameName: string,
     sortOrder: EEbaySortOrder
-  ): TReqResult<{ item: Array<Array<TEbayCardPreviewRawData>> }> {
+  ): TReqResult<IServerResponse<{ item: Array<Array<TEbayCardPreviewRawData>> }>> {
     return this.executeReq({
       method: 'GET',
       url: `${endpoints.ebayItemsUrl}/${platform}/${encodeURIComponent(gameName)}/${sortOrder}`,
@@ -92,7 +92,7 @@ class Api {
     });
   }
 
-  getGameWatchedCards(platform: TPlatformNames, game: string): TReqResult<Array<{ id: string }>> {
+  getGameWatchedCards(platform: TPlatformNames, game: string): TReqResult<IServerResponse<Array<{ id: string }>>> {
     return this.executeReq({
       method: 'GET',
       url: `${endpoints.profileUrl}/ebayCards/watched/${platform}/${game}`,
@@ -198,7 +198,7 @@ class Api {
     });
   }
 
-  reorderGames(data: IReorderGames): TReqResult {
+  reorderGames(data: IReorderGames): TReqResult<IServerResponse> {
     return this.executeReq({
       data,
 
@@ -209,10 +209,7 @@ class Api {
 
   watchEbayCard(ebayCard: IEbayCardObj): TReqResult {
     return this.executeReq({
-      data: {
-        ebayCard,
-      },
-
+      data: ebayCard,
       method: 'POST',
       url: `${endpoints.profileUrl}/ebayCards`,
     });
