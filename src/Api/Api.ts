@@ -63,7 +63,7 @@ class Api {
   getBoxArt(platform: TPlatformNames, slug: string): TReqResult<string> {
     return this.executeReq({
       method: 'GET',
-      url: `${endpoints.boxArtworkUrl}/${platform}/${encodeURIComponent(slug)}`,
+      url: `${endpoints.boxArtworkUrl}/${platform}/${slug}`,
     });
   }
 
@@ -74,7 +74,7 @@ class Api {
   ): TReqResult<IServerResponse<{ item: Array<Array<TEbayCardPreviewRawData>> }>> {
     return this.executeReq({
       method: 'GET',
-      url: `${endpoints.ebayItemsUrl}/${platform}/${encodeURIComponent(gameName)}/${sortOrder}`,
+      url: `${endpoints.ebayItemsUrl}/${platform}/${gameName}/${sortOrder}`,
     });
   }
 
