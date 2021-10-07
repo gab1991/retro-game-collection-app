@@ -95,7 +95,7 @@ class Api {
   getGameWatchedCards(platform: TPlatformNames, game: string): TReqResult<IServerResponse<Array<{ id: string }>>> {
     return this.executeReq({
       method: 'GET',
-      url: `${endpoints.profileUrl}/ebayCards/watched/${platform}/${game}`,
+      url: `${endpoints.profileUrl}/ebayCards/${platform}/${game}/watched`,
     });
   }
 
@@ -139,16 +139,14 @@ class Api {
   isWatchedEbayCard(ebayCard: IEbayCardObj): TReqResult<IServerResponse<{ inList: true }>> {
     return this.executeReq({
       method: 'GET',
-      url: `${endpoints.profileUrl}/ebayCards/isWatched/${ebayCard.platform}/${ebayCard.game}/${ebayCard.ebayItemId}`,
+      url: `${endpoints.profileUrl}/ebayCards/${ebayCard.platform}/${ebayCard.game}/${ebayCard.ebayItemId}/isWatched`,
     });
   }
 
   notWatchEbayCard(ebayCard: IEbayCardObj): TReqResult {
     return this.executeReq({
-      data: ebayCard,
-
       method: 'DELETE',
-      url: `${endpoints.profileUrl}/ebayCards`,
+      url: `${endpoints.profileUrl}/ebayCards/${ebayCard.platform}/${ebayCard.game}/${ebayCard.ebayItemId}`,
     });
   }
 
@@ -209,9 +207,8 @@ class Api {
 
   watchEbayCard(ebayCard: IEbayCardObj): TReqResult {
     return this.executeReq({
-      data: ebayCard,
       method: 'POST',
-      url: `${endpoints.profileUrl}/ebayCards`,
+      url: `${endpoints.profileUrl}/ebayCards/${ebayCard.platform}/${ebayCard.game}/${ebayCard.ebayItemId}`,
     });
   }
 }
