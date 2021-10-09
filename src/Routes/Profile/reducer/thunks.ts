@@ -14,7 +14,7 @@ import { selectGamesFromList } from './selectors';
 export const getProfileInfo = (): TThunk => async (dispatch) => {
   try {
     const {
-      data: { data: profile },
+      data: { payload: profile },
     } = await api.getProfileInfo();
 
     if (!profile) {

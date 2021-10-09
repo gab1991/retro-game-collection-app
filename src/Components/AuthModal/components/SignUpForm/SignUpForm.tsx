@@ -1,8 +1,8 @@
 import React, { SyntheticEvent, useState } from 'react';
 import { batch, useDispatch } from 'react-redux';
-import { api, HttpRespStats, isAxiosError } from 'Api';
+import { api, isAxiosError } from 'Api';
 
-import { ISignUpData } from 'Api/types';
+import { HttpRespStats, ISignUpData } from 'Api/types';
 import { ESignUpInputs } from 'Components/AuthModal/types';
 
 import { AuthFormSpinner, CloseAuthModal } from 'Components/AuthModal/components';
@@ -69,7 +69,7 @@ export function SignUpForm(): JSX.Element {
     } catch (err) {
       if (
         isAxiosError<{ err_message: string; field: ESignUpInputs }>(err) &&
-        err.response?.status === HttpRespStats.badRequest &&
+        err.response?.status === HttpRespStats['Bad Request'] &&
         err.response.data.field
       ) {
         const { err_message, field } = err.response.data;

@@ -8,10 +8,10 @@ import { DeepReadonly } from 'utility-types';
 import { EAvailableLists, EPlatformList, TPlatformNames } from 'Configs/appConfig';
 
 export const HttpRespStats = {
-  badRequest: 400,
-  success: 200,
-  unathorized: 401,
-};
+  'Bad Request': 400,
+  OK: 200,
+  Unauthorized: 401,
+} as const;
 
 export interface IReorderGames {
   list: EAvailableLists;

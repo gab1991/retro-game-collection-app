@@ -40,7 +40,7 @@ export function SignInForm(): JSX.Element {
     } catch (err) {
       if (
         isAxiosError<{ err_message: string; field: ESignInInputs }>(err) &&
-        err.response?.status === HttpRespStats.badRequest &&
+        err.response?.status === HttpRespStats['Bad Request'] &&
         err.response.data.field
       ) {
         const { err_message, field } = err.response.data;

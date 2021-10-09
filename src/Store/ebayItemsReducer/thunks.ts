@@ -38,7 +38,7 @@ export const getEbayItemsThunk = (platform: TPlatformNames, game: string, sortOr
     try {
       if (sortOrder === EEbaySortOrder.Watched) {
         const {
-          data: { data: ebayItems = [] },
+          data: { payload: ebayItems = [] },
         } = await api.getGameWatchedCards(platform, game);
         items = ebayItems.map((ebayItem) => ({ itemId: [ebayItem.id] }));
       } else {
@@ -137,14 +137,14 @@ export const checkIfCardIsWatched = (
 
     try {
       const {
-        data: { data },
+        data: { payload },
       } = await api.isWatchedEbayCard({
         ebayItemId: itemId,
         game,
         platform,
       });
 
-      if (data && data.inList) {
+      if (payload && payload.inList) {
         dispatch(setIsWatchedEbayCard(game, platform, sortOrder, index, true));
       }
     } catch (error) {

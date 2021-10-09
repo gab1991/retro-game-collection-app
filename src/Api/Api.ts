@@ -17,8 +17,10 @@ type TReqResult<T = unknown> = AxiosPromise<T>;
 type TServerStatus = 'success' | 'fail';
 type TServerError = unknown;
 interface IServerResponse<T = unknown> {
-  data?: T;
-  errors: TServerError[];
+  additionals?: unknown;
+  err_message?: string;
+  errors?: TServerError[];
+  payload?: T;
   status: TServerStatus;
 }
 
@@ -46,7 +48,7 @@ class Api {
     }
   }
 
-  checkCredentials(): TReqResult<ICheckCredentialResponse> {
+  checkCredentials(): TReqResult<IServerResponse<{ username: string }>> {
     return this.executeReq({
       method: 'POST',
       url: endpoints.checkCredentialUrl,
