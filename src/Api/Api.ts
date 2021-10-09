@@ -24,9 +24,7 @@ interface IServerResponse<T = unknown> {
   status: TServerStatus;
 }
 
-interface ICheckCredentialResponse extends IServerResponse {
-  username: string;
-}
+type TApiResponse<T = unknown> = TReqResult<IServerResponse<T>>;
 
 class Api {
   private readonly client: TApiClient;
@@ -48,21 +46,21 @@ class Api {
     }
   }
 
-  checkCredentials(): TReqResult<IServerResponse<{ username: string }>> {
+  checkCredentials(): TApiResponse<{ username: string }> {
     return this.executeReq({
       method: 'POST',
       url: endpoints.checkCredentialUrl,
     });
   }
 
-  logout(): TReqResult<IServerResponse> {
+  logout(): TApiResponse {
     return this.executeReq({
       method: 'POST',
       url: endpoints.logoutUrl,
     });
   }
 
-  getBoxArt(platform: TPlatformNames, slug: string): TReqResult<string> {
+  getBoxArt(platform: TPlatformNames, slug: string): TApiResponse<string> {
     return this.executeReq({
       method: 'GET',
       url: `${endpoints.boxArtworkUrl}/${platform}/${slug}`,
@@ -73,35 +71,35 @@ class Api {
     platform: TPlatformNames,
     gameName: string,
     sortOrder: EEbaySortOrder
-  ): TReqResult<IServerResponse<{ item: Array<Array<TEbayCardPreviewRawData>> }>> {
+  ): TApiResponse<{ item: Array<Array<TEbayCardPreviewRawData>> }> {
     return this.executeReq({
       method: 'GET',
       url: `${endpoints.ebayItemsUrl}/${platform}/${gameName}/${sortOrder}`,
     });
   }
 
-  getEbaySingleItem(id: number): TReqResult<{ Item: IEbayCardRawData }> {
+  getEbaySingleItem(id: number): TApiResponse<IEbayCardRawData> {
     return this.executeReq({
       method: 'GET',
       url: `${endpoints.ebaySingleItemUrl}/${id}`,
     });
   }
 
-  getGameDetails(slug: string): TReqResult<IRawgGameDetails> {
+  getGameDetails(slug: string): TApiResponse<IRawgGameDetails> {
     return this.executeReq({
       method: 'GET',
       url: `${endpoints.getDetailsUrl}/${slug}`,
     });
   }
 
-  getGameWatchedCards(platform: TPlatformNames, game: string): TReqResult<IServerResponse<Array<{ id: string }>>> {
+  getGameWatchedCards(platform: TPlatformNames, game: string): TApiResponse<Array<{ id: string }>> {
     return this.executeReq({
       method: 'GET',
       url: `${endpoints.profileUrl}/ebayCards/${platform}/${game}/watched`,
     });
   }
 
-  getGamesForPlatform(params: IGetGamesForPlatParams): TReqResult<{ count: number; results: IRawgGame[] }> {
+  getGamesForPlatform(params: IGetGamesForPlatParams): TApiResponse<{ count: number; results: IRawgGame[] }> {
     const paramsStr = queryParamBuilder({ ...params });
     const url = `${endpoints.gamesForPlatformUrl}${paramsStr}`;
     return this.executeReq({
@@ -110,49 +108,49 @@ class Api {
     });
   }
 
-  getProfileInfo(): TReqResult<IServerResponse<IProfile>> {
+  getProfileInfo(): TApiResponse<IProfile> {
     return this.executeReq({
       method: 'GET',
       url: endpoints.profileUrl,
     });
   }
 
-  getScreenshots(slug: string): TReqResult<{ results: Array<IRawgScreenshot> }> {
+  getScreenshots(slug: string): TApiResponse<{ results: Array<IRawgScreenshot> }> {
     return this.executeReq({
       method: 'GET',
       url: `${endpoints.getScreenshotsUrl}/${slug}`,
     });
   }
 
-  getShippingCosts(itemId: number): TReqResult<IEbayCardShippingDetails> {
+  getShippingCosts(itemId: number): TApiResponse<IEbayCardShippingDetails> {
     return this.executeReq({
       method: 'GET',
       url: `${endpoints.shippingCostsUrl}/${itemId}/shopingCosts`,
     });
   }
 
-  getVideo(videoType: TVideoType, platform: TPlatformNames, game: string): TReqResult<string> {
+  getVideo(videoType: TVideoType, platform: TPlatformNames, game: string): TApiResponse<string> {
     return this.executeReq({
       method: 'GET',
-      url: `${endpoints.videoURL}/${videoType}/${platform}/${encodeURIComponent(game)}`,
+      url: `${endpoints.videoURL}/${videoType}/${platform}/${game}`,
     });
   }
 
-  isWatchedEbayCard(ebayCard: IEbayCardObj): TReqResult<IServerResponse<{ inList: true }>> {
+  isWatchedEbayCard(ebayCard: IEbayCardObj): TApiResponse<{ inList: true }> {
     return this.executeReq({
       method: 'GET',
       url: `${endpoints.profileUrl}/ebayCards/${ebayCard.platform}/${ebayCard.game}/${ebayCard.ebayItemId}/isWatched`,
     });
   }
 
-  notWatchEbayCard(ebayCard: IEbayCardObj): TReqResult {
+  notWatchEbayCard(ebayCard: IEbayCardObj): TApiResponse {
     return this.executeReq({
       method: 'DELETE',
       url: `${endpoints.profileUrl}/ebayCards/${ebayCard.platform}/${ebayCard.game}/${ebayCard.ebayItemId}`,
     });
   }
 
-  postSignIn(username: string, password: string): TReqResult<ICheckCredentialResponse> {
+  postSignIn(username: string, password: string): TApiResponse {
     return this.executeReq({
       data: {
         password,
@@ -163,7 +161,7 @@ class Api {
     });
   }
 
-  postSignUp(data: ISignUpData): TReqResult<IServerResponse> {
+  postSignUp(data: ISignUpData): TApiResponse {
     return this.executeReq({
       data,
       method: 'POST',
@@ -171,7 +169,7 @@ class Api {
     });
   }
 
-  toggleEbayVisibility(game: string, platform: TPlatformNames, isShowed: boolean): TReqResult {
+  toggleEbayVisibility(game: string, platform: TPlatformNames, isShowed: boolean): TApiResponse {
     return this.executeReq({
       data: { game, isShowed, platform },
 
@@ -180,34 +178,31 @@ class Api {
     });
   }
 
-  addGame(data: IAddGame) {
+  addGame(data: IAddGame): TApiResponse {
     return this.executeReq({
       data,
-
       method: 'POST',
       url: `${endpoints.profileUrl}/games`,
     });
   }
 
-  removeGame(data: IRemoveGame) {
+  removeGame(data: IRemoveGame): TApiResponse {
     return this.executeReq({
       data,
-
       method: 'DELETE',
       url: `${endpoints.profileUrl}/games`,
     });
   }
 
-  reorderGames(data: IReorderGames): TReqResult<IServerResponse> {
+  reorderGames(data: IReorderGames): TApiResponse {
     return this.executeReq({
       data,
-
       method: 'PUT',
       url: `${endpoints.profileUrl}/games/reorder`,
     });
   }
 
-  watchEbayCard(ebayCard: IEbayCardObj): TReqResult {
+  watchEbayCard(ebayCard: IEbayCardObj): TApiResponse {
     return this.executeReq({
       method: 'POST',
       url: `${endpoints.profileUrl}/ebayCards/${ebayCard.platform}/${ebayCard.game}/${ebayCard.ebayItemId}`,

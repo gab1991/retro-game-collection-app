@@ -100,10 +100,14 @@ export const getShippingCosts = (
 
     try {
       const {
-        data: { ShippingCostSummary },
+        data: { payload },
       } = await api.getShippingCosts(itemId);
 
-      const { Value: value } = ShippingCostSummary?.ShippingServiceCost || {};
+      if (!payload) {
+        throw new Error('no payload');
+      }
+
+      const { Value: value } = payload.ShippingCostSummary.ShippingServiceCost || {};
       const costinNumber = Number(value);
 
       if (costinNumber) {
@@ -113,6 +117,8 @@ export const getShippingCosts = (
         dispatch(setContactSeller(game, platform, sortOrder, index, true));
       }
     } catch (error) {
+      dispatch(setEbayItemShippingCost(game, platform, sortOrder, index, null));
+      dispatch(setContactSeller(game, platform, sortOrder, index, true));
     } finally {
       dispatch(setEbayItemShippingLoading(game, platform, sortOrder, index, false));
     }
@@ -226,25 +232,27 @@ const getEbaySingleItem = async (
   dispatch: ThunkDispatch<IRootState, unknown, Action<string>>
 ): Promise<IEbayCardItemData | null> => {
   try {
-    const { data: { Item: item } = { Item: null } } = await api.getEbaySingleItem(itemId);
+    const {
+      data: { payload },
+    } = await api.getEbaySingleItem(itemId);
 
-    if (!item) {
+    if (!payload) {
       return null;
     }
 
     return {
-      bidCount: item?.BidCount,
-      convertedCurrentPrice: item?.ConvertedCurrentPrice,
-      currency: item?.ConvertedCurrentPrice.CurrencyID,
-      currentPrice: Number(item?.ConvertedCurrentPrice.Value.toFixed(2)),
-      deliveryPrice: Number(item?.ShippingServiceCost ? item?.ShippingServiceCost.Value : '') || 0,
-      endTime: item?.EndTime,
+      bidCount: payload.BidCount,
+      convertedCurrentPrice: payload.ConvertedCurrentPrice,
+      currency: payload.ConvertedCurrentPrice.CurrencyID,
+      currentPrice: Number(payload.ConvertedCurrentPrice.Value.toFixed(2)),
+      deliveryPrice: Number(payload.ShippingServiceCost ? payload.ShippingServiceCost.Value : '') || 0,
+      endTime: payload.EndTime,
       itemId: itemId,
-      itemUrl: item?.ViewItemURLForNaturalSearch,
-      listingType: item?.ListingType,
-      pictures: item?.PictureURL,
-      shipping: item?.ShippingCostSummary,
-      title: item?.Title,
+      itemUrl: payload.ViewItemURLForNaturalSearch,
+      listingType: payload.ListingType,
+      pictures: payload.PictureURL,
+      shipping: payload.ShippingCostSummary,
+      title: payload.Title,
     };
   } catch (err) {
     dispatch(showErrModal({ message: 'Something wrong happened.Try again later' }));

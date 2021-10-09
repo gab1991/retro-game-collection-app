@@ -27,10 +27,17 @@ const ADD_GAME_NOTIFIER_SHOWTIME = 2000;
 export const getGameDetails = (slug: string): TThunk => {
   return async (dispatch) => {
     try {
-      const { data: gameDetails } = await api.getGameDetails(slug);
+      const {
+        data: { payload },
+      } = await api.getGameDetails(slug);
+
+      if (!payload) {
+        throw new Error('cannot get payload');
+      }
+
       batch(() => {
-        dispatch(setGameDetails(gameDetails));
-        dispatch(setDescriptionHtml(gameDetails.description));
+        dispatch(setGameDetails(payload));
+        dispatch(setDescriptionHtml(payload.description));
       });
     } catch (err) {
       dispatch(showErrModal({ message: 'Something wrong happens! Try again later' }));
@@ -41,16 +48,22 @@ export const getGameDetails = (slug: string): TThunk => {
 export const getScreenShots = (slug: string): TThunk => {
   return async (dispatch) => {
     try {
-      const { data: { results } = { results: [] } } = await api.getScreenshots(slug);
+      const {
+        data: { payload },
+      } = await api.getScreenshots(slug);
+
+      if (!payload) {
+        throw new Error('no payload');
+      }
 
       const screenshotsUrls: Array<string> = [];
 
-      results.forEach((obj) => screenshotsUrls.push(obj.image));
+      payload.results.forEach((obj) => screenshotsUrls.push(obj.image));
       dispatch(setScreenshots(screenshotsUrls));
     } catch (err) {
       dispatch(
         showErrModal({
-          message: `Couldnt fetch screenshots.Try again if you wish`,
+          message: `Sorry.We couldnt fetch screenshots, server is probably unavailable`,
         })
       );
     }
@@ -60,8 +73,15 @@ export const getScreenShots = (slug: string): TThunk => {
 export const getVideo = (type: EVideoType, platform: TPlatformNames, game: string): TThunk => {
   return async (dispatch) => {
     try {
-      const { data: url } = await api.getVideo(type, platform, game);
-      const combinedUrl = `https://www.youtube.com/watch?v=${url}`;
+      const {
+        data: { payload },
+      } = await api.getVideo(type, platform, game);
+
+      if (!payload) {
+        throw new Error('no payload');
+      }
+
+      const combinedUrl = `https://www.youtube.com/watch?v=${payload}`;
       dispatch(setVideoUrl(type, combinedUrl));
     } catch (error) {}
   };

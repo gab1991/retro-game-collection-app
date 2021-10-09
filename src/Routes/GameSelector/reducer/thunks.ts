@@ -4,6 +4,7 @@ import { IGetGamesForPlatParams } from 'Api/types';
 import { TThunk } from 'Store/types';
 
 import { appConfig } from 'Configs/appConfig';
+import { showErrModal } from 'Store/appStateReducer/actions';
 
 import { setGamesToShow, setIsLoading, setNoGamesFound, writePageData } from './actions';
 import { selectQuery } from './selectors';
@@ -24,11 +25,17 @@ export const getGamesForPlatform = (platformName: string): TThunk => {
 
     dispatch(setIsLoading(true));
     try {
-      const { data } = await api.getGamesForPlatform(req);
+      const {
+        data: { payload },
+      } = await api.getGamesForPlatform(req);
 
-      dispatch(writePageData({ ...data }));
+      if (!payload) {
+        throw new Error('no payload');
+      }
 
-      const { results: games } = data;
+      dispatch(writePageData({ ...payload }));
+
+      const { results: games } = payload;
 
       if (!games?.length) {
         dispatch(setNoGamesFound(true));
@@ -37,6 +44,7 @@ export const getGamesForPlatform = (platformName: string): TThunk => {
       }
       dispatch(setGamesToShow(games));
     } catch (err) {
+      dispatch(showErrModal({ message: 'Something wrong happens! Try again later' }));
     } finally {
       dispatch(setIsLoading(false));
     }

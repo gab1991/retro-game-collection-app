@@ -17,7 +17,9 @@ export const getBoxArt = (platform: TPlatformNames, gameName: string): TThunk =>
       return;
     }
 
-    const { data: boxArtUrl } = await api.getBoxArt(platform, gameName);
+    const {
+      data: { payload: boxArtUrl },
+    } = await api.getBoxArt(platform, gameName);
 
     if (!boxArtUrl) return;
 
