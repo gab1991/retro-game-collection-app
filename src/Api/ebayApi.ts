@@ -30,7 +30,7 @@ class EbayApi extends Api {
   getShippingCosts(itemId: number): TApiResponse<IEbayCardShippingDetails> {
     return this.executeReq({
       method: 'GET',
-      url: `${endpoints.ebay.itemsUrl}/${itemId}/shopingCosts`,
+      url: `${endpoints.ebay.singleItemUrl}/${itemId}/shopingCosts`,
     });
   }
 }
