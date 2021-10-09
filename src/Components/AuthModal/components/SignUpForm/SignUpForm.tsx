@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useState } from 'react';
 import { batch, useDispatch } from 'react-redux';
-import { api, isAxiosError } from 'Api';
+import { authApi, isAxiosError } from 'Api';
 
 import { HttpRespStats, ISignUpData } from 'Api/types';
 import { ESignUpInputs } from 'Components/AuthModal/types';
@@ -49,7 +49,7 @@ export function SignUpForm(): JSX.Element {
     try {
       const {
         data: { status },
-      } = await api.postSignUp(signUpData);
+      } = await authApi.postSignUp(signUpData);
 
       if (status === 'success') {
         batch(() => {

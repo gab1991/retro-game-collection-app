@@ -1,5 +1,5 @@
 import { batch } from 'react-redux';
-import { api } from 'Api';
+import { profileApi } from 'Api';
 
 import { EEbaySortOrder, IReorderGames } from 'Api/types';
 import { TThunk } from 'Store/types';
@@ -15,7 +15,7 @@ export const getProfileInfo = (): TThunk => async (dispatch) => {
   try {
     const {
       data: { payload: profile },
-    } = await api.getProfileInfo();
+    } = await profileApi.getProfileInfo();
 
     if (!profile) {
       throw new Error('could get your profile');
@@ -51,7 +51,7 @@ export const reorderGamesThunk = (args: IReorderGames): TThunk => async (dispatc
   dispatch(reorderGames.request(args));
 
   try {
-    await api.reorderGames({
+    await profileApi.reorderGames({
       ...args,
     });
   } catch (err) {
@@ -65,7 +65,7 @@ export const reorderGamesThunk = (args: IReorderGames): TThunk => async (dispatc
 export const toggleEbayVisibility = (game: string, platform: TPlatformNames, isShowed: boolean): TThunk => {
   return async (dispatch) => {
     try {
-      await api.toggleEbayVisibility(game, platform, isShowed);
+      await profileApi.toggleEbayVisibility(game, platform, isShowed);
     } catch (error) {
       dispatch(
         showErrModal({

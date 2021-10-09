@@ -1,10 +1,12 @@
 import { batch } from 'react-redux';
-import { api } from 'Api';
+import { profileApi } from 'Api';
 
 import { EVideoType } from './types';
 import { EEbaySortOrder, IAddGame } from 'Api/types';
 import { TThunk } from 'Store/types';
 
+import { rawgApi } from 'Api/rawgApi';
+import { youtubeApi } from 'Api/youtubeApi';
 import { appConfig, EAvailableLists, TPlatformNames } from 'Configs/appConfig';
 import { showErrModal } from 'Store/appStateReducer/actions';
 import { getEbayItemsThunk } from 'Store/ebayItemsReducer/thunks';
@@ -29,7 +31,7 @@ export const getGameDetails = (slug: string): TThunk => {
     try {
       const {
         data: { payload },
-      } = await api.getGameDetails(slug);
+      } = await rawgApi.getGameDetails(slug);
 
       if (!payload) {
         throw new Error('cannot get payload');
@@ -50,7 +52,7 @@ export const getScreenShots = (slug: string): TThunk => {
     try {
       const {
         data: { payload },
-      } = await api.getScreenshots(slug);
+      } = await rawgApi.getScreenshots(slug);
 
       if (!payload) {
         throw new Error('no payload');
@@ -75,7 +77,7 @@ export const getVideo = (type: EVideoType, platform: TPlatformNames, game: strin
     try {
       const {
         data: { payload },
-      } = await api.getVideo(type, platform, game);
+      } = await youtubeApi.getVideo(type, platform, game);
 
       if (!payload) {
         throw new Error('no payload');
@@ -111,7 +113,7 @@ export const addGame = (data: IAddGame): TThunk => {
     const isWished = selectIsWished(store);
 
     try {
-      await api.addGame({
+      await profileApi.addGame({
         ...data,
       });
     } catch (err) {
@@ -139,7 +141,7 @@ export const removeGame = (gameName: string, list: EAvailableLists, platform: TP
     const isWished = selectIsWished(store);
 
     try {
-      await api.removeGame({
+      await profileApi.removeGame({
         game: gameName,
         list,
         platform,

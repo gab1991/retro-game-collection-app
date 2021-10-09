@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useState } from 'react';
 import { batch, useDispatch } from 'react-redux';
-import { api, HttpRespStats, isAxiosError } from 'Api';
+import { authApi, HttpRespStats, isAxiosError } from 'Api';
 
 import { ESignInInputs } from 'Components/AuthModal/types';
 
@@ -29,7 +29,7 @@ export function SignInForm(): JSX.Element {
     try {
       const {
         data: { status },
-      } = await api.postSignIn(username, password);
+      } = await authApi.postSignIn(username, password);
 
       if (status === 'success') {
         batch(() => {

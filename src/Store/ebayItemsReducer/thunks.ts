@@ -1,5 +1,5 @@
 import { batch } from 'react-redux';
-import { api, isAxiosError } from 'Api';
+import { ebayApi, isAxiosError, profileApi } from 'Api';
 
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
@@ -39,10 +39,10 @@ export const getEbayItemsThunk = (platform: TPlatformNames, game: string, sortOr
       if (sortOrder === EEbaySortOrder.Watched) {
         const {
           data: { payload: ebayItems = [] },
-        } = await api.getGameWatchedCards(platform, game);
+        } = await profileApi.getGameWatchedCards(platform, game);
         items = ebayItems.map((ebayItem) => ({ itemId: [ebayItem.id] }));
       } else {
-        const { data = null } = await api.getEbayItems(platform, game, sortOrder);
+        const { data = null } = await ebayApi.getEbayItems(platform, game, sortOrder);
 
         if (data && data[0]) {
           const { item: ebayitems = [] } = data[0];
@@ -101,7 +101,7 @@ export const getShippingCosts = (
     try {
       const {
         data: { payload },
-      } = await api.getShippingCosts(itemId);
+      } = await ebayApi.getShippingCosts(itemId);
 
       if (!payload) {
         throw new Error('no payload');
@@ -144,7 +144,7 @@ export const checkIfCardIsWatched = (
     try {
       const {
         data: { payload },
-      } = await api.isWatchedEbayCard({
+      } = await profileApi.isWatchedEbayCard({
         ebayItemId: itemId,
         game,
         platform,
@@ -170,7 +170,7 @@ export const notWatchEbayCard = (
     dispatch(setIsWatchedEbayCard(game, platform, sortOrder, index, false));
 
     try {
-      await api.notWatchEbayCard({
+      await profileApi.notWatchEbayCard({
         ebayItemId,
         game,
         platform,
@@ -199,7 +199,7 @@ export const watchEbayCard = (
     dispatch(setIsWatchedEbayCard(game, platform, sortOrder, index, true));
 
     try {
-      await api.watchEbayCard({
+      await profileApi.watchEbayCard({
         ebayItemId,
         game,
         platform,
@@ -234,7 +234,7 @@ const getEbaySingleItem = async (
   try {
     const {
       data: { payload },
-    } = await api.getEbaySingleItem(itemId);
+    } = await ebayApi.getEbaySingleItem(itemId);
 
     if (!payload) {
       return null;

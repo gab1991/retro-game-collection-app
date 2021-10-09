@@ -1,8 +1,7 @@
-import { api } from 'Api';
-
 import { IGetGamesForPlatParams } from 'Api/types';
 import { TThunk } from 'Store/types';
 
+import { rawgApi } from 'Api/rawgApi';
 import { appConfig } from 'Configs/appConfig';
 import { showErrModal } from 'Store/appStateReducer/actions';
 
@@ -27,7 +26,7 @@ export const getGamesForPlatform = (platformName: string): TThunk => {
     try {
       const {
         data: { payload },
-      } = await api.getGamesForPlatform(req);
+      } = await rawgApi.getGamesForPlatform(req);
 
       if (!payload) {
         throw new Error('no payload');

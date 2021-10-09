@@ -1,4 +1,4 @@
-import { api } from 'Api';
+import { boxArtApi } from 'Api';
 
 import { TThunk } from 'Store/types';
 
@@ -19,7 +19,7 @@ export const getBoxArt = (platform: TPlatformNames, gameName: string): TThunk =>
 
     const {
       data: { payload: boxArtUrl },
-    } = await api.getBoxArt(platform, gameName);
+    } = await boxArtApi.getBoxArt(platform, gameName);
 
     if (!boxArtUrl) return;
 
