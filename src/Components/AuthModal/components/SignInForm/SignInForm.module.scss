@@ -121,3 +121,19 @@
 .AuthFormSpinner {
   position: absolute;
 }
+
+.CloseBtn {
+  position: absolute;
+  width: 6%;
+  height: 6%;
+  top: 2%;
+  right: 2%;
+  z-index: 30;
+
+  @include respond-to(mobile) {
+    width: 25px;
+    height: 25px;
+    top: 1%;
+    right: 1%;
+  }
+}

@@ -1,1 +1,0 @@
-export { CloseAuthModal } from './CloseAuthModal';

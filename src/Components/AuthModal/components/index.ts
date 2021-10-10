@@ -1,4 +1,4 @@
 export * from './AuthFormSpinner';
-export * from './CloseAuthModal';
+export * from './CloseAuthModalBtn';
 export * from './SignInForm';
 export * from './SignUpForm';

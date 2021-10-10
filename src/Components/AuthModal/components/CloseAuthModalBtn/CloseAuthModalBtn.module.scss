@@ -1,0 +1,12 @@
+@import 'Configs/Variables.scss';
+
+.CloseAuthBtn {
+  background-color: transparent;
+  border: none;
+  opacity: 0.5;
+  transition: all 200ms ease;
+
+  &:hover {
+    opacity: 1;
+  }
+}

@@ -5,7 +5,7 @@ import { authApi, isAxiosError } from 'Api';
 import { HttpRespStats, ISignUpData } from 'Api/types';
 import { ESignUpInputs } from 'Components/AuthModal/types';
 
-import { AuthFormSpinner, CloseAuthModal } from 'Components/AuthModal/components';
+import { AuthFormSpinner, CloseAuthModalBtn } from 'Components/AuthModal/components';
 import { useAuthModalContext } from 'Components/AuthModal/context';
 import { ButtonNeon, InputAuth } from 'Components/UI';
 import { ECornerNotifierCorners } from 'Components/UI/Modals';
@@ -111,7 +111,7 @@ export function SignUpForm(): JSX.Element {
           <ButtonNeon txtContent={`Back to Sign In`} rectangular onClick={toSignInLocal} />
         </div>
       </form>
-      <CloseAuthModal />
+      <CloseAuthModalBtn />
       {isSending && <AuthFormSpinner />}
     </div>
   );
