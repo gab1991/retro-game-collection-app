@@ -10,7 +10,7 @@ import { IRootState, TThunk } from 'Store/types';
 import { appConfig, TPlatformNames } from 'Configs/appConfig';
 import { setEbaySectionLoading } from 'Routes/GameDetailed/reducer/actions';
 import { showErrModal, showInfoModal } from 'Store/appStateReducer/actions';
-import { IEbayCardItemData, TEbayCardPreviewRawData } from 'Typings/EbayData';
+import { IEbayCardItemData, TEbayCardPreviewRawData } from 'Typings/ebayData';
 
 import {
   setContactSeller,

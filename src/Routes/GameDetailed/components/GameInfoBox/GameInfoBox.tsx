@@ -6,7 +6,7 @@ import { DeepReadonly } from 'utility-types';
 import { GameBoxWithSkeleton } from 'Components/UI/Skeletons';
 import { useGameDetailedContext } from 'Routes/GameDetailed/context';
 import { getBoxArt } from 'Store/contentReducer/thunks';
-import { IRawgGameDetails } from 'Typings/RawgData';
+import { IRawgGameDetails } from 'Typings/rawgData';
 import { trimName } from 'Utils/helperFunctions';
 
 import styles from './GameInfoBox.module.scss';

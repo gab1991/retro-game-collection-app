@@ -3,7 +3,7 @@ import { ActionType } from 'typesafe-actions';
 import { DeepReadonly } from 'utility-types';
 
 import { TPlatformNames } from 'Configs/appConfig';
-import { TEbayCard } from 'Typings/EbayData';
+import { TEbayCard } from 'Typings/ebayData';
 
 import * as ebayItemsActions from './actions';
 

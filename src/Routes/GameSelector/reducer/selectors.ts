@@ -1,7 +1,7 @@
 import { IGameSelectorQuery } from './types';
 import { TSelector } from 'Store/types';
 
-import { IRawgGame, IRawgPageData } from 'Typings/RawgData';
+import { IRawgGame, IRawgPageData } from 'Typings/rawgData';
 
 export const selectGamesToShow: TSelector<Array<IRawgGame>> = (state) => state.gameSelector.gamesToShow;
 

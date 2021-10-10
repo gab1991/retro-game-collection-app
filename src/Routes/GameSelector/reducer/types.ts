@@ -2,7 +2,7 @@ import { ActionType } from 'typesafe-actions';
 import { DeepReadonly } from 'utility-types';
 
 import { EGameSelectorOrderingDirection, EGameSelectorOrderingName } from 'Configs/appConfig';
-import { IRawgGame, IRawgPageData } from 'Typings/RawgData';
+import { IRawgGame, IRawgPageData } from 'Typings/rawgData';
 
 import * as gameSelectorActions from './actions';
 

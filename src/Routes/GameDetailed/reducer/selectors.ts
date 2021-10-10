@@ -1,7 +1,7 @@
 import { TGameDetailedReducer, TUploadableEmls } from './types';
 import { TSelector } from 'Store/types';
 
-import { IRawgGameDetails } from 'Typings/RawgData';
+import { IRawgGameDetails } from 'Typings/rawgData';
 
 export const selectGameDetailed: TSelector<TGameDetailedReducer> = (state) => state.gameDetailed;
 

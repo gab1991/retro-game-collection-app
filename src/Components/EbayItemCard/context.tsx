@@ -16,7 +16,7 @@ import {
   notWatchEbayCard,
   watchEbayCard,
 } from 'Store/ebayItemsReducer/thunks';
-import { TEbayCard } from 'Typings/EbayData';
+import { TEbayCard } from 'Typings/ebayData';
 
 interface IEbayCardContext {
   calcTotalPrice: () => void;

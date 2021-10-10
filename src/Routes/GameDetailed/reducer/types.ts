@@ -1,7 +1,7 @@
 import { ActionType } from 'typesafe-actions';
 import { DeepReadonly } from 'utility-types';
 
-import { IRawgGameDetails } from 'Typings/RawgData';
+import { IRawgGameDetails } from 'Typings/rawgData';
 
 import * as gameDetailedActions from './actions';
 

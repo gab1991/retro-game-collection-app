@@ -1,7 +1,7 @@
 import { Api, EEbaySortOrder, TApiResponse } from 'Api';
 
 import { TPlatformNames } from 'Configs/appConfig';
-import { IEbayCardRawData, IEbayCardShippingDetails, TEbayCardPreviewRawData } from 'Typings/EbayData';
+import { IEbayCardRawData, IEbayCardShippingDetails, TEbayCardPreviewRawData } from 'Typings/ebayData';
 
 import { endpoints } from './config';
 

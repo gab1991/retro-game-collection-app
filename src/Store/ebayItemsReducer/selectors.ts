@@ -4,7 +4,7 @@ import { IRootState } from 'Store/types';
 import { DeepReadonly } from 'utility-types';
 
 import { TPlatformNames } from 'Configs/appConfig';
-import { TEbayCard } from 'Typings/EbayData';
+import { TEbayCard } from 'Typings/ebayData';
 
 interface ISelEbatCardItemId {
   game: string;

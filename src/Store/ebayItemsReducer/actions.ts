@@ -3,7 +3,7 @@ import { EEbaySortOrder } from 'Api';
 import { createAction } from 'typesafe-actions';
 
 import { TPlatformNames } from 'Configs/appConfig';
-import { IEbayCardItemData, TEbayCardPreviewRawData } from 'Typings/EbayData';
+import { IEbayCardItemData, TEbayCardPreviewRawData } from 'Typings/ebayData';
 
 const commonEbayActionPayloadCreator = (
   game: string,

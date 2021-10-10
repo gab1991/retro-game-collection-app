@@ -1,7 +1,7 @@
 import { EVideoType, TToggleableEmls } from './types';
 import { createAction } from 'typesafe-actions';
 
-import { IRawgGameDetails } from 'Typings/RawgData';
+import { IRawgGameDetails } from 'Typings/rawgData';
 
 export const setGameDetails = createAction('gameDetailed/setGameDetails')<IRawgGameDetails>();
 

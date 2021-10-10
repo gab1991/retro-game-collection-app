@@ -10,7 +10,7 @@ import { setIsOwned, toggleElmVisibility } from 'Routes/GameDetailed/reducer/act
 import { selectGameDetails, selectIsOwned, selectIsWished } from 'Routes/GameDetailed/reducer/selectors';
 import { addGame, removeGame } from 'Routes/GameDetailed/reducer/thunks';
 import { selectIsMobile } from 'Store/appStateReducer/selectors';
-import { IRawgGameDetails } from 'Typings/RawgData';
+import { IRawgGameDetails } from 'Typings/rawgData';
 
 const GameDetailedContext = React.createContext<null | IGameDetailedProviderValue>(null);
 

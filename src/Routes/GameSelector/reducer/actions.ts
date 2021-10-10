@@ -1,7 +1,7 @@
 import { IGameSelectorQuery, ISetNewOrdering } from './types';
 import { createAction } from 'typesafe-actions';
 
-import { IRawgGame, IRawgPageData } from 'Typings/RawgData';
+import { IRawgGame, IRawgPageData } from 'Typings/rawgData';
 
 export const setIsLoading = createAction('gameSelector/setIsLoading', (val: boolean) => val)();
 

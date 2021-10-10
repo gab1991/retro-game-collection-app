@@ -1,7 +1,7 @@
 import { Api, IGetGamesForPlatParams, TApiResponse } from 'Api';
 import { queryParamBuilder } from 'Utils';
 
-import { IRawgGame, IRawgGameDetails, IRawgScreenshot } from 'Typings/RawgData';
+import { IRawgGame, IRawgGameDetails, IRawgScreenshot } from 'Typings/rawgData';
 
 import { endpoints } from './config';
 
