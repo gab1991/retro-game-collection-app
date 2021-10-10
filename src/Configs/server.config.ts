@@ -1,1 +1,1 @@
-export const server_adress = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8000';
+export const IS_PROD = process.env.NODE_ENV === 'production' ? true : false;

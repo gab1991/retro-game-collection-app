@@ -1,5 +1,7 @@
 import axios_base, { AxiosInstance, AxiosPromise, AxiosRequestConfig, AxiosResponse } from 'axios';
 
+import { IS_PROD } from 'Configs/server.config';
+
 type TApiClient = AxiosInstance;
 type TExecReqConfig = AxiosRequestConfig;
 type TReqResult<T = unknown> = AxiosPromise<T>;
@@ -15,7 +17,7 @@ interface IServerResponse<T = unknown> {
 
 export type TApiResponse<T = unknown> = TReqResult<IServerResponse<T>>;
 
-const backendUrl = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8000';
+const backendUrl = IS_PROD ? '' : 'http://localhost:8000';
 
 export abstract class Api {
   private readonly client: TApiClient;

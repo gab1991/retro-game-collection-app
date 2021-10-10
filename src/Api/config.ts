@@ -1,5 +1,6 @@
-const isProduction = process.env.NODE_ENV === 'production';
-const apiEndPoint = isProduction ? '/api' : 'http://localhost:8000/api';
+import { IS_PROD } from 'Configs/server.config';
+
+const apiEndPoint = IS_PROD ? '/api' : 'http://localhost:8000/api';
 
 export const endpoints = {
   auth: {
