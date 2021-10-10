@@ -105,7 +105,8 @@ export function SignInForm(): JSX.Element {
         </div>
       </form>
       <CloseAuthModal />
-      {isSending && <AuthFormSpinner />}
+      <AuthFormSpinner className={styles.AuthFormSpinner} />
+      {/* {isSending && <AuthFormSpinner />} */}
     </div>
   );
 }
