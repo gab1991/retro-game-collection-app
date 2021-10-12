@@ -2,6 +2,7 @@ export * from './ChevronSvg';
 export * from './CloseSvg';
 export * from './EbayLogo';
 export * from './EscSvg';
+export * from './EyeSvg/';
 export * from './FailureSvg';
 export * from './GenesisBoxSvg';
 export * from './InfoSvg';

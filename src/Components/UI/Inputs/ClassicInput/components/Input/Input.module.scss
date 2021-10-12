@@ -1,0 +1,25 @@
+@import 'Configs/Variables.scss';
+
+.Input {
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  text-indent: 5px;
+
+  &:focus {
+    box-shadow: 0 0 10px $blue-shine-color, 0 0 30px $blue-shine-color, 0 0 60px $blue-shine-color;
+  }
+}
+
+.TogglerInputContainer {
+  position: relative;
+  width: 100%;
+}
+
+.TogglerBtn {
+  position: absolute;
+  width: 35px;
+  height: 100%;
+  right: 0;
+  top: 0;
+}
