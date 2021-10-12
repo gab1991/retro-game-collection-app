@@ -1,7 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
 
-import eyeicon from '../../../../Assets/images/svg/eye-regular.svg';
-
 import styles from './InputAuth.module.scss';
 
 interface IInputAuthProps {
@@ -11,7 +9,6 @@ interface IInputAuthProps {
   errorMsg?: string;
   label?: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  // onKeyPress: () => void;
   placeholder?: string;
   type: string;
   value: string;
@@ -24,9 +21,7 @@ export function InputAuth(props: IInputAuthProps): JSX.Element {
     value,
     placeholder,
     disabled,
-    // dataDesc,
     onChange,
-    // onKeyPress,
     errorMsg,
     addToggler = false,
     autoComplete = 'on',
@@ -61,9 +56,7 @@ export function InputAuth(props: IInputAuthProps): JSX.Element {
             onKeyPress={passVisibilityHandler}
             role='button'
             tabIndex={0}
-          >
-            <img src={eyeicon} alt='eyeicon'></img>
-          </div>
+          ></div>
         )}
       </div>
       {errorMsg && <div className={styles.WrongMessage}>{errorMsg}</div>}

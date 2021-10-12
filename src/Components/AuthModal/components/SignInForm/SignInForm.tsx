@@ -6,7 +6,7 @@ import { ESignInInputs } from 'Components/AuthModal/types';
 
 import { AuthFormSpinner, CloseAuthModalBtn } from 'Components/AuthModal/components';
 import { useAuthModalContext } from 'Components/AuthModal/context';
-import { ButtonNeon, InputAuth } from 'Components/UI';
+import { ButtonNeon, ClassicInput } from 'Components/UI';
 import { showAuthModal } from 'Store/appStateReducer/actions';
 import { signIn } from 'Store/authReducer/actions';
 
@@ -81,18 +81,18 @@ export function SignInForm(): JSX.Element {
         <div className={styles.InputsSection}>
           {signInInputs.map((input) => (
             <div key={input.name} className={styles.InputWrapper}>
-              <InputAuth
-                label={input.label}
-                type={input.type}
-                placeholder={input.placeholder}
-                value={input.value}
-                addToggler={input.type === 'password'}
-                onChange={(e) => {
-                  signInInputChangeHandler(e, input.name);
-                }}
-                errorMsg={input.errMsg}
-                disabled={isSending}
-              />
+              <ClassicInput.Label>
+                {input.label}
+                <ClassicInput.InputWithToggler
+                  type={input.type}
+                  placeholder={input.placeholder}
+                  onChange={(e) => signInInputChangeHandler(e, input.name)}
+                  value={input.value}
+                  disabled={isSending}
+                  isError={!!input.errMsg}
+                  hintText={input.errMsg}
+                />
+              </ClassicInput.Label>
             </div>
           ))}
         </div>
