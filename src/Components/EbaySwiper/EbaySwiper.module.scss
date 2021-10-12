@@ -14,7 +14,9 @@
     height: 100%;
     font-size: 1.5rem;
     background-color: rgba(0, 0, 0, 0.3);
-    @include flexCenter;
+    display: flex flex;
+    justify-content: center;
+    align-items: center;
 
     @include respond-to(mobile) {
       font-size: 1rem;

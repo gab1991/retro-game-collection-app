@@ -89,7 +89,9 @@
   border-radius: 5px;
   background-color: getBtnColor('basic');
   text-align: center;
-  @include flexCenter;
+  display: flex flex;
+  justify-content: center;
+  align-items: center;
 
   @include respond-to(mobile) {
     font-size: 0.9rem;
@@ -99,7 +101,9 @@
 .KnobTogglerSection {
   @include w100v100;
   grid-area: toggler;
-  @include flexCenter;
+  display: flex flex;
+  justify-content: center;
+  align-items: center;
   padding: 10px 0;
   label {
     font-size: 0.8rem;

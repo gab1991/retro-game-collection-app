@@ -21,7 +21,9 @@
   margin-top: auto;
   background-color: $footer-underlayer-color;
   text-align: center;
-  @include flexCenter;
+  display: flex flex;
+  justify-content: center;
+  align-items: center;
   a {
     color: $font-white;
   }

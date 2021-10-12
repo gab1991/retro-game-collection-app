@@ -1,77 +1,76 @@
 @import 'Configs/Variables.scss';
-@mixin flexColSA {
+
+.SignIn {
+  width: 100%;
+  height: 100%;
+
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-}
-
-.SignIn {
-  @include w100v100;
-  @include flexColSA;
-  position: absolute;
   align-items: center;
+
+  position: absolute;
   background-image: url('../../../../Assets/images/backgrounds/signin_back.jpg');
   background-position: center;
   background-size: cover;
   background-color: rgba(0, 0, 0, 0.445);
   background-blend-mode: overlay;
+
+  @include respond-to(mobile) {
+    justify-content: space-around;
+  }
+
   form {
     width: 70%;
     height: 70%;
-    @include flexColSA;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    margin-bottom: 30px;
+
+    @include respond-to(mobile) {
+      flex: 1;
+      width: 90%;
+      margin-bottom: 10%;
+    }
   }
 
   h1 {
     font-size: 3rem;
     text-align: center;
-  }
-  label {
-    display: block;
-  }
 
-  @include respond-to(mobile) {
-    justify-content: space-around;
-    form {
-      flex: 1;
-      width: 100%;
-    }
-    h1 {
+    @include respond-to(mobile) {
       font-size: 2rem;
       margin: 10% 0 5%;
-    }
-    .CloseSvgWrapper {
-      width: 25px;
-      height: 25px;
-      top: 1%;
-      right: 1%;
     }
   }
 }
 
 .InputsSection {
+  padding: 0 10%;
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
 
-  .InputWrapper {
-    margin: 0 10%;
-    input {
-      width: 100%;
-    }
+  @include respond-to(mobile) {
+    padding: 0%;
   }
 }
 
 .GuestBtnSection {
-  height: 10%;
   width: 100%;
-  @include flexCenter;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 5%;
-  button {
-    height: 7%;
-    min-height: 35px;
-    min-width: 45%;
-  }
+}
+
+.NeonBtn {
+  height: 35px;
+  min-width: 45%;
+
   @include respond-to(mobile) {
     font-size: 0.8rem;
     padding: 0 10%;
@@ -80,46 +79,11 @@
 
 .BtnSection {
   align-self: flex-end;
-  height: 10%;
+
   width: 100%;
   margin-top: auto;
   display: flex;
   justify-content: space-between;
-
-  button {
-    height: 7%;
-    min-height: 35px;
-    min-width: 45%;
-  }
-  @include respond-to(mobile) {
-    padding: 0 10%;
-    font-size: 0.8rem;
-    margin-top: 0;
-    margin-bottom: 10%;
-    height: 7%;
-    button {
-      width: 45%;
-    }
-  }
-}
-
-.CloseSvgWrapper {
-  cursor: pointer;
-  width: 6%;
-  height: 6%;
-  top: 2%;
-  right: 2%;
-  position: absolute;
-  z-index: 30;
-  opacity: 0.5;
-
-  &:hover {
-    opacity: 1;
-  }
-}
-
-.AuthFormSpinner {
-  position: absolute;
 }
 
 .CloseBtn {

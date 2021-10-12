@@ -9,7 +9,9 @@ $transition: all 200ms ease-in-out;
 }
 
 .TextSection {
-  @include flexCenter;
+  display: flex flex;
+  justify-content: center;
+  align-items: center;
   height: 100%;
   transition: all 100ms ease;
   text-transform: capitalize;

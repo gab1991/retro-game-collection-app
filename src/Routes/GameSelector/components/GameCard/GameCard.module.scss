@@ -38,7 +38,9 @@ $text-color: $font-white;
   width: 100%;
   height: 20%;
   background-color: $card-main-color;
-  @include flexCenter;
+  display: flex flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
 
   font-size: 1rem;

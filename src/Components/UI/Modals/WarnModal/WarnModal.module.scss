@@ -8,7 +8,9 @@ $warn-background-color: gray;
   left: 0;
   width: 100%;
   height: 100vh;
-  @include flexCenter;
+  display: flex flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .WarnWindow {

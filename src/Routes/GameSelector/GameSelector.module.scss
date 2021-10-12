@@ -62,7 +62,9 @@ $controlsHeight: 30px;
   .Pagination {
     grid-area: pagination;
     width: 100%;
-    @include flexCenter;
+    display: flex flex;
+    justify-content: center;
+    align-items: center;
     @include respond-to(tablet) {
       margin-top: 2%;
     }
@@ -110,7 +112,9 @@ $controlsHeight: 30px;
     margin: 10% 2% 0;
     grid-column: 1 / -1;
     text-align: center;
-    @include flexCenter;
+    display: flex flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 

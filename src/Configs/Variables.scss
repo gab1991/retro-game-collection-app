@@ -51,12 +51,6 @@ $basic-content-width: 1200px;
   @return map-get($button-neon-color, $color);
 }
 
-@mixin flexCenter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 @mixin w100v100 {
   width: 100%;
   height: 100%;

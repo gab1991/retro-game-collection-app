@@ -2,7 +2,7 @@ import React, { SyntheticEvent, useState } from 'react';
 import { batch, useDispatch } from 'react-redux';
 import { authApi, HttpRespStats, isAxiosError } from 'Api';
 
-import { ESignInInputs } from 'Components/AuthModal/types';
+import { ESignInInputs, ISignInInput } from 'Components/AuthModal/types';
 
 import { AuthFormSpinner, CloseAuthModalBtn } from 'Components/AuthModal/components';
 import { useAuthModalContext } from 'Components/AuthModal/context';
@@ -74,34 +74,52 @@ export function SignInForm(): JSX.Element {
     toSignUp();
   };
 
+  const renderInput = (input: ISignInInput) => {
+    const ClassicInputComp = input.type === 'password' ? ClassicInput.InputWithToggler : ClassicInput.Input;
+
+    return (
+      <ClassicInputComp
+        type={input.type}
+        placeholder={input.placeholder}
+        onChange={(e) => signInInputChangeHandler(e, input.name)}
+        value={input.value}
+        disabled={isSending}
+        isError={!!input.errMsg}
+        hintText={input.errMsg}
+      />
+    );
+  };
+
   return (
     <div className={styles.SignIn}>
       <h1>Seen you lately?</h1>
       <form onSubmit={regularLogin}>
         <div className={styles.InputsSection}>
           {signInInputs.map((input) => (
-            <div key={input.name} className={styles.InputWrapper}>
-              <ClassicInput.Label>
-                {input.label}
-                <ClassicInput.InputWithToggler
-                  type={input.type}
-                  placeholder={input.placeholder}
-                  onChange={(e) => signInInputChangeHandler(e, input.name)}
-                  value={input.value}
-                  disabled={isSending}
-                  isError={!!input.errMsg}
-                  hintText={input.errMsg}
-                />
-              </ClassicInput.Label>
-            </div>
+            <ClassicInput.Label key={input.name}>
+              {input.label}
+              {renderInput(input)}
+            </ClassicInput.Label>
           ))}
         </div>
         <div className={styles.GuestBtnSection}>
-          <ButtonNeon txtContent={`Continue as Guest`} rectangular color={'gray'} onClick={guestEnterHandler} />
+          <ButtonNeon
+            className={styles.NeonBtn}
+            txtContent={`Continue as Guest`}
+            rectangular
+            color={'gray'}
+            onClick={guestEnterHandler}
+          />
         </div>
         <div className={styles.BtnSection}>
-          <ButtonNeon txtContent={`Sign in`} onClick={regularLogin} style={{ zIndex: 100 }} rectangular />
-          <ButtonNeon txtContent={`Sign Up`} rectangular onClick={toSignUpLocal} />
+          <ButtonNeon
+            className={styles.NeonBtn}
+            txtContent={`Sign in`}
+            onClick={regularLogin}
+            style={{ zIndex: 100 }}
+            rectangular
+          />
+          <ButtonNeon className={styles.NeonBtn} txtContent={`Sign Up`} rectangular onClick={toSignUpLocal} />
         </div>
       </form>
       <CloseAuthModalBtn className={styles.CloseBtn} />
