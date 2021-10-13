@@ -1,56 +1,30 @@
-import React from 'react';
-
-import { IButtonBasic } from '../ButtonBasic';
+import React, { ButtonHTMLAttributes } from 'react';
+import cn from 'classnames';
 
 import styles from '../ButtonNeon/ButtonNeon.module.scss';
 
-export interface IButtonNeon extends IButtonBasic {
+export interface IButtonNeon extends ButtonHTMLAttributes<HTMLButtonElement> {
   blinking?: boolean;
-  className?: string;
   color?: 'green' | 'gray' | 'red';
-  direction?: string;
-  disabled?: boolean;
-  onDisabledClick?: () => void;
-  onMouseEnter?: () => void;
-  onMouseLeave?: () => void;
   rectangular?: boolean;
-  style?: React.CSSProperties;
 }
 
 export function ButtonNeon(props: IButtonNeon): JSX.Element {
-  const {
-    txtContent,
-    onClick: clickHander,
-    direction,
-    name,
-    rectangular,
-    blinking,
-    color,
-    style,
-    disabled,
-    onDisabledClick: disableClickHandler,
-    onMouseEnter: mouseEnterHandler,
-    onMouseLeave: mouseLeaveHandler,
-    className,
-  } = props;
+  const { rectangular, blinking, color, children, className, ...htmlProps } = props;
 
   return (
     <button
-      name={name}
-      onClick={!disabled ? clickHander : disableClickHandler}
-      onMouseEnter={mouseEnterHandler}
-      onMouseLeave={mouseLeaveHandler}
-      data-direction={direction}
-      className={`${styles.ButtonNeon} 
-      ${rectangular ? styles.Rectangular : null}
-      ${color ? styles[color] : null}
-      ${rectangular ? styles.Rectangular : null}
-      ${disabled ? styles.Disabled : null}
-      ${blinking ? styles.Blinking : null}
-      ${className}`}
-      style={{ ...style }}
+      className={cn(
+        styles.ButtonNeon,
+        { [styles.Rectangular]: rectangular },
+        { [styles.Disabled]: htmlProps.disabled },
+        { [styles.Blinking]: blinking },
+        color ? styles[color] : '',
+        className
+      )}
+      {...htmlProps}
     >
-      {txtContent}
+      {children}
     </button>
   );
 }

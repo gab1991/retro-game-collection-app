@@ -76,7 +76,11 @@ export function CornerNotifier(props: ICornerNotifierProps): JSX.Element {
       <p>
         {message}
         {linkDir && <Link to={linkDir}>{linkText}</Link>}
-        {btnText && <ButtonNeon txtContent={btnText} color='red' onClick={onBtnClick} />}
+        {btnText && (
+          <ButtonNeon color='red' onClick={onBtnClick}>
+            {btnText}
+          </ButtonNeon>
+        )}
       </p>
     </div>
   );

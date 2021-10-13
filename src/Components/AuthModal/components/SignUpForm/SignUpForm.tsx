@@ -107,8 +107,12 @@ export function SignUpForm(): JSX.Element {
           ))}
         </div>
         <div className={styles.BtnSection}>
-          <ButtonNeon txtContent={`Create Account`} rectangular onClick={submitHandler} />
-          <ButtonNeon txtContent={`Back to Sign In`} rectangular onClick={toSignInLocal} />
+          <ButtonNeon rectangular onClick={submitHandler}>
+            Create Account
+          </ButtonNeon>
+          <ButtonNeon rectangular onClick={toSignInLocal}>
+            Back to Sign In
+          </ButtonNeon>
         </div>
       </form>
       <CloseAuthModalBtn />

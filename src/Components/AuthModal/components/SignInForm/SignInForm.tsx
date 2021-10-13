@@ -52,7 +52,6 @@ export function SignInForm(): JSX.Element {
   };
 
   const regularLogin = (e: SyntheticEvent) => {
-    // console.log(e.);
     e.preventDefault();
 
     const entireFormValid = validateSignInInputs();
@@ -104,23 +103,17 @@ export function SignInForm(): JSX.Element {
           ))}
         </div>
         <div className={styles.GuestBtnSection}>
-          <ButtonNeon
-            className={styles.NeonBtn}
-            txtContent={`Continue as Guest`}
-            rectangular
-            color={'gray'}
-            onClick={guestEnterHandler}
-          />
+          <ButtonNeon className={styles.NeonBtn} rectangular color={'gray'} onClick={guestEnterHandler}>
+            Continue as Guest
+          </ButtonNeon>
         </div>
         <div className={styles.BtnSection}>
-          <ButtonNeon
-            className={styles.NeonBtn}
-            txtContent={`Sign in`}
-            onClick={regularLogin}
-            style={{ zIndex: 100 }}
-            rectangular
-          />
-          <ButtonNeon className={styles.NeonBtn} txtContent={`Sign Up`} rectangular onClick={toSignUpLocal} />
+          <ButtonNeon className={styles.NeonBtn} onClick={regularLogin} style={{ zIndex: 100 }} rectangular>
+            Sign in
+          </ButtonNeon>
+          <ButtonNeon className={styles.NeonBtn} rectangular onClick={toSignUpLocal}>
+            Sign Up
+          </ButtonNeon>
         </div>
       </form>
       <CloseAuthModalBtn className={styles.CloseBtn} />

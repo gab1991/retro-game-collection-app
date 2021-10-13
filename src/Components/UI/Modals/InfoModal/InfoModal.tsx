@@ -29,7 +29,9 @@ export function InfoModal(props: IInfoModalProps): JSX.Element {
         </div>
         <div className={styles.MessageSection}>
           <p>{message}</p>
-          <ButtonNeon txtContent={btnTxtContent} onClick={hideModal} color={'red'} />
+          <ButtonNeon onClick={hideModal} color='red'>
+            {btnTxtContent}
+          </ButtonNeon>
         </div>
       </div>
     </div>

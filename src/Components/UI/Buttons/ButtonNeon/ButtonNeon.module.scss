@@ -1,4 +1,4 @@
-@import '../../../../Configs/Variables.scss';
+@import 'Configs/Variables.scss';
 $backgorund-color-basis: getBtnColor('basic');
 
 .ButtonNeon {
@@ -33,8 +33,7 @@ $backgorund-color-basis: getBtnColor('basic');
   &:hover {
     letter-spacing: 1px;
     letter-spacing: 1px;
-    box-shadow: 0 0 10px $blue-shine-color, 0 0 30px $blue-shine-color,
-      0 0 60px $blue-shine-color;
+    box-shadow: 0 0 10px $blue-shine-color, 0 0 30px $blue-shine-color, 0 0 60px $blue-shine-color;
   }
   &.Rectangular {
     border-radius: 0;
@@ -69,7 +68,6 @@ $backgorund-color-basis: getBtnColor('basic');
   50% {
     background: getBtnColor('gray');
     transform: scale(1.2);
-    box-shadow: 0 0 10px $blue-shine-color, 0 0 30px $blue-shine-color,
-      0 0 60px $blue-shine-color;
+    box-shadow: 0 0 10px $blue-shine-color, 0 0 30px $blue-shine-color, 0 0 60px $blue-shine-color;
   }
 }

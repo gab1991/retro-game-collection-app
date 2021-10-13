@@ -36,7 +36,9 @@ export function ErrorModal(props: IErrorModalProps): JSX.Element {
         </div>
         <div className={styles.MessageSection}>
           <p>{message}</p>
-          <ButtonNeon txtContent={btnTxtContent} onClick={onBtnClick} color={'red'} />
+          <ButtonNeon onClick={onBtnClick} color={'red'}>
+            {btnTxtContent}
+          </ButtonNeon>
         </div>
       </div>
     </div>

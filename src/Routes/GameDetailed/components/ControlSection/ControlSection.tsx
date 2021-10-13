@@ -57,30 +57,30 @@ export function ControlSection(): JSX.Element {
       color: isWished ? 'red' : 'green',
       disabled: username ? false : true,
       onClick: () => gameDetails && toggleList(platform, gameDetails.name, EAvailableLists.wishList, slug),
+      text: isWished ? 'Remove from Wishlist' : 'Add to Wishlist',
       tooltip: !username
         ? {
             btnOnclick: showAuth,
             txtContent: `Need to be logged in to add games to the lists `,
           }
         : undefined,
-      txtContent: isWished ? 'Remove from Wishlist' : 'Add to Wishlist',
     },
     {
       color: isOwned ? 'red' : 'green',
       disabled: username ? false : true,
       onClick: () => gameDetails && toggleList(platform, gameDetails.name, EAvailableLists.ownedList, slug),
+      text: isOwned ? 'Remove from Owned' : 'Owned',
       tooltip: !username
         ? {
             btnOnclick: showAuth,
             txtContent: `Need to be logged in to add games to the lists `,
           }
         : undefined,
-      txtContent: isOwned ? 'Remove from Owned' : 'Owned',
     },
     {
       color: 'gray',
       onClick: getBack,
-      txtContent: 'Back',
+      text: 'Back',
     },
   ];
 
@@ -88,15 +88,11 @@ export function ControlSection(): JSX.Element {
     <div className={styles.ContorlsSection}>
       <hr></hr>
       <div className={styles.ButtonsContainer}>
-        {buttons.map(({ disabled, color, txtContent, onClick, tooltip }) => (
-          <div className={styles.ButtonNeonWrapper} key={txtContent}>
-            <ButtonNeon
-              className={styles.ButtonNeon}
-              disabled={disabled}
-              color={color}
-              txtContent={txtContent}
-              onClick={onClick}
-            />
+        {buttons.map(({ disabled, color, text, onClick, tooltip }) => (
+          <div className={styles.ButtonNeonWrapper} key={text}>
+            <ButtonNeon className={styles.ButtonNeon} disabled={disabled} color={color} onClick={onClick}>
+              {text}
+            </ButtonNeon>
             {tooltip && (
               <div className={styles.ButtonTooltip}>
                 {tooltip.txtContent}
@@ -112,6 +108,7 @@ export function ControlSection(): JSX.Element {
 }
 
 interface IControlSectionButton extends IButtonNeon {
+  text?: string;
   tooltip?: {
     btnOnclick: () => void;
     txtContent: string;

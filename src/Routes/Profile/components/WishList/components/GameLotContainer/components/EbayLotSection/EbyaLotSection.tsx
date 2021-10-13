@@ -83,10 +83,11 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
         {Object.keys(buttonsToSortOrder).map((btn) => (
           <ButtonNeon
             key={btn}
-            txtContent={btn}
             onClick={toggleEbayList}
             color={activeEbaylist === buttonsToSortOrder[btn] && isEbayTogglerOn ? 'gray' : undefined}
-          />
+          >
+            {btn}
+          </ButtonNeon>
         ))}
       </div>
       <div className={styles.NameSection}>

@@ -36,7 +36,7 @@ export function WishList(): JSX.Element {
         ))}
         <div className={styles.EmptyList}>
           <h1>Wanna add some?</h1>
-          <ButtonNeon txtContent={'Start Adding Games'} onClick={toPlatfromSelecor} />
+          <ButtonNeon onClick={toPlatfromSelecor}>Start Adding Games</ButtonNeon>
         </div>
       </div>
     </div>

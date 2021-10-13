@@ -71,7 +71,9 @@ export function Header(): JSX.Element {
               </button>
             </li>
           ) : (
-            <ButtonNeon txtContent='Login' color={'green'} className={styles.Btn} rectangular onClick={showAuth} />
+            <ButtonNeon color={'green'} className={styles.Btn} rectangular onClick={showAuth}>
+              Login
+            </ButtonNeon>
           )}
         </ul>
       </nav>
