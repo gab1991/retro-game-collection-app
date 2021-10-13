@@ -52,6 +52,7 @@ export function SignInForm(): JSX.Element {
   };
 
   const regularLogin = (e: SyntheticEvent) => {
+    // console.log(e.);
     e.preventDefault();
 
     const entireFormValid = validateSignInInputs();
@@ -96,7 +97,7 @@ export function SignInForm(): JSX.Element {
       <form onSubmit={regularLogin}>
         <div className={styles.InputsSection}>
           {signInInputs.map((input) => (
-            <ClassicInput.Label key={input.name}>
+            <ClassicInput.Label key={input.name} onClick={(e) => e.preventDefault()}>
               {input.label}
               {renderInput(input)}
             </ClassicInput.Label>

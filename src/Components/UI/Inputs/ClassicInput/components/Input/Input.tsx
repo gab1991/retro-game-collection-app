@@ -34,7 +34,7 @@ export function InputWithToggler(props: IInputWithToggler): JSX.Element {
   const onTogglerClick = () => setType((prev) => (prev === propType ? togglerType : propType));
 
   return (
-    <Input {...htmlProps}>
+    <Input {...htmlProps} type={type}>
       <Toggler className={cn(styles.TogglerBtn)} onClick={onTogglerClick} pressed={type !== propType} />
     </Input>
   );
