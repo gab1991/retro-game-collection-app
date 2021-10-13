@@ -103,12 +103,12 @@ export function SignInForm(): JSX.Element {
           ))}
         </div>
         <div className={styles.GuestBtnSection}>
-          <ButtonNeon className={styles.NeonBtn} rectangular color={'gray'} onClick={guestEnterHandler}>
+          <ButtonNeon className={styles.NeonBtn} rectangular color='gray' onClick={guestEnterHandler}>
             Continue as Guest
           </ButtonNeon>
         </div>
         <div className={styles.BtnSection}>
-          <ButtonNeon className={styles.NeonBtn} onClick={regularLogin} style={{ zIndex: 100 }} rectangular>
+          <ButtonNeon className={styles.NeonBtn} onClick={regularLogin} rectangular>
             Sign in
           </ButtonNeon>
           <ButtonNeon className={styles.NeonBtn} rectangular onClick={toSignUpLocal}>

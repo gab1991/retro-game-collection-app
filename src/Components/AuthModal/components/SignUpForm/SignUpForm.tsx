@@ -3,11 +3,11 @@ import { batch, useDispatch } from 'react-redux';
 import { authApi, isAxiosError } from 'Api';
 
 import { HttpRespStats, ISignUpData } from 'Api/types';
-import { ESignUpInputs } from 'Components/AuthModal/types';
+import { ESignUpInputs, ISignUpInput } from 'Components/AuthModal/types';
 
 import { AuthFormSpinner, CloseAuthModalBtn } from 'Components/AuthModal/components';
 import { useAuthModalContext } from 'Components/AuthModal/context';
-import { ButtonNeon, InputAuth } from 'Components/UI';
+import { ButtonNeon, ClassicInput } from 'Components/UI';
 import { ECornerNotifierCorners } from 'Components/UI/Modals';
 import { showAuthModal, showCornerNotifier } from 'Store/appStateReducer/actions';
 import { signIn } from 'Store/authReducer/actions';
@@ -86,36 +86,44 @@ export function SignUpForm(): JSX.Element {
     toSignIn();
   };
 
+  const renderInput = (input: ISignUpInput) => {
+    const ClassicInputComp = input.type === 'password' ? ClassicInput.InputWithToggler : ClassicInput.Input;
+
+    return (
+      <ClassicInputComp
+        type={input.type}
+        placeholder={input.placeholder}
+        onChange={(e) => signUpInputChangeHandler(e, input.name)}
+        value={input.value}
+        disabled={isSending}
+        isError={!!input.errMsg}
+        hintText={input.errMsg}
+      />
+    );
+  };
+
   return (
-    <div className={`${styles.SignUp}`}>
+    <div className={styles.SignUp}>
       <h1>Start Your Journey</h1>
       <form onSubmit={submitHandler}>
         <div className={styles.InputsSection}>
           {signUpInputs.map((input) => (
-            <div key={input.name} className={styles.InputWrapper}>
-              <InputAuth
-                label={input.label}
-                type={input.type}
-                placeholder={input.placeholder}
-                value={input.value}
-                addToggler={input.type === 'password'}
-                onChange={(e) => signUpInputChangeHandler(e, input.name)}
-                errorMsg={input.errMsg}
-                disabled={isSending}
-              />
-            </div>
+            <ClassicInput.Label key={input.name} onClick={(e) => e.preventDefault()}>
+              {input.label}
+              {renderInput(input)}
+            </ClassicInput.Label>
           ))}
         </div>
         <div className={styles.BtnSection}>
-          <ButtonNeon rectangular onClick={submitHandler}>
+          <ButtonNeon className={styles.NeonBtn} rectangular onClick={submitHandler}>
             Create Account
           </ButtonNeon>
-          <ButtonNeon rectangular onClick={toSignInLocal}>
+          <ButtonNeon className={styles.NeonBtn} rectangular onClick={toSignInLocal}>
             Back to Sign In
           </ButtonNeon>
         </div>
       </form>
-      <CloseAuthModalBtn />
+      <CloseAuthModalBtn className={styles.CloseBtn} />
       {isSending && <AuthFormSpinner />}
     </div>
   );
