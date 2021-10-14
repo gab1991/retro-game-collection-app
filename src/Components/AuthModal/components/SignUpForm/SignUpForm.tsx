@@ -1,30 +1,20 @@
-import React, { SyntheticEvent, useState } from 'react';
-import { batch, useDispatch } from 'react-redux';
-import { authApi, isAxiosError } from 'Api';
+import React, { SyntheticEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { HttpRespStats, ISignUpData } from 'Api/types';
-import { ESignUpInputs, ISignUpInput } from 'Components/AuthModal/types';
+import { ISignUpInput } from 'Components/AuthModal/types';
 
 import { AuthFormSpinner, CloseAuthModalBtn } from 'Components/AuthModal/components';
 import { useAuthModalContext } from 'Components/AuthModal/context';
 import { ButtonNeon, ClassicInput } from 'Components/UI';
-import { ECornerNotifierCorners } from 'Components/UI/Modals';
-import { showAuthModal, showCornerNotifier } from 'Store/appStateReducer/actions';
-import { signIn } from 'Store/authReducer/actions';
+import { selectIsAuthLoading } from 'Store/authReducer/selectors';
+import { signUpThunk } from 'Store/authReducer/thunks';
 
 import styles from './SignUpForm.module.scss';
 
 export function SignUpForm(): JSX.Element {
+  const { toSignIn, signUpInputs, signUpInputChangeHandler, validateSignUpInputs } = useAuthModalContext();
   const dispatch = useDispatch();
-  const {
-    isMobile,
-    toSignIn,
-    signUpInputs,
-    signUpInputChangeHandler,
-    validateSignUpInputs,
-    setSignUpErrField,
-  } = useAuthModalContext();
-  const [isSending, setIsSending] = useState(false);
+  const isLoading = useSelector(selectIsAuthLoading);
 
   const submitHandler = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -39,45 +29,7 @@ export function SignUpForm(): JSX.Element {
         sendObj[name] = value;
       });
 
-      postSignUp(sendObj);
-    }
-  };
-
-  const postSignUp = async (signUpData: ISignUpData) => {
-    setIsSending(true);
-
-    try {
-      const {
-        data: { status },
-      } = await authApi.postSignUp(signUpData);
-
-      if (status === 'success') {
-        batch(() => {
-          dispatch(signIn(signUpData.username));
-          dispatch(showAuthModal(false));
-          !isMobile &&
-            dispatch(
-              showCornerNotifier({
-                corner: ECornerNotifierCorners.bottomLeft,
-                message: 'Account is successfully created',
-                removeTime: 1000,
-                show: true,
-              })
-            );
-        });
-      }
-    } catch (err) {
-      if (
-        isAxiosError<{ err_message: string; field: ESignUpInputs }>(err) &&
-        err.response?.status === HttpRespStats['Bad Request'] &&
-        err.response.data.field
-      ) {
-        const { err_message, field } = err.response.data;
-
-        setSignUpErrField(err_message, field);
-      }
-    } finally {
-      setIsSending(false);
+      dispatch(signUpThunk(sendObj));
     }
   };
 
@@ -95,7 +47,7 @@ export function SignUpForm(): JSX.Element {
         placeholder={input.placeholder}
         onChange={(e) => signUpInputChangeHandler(e, input.name)}
         value={input.value}
-        disabled={isSending}
+        disabled={isLoading}
         isError={!!input.errMsg}
         hintText={input.errMsg}
       />
@@ -124,7 +76,7 @@ export function SignUpForm(): JSX.Element {
         </div>
       </form>
       <CloseAuthModalBtn className={styles.CloseBtn} />
-      {isSending && <AuthFormSpinner />}
+      {isLoading && <AuthFormSpinner />}
     </div>
   );
 }

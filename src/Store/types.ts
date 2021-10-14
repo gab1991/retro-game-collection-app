@@ -11,11 +11,11 @@ import { TGameSelectorReducer } from 'Routes/GameSelector/reducer/types';
 import { DeepReadonly } from 'utility-types';
 export interface IRootState {
   appState: TAppStateReducer;
+  auth: TAuthReducer;
   content: TContentReducer;
   ebayItems: TEbayItemsReducer;
   gameDetailed: TGameDetailedReducer;
   gameSelector: TGameSelectorReducer;
-  logged: TAuthReducer;
   profile: TProfileReducer;
 }
 

@@ -1,20 +1,15 @@
-import React, { SyntheticEvent, useState } from 'react';
-import { batch, useDispatch } from 'react-redux';
-import { authApi, HttpRespStats, isAxiosError } from 'Api';
+import React, { SyntheticEvent } from 'react';
 
-import { ESignInInputs, ISignInInput } from 'Components/AuthModal/types';
+import { ISignInInput } from 'Components/AuthModal/types';
 
 import { AuthFormSpinner, CloseAuthModalBtn } from 'Components/AuthModal/components';
 import { useAuthModalContext } from 'Components/AuthModal/context';
+import { useLoginReq } from 'Components/AuthModal/hooks';
 import { ButtonNeon, ClassicInput } from 'Components/UI';
-import { showAuthModal } from 'Store/appStateReducer/actions';
-import { signIn } from 'Store/authReducer/actions';
 
 import styles from './SignInForm.module.scss';
 
 export function SignInForm(): JSX.Element {
-  const dispatch = useDispatch();
-  const [isSending, setIsSending] = useState(false);
   const {
     signInInputChangeHandler,
     signInInputs,
@@ -22,34 +17,7 @@ export function SignInForm(): JSX.Element {
     setSignInErrField,
     toSignUp,
   } = useAuthModalContext();
-
-  const sendLoginReq = async ({ username, password }) => {
-    setIsSending(true);
-
-    try {
-      const {
-        data: { status },
-      } = await authApi.postSignIn(username, password);
-
-      if (status === 'success') {
-        batch(() => {
-          dispatch(signIn(username));
-          dispatch(showAuthModal(false));
-        });
-      }
-    } catch (err) {
-      if (
-        isAxiosError<{ err_message: string; field: ESignInInputs }>(err) &&
-        err.response?.status === HttpRespStats['Bad Request'] &&
-        err.response.data.field
-      ) {
-        const { err_message, field } = err.response.data;
-        setSignInErrField(err_message, field);
-      }
-    } finally {
-      setIsSending(false);
-    }
-  };
+  const { isSending, sendLoginReq } = useLoginReq({ onFieldErr: setSignInErrField });
 
   const regularLogin = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -57,17 +25,15 @@ export function SignInForm(): JSX.Element {
     const entireFormValid = validateSignInInputs();
 
     if (entireFormValid) {
-      const sendObj = { email: '', password: '', username: '' };
+      const sendObj = { password: '', username: '' };
 
       signInInputs.forEach(({ name, value }) => (sendObj[name] = value));
 
-      sendLoginReq(sendObj);
+      sendLoginReq(sendObj.username, sendObj.password);
     }
   };
 
-  const guestEnterHandler = () => {
-    sendLoginReq({ password: 'guest1', username: 'guest' });
-  };
+  const guestEnterHandler = () => sendLoginReq('guest', 'guest1');
 
   const toSignUpLocal = (e: SyntheticEvent) => {
     e.preventDefault();
