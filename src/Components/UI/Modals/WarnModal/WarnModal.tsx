@@ -17,7 +17,7 @@ export function WarnModal(props: IWarnModal): JSX.Element {
 
   return (
     <div className={styles.WarnModal}>
-      <Backdrop onClick={onBackdropClick} show />
+      <Backdrop onClick={onBackdropClick} />
       <div className={styles.WarnWindow}>
         <div className={styles.TxtWrapper}>
           <div className={styles.ImgContainer}>

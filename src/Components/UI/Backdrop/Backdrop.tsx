@@ -1,23 +1,12 @@
-import React from 'react';
+import React, { ButtonHTMLAttributes } from 'react';
+import cx from 'classnames';
 
 import styles from './Backdrop.module.scss';
 
-interface IBackdropProps {
-  onClick?: () => void;
-  show: boolean;
-}
+type TBackdropProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
-export function Backdrop(props: IBackdropProps): JSX.Element {
-  const { show, onClick } = props;
+export function Backdrop(props: TBackdropProps): JSX.Element {
+  const { className, ...htmlProps } = props;
 
-  return (
-    <div
-      onClick={onClick}
-      onKeyPress={onClick}
-      className={styles.Backdrop}
-      style={{ display: `${show ? 'block' : 'none'}` }}
-      role='button'
-      tabIndex={0}
-    ></div>
-  );
+  return <button className={cx(styles.Backdrop, className)} {...htmlProps} />;
 }

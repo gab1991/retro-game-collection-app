@@ -22,7 +22,7 @@ export function InfoModal(props: IInfoModalProps): JSX.Element {
 
   return (
     <div className={styles.InfoModal}>
-      <Backdrop onClick={hideModal} show />
+      <Backdrop onClick={hideModal} />
       <div className={styles.InfoModalMain}>
         <div className={styles.InfoSvgContainer}>
           <InfoSvg />

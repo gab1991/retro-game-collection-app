@@ -55,7 +55,7 @@ export function Header(): JSX.Element {
 
   return (
     <header className={styles.Header}>
-      <Backdrop onClick={hideMenu} show={showBackdrop} />
+      {showBackdrop && <Backdrop onClick={hideMenu} />}
       <nav className={styles.Nav}>
         <ul className={styles.List}>
           <li>
