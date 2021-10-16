@@ -1,23 +1,21 @@
 import React, { SyntheticEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { ISignInInput } from 'Components/AuthModal/types';
 
 import { AuthFormSpinner, CloseAuthModalBtn } from 'Components/AuthModal/components';
 import { useAuthModalContext } from 'Components/AuthModal/context';
-import { useLoginReq } from 'Components/AuthModal/hooks';
 import { ButtonNeon, ClassicInput } from 'Components/UI';
+import { selectIsAuthLoading } from 'Store/authReducer/selectors';
+import { signInThunk } from 'Store/authReducer/thunks';
 
 import styles from './SignInForm.module.scss';
 
 export function SignInForm(): JSX.Element {
-  const {
-    signInInputChangeHandler,
-    signInInputs,
-    validateSignInInputs,
-    setSignInErrField,
-    toSignUp,
-  } = useAuthModalContext();
-  const { isSending, sendLoginReq } = useLoginReq({ onFieldErr: setSignInErrField });
+  const { signInInputChangeHandler, signInInputs, validateSignInInputs, toSignUp } = useAuthModalContext();
+
+  const dispatch = useDispatch();
+  const isLoading = useSelector(selectIsAuthLoading);
 
   const regularLogin = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -29,11 +27,11 @@ export function SignInForm(): JSX.Element {
 
       signInInputs.forEach(({ name, value }) => (sendObj[name] = value));
 
-      sendLoginReq(sendObj.username, sendObj.password);
+      dispatch(signInThunk(sendObj.username, sendObj.password));
     }
   };
 
-  const guestEnterHandler = () => sendLoginReq('guest', 'guest1');
+  const guestEnterHandler = () => dispatch(signInThunk('guest', 'guest1'));
 
   const toSignUpLocal = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -49,7 +47,7 @@ export function SignInForm(): JSX.Element {
         placeholder={input.placeholder}
         onChange={(e) => signInInputChangeHandler(e, input.name)}
         value={input.value}
-        disabled={isSending}
+        disabled={isLoading}
         isError={!!input.errMsg}
         hintText={input.errMsg}
       />
@@ -83,7 +81,7 @@ export function SignInForm(): JSX.Element {
         </div>
       </form>
       <CloseAuthModalBtn className={styles.CloseBtn} />
-      {isSending && <AuthFormSpinner />}
+      {isLoading && <AuthFormSpinner />}
     </div>
   );
 }

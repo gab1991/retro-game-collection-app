@@ -5,19 +5,21 @@ import * as actions from './actions';
 
 const initial: TAuthReducer = {
   isLoading: false,
-  signupErrors: null,
+  signInErrors: null,
+  signUpErrors: null,
   username: null,
 };
 
 export const authReducer = createReducer<TAuthReducer, TAuthActions>(initial)
   .handleAction(
-    [actions.signIn, actions.signUp.success],
+    [actions.signIn.success, actions.signUp.success],
     (state, { payload }): TAuthReducer => ({
       ...state,
       isLoading: false,
       username: payload,
     })
   )
-  .handleAction(actions.signUp.failure, (state, { payload }) => ({ ...state, isLoading: false, signupErrors: payload }))
-  .handleAction(actions.signUp.request, (state) => ({ ...state, isLoading: true }))
+  .handleAction(actions.signUp.failure, (state, { payload }) => ({ ...state, isLoading: false, signUpErrors: payload }))
+  .handleAction(actions.signIn.failure, (state, { payload }) => ({ ...state, isLoading: false, signInErrors: payload }))
+  .handleAction([actions.signUp.request, actions.signIn.request], (state) => ({ ...state, isLoading: true }))
   .handleAction(actions.logOut, (): TAuthReducer => initial);

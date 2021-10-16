@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { produce } from 'immer';
 
 import {
@@ -15,7 +14,6 @@ import {
 
 import { SIGN_IN_INPUTS, SIGN_UP_INPUTS } from 'Components/AuthModal/inputs';
 import { validateAuthModalInput } from 'Components/AuthModal/validation';
-import { selectIsMobile } from 'Store/appStateReducer/selectors';
 
 const AuthModalContext = React.createContext<null | IAuthModalProviderContext>(null);
 
@@ -25,7 +23,6 @@ interface IAuthModalProviderProps {
 
 interface IAuthModalProviderContext {
   activeSide: EAuthModalSides;
-  isMobile: boolean;
   setSignInErrField: (err_message: string, field: TAuthModalInputs) => void;
   setSignUpErrField: (err_message: string, field: TAuthModalInputs) => void;
   signInInputChangeHandler: (e: React.ChangeEvent<HTMLInputElement>, input: ESignInInputs) => void;
@@ -41,7 +38,6 @@ interface IAuthModalProviderContext {
 type TSideInputs = { [EAuthModalSides.signIn]: TSignInInputs; [EAuthModalSides.signUp]: TSignUpInputs };
 
 export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.Element {
-  const isMobile = useSelector(selectIsMobile);
   const [activeSide, setActiveSide] = useState(EAuthModalSides.signIn);
   const [inputs, setInputs] = useState<TSideInputs>({ signIn: SIGN_IN_INPUTS, signUp: SIGN_UP_INPUTS });
   const signInInputs = inputs.signIn;
@@ -60,7 +56,7 @@ export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.El
       return;
     }
 
-    const { errMessage, isValid } = validateAuthModalInput(inputName, currentValue);
+    const { errMessage, isValid } = validateAuthModalInput(inputName, currentValue, inputs[side]);
 
     const updInputs = produce(inputs, (draft) => {
       draft[side][inputInd].value = currentValue;
@@ -84,9 +80,8 @@ export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.El
       draft[side].forEach((input: ISignInInput | ISignUpInput) => {
         if (!input.valid) {
           isValid = false;
-          if (input.value.length === 0) {
-            input.errMsg = 'This field is empty';
-          }
+
+          if (!input.value.length) input.errMsg = 'This field is empty';
         }
       });
     });
@@ -129,7 +124,6 @@ export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.El
     <AuthModalContext.Provider
       value={{
         activeSide,
-        isMobile,
         setSignInErrField,
         setSignUpErrField,
         signInInputChangeHandler,

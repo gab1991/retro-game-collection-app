@@ -1,7 +1,7 @@
 import React, { SyntheticEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { ISignUpInput } from 'Components/AuthModal/types';
+import { ESignUpInputs, ISignUpInput } from 'Components/AuthModal/types';
 
 import { AuthFormSpinner, CloseAuthModalBtn } from 'Components/AuthModal/components';
 import { useAuthModalContext } from 'Components/AuthModal/context';
@@ -25,7 +25,7 @@ export function SignUpForm(): JSX.Element {
       const sendObj = { email: '', password: '', username: '' };
 
       signUpInputs.forEach(({ name, value }) => {
-        if (name === 'passConfirm') return;
+        if (name === ESignUpInputs.passConfirm) return;
         sendObj[name] = value;
       });
 
@@ -39,7 +39,7 @@ export function SignUpForm(): JSX.Element {
   };
 
   const renderInput = (input: ISignUpInput) => {
-    const ClassicInputComp = input.type === 'password' ? ClassicInput.InputWithToggler : ClassicInput.Input;
+    const ClassicInputComp = input.type === ESignUpInputs.password ? ClassicInput.InputWithToggler : ClassicInput.Input;
 
     return (
       <ClassicInputComp

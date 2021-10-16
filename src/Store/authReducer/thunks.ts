@@ -1,7 +1,7 @@
 import { batch } from 'react-redux';
 import { authApi, HttpRespStats, isAxiosError, ISignUpData } from 'Api';
 
-import { ESignUpInputs } from 'Components/AuthModal/types';
+import { ESignInInputs, ESignUpInputs } from 'Components/AuthModal/types';
 import { TThunk } from 'Store/types';
 
 import { ECornerNotifierCorners } from 'Components/UI/Modals';
@@ -18,7 +18,7 @@ export const checkCredentialsThunk = (): TThunk => async (dispatch) => {
     } = await authApi.checkCredentials();
 
     if (status === 'success' && payload) {
-      dispatch(signIn(payload.username));
+      dispatch(signIn.success(payload.username));
     }
   } catch (err) {}
 };
@@ -66,6 +66,32 @@ export const signUpThunk = (signUpData: ISignUpData): TThunk => async (dispatch,
     ) {
       const { err_message, field } = err.response.data;
       dispatch(signUp.failure({ err: err_message, field }));
+    }
+  }
+};
+
+export const signInThunk = (username: string, password: string): TThunk => async (dispatch) => {
+  dispatch(signIn.request());
+
+  try {
+    const {
+      data: { status },
+    } = await authApi.postSignIn(username, password);
+
+    if (status === 'success') {
+      batch(() => {
+        dispatch(signIn.success(username));
+        dispatch(showAuthModal(false));
+      });
+    }
+  } catch (err) {
+    if (
+      isAxiosError<{ err_message: string; field: ESignInInputs }>(err) &&
+      err.response?.status === HttpRespStats['Bad Request'] &&
+      err.response.data.field
+    ) {
+      const { err_message, field } = err.response.data;
+      dispatch(signIn.failure({ err: err_message, field }));
     }
   }
 };
