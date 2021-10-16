@@ -19,7 +19,6 @@ import {
 import { TEbayCard } from 'Typings/ebayData';
 
 interface IEbayCardContext {
-  calcTotalPrice: () => void;
   card: DeepReadonly<TEbayCard> | null;
   defineShippingCosts: () => void;
   itemData: DeepReadonly<TEbayCard['itemData']> | null;
@@ -53,6 +52,10 @@ export const EbayCardContextProvier = (props: IEbayCardContextProvierProps): JSX
 
   const calcTotalPrice = () => dispatch(calculateTotalPrice(platform, game, index, sortOrder));
 
+  useEffect(() => {
+    calcTotalPrice();
+  }, [itemData?.currentPrice, card?.shippingCost]);
+
   const defineShippingCosts = () => {
     itemId && dispatch(getShippingCosts(game, platform, itemId, index, sortOrder));
   };
@@ -69,7 +72,7 @@ export const EbayCardContextProvier = (props: IEbayCardContextProvierProps): JSX
   };
 
   return (
-    <EbayCardContext.Provider value={{ calcTotalPrice, card, defineShippingCosts, itemData, onWatchBtnClick }}>
+    <EbayCardContext.Provider value={{ card, defineShippingCosts, itemData, onWatchBtnClick }}>
       {children}
     </EbayCardContext.Provider>
   );

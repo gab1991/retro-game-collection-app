@@ -1,50 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import { useInterval } from 'CustomHooks';
 
 import { useEbayCardContext } from 'Components/EbayItemCard/context';
 import { Button, DotSpinner } from 'Components/UI';
 import { selectLoggedUser } from 'Store/authReducer/selectors';
 
-import { calcExpiringTime, ITimeSpread } from './countdownConverter';
+import { useEndingSoon } from './useEndingSoon';
 
 import styles from './EbayCardAuctionPart.module.scss';
 
-const REFRESH_TIME_MS = 1000;
-const ADDITIONAL_ZERO_BOUNDARY = 10;
-
-type TTimeSpreadStingVal = { [k in keyof ITimeSpread]?: string };
-
-// eslint-disable-next-line sonarjs/cognitive-complexity
 export function EbayCardAuctionPart(): JSX.Element | null {
-  const { itemData, card, calcTotalPrice, defineShippingCosts, onWatchBtnClick } = useEbayCardContext();
-  const { clearHookInterval, setHookInterval } = useInterval();
+  const { itemData, card, defineShippingCosts, onWatchBtnClick } = useEbayCardContext();
   const username = useSelector(selectLoggedUser);
-  const [endingSoon, setIsEndingSoon] = useState<null | TTimeSpreadStingVal>(null);
-
-  useEffect(() => {
-    calcTotalPrice();
-  }, [itemData?.currentPrice, card?.shippingCost]);
-
-  useEffect(() => {
-    const endTime = itemData?.endTime;
-    if (endTime) {
-      const { days } = calcExpiringTime(endTime);
-
-      if (days < 1) {
-        setHookInterval(() => {
-          const { hours, minutes, seconds } = calcExpiringTime(endTime);
-
-          setIsEndingSoon({
-            hours: `${hours < ADDITIONAL_ZERO_BOUNDARY ? '0' : ''}${hours}`,
-            minutes: `${minutes < ADDITIONAL_ZERO_BOUNDARY ? '0' : ''}${minutes}`,
-            seconds: `${seconds < ADDITIONAL_ZERO_BOUNDARY ? '0' : ''}${seconds}`,
-          });
-        }, REFRESH_TIME_MS);
-      }
-      return () => clearHookInterval();
-    }
-  }, [itemData?.endTime]);
+  const { endingSoon } = useEndingSoon(itemData?.endTime);
 
   if (!card || !itemData) {
     return null;

@@ -5,7 +5,7 @@ import * as actions from './actions';
 
 const initial: TAppStateReducer = {
   isMobile: false,
-  showAuthModal: true,
+  showAuthModal: false,
   showCornerNotifier: { show: false },
   showErrorModal: { show: false },
   showInfoModal: { show: false },
