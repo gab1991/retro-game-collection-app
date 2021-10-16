@@ -1,28 +1,12 @@
-import React from 'react';
+import React, { ButtonHTMLAttributes } from 'react';
+import cn from 'classnames';
 
 import styles from './Button.module.scss';
 
-interface IButtonProps {
-  direction?: string;
-  letterSpacing?: boolean;
-  name?: string;
-  onClick: () => void;
-  pressed?: boolean;
-  style?: React.CSSProperties;
-  txtContent: string;
-}
+type TButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
-export function Button(props: IButtonProps): JSX.Element {
-  const { txtContent, onClick: clickHander, direction, name, style, pressed, letterSpacing } = props;
-  return (
-    <button
-      name={name}
-      onClick={clickHander}
-      data-direction={direction}
-      className={`${styles.Button} ${pressed ? styles.Pressed : null} ${letterSpacing ? styles.LetterSpacing : null}`}
-      style={style}
-    >
-      {txtContent}
-    </button>
-  );
+export function Button(props: TButtonProps): JSX.Element {
+  const { className, ...htmlProps } = props;
+
+  return <button className={cn(styles.Button, className)} {...htmlProps} />;
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import cn from 'classnames';
 
 import { useEbayCardContext } from 'Components/EbayItemCard/context';
 import { Button, DotSpinner } from 'Components/UI';
@@ -26,13 +27,11 @@ export function EbayCardAuctionPart(): JSX.Element | null {
   return (
     <div className={styles.RightPart}>
       <h4>{title}</h4>
-      <Button txtContent={isAuction ? 'Place bid' : 'Buy It Now'} onClick={sendToEbay} />
+      <Button onClick={sendToEbay}>{isAuction ? 'Place bid' : 'Buy It Now'}</Button>
       {username && (
-        <Button
-          txtContent={isWatched ? 'Stop watch' : 'Watch'}
-          pressed={isWatched ? true : false}
-          onClick={() => onWatchBtnClick(isWatched)}
-        />
+        <Button className={cn({ [styles.BtnGray]: isWatched })} onClick={() => onWatchBtnClick(isWatched)}>
+          {isWatched ? 'Stop watch' : 'Watch'}
+        </Button>
       )}
       <div className={styles.AcutionSection}>
         {isAuction && <p>Bids placed : {bidCount}</p>}
