@@ -23,8 +23,6 @@ interface IAuthModalProviderProps {
 
 interface IAuthModalProviderContext {
   activeSide: EAuthModalSides;
-  setSignInErrField: (err_message: string, field: TAuthModalInputs) => void;
-  setSignUpErrField: (err_message: string, field: TAuthModalInputs) => void;
   signInInputChangeHandler: (e: React.ChangeEvent<HTMLInputElement>, input: ESignInInputs) => void;
   signInInputs: TSignInInputs;
   signUpInputChangeHandler: (e: React.ChangeEvent<HTMLInputElement>, input: ESignUpInputs) => void;
@@ -95,27 +93,6 @@ export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.El
 
   const validateSignUpInputs = () => validateInputs(EAuthModalSides.signUp);
 
-  const setErrField = (err_message: string, field: TAuthModalInputs, side: EAuthModalSides) => {
-    const updInputs = produce(inputs, (draft) => {
-      const updIndex = draft[side].findIndex((input: ISignInInput | ISignUpInput) => input.name === field);
-
-      if (updIndex < -1) {
-        return;
-      }
-
-      draft[side][updIndex].errMsg = err_message;
-      draft[side][updIndex].valid = false;
-    });
-
-    setInputs(updInputs);
-  };
-
-  const setSignInErrField = (err_message: string, field: TAuthModalInputs) =>
-    setErrField(err_message, field, EAuthModalSides.signIn);
-
-  const setSignUpErrField = (err_message: string, field: TAuthModalInputs) =>
-    setErrField(err_message, field, EAuthModalSides.signUp);
-
   const toSignUp = () => setActiveSide(EAuthModalSides.signUp);
 
   const toSignIn = () => setActiveSide(EAuthModalSides.signIn);
@@ -124,8 +101,6 @@ export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.El
     <AuthModalContext.Provider
       value={{
         activeSide,
-        setSignInErrField,
-        setSignUpErrField,
         signInInputChangeHandler,
         signInInputs,
         signUpInputChangeHandler,
