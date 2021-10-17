@@ -28,10 +28,13 @@ $description-background: getBtnColor('basic');
   z-index: 1;
   width: 100%;
   border-radius: 5px;
+  padding: 5px 3px;
   display: none;
   background-color: $description-background;
   text-align: center;
   position: absolute;
+  left: 0;
+  right: 0;
 }
 
 .DesctiprionVisible {

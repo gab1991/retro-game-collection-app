@@ -1,7 +1,7 @@
 import React, { ButtonHTMLAttributes } from 'react';
 import cn from 'classnames';
 
-import styles from '../ButtonNeon/ButtonNeon.module.scss';
+import styles from './ButtonNeon.module.scss';
 
 export interface IButtonNeon extends ButtonHTMLAttributes<HTMLButtonElement> {
   blinking?: boolean;

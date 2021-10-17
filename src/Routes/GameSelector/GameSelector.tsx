@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Paginator } from 'Components';
 
+import { GameCardSkeleton } from './components/GameCard/GameCard.skeleton';
 import { SearchInput, SelectBox } from 'Components/UI';
 import { appConfig, TPlatformNames } from 'Configs/appConfig';
 import { flushGameSelectorStore, setSearchInputValue } from 'Routes/GameSelector/reducer/actions';
@@ -91,6 +92,12 @@ export function GameSelector(): JSX.Element {
             <GameCard {...game} platformName={platformName} key={game.slug} className={styles.GameCard} />
           </div>
         ))}
+        {!pageData &&
+          Array.from({ length: appConfig.GameSelector.gamesPerRequest }).map((_, ind) => (
+            <div className={styles.GameCardWrapper} key={ind}>
+              <GameCardSkeleton className={styles.GameCard} />
+            </div>
+          ))}
         {noGamesFound && <h1 className={styles.NoGamesFound}>No results have been found! Try to change the query</h1>}
       </div>
       {pageData && (
