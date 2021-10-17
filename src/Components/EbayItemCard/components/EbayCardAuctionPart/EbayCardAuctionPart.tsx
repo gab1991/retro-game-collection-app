@@ -50,11 +50,7 @@ export function EbayCardAuctionPart(): JSX.Element | null {
               Define shipping costs
             </button>
           )}
-          {!shippingCost && isLoadingShippingCosts && (
-            <div className={styles.SpinnerContainer}>
-              <DotSpinner />
-            </div>
-          )}
+          {!shippingCost && isLoadingShippingCosts && <DotSpinner className={styles.SpinnerContainer} />}
           {!shippingCost && contactSeller && `Contact seller`}
           {shippingCost && `${'+ Shipping'} ${shippingCost} ${currency}`}
         </div>

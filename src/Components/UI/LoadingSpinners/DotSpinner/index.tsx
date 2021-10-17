@@ -1,15 +1,10 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 
-export function DotSpinner(): JSX.Element {
+type TDorSpinnerProps = HTMLAttributes<SVGElement>;
+
+export function DotSpinner(props: TDorSpinnerProps): JSX.Element {
   return (
-    <svg
-      width='100%'
-      height='100%'
-      viewBox='0 0 120 30'
-      xmlns='http://www.w3.org/2000/svg'
-      style={{ position: 'absolute' }}
-      fill='currentColor'
-    >
+    <svg width='100%' height='100%' viewBox='0 0 120 30' fill='currentColor' {...props}>
       <circle cx='15' cy='15' r='15'>
         <animate
           attributeName='r'

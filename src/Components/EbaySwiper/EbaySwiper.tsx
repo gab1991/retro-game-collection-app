@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { HTMLAttributes, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cx from 'classnames';
 import { EbayItemCard } from 'Components';
@@ -14,8 +14,7 @@ import { Swiper } from 'swiper/react';
 
 import styles from './EbaySwiper.module.scss';
 
-interface IEbaySwiperProps {
-  className?: string;
+interface IEbaySwiperProps extends HTMLAttributes<HTMLDivElement> {
   gameName: string;
   isLoading?: boolean;
   platform: TPlatformNames;
@@ -24,7 +23,15 @@ interface IEbaySwiperProps {
 }
 
 export function EbaySwiper(props: IEbaySwiperProps): JSX.Element {
-  const { className, gameName, platform, isLoading, sortOrder = EEbaySortOrder.Relevance, swiperProps } = props;
+  const {
+    className,
+    gameName,
+    platform,
+    isLoading,
+    sortOrder = EEbaySortOrder.Relevance,
+    swiperProps,
+    ...htmlProps
+  } = props;
   const ebayItems = useSelector((state: IRootState) =>
     selectEbayCardItems(state, { game: gameName, platform, sortOrder })
   );
@@ -51,15 +58,15 @@ export function EbaySwiper(props: IEbaySwiperProps): JSX.Element {
   }, [ebayItems, gameName, platform]);
 
   return (
-    <div className={`${styles.EbaySwiper} ${className}`}>
-      {!isLoading && ebayItems.length > 0 && (
+    <div className={cx(styles.EbaySwiper, className)} {...htmlProps}>
+      {!isLoading && ebayItems.length && (
         <SwiperConfigured
           className={cx(styles.Swiper, { [styles.SwiperHidden]: isLoading })}
           slides={slides}
           customSwiperProps={{ ...defaultSwiperProps, ...swiperProps }}
         />
       )}
-      {!isLoading && ebayItems.length === 0 && <h3 className={styles.NoItems}>No lots have been found</h3>}
+      {!isLoading && !ebayItems.length && <h3 className={styles.NoItems}>No lots have been found</h3>}
       {isLoading && (
         <div className={styles.LoadingSvgWrapper}>
           <DotSpinner />

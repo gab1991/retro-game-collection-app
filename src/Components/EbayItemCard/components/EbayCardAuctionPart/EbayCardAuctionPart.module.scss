@@ -45,6 +45,7 @@ $define-delivery-color: $brigh-red;
 
 .PriceSection {
   margin-top: auto;
+  margin-bottom: 5px;
 }
 
 .AcutionSection {
@@ -60,20 +61,21 @@ $define-delivery-color: $brigh-red;
   width: 100%;
   margin: auto;
   font-size: 0.9rem;
+}
 
-  .SpinnerContainer {
-    position: relative;
-    width: 40px;
-    height: 22px;
-    margin: auto;
-  }
+.SpinnerContainer {
+  height: 1.15em;
+  margin: auto;
+}
 
-  .DefineShippingCosts {
-    border: none;
-    display: inline;
-    cursor: pointer;
-    color: $define-delivery-color;
-    text-decoration: underline;
+.DefineShippingCosts {
+  border: none;
+  display: inline;
+  color: $define-delivery-color;
+  text-decoration: underline;
+
+  &:hover {
+    background-color: transparent;
   }
 }
 
