@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { AnchorHTMLAttributes, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
@@ -10,8 +10,7 @@ import { getBoxArt } from 'Store/contentReducer/thunks';
 
 import styles from './GameBox.module.scss';
 
-export interface IGameBoxProps {
-  className?: string;
+export interface IGameBoxProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   game: { name: string; slug: string };
   platform: TPlatformNames;
   scaling?: boolean;
@@ -26,6 +25,7 @@ export function GameBox(props: IGameBoxProps): JSX.Element {
     platform,
     showDesc = true,
     scaling = true,
+    ...htmlProps
   } = props;
   const [descrVisibility, setDescrVisibility] = useState(false);
 
@@ -40,6 +40,7 @@ export function GameBox(props: IGameBoxProps): JSX.Element {
       onMouseEnter={() => setDescrVisibility(true)}
       onMouseLeave={() => setDescrVisibility(false)}
       draggable={false}
+      {...htmlProps}
     >
       <GameBoxWithSkeleton name={name} platform={platform} imgClassName={styles.BoxArtImg} />
       {showDesc && <p className={cn(styles.Desctiprtion, { [styles.DesctiprionVisible]: descrVisibility })}>{name}</p>}

@@ -19,6 +19,10 @@ export function DraggableGameBox(props: TDraggableGameBox): JSX.Element {
     transition: transition || '',
   };
 
+  const onDrag: React.DragEventHandler<HTMLAnchorElement> = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div
       ref={setNodeRef}
@@ -27,7 +31,11 @@ export function DraggableGameBox(props: TDraggableGameBox): JSX.Element {
       {...attributes}
       className={cn({ [styles.SortableContDragging]: isDragging })}
     >
-      <GameBox {...props} className={cn({ [styles.Dragging]: isDragging, [styles.Sorting]: isSorting })} />
+      <GameBox
+        {...props}
+        className={cn({ [styles.Dragging]: isDragging, [styles.Sorting]: isSorting })}
+        onDragStart={onDrag}
+      />
     </div>
   );
 }
