@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import { Link } from 'react-router-dom';
+import cn from 'classnames';
 
 import { images } from 'Configs/appConfig';
 
 import styles from './PlatformCard.module.scss';
 
-interface IPlatformCardProps {
-  className: string;
+interface IPlatformCardProps extends HTMLAttributes<HTMLAnchorElement> {
   name: string;
 }
 
@@ -16,7 +16,7 @@ export function PlatformCard({ name, className }: IPlatformCardProps): JSX.Eleme
   const logoImage = images[name].logo.src;
 
   return (
-    <Link to={`/${name}`} className={`${styles.PlatformCard} ${className}`}>
+    <Link to={`/${name}`} className={cn(styles.PlatformCard, className)}>
       <div className={styles.Logo}>
         <img src={logoImage} alt={name} />
       </div>

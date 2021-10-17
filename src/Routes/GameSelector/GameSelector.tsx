@@ -48,7 +48,7 @@ export function GameSelector(): JSX.Element {
   const gameSearchChangeHandler = (e: ChangeEvent<HTMLInputElement>) => dispatch(setSearchInputValue(e.target.value));
 
   const sendRequestHandler = (e: ISendReqEvent) => {
-    if (e.key === 'Enter' || e.currentTarget.getAttribute('name') === 'searchBtn') {
+    if (e.key === 'Enter' || e.currentTarget.getAttribute('data-name') === 'searchBtn') {
       changeSearchStr(searchInputValue);
       changePage(1);
     }
@@ -66,8 +66,7 @@ export function GameSelector(): JSX.Element {
             onKeyPress={sendRequestHandler}
             onBtnClick={sendRequestHandler}
             value={searchInputValue}
-            //isFocused={searchInputValue} accessibility isseues
-            className={styles.InputWrapper}
+            wrapperClassName={styles.InputWrapper}
           />
           {pageData && (
             <Paginator

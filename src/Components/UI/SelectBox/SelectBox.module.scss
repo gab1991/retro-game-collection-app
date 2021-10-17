@@ -1,4 +1,5 @@
-@import '../../../Configs/Variables.scss';
+@import 'Configs/Variables.scss';
+
 $border-radius: 7px;
 $transition: all 200ms ease-in-out;
 
@@ -9,7 +10,7 @@ $transition: all 200ms ease-in-out;
 }
 
 .TextSection {
-  display: flex flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
@@ -17,6 +18,7 @@ $transition: all 200ms ease-in-out;
   text-transform: capitalize;
   background-color: getBtnColor('basic');
   flex: 1;
+
   &:hover {
     background-color: darken(getBtnColor('basic'), 10);
   }
@@ -33,6 +35,7 @@ $transition: all 200ms ease-in-out;
   display: flex;
   background-color: getBtnColor('basic');
   transition: $transition;
+
   &:hover {
     background-color: darken(getBtnColor('basic'), 10);
   }
@@ -49,6 +52,7 @@ $transition: all 200ms ease-in-out;
   width: 100%;
   z-index: 10;
   position: absolute;
+  height: 100%;
 
   li {
     border: 1px solid $basic-border-gray;
@@ -58,11 +62,13 @@ $transition: all 200ms ease-in-out;
 
 .SvgContainer {
   height: 100%;
-  width: 18px;
+  width: 25px;
+  padding: 3px;
 
   svg {
     transform: rotate(0);
     transition: $transition;
+
     &.SvgRotate {
       transform: rotate(90deg);
     }

@@ -1,3 +1,4 @@
+export * from './ArrowSvg';
 export * from './ChevronSvg';
 export * from './CloseSvg';
 export * from './EbayLogo';

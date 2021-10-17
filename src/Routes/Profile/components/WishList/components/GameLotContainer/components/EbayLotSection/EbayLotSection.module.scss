@@ -89,7 +89,7 @@
   border-radius: 5px;
   background-color: getBtnColor('basic');
   text-align: center;
-  display: flex flex;
+  display: flex;
   justify-content: center;
   align-items: center;
 
@@ -101,7 +101,7 @@
 .KnobTogglerSection {
   @include w100v100;
   grid-area: toggler;
-  display: flex flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   padding: 10px 0;

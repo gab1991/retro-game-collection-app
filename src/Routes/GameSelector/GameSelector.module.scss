@@ -39,87 +39,89 @@ $controlsHeight: 30px;
   @include respond-to(mobile) {
     margin: 5px;
   }
+}
 
-  .InputWrapper {
-    grid-area: search;
-    height: $controlsHeight;
-    width: 80%;
+.InputWrapper {
+  grid-area: search;
+  height: $controlsHeight;
+  width: 80%;
 
-    @include respond-to(mobile) {
-      width: 100%;
-    }
-  }
-
-  .SelectBoxWrapper {
-    grid-area: sort;
-    height: $controlsHeight;
-    width: 70%;
-    @include respond-to(mobile) {
-      width: 100%;
-    }
-  }
-
-  .Pagination {
-    grid-area: pagination;
+  @include respond-to(mobile) {
     width: 100%;
-    display: flex flex;
-    justify-content: center;
-    align-items: center;
-    @include respond-to(tablet) {
-      margin-top: 2%;
-    }
+  }
+}
+
+.SelectBoxWrapper {
+  grid-area: sort;
+  height: $controlsHeight;
+  width: 70%;
+  @include respond-to(mobile) {
+    width: 100%;
+  }
+}
+
+.Pagination {
+  grid-area: pagination;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include respond-to(tablet) {
+    margin-top: 2%;
   }
 }
 
 .GamePicker {
-  flex: 1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 
   @include respond-to(mobile) {
     grid-template-columns: repeat(2, 1fr);
   }
+}
 
-  .GameCardWrapper {
-    position: relative;
-    margin: 4% 8%;
+.GameCardWrapper {
+  position: relative;
+  aspect-ratio: 1;
 
-    @include respond-to(tablet) {
-      margin: 3%;
-    }
-    @include respond-to(tablet) {
-      margin: 2%;
-    }
-    &:before {
-      display: block;
-      content: '';
-      width: 100%;
-      padding-top: 100%;
-    }
+  margin: 4% 8%;
+
+  @include respond-to(tablet) {
+    margin: 3%;
   }
-
-  .GameCard {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    font-size: 0.8rem;
+  @include respond-to(tablet) {
+    margin: 2%;
   }
-
-  .NoGamesFound {
-    font-size: 2rem;
-    margin: 10% 2% 0;
-    grid-column: 1 / -1;
-    text-align: center;
-    display: flex flex;
-    justify-content: center;
-    align-items: center;
+  &:before {
+    display: block;
+    content: '';
+    width: 100%;
+    padding-top: 100%;
   }
 }
 
-.BottomPagination {
+.GameCard {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  font-size: 0.8rem;
+}
+
+.NoGamesFound {
+  font-size: 2rem;
+  margin: 10% 2% 0;
+  grid-column: 1 / -1;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+div.BottomPagination {
   margin: auto auto 10px;
+  height: 40px;
   width: 40%;
 
   @include respond-to(tablet) {
