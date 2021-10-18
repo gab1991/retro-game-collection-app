@@ -56,7 +56,7 @@ class ProfileApi extends Api {
     });
   }
 
-  removeGame(data: IRemoveGame): TApiResponse {
+  removeGame(data: IRemoveGame): TApiResponse<IProfile> {
     return this.executeReq({
       data,
       method: 'DELETE',

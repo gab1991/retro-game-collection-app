@@ -8,6 +8,7 @@ import { TThunk } from 'Store/types';
 import { rawgApi } from 'Api/rawgApi';
 import { youtubeApi } from 'Api/youtubeApi';
 import { appConfig, EAvailableLists, TPlatformNames } from 'Configs/appConfig';
+import { fillProfile } from 'Routes/Profile/reducer/actions';
 import { showErrModal } from 'Store/appStateReducer/actions';
 import { getEbayItemsThunk } from 'Store/ebayItemsReducer/thunks';
 
@@ -141,11 +142,15 @@ export const removeGame = (gameName: string, list: EAvailableLists, platform: TP
     const isWished = selectIsWished(store);
 
     try {
-      await profileApi.removeGame({
+      const {
+        data: { payload },
+      } = await profileApi.removeGame({
         game: gameName,
         list,
         platform,
       });
+
+      if (payload) dispatch(fillProfile(payload));
     } catch (err) {
       return dispatch(
         showErrModal({

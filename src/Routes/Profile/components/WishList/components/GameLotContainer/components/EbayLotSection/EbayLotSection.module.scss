@@ -38,10 +38,6 @@
     }
   }
 
-  &.Removing {
-    animation: remove 400ms ease forwards;
-  }
-
   .Gamebox {
     grid-area: gamebox;
   }

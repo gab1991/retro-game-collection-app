@@ -11,7 +11,8 @@ import { DeepReadonly } from 'utility-types';
 import { ButtonNeon, KnobToggler } from 'Components/UI';
 import { CloseSvg, SixDots } from 'Components/UI/LogoSvg';
 import { WarnModal } from 'Components/UI/Modals';
-import { TPlatformNames } from 'Configs/appConfig';
+import { EAvailableLists, TPlatformNames } from 'Configs/appConfig';
+import { removeGame } from 'Routes/GameDetailed/reducer/thunks';
 import { GameBox } from 'Routes/Profile/components';
 import { toggleEbayVisibility } from 'Routes/Profile/reducer/thunks';
 import { selectEbayCardItems } from 'Store/ebayItemsReducer/selectors';
@@ -30,6 +31,7 @@ export interface IEbayLotSectionProps {
   children?: ReactNode;
   className?: string;
   game: DeepReadonly<IProfileGame>;
+  onRemoveModalConfirm?: () => void;
   platform: TPlatformNames;
   showingEbay?: boolean;
 }
@@ -42,9 +44,9 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
     platform,
     className,
     children,
+    onRemoveModalConfirm,
   } = props;
 
-  const [removing, setRemoving] = useState(false);
   const [showWarn, setShowWarn] = useState(false);
   const [isEbayTogglerOn, setIsEbayTogglerOn] = useState(isShowEbay);
   const watchedEbayCards = useSelector((state: IRootState) =>
@@ -68,8 +70,9 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
     setIsEbayTogglerOn(true);
   };
 
-  const removeFromWishHandler = () => {
-    setRemoving(true);
+  const onYesClick = () => {
+    onRemoveModalConfirm && onRemoveModalConfirm();
+    setShowWarn(false);
   };
 
   const knobEbayHandler = () => {
@@ -77,7 +80,7 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
   };
 
   return (
-    <div className={cn(styles.EbyaLotSection, { [styles.Removing]: removing }, className)}>
+    <div className={cn(styles.EbyaLotSection, className)}>
       <GameBox className={styles.Gamebox} game={game} platform={platform} showDesc={false} scaling={false} />
       <div className={styles.ButtonSection}>
         {Object.keys(buttonsToSortOrder).map((btn) => (
@@ -127,10 +130,7 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
         <WarnModal
           message={`Do you really want to remove ${gameName}`}
           onBackdropClick={() => setShowWarn(false)}
-          onYesClick={() => {
-            removeFromWishHandler();
-            setShowWarn(false);
-          }}
+          onYesClick={onYesClick}
           onNoClick={() => setShowWarn(false)}
         />
       )}
