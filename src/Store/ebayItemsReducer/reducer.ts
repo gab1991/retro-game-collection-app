@@ -7,7 +7,7 @@ import set from 'lodash/set';
 
 import * as actions from './actions';
 
-const initial: TEbayItemsReducer = {};
+const initial: TEbayItemsReducer = { isLoading: false, items: {} };
 
 export const ebayItemsReducer = createReducer<TEbayItemsReducer, TEbayItemsActions>(initial)
   .handleAction(
@@ -16,7 +16,7 @@ export const ebayItemsReducer = createReducer<TEbayItemsReducer, TEbayItemsActio
       return produce(state, (draft) => {
         const { items = [], platform, game, sortOrder } = payload;
         if (!game || !platform) return;
-        set(draft, [platform, game, sortOrder], items);
+        set(draft.items, [platform, game, sortOrder], items);
       });
     }
   )
@@ -30,9 +30,9 @@ export const ebayItemsReducer = createReducer<TEbayItemsReducer, TEbayItemsActio
 
         const isAuction = itemData?.listingType !== 'FixedPriceItem' ? true : false;
         const shippingCost = itemData?.deliveryPrice || null;
-        const ebayCardContent = draft?.[platform]?.[game]?.[sortOrder]?.[index];
+        const ebayCardContent = draft.items?.[platform]?.[game]?.[sortOrder]?.[index];
 
-        set(draft, [platform, game, sortOrder, index], { ...ebayCardContent, isAuction, itemData, shippingCost });
+        set(draft.items, [platform, game, sortOrder, index], { ...ebayCardContent, isAuction, itemData, shippingCost });
       });
     }
   )
@@ -43,7 +43,7 @@ export const ebayItemsReducer = createReducer<TEbayItemsReducer, TEbayItemsActio
         const { platform, game, sortOrder, index, bool } = payload;
         if (!game || !platform || (!index && index !== 0)) return;
 
-        set(draft, [platform, game, sortOrder, index, 'isWatched'], bool);
+        set(draft.items, [platform, game, sortOrder, index, 'isWatched'], bool);
       });
     }
   )
@@ -54,7 +54,7 @@ export const ebayItemsReducer = createReducer<TEbayItemsReducer, TEbayItemsActio
         const { platform, game, sortOrder, index, bool } = payload;
         if (!game || !platform || (!index && index !== 0)) return;
 
-        set(draft, [platform, game, sortOrder, index, 'isLoadingShippingCosts'], bool);
+        set(draft.items, [platform, game, sortOrder, index, 'isLoadingShippingCosts'], bool);
       });
     }
   )
@@ -66,7 +66,7 @@ export const ebayItemsReducer = createReducer<TEbayItemsReducer, TEbayItemsActio
 
         if (!game || !platform || (!index && index !== 0)) return;
 
-        set(draft, [platform, game, sortOrder, index, 'shippingCost'], value);
+        set(draft.items, [platform, game, sortOrder, index, 'shippingCost'], value);
       });
     }
   )
@@ -80,7 +80,7 @@ export const ebayItemsReducer = createReducer<TEbayItemsReducer, TEbayItemsActio
           return;
         }
 
-        const ebayCard = draft[platform]?.[game][sortOrder][index];
+        const ebayCard = draft.items[platform]?.[game][sortOrder][index];
 
         if (!ebayCard?.itemData?.currentPrice) {
           return;
@@ -93,7 +93,7 @@ export const ebayItemsReducer = createReducer<TEbayItemsReducer, TEbayItemsActio
 
         const totalPrice = Number(((Number(shippingCost) || 0) + Number(currentPrice)).toFixed(2));
 
-        set(draft, [platform, game, sortOrder, index, 'totalPrice'], totalPrice);
+        set(draft.items, [platform, game, sortOrder, index, 'totalPrice'], totalPrice);
       });
     }
   )
@@ -104,7 +104,7 @@ export const ebayItemsReducer = createReducer<TEbayItemsReducer, TEbayItemsActio
         const { platform, game, sortOrder, index, bool } = payload;
         if (!game || !platform || (!index && index !== 0)) return;
 
-        set(draft, [platform, game, sortOrder, index, 'contactSeller'], bool);
+        set(draft.items, [platform, game, sortOrder, index, 'contactSeller'], bool);
       });
     }
   );

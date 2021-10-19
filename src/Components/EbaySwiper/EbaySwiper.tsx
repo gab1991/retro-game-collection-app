@@ -59,7 +59,7 @@ export function EbaySwiper(props: IEbaySwiperProps): JSX.Element {
 
   return (
     <div className={cx(styles.EbaySwiper, className)} {...htmlProps}>
-      {!isLoading && ebayItems.length && (
+      {!isLoading && !!ebayItems.length && (
         <SwiperConfigured
           className={cx(styles.Swiper, { [styles.SwiperHidden]: isLoading })}
           slides={slides}

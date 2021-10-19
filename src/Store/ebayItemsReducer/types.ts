@@ -9,11 +9,12 @@ import * as ebayItemsActions from './actions';
 
 export type TEbayItemsActions = ActionType<typeof ebayItemsActions>;
 
-export type TEbayItemsReducer = DeepReadonly<
-  {
-    [platform in TPlatformNames]?: TGameToSortOrder;
-  }
->;
+export type TEbayItemsColletion = { [platform in TPlatformNames]?: TGameToSortOrder };
+
+export type TEbayItemsReducer = DeepReadonly<{
+  isLoading: boolean;
+  items: TEbayItemsColletion;
+}>;
 
 type TGameToSortOrder = { [game: string]: TSortOrderToItems };
 type TSortOrderToItems = { [sortOrder in EEbaySortOrder]: Array<TEbayCard> };
