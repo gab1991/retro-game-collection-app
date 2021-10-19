@@ -11,8 +11,7 @@ import { DeepReadonly } from 'utility-types';
 import { ButtonNeon, KnobToggler } from 'Components/UI';
 import { CloseSvg, SixDots } from 'Components/UI/LogoSvg';
 import { WarnModal } from 'Components/UI/Modals';
-import { EAvailableLists, TPlatformNames } from 'Configs/appConfig';
-import { removeGame } from 'Routes/GameDetailed/reducer/thunks';
+import { TPlatformNames } from 'Configs/appConfig';
 import { GameBox } from 'Routes/Profile/components';
 import { toggleEbayVisibility } from 'Routes/Profile/reducer/thunks';
 import { selectEbayCardItems } from 'Store/ebayItemsReducer/selectors';
@@ -96,14 +95,14 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
       <div className={styles.NameSection}>
         <div className={styles.NameBadge}>{trimName(gameName)}</div>
       </div>
-      <div className={styles.KnobTogglerSection}>
-        <KnobToggler
-          checked={isEbayTogglerOn}
-          width={'40px'}
-          labelTxt={'Show ebay offers'}
-          onChangeHandler={knobEbayHandler}
-        />
-      </div>
+      <KnobToggler
+        checked={isEbayTogglerOn}
+        width='40px'
+        onChange={knobEbayHandler}
+        labelClassName={styles.KnobTogglerSection}
+      >
+        Show ebay offers
+      </KnobToggler>
       <div className={cn(styles.EbaySwiper, { [styles.EbaySwiper_expand]: isEbayTogglerOn })}>
         {isEbayTogglerOn && (
           <EbaySwiper

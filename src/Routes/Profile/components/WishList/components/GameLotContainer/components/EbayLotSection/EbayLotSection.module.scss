@@ -37,10 +37,10 @@
       }
     }
   }
+}
 
-  .Gamebox {
-    grid-area: gamebox;
-  }
+.Gamebox {
+  grid-area: gamebox;
 }
 
 .ButtonSection {
@@ -95,15 +95,9 @@
 }
 
 .KnobTogglerSection {
-  @include w100v100;
   grid-area: toggler;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   padding: 10px 0;
-  label {
-    font-size: 0.8rem;
-  }
+  font-size: 0.8rem;
 }
 
 .EbaySwiper {
