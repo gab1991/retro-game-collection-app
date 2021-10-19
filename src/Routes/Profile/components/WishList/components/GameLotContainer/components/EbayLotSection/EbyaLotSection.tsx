@@ -92,9 +92,7 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
           </ButtonNeon>
         ))}
       </div>
-      <div className={styles.NameSection}>
-        <div className={styles.NameBadge}>{trimName(gameName)}</div>
-      </div>
+      <p className={styles.NameBadge}>{trimName(gameName)}</p>
       <KnobToggler
         checked={isEbayTogglerOn}
         width='40px'
