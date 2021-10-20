@@ -57,6 +57,7 @@
 
   button {
     width: 110px;
+    padding: 5px 0px;
     font-size: 0.8rem;
   }
 
@@ -151,6 +152,7 @@
 
 .ControlsSection {
   grid-area: controls;
+  padding: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
