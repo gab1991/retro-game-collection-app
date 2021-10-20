@@ -69,7 +69,7 @@ export function GameSelector(): JSX.Element {
             value={searchInputValue}
             wrapperClassName={styles.InputWrapper}
           />
-          {pageData && (
+          {!!pageData.count && (
             <Paginator
               totalCount={pageData.count}
               itemsPerPage={appConfig.GameSelector.gamesPerRequest}
@@ -92,7 +92,7 @@ export function GameSelector(): JSX.Element {
             <GameCard {...game} platformName={platformName} key={game.slug} className={styles.GameCard} />
           </div>
         ))}
-        {!pageData &&
+        {!pageData.count &&
           Array.from({ length: appConfig.GameSelector.gamesPerRequest }).map((_, ind) => (
             <div className={styles.GameCardWrapper} key={ind}>
               <GameCardSkeleton className={styles.GameCard} />
@@ -100,7 +100,7 @@ export function GameSelector(): JSX.Element {
           ))}
         {noGamesFound && <h1 className={styles.NoGamesFound}>No results have been found! Try to change the query</h1>}
       </div>
-      {pageData && (
+      {!!pageData.count && (
         <Paginator
           totalCount={pageData.count}
           itemsPerPage={appConfig.GameSelector.gamesPerRequest}
