@@ -43,7 +43,6 @@ export const getEbayItemsThunk = (platform: TPlatformNames, game: string, sortOr
         items = ebayItems.map((ebayItem) => ({ itemId: [ebayItem.id] }));
       } else {
         const { data = null } = await ebayApi.getEbayItems(platform, game, sortOrder);
-
         if (data && data[0]) {
           const { item: ebayitems = [] } = data[0];
           items = ebayitems;
@@ -53,11 +52,10 @@ export const getEbayItemsThunk = (platform: TPlatformNames, game: string, sortOr
       dispatch(showErrModal({ message: 'Cannot fetch ebay cards! Try again later' }));
     }
 
-    dispatch(setEbaySectionLoading(false));
-
-    if (items.length) {
+    batch(() => {
+      dispatch(setEbaySectionLoading(false));
       dispatch(setEbayItems(items, platform, game, sortOrder));
-    }
+    });
   };
 };
 

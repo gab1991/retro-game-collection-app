@@ -114,7 +114,6 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
         )}
       </div>
       <div className={styles.ControlsSection}>{children || <SixDots className={cn(styles.sixDotsSvg)} />}</div>
-
       <div
         className={styles.CloseSvgWrapper}
         onClick={() => setShowWarn(true)}
