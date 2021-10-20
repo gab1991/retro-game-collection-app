@@ -33,11 +33,11 @@ export const selectEbayCardItemId = (
 export const selectEbayCardItems = (
   store: IRootState,
   { platform, game, sortOrder }: Omit<ISelEbatCardItemId, 'index'>
-): DeepReadonly<Array<TEbayCard>> => {
-  if (!store || !platform || !game || !sortOrder) return [];
+): DeepReadonly<Array<TEbayCard>> | null => {
+  if (!store || !platform || !game || !sortOrder) return null;
   const { items } = store.ebayItems;
   const ebayCardItems = items?.[platform]?.[game]?.[sortOrder];
-  return ebayCardItems || [];
+  return ebayCardItems || null;
 };
 
 export const selectEbayCard = (

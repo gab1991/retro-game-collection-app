@@ -51,7 +51,8 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
   const watchedEbayCards = useSelector((state: IRootState) =>
     selectEbayCardItems(state, { game: gameName, platform, sortOrder: EEbaySortOrder.Watched })
   );
-  const initialEbayList = watchedEbayCards.length ? EEbaySortOrder.Watched : EEbaySortOrder['New Offers'];
+  const initialEbayList =
+    watchedEbayCards && watchedEbayCards.length ? EEbaySortOrder.Watched : EEbaySortOrder['New Offers'];
 
   const [activeEbaylist, setActiveEbaylist] = useState<EEbaySortOrder>(initialEbayList);
 

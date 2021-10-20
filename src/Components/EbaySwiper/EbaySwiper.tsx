@@ -16,34 +16,28 @@ import styles from './EbaySwiper.module.scss';
 
 interface IEbaySwiperProps extends HTMLAttributes<HTMLDivElement> {
   gameName: string;
-  isLoading?: boolean;
   platform: TPlatformNames;
   sortOrder?: EEbaySortOrder;
   swiperProps?: Swiper;
 }
 
 export function EbaySwiper(props: IEbaySwiperProps): JSX.Element {
-  const {
-    className,
-    gameName,
-    platform,
-    isLoading,
-    sortOrder = EEbaySortOrder.Relevance,
-    swiperProps,
-    ...htmlProps
-  } = props;
+  const { className, gameName, platform, sortOrder = EEbaySortOrder.Relevance, swiperProps, ...htmlProps } = props;
   const ebayItems = useSelector((state: IRootState) =>
     selectEbayCardItems(state, { game: gameName, platform, sortOrder })
   );
   const [slides, setSlides] = useState<TSwiperConfiguredSlides>([]);
   const dispatch = useDispatch();
 
+  const hasItems = !!ebayItems && !!ebayItems.length;
+  const emptyArr = !!ebayItems && !ebayItems.length;
+
   useEffect(() => {
     dispatch(getEbayItemsGDThunk(platform, gameName, sortOrder));
   }, [platform, gameName, sortOrder, dispatch]);
 
   useEffect(() => {
-    if (!ebayItems.length) {
+    if (!ebayItems || !ebayItems.length) {
       return;
     }
 
@@ -59,19 +53,15 @@ export function EbaySwiper(props: IEbaySwiperProps): JSX.Element {
 
   return (
     <div className={cx(styles.EbaySwiper, className)} {...htmlProps}>
-      {!isLoading && !!ebayItems.length && (
+      {hasItems && (
         <SwiperConfigured
-          className={cx(styles.Swiper, { [styles.SwiperHidden]: isLoading })}
+          className={cx(styles.Swiper, { [styles.SwiperHidden]: !hasItems })}
           slides={slides}
           customSwiperProps={{ ...defaultSwiperProps, ...swiperProps }}
         />
       )}
-      {!isLoading && !ebayItems.length && <h3 className={styles.NoItems}>No lots have been found</h3>}
-      {isLoading && (
-        <div className={styles.LoadingSvgWrapper}>
-          <DotSpinner />
-        </div>
-      )}
+      {emptyArr && <h3 className={styles.NoItems}>No lots have been found</h3>}
+      {!ebayItems && <DotSpinner className={styles.DotSpinner} />}
     </div>
   );
 }
