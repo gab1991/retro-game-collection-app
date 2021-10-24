@@ -17,14 +17,11 @@
 
   @include respond-to(tablet) {
     grid-template-columns: 170px 170px auto;
-  }
-
-  @include respond-to(mobile) {
     grid-template-areas:
-      'gamebox btns'
-      'name toggler'
-      'ebay ebay';
-    grid-template-columns: 60% 40%;
+      'gamebox btns btns'
+      'name toggler controls'
+      'ebay ebay ebay';
+
     grid-template-rows: 200px min-content auto;
   }
 

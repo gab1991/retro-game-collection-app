@@ -1,3 +1,4 @@
+import { EEbaySortOrder } from 'Api';
 import { produce } from 'immer';
 
 import { TEbayItemsActions, TEbayItemsReducer } from './types';
@@ -108,4 +109,14 @@ export const ebayItemsReducer = createReducer<TEbayItemsReducer, TEbayItemsActio
         set(draft.items, [platform, game, sortOrder, index, 'contactSeller'], bool);
       });
     }
-  );
+  )
+  .handleAction(actions.removeWatchedCard, (state, { payload }) => {
+    return produce(state, (draft) => {
+      const { platform, game, ebayItemId } = payload;
+      const changedCategory = draft.items?.[platform]?.[game].Watched.filter(
+        (card) => card.itemId[0] !== ebayItemId.toString()
+      );
+
+      set(draft.items, [platform, game, EEbaySortOrder.Watched], changedCategory);
+    });
+  });

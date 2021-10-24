@@ -48,7 +48,7 @@ export const EbayCardContextProvier = (props: IEbayCardContextProvierProps): JSX
       dispatch(getEbaySingleItemByIndex(platform, game, index, sortOrder));
       isLogged && dispatch(checkIfCardIsWatched(game, platform, index, sortOrder));
     });
-  }, [platform, game, sortOrder]);
+  }, [platform, game, sortOrder, index]);
 
   const calcTotalPrice = () => dispatch(calculateTotalPrice(platform, game, index, sortOrder));
 
@@ -65,9 +65,9 @@ export const EbayCardContextProvier = (props: IEbayCardContextProvierProps): JSX
       return;
     }
     if (!isWatched) {
-      dispatch(watchEbayCard(game, platform, itemId, index));
+      dispatch(watchEbayCard(game, platform, itemId, index, sortOrder));
     } else {
-      dispatch(notWatchEbayCard(game, platform, itemId, index));
+      dispatch(notWatchEbayCard(game, platform, itemId, index, sortOrder));
     }
   };
 

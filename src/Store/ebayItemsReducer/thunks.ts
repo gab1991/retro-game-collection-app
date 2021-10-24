@@ -9,10 +9,12 @@ import { IRootState, TThunk } from 'Store/types';
 
 import { appConfig, TPlatformNames } from 'Configs/appConfig';
 import { setEbaySectionLoading } from 'Routes/GameDetailed/reducer/actions';
+import { setProfileDataThunk } from 'Routes/Profile/reducer/thunks';
 import { showErrModal, showInfoModal } from 'Store/appStateReducer/actions';
 import { IEbayCardItemData, TEbayCardPreviewRawData } from 'Typings/ebayData';
 
 import {
+  removeWatchedCard,
   setContactSeller,
   setEbayItems,
   setEbayItemShippingCost,
@@ -172,6 +174,8 @@ export const notWatchEbayCard = (
         game,
         platform,
       });
+
+      dispatch(removeWatchedCard(game, platform, ebayItemId));
     } catch (error) {
       batch(() => {
         dispatch(setIsWatchedEbayCard(game, platform, sortOrder, index, true));
@@ -196,11 +200,15 @@ export const watchEbayCard = (
     dispatch(setIsWatchedEbayCard(game, platform, sortOrder, index, true));
 
     try {
-      await profileApi.watchEbayCard({
+      const {
+        data: { payload },
+      } = await profileApi.watchEbayCard({
         ebayItemId,
         game,
         platform,
       });
+
+      payload && dispatch(setProfileDataThunk(payload));
     } catch (err) {
       if (
         isAxiosError<{ additionals: { showModal: boolean }; err_message: string }>(err) &&
