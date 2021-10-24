@@ -43,7 +43,8 @@ export const ebayItemsReducer = createReducer<TEbayItemsReducer, TEbayItemsActio
         const { platform, game, sortOrder, index, bool } = payload;
         if (!game || !platform || (!index && index !== 0)) return;
 
-        set(draft.items, [platform, game, sortOrder, index, 'isWatched'], bool);
+        const ebayCardContent = draft.items?.[platform]?.[game]?.[sortOrder]?.[index];
+        set(draft.items, [platform, game, sortOrder, index], { ...ebayCardContent, isWatched: bool });
       });
     }
   )

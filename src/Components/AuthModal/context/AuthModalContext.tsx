@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { produce } from 'immer';
 
 import {
@@ -11,9 +12,11 @@ import {
   TSignInInputs,
   TSignUpInputs,
 } from 'Components/AuthModal/types';
+import { TAuthModalErrors } from 'Store/authReducer/types';
 
 import { SIGN_IN_INPUTS, SIGN_UP_INPUTS } from 'Components/AuthModal/inputs';
 import { validateAuthModalInput } from 'Components/AuthModal/validation';
+import { selectSignInErrs, selectSignUpErrs } from 'Store/authReducer/selectors';
 
 const AuthModalContext = React.createContext<null | IAuthModalProviderContext>(null);
 
@@ -38,8 +41,31 @@ type TSideInputs = { [EAuthModalSides.signIn]: TSignInInputs; [EAuthModalSides.s
 export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.Element {
   const [activeSide, setActiveSide] = useState(EAuthModalSides.signIn);
   const [inputs, setInputs] = useState<TSideInputs>({ signIn: SIGN_IN_INPUTS, signUp: SIGN_UP_INPUTS });
+  const signInErrors = useSelector(selectSignInErrs);
+  const singUpErrors = useSelector(selectSignUpErrs);
   const signInInputs = inputs.signIn;
   const signUpInputs = inputs.signUp;
+
+  useEffect(() => {
+    if (signInErrors) {
+      setApiErr(signInErrors, EAuthModalSides.signIn);
+    }
+    if (singUpErrors) {
+      setApiErr(singUpErrors, EAuthModalSides.signUp);
+    }
+  }, [signInErrors, singUpErrors]);
+
+  const setApiErr = (errObj: TAuthModalErrors, side: EAuthModalSides): void => {
+    const { err, field } = errObj;
+
+    const updState = produce(inputs, (draft) => {
+      const ind = draft[side].findIndex((input: ISignInInput | ISignUpInput) => input.name === field);
+      draft[side][ind].errMsg = err;
+      draft[side][ind].valid = false;
+    });
+
+    setInputs(updState);
+  };
 
   const changeHandler = (
     e: React.ChangeEvent<HTMLInputElement>,

@@ -65,9 +65,15 @@ export const signUpThunk = (signUpData: ISignUpData): TThunk => async (dispatch,
       err.response.data.field
     ) {
       const { err_message, field } = err.response.data;
-      dispatch(signUp.failure({ err: err_message, field }));
+      return dispatch(signUp.failure({ err: err_message, field }));
     }
   }
+  dispatch(
+    signUp.failure({
+      err: 'something went wrong with this attempt try to change credentials',
+      field: ESignUpInputs.username,
+    })
+  );
 };
 
 export const signInThunk = (username: string, password: string): TThunk => async (dispatch) => {
@@ -91,7 +97,13 @@ export const signInThunk = (username: string, password: string): TThunk => async
       err.response.data.field
     ) {
       const { err_message, field } = err.response.data;
-      dispatch(signIn.failure({ err: err_message, field }));
+      return dispatch(signIn.failure({ err: err_message, field }));
     }
   }
+  dispatch(
+    signIn.failure({
+      err: 'something went wrong with this attempt try to change credentials',
+      field: ESignInInputs.username,
+    })
+  );
 };

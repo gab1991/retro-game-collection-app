@@ -7,4 +7,4 @@ export const selectIsAuthLoading: TSelector<boolean> = (state) => state.auth.isL
 
 export const selectSignUpErrs: TSelector<TAuthModalErrors | null> = (state) => state.auth.signUpErrors;
 
-export const selectSignInErrs: TSelector<TAuthModalErrors | null> = (state) => state.auth.signUpErrors;
+export const selectSignInErrs: TSelector<TAuthModalErrors | null> = (state) => state.auth.signInErrors;
