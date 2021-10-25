@@ -19,8 +19,10 @@ export interface IShowCornerNotifier extends ICornerNotifierProps {
   show: boolean;
 }
 
+export type TView = 'desktop' | 'tablet' | 'mobile';
+
 export type TAppStateReducer = DeepReadonly<{
-  isMobile: boolean;
+  currentView: TView;
   showAuthModal: boolean;
   showCornerNotifier: IShowCornerNotifier;
   showErrorModal: IShowErrorModal;
