@@ -22,12 +22,11 @@
       'gamebox btns btns'
       'name toggler controls'
       'ebay ebay ebay';
-
     grid-template-rows: 200px min-content auto;
   }
 
   &:hover {
-    .CloseSvgWrapper {
+    .closeBtn {
       opacity: 0.3;
       visibility: visible;
       &:hover {
@@ -59,14 +58,14 @@
     font-size: 0.8rem;
   }
 
-  // @include respond-to(mobile) {
-  //   height: 90%;
+  @include respond-to(mobile) {
+    height: 90%;
 
-  //   button {
-  //     width: 85%;
-  //     font-size: 0.7rem;
-  //   }
-  // }
+    button {
+      width: 85%;
+      font-size: 0.7rem;
+    }
+  }
 }
 
 .NameBadge {
@@ -136,7 +135,10 @@
   cursor: grab;
 }
 
-.CloseSvgWrapper {
+.closeBtn {
+  border: none;
+  color: white;
+  background-color: transparent;
   cursor: pointer;
   position: absolute;
   top: 7px;
