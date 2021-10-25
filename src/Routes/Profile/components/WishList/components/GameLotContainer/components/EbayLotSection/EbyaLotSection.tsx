@@ -14,7 +14,6 @@ import { WarnModal } from 'Components/UI/Modals';
 import { TPlatformNames } from 'Configs/appConfig';
 import { GameBox } from 'Routes/Profile/components';
 import { toggleEbayVisibility } from 'Routes/Profile/reducer/thunks';
-import { selectIsDesktop } from 'Store/appStateReducer/selectors';
 import { selectEbayCardItems } from 'Store/ebayItemsReducer/selectors';
 import { trimName } from 'Utils/helperFunctions';
 
