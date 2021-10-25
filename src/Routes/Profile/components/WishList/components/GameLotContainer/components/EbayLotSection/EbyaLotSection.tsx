@@ -14,6 +14,7 @@ import { WarnModal } from 'Components/UI/Modals';
 import { TPlatformNames } from 'Configs/appConfig';
 import { GameBox } from 'Routes/Profile/components';
 import { toggleEbayVisibility } from 'Routes/Profile/reducer/thunks';
+import { selectIsDesktop } from 'Store/appStateReducer/selectors';
 import { selectEbayCardItems } from 'Store/ebayItemsReducer/selectors';
 import { trimName } from 'Utils/helperFunctions';
 
@@ -109,7 +110,7 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
             gameName={gameName}
             platform={platform}
             sortOrder={activeEbaylist}
-            swiperProps={{ breakpoints: undefined }}
+            swiperProps={{ breakpoints: undefined, spaceBetween: 0 }}
           />
         )}
       </div>

@@ -16,7 +16,8 @@
   grid-template-rows: 300px auto;
 
   @include respond-to(tablet) {
-    grid-template-columns: 170px 170px auto;
+    width: 400px;
+    grid-template-columns: 170px 150px auto;
     grid-template-areas:
       'gamebox btns btns'
       'name toggler controls'
@@ -58,14 +59,14 @@
     font-size: 0.8rem;
   }
 
-  @include respond-to(mobile) {
-    height: 90%;
+  // @include respond-to(mobile) {
+  //   height: 90%;
 
-    button {
-      width: 85%;
-      font-size: 0.7rem;
-    }
-  }
+  //   button {
+  //     width: 85%;
+  //     font-size: 0.7rem;
+  //   }
+  // }
 }
 
 .NameBadge {
@@ -108,7 +109,7 @@
     padding: 0px;
     height: 300px;
 
-    @include respond-to(mobile) {
+    @include respond-to(tablet) {
       height: 250px;
     }
 
@@ -116,10 +117,10 @@
       height: 100%;
 
       .swiper-slide {
-        width: 390px;
+        width: 100%;
         height: 100%;
 
-        @include respond-to(mobile) {
+        @include respond-to(tablet) {
           width: 100%;
         }
       }
