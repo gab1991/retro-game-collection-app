@@ -32,7 +32,7 @@ export function ErrorModal(props: IErrorModalProps): JSX.Element {
       <Backdrop onClick={onBackdropClick} />
       <div className={styles.ErrorModalMain}>
         <div className={styles.ErrorSvgContainer}>
-          <FailureSvg />
+          <FailureSvg className={styles.FailureSvg} />
         </div>
         <div className={styles.MessageSection}>
           <p>{message}</p>

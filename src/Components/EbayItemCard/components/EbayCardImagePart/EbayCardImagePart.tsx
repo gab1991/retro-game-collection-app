@@ -21,7 +21,7 @@ export function EbayCardImagePart(): JSX.Element | null {
     <div className={styles.ImgArea}>
       <SwiperConfigured slides={slides} customSwiperProps={swiperProps} />
       <a className={styles.SvgWrapper} href={itemUrl} rel='noopener noreferrer' target='_blank'>
-        <EbayLogo />
+        <EbayLogo className={styles.EbayLogo} />
       </a>
     </div>
   );

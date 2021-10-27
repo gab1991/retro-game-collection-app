@@ -25,7 +25,7 @@ export function InfoModal(props: IInfoModalProps): JSX.Element {
       <Backdrop onClick={hideModal} />
       <div className={styles.InfoModalMain}>
         <div className={styles.InfoSvgContainer}>
-          <InfoSvg />
+          <InfoSvg className={styles.InfoSvg} />
         </div>
         <div className={styles.MessageSection}>
           <p>{message}</p>

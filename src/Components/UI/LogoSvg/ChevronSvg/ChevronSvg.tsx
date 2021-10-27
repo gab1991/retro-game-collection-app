@@ -1,15 +1,11 @@
-import React from 'react';
+import React, { SVGAttributes } from 'react';
 
-interface IChevronProps {
-  className?: string;
-}
-
-export function ChevronSvg({ className }: IChevronProps): JSX.Element {
+export function ChevronSvg(props: SVGAttributes<SVGSVGElement>): JSX.Element {
   return (
     <svg
       viewBox='0 0 451.847 451.847'
       style={{ bottom: 0, left: 0, position: 'absolute', right: 0, top: 0 }}
-      className={className}
+      {...props}
     >
       <path
         strokeWidth='3'

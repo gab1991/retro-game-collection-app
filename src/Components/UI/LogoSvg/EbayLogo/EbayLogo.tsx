@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { SVGAttributes } from 'react';
 
-import styles from './EbayLogo.module.scss';
-
-export function EbayLogo(): JSX.Element {
+export function EbayLogo(props: SVGAttributes<SVGSVGElement>): JSX.Element {
   return (
-    <svg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 300 120.32412' className={styles.SvgEbay}>
+    <svg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 300 120.32412' {...props}>
       <path
         id='e'
         d='m 38.866448,26.308378 c -21.145729,0 -38.76645103,8.97108 -38.76645103,36.036419 0,21.441707 11.84866003,34.944406 39.31245703,34.944406 32.326175,0 34.3984,-21.294248 34.3984,-21.294248 l -15.663557,0 c 0,0 -3.358398,11.466134 -19.690354,11.466134 -13.301932,0 -22.869203,-8.985845 -22.869203,-21.580814 l 59.861133,0 0,-7.903529 c 0,-12.460384 -7.91007,-31.668368 -36.582425,-31.668368 z m -0.546007,10.101117 c 12.662062,0 21.294248,7.757047 21.294248,19.383225 l -43.680508,0 c 0,-12.34261 11.267202,-19.383225 22.38626,-19.383225 z'
