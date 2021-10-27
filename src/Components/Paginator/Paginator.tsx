@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useEffectCallback } from 'CustomHooks';
 
 import styles from './Paginator.module.scss';
 
@@ -17,6 +18,24 @@ export function Paginator(props: IPaginator): JSX.Element {
   const pageCount = Math.ceil(totalCount / itemsPerPage);
   const [buttons, setButtons] = useState<Array<JSX.Element>>([]);
   const delta = 1;
+
+  const buttonClick: React.MouseEventHandler<HTMLButtonElement> = useEffectCallback((e) => {
+    const lastPage = pageCount;
+    const leftArrow = e.currentTarget.getAttribute('data-page') === '<<';
+    const rightArrow = e.currentTarget.getAttribute('data-page') === '>>';
+
+    if (leftArrow && currentPage !== 1) {
+      changeCurrentPage(currentPage - 1);
+    } else if (leftArrow && currentPage === 1) {
+      changeCurrentPage(1);
+    } else if (rightArrow && currentPage !== lastPage) {
+      changeCurrentPage(currentPage + 1);
+    } else if (rightArrow && currentPage === lastPage) {
+      changeCurrentPage(lastPage);
+    } else {
+      changeCurrentPage(Number(e.currentTarget.getAttribute('data-page')));
+    }
+  });
 
   useEffect(() => {
     const arrPaginator = pagination(currentPage, pageCount, delta);
@@ -42,25 +61,7 @@ export function Paginator(props: IPaginator): JSX.Element {
     }
 
     setButtons(newButtons);
-  }, [currentPage, pageCount, delta]);
-
-  const buttonClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-    const lastPage = pageCount;
-    const leftArrow = e.currentTarget.getAttribute('data-page') === '<<';
-    const rightArrow = e.currentTarget.getAttribute('data-page') === '>>';
-
-    if (leftArrow && currentPage !== 1) {
-      changeCurrentPage(currentPage - 1);
-    } else if (leftArrow && currentPage === 1) {
-      changeCurrentPage(1);
-    } else if (rightArrow && currentPage !== lastPage) {
-      changeCurrentPage(currentPage + 1);
-    } else if (rightArrow && currentPage === lastPage) {
-      changeCurrentPage(lastPage);
-    } else {
-      changeCurrentPage(Number(e.currentTarget.getAttribute('data-page')));
-    }
-  };
+  }, [currentPage, pageCount, delta, buttonClick]);
 
   return (
     <div className={`${styles.Paginator} ${className}`}>

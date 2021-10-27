@@ -25,11 +25,11 @@ export function useGameSelectorUrl(): IUseGameSelectorUrlReturn {
   useEffect(() => {
     const parsedParams = parse(search);
     dispatch(setParsedQueryParams(parsedParams));
-  }, []);
+  }, [search, dispatch]);
 
   useEffect(() => {
     history.push(`${pathname}?${stringify(query)}`);
-  }, [query]);
+  }, [query, history, pathname]);
 
   const setOrdering = (option: string) => {
     const [ordername, direction] = option.split(' ');

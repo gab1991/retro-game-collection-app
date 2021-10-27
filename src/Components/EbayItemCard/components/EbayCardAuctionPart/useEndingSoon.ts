@@ -35,7 +35,7 @@ export function useEndingSoon(endTime?: string): IUseEndingSoon {
       }, REFRESH_TIME_MS);
     }
     return () => clearHookInterval();
-  }, [endTime]);
+  }, [endTime, clearHookInterval, setHookInterval]);
 
   return { endingSoon };
 }

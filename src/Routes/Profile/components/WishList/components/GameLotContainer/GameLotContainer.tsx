@@ -1,11 +1,7 @@
-import React, { ReactNode } from 'react';
+import React, { HTMLAttributes } from 'react';
 
 import styles from './GameLotContainer.module.scss';
 
-export interface IGameLotContainerProps {
-  children?: ReactNode;
-}
-
-export function GameLotContainer({ children }: IGameLotContainerProps): JSX.Element {
+export function GameLotContainer({ children }: HTMLAttributes<HTMLDivElement>): JSX.Element {
   return <div className={styles.GameLotContainer}>{children}</div>;
 }

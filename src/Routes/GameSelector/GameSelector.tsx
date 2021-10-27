@@ -40,7 +40,7 @@ export function GameSelector(): JSX.Element {
     return () => {
       dispatch(flushGameSelectorStore());
     };
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(getGamesForPlatform(platformName));

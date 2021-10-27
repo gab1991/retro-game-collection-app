@@ -58,7 +58,7 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
 
   useEffect(() => {
     dispatch(toggleEbayVisibility(gameName, platform, isEbayTogglerOn));
-  }, [isEbayTogglerOn]);
+  }, [isEbayTogglerOn, gameName, platform, dispatch]);
 
   const toggleEbayList: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     const desc = e.currentTarget.textContent;

@@ -49,7 +49,7 @@ export function EbaySwiper(props: IEbaySwiperProps): JSX.Element {
     ));
 
     setSlides(newSlides);
-  }, [ebayItems, gameName, platform]);
+  }, [ebayItems, gameName, platform, sortOrder]);
 
   return (
     <div className={cx(styles.EbaySwiper, className)} {...htmlProps}>

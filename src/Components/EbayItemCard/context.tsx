@@ -1,6 +1,7 @@
 import React, { ReactNode, useContext, useEffect } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { EEbaySortOrder } from 'Api';
+import { useEffectCallback } from 'CustomHooks';
 
 import { IRootState } from 'Store/types';
 import { DeepReadonly } from 'utility-types';
@@ -48,13 +49,13 @@ export const EbayCardContextProvier = (props: IEbayCardContextProvierProps): JSX
       dispatch(getEbaySingleItemByIndex(platform, game, index, sortOrder));
       isLogged && dispatch(checkIfCardIsWatched(game, platform, index, sortOrder));
     });
-  }, [platform, game, sortOrder, index]);
+  }, [platform, game, sortOrder, index, isLogged, dispatch]);
 
-  const calcTotalPrice = () => dispatch(calculateTotalPrice(platform, game, index, sortOrder));
+  const calcTotalPrice = useEffectCallback(() => dispatch(calculateTotalPrice(platform, game, index, sortOrder)));
 
   useEffect(() => {
     calcTotalPrice();
-  }, [itemData?.currentPrice, card?.shippingCost]);
+  }, [itemData?.currentPrice, card?.shippingCost, calcTotalPrice]);
 
   const defineShippingCosts = () => {
     itemId && dispatch(getShippingCosts(game, platform, itemId, index, sortOrder));

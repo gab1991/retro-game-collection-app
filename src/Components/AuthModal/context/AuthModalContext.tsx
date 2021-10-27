@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useEffectCallback } from 'CustomHooks';
 import { produce } from 'immer';
 
 import {
@@ -46,16 +47,7 @@ export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.El
   const signInInputs = inputs.signIn;
   const signUpInputs = inputs.signUp;
 
-  useEffect(() => {
-    if (signInErrors) {
-      setApiErr(signInErrors, EAuthModalSides.signIn);
-    }
-    if (singUpErrors) {
-      setApiErr(singUpErrors, EAuthModalSides.signUp);
-    }
-  }, [signInErrors, singUpErrors]);
-
-  const setApiErr = (errObj: TAuthModalErrors, side: EAuthModalSides): void => {
+  const setApiErr = useEffectCallback((errObj: TAuthModalErrors, side: EAuthModalSides): void => {
     const { err, field } = errObj;
 
     const updState = produce(inputs, (draft) => {
@@ -65,7 +57,16 @@ export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.El
     });
 
     setInputs(updState);
-  };
+  });
+
+  useEffect(() => {
+    if (signInErrors) {
+      setApiErr(signInErrors, EAuthModalSides.signIn);
+    }
+    if (singUpErrors) {
+      setApiErr(singUpErrors, EAuthModalSides.signUp);
+    }
+  }, [signInErrors, singUpErrors, setApiErr]);
 
   const changeHandler = (
     e: React.ChangeEvent<HTMLInputElement>,

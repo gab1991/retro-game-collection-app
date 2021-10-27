@@ -1,6 +1,7 @@
 import React, { useMemo, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { useEffectCallback } from 'CustomHooks';
 import { Routes } from 'Routes';
 
 import { EHeaderReducerActions } from './reducer/types';
@@ -28,20 +29,20 @@ export function Header(): JSX.Element {
     dispatchLocal({ type: EHeaderReducerActions.HIDE_MENU });
   };
 
-  const toPlatformSelector = () => {
+  const toPlatformSelector = useEffectCallback(() => {
     history.push(Routes.PlatformSelector.makePath());
     toggleMenuSlider();
-  };
+  });
 
   const toProfile = () => {
     history.push(Routes.Profile.makePath());
   };
 
-  const loggingOut = () => {
+  const loggingOut = useEffectCallback(() => {
     toPlatformSelector();
     hideMenu();
     dispatchGlobal(logOutThunk());
-  };
+  });
 
   const showAuth = () => {
     dispatchGlobal(showAuthModal(true));
@@ -51,7 +52,7 @@ export function Header(): JSX.Element {
     const standartOptions = [{ onClick: toPlatformSelector, option: 'SELECT PLATFORM' }];
     loggedUser && standartOptions.push({ onClick: loggingOut, option: 'LOG OUT' });
     return standartOptions;
-  }, [loggedUser]);
+  }, [loggedUser, toPlatformSelector, loggingOut]);
 
   return (
     <header className={styles.Header}>
