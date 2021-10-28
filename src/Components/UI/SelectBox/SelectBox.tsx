@@ -19,8 +19,8 @@ export function SelectBox(props: ISelectBoxProps): JSX.Element {
 
   const clickHandler = () => setShowDropdown(!showDropdown);
 
-  const changeHandler = (e: SyntheticEvent<HTMLLIElement>) => {
-    if (e.target instanceof HTMLLIElement) {
+  const changeHandler = (e: SyntheticEvent<HTMLButtonElement>) => {
+    if (e.target instanceof HTMLButtonElement) {
       setSelectedValue(e.target.textContent || '');
       changedSelected(e.target.textContent || '');
     }
@@ -33,32 +33,27 @@ export function SelectBox(props: ISelectBoxProps): JSX.Element {
   }, [selected, selectedValue]);
 
   return (
-    <ul
-      className={cn(styles.SelectBox, className)}
-      onClick={clickHandler}
-      onKeyPress={clickHandler} //accessability rule
-      onMouseLeave={leaveHandler}
-      role='listbox'
-    >
-      <li className={cn(styles.Selection, { [styles.ListOpen]: showDropdown })}>
-        <span className={styles.TextSection}>{selectedValue}</span>
-        <div className={styles.SvgContainer}>
-          <ArrowSvg className={cn({ [styles.SvgRotate]: showDropdown })} />
-        </div>
-      </li>
+    <div className={cn(styles.SelectBox, className)} onMouseLeave={leaveHandler}>
+      <button
+        className={cn(styles.TextSection, styles.TextSection_first, { [styles.TextSection_first_open]: showDropdown })}
+        onClick={clickHandler}
+      >
+        <span>{selectedValue}</span>
+        <ArrowSvg className={cn(styles.ArrowSvg, { [styles.ArrowSvg_rotated]: showDropdown })} />
+      </button>
       {showDropdown && (
         <ul className={styles.Options}>
-          {options.map((option) => {
+          {options.map((option, ind) => {
+            const isLast = ind === options.length - 1;
             if (option !== selectedValue) {
               return (
-                <li
-                  key={option}
-                  onClick={changeHandler}
-                  onKeyPress={changeHandler}
-                  className={styles.TextSection}
-                  role='treeitem'
-                >
-                  {option}
+                <li key={option}>
+                  <button
+                    className={cn(styles.TextSection, { [styles.TextSection_last]: isLast })}
+                    onClick={changeHandler}
+                  >
+                    {option}
+                  </button>
                 </li>
               );
             } else {
@@ -67,6 +62,6 @@ export function SelectBox(props: ISelectBoxProps): JSX.Element {
           })}
         </ul>
       )}
-    </ul>
+    </div>
   );
 }

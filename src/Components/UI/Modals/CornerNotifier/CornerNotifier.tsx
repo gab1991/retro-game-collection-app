@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
+import { useTimeout } from 'CustomHooks';
 
 import { ButtonNeon } from 'Components/UI';
 import { hideCornerNotifier } from 'Store/appStateReducer/actions';
@@ -39,6 +40,7 @@ export function CornerNotifier(props: ICornerNotifierProps): JSX.Element {
   } = props;
   const [showing, setShowing] = useState(false);
   const [grabbed, setGrabbed] = useState(false);
+  const { setTimeout, clearTimeout } = useTimeout();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -47,13 +49,13 @@ export function CornerNotifier(props: ICornerNotifierProps): JSX.Element {
 
   useEffect(() => {
     if (removeTime && show) {
-      const interval = setTimeout(() => {
+      setTimeout(() => {
         setShowing(false);
         dispatch(hideCornerNotifier());
       }, removeTime);
-      return () => clearInterval(interval);
+      return () => clearTimeout();
     }
-  }, [removeTime, show, dispatch]);
+  }, [removeTime, show, setTimeout, clearTimeout, dispatch]);
 
   const hide = () => {
     setShowing(false);
