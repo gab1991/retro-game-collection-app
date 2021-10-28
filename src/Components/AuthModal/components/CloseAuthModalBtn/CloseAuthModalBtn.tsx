@@ -2,7 +2,7 @@ import React, { HTMLAttributes } from 'react';
 import { useDispatch } from 'react-redux';
 import cn from 'classnames';
 
-import { CloseSvg } from 'Components/UI/LogoSvg';
+import { CloseSvg } from 'Components/UI/Svg';
 import { showAuthModal } from 'Store/appStateReducer/actions';
 
 import styles from './CloseAuthModalBtn.module.scss';

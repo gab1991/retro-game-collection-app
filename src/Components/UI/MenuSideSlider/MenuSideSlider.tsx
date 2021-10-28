@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 
 import styles from './MenuSideSlider.module.scss';
 
@@ -22,14 +23,17 @@ export function MenuSideSlider(props: IMenuSideSliderProps): JSX.Element {
 
   return (
     <ul
-      className={`
-    ${styles.MenuSlider} 
-    ${side === EMenuSliderSides.left ? styles.MenuSliderLeft : styles.MenuSliderRight} 
-    ${show && (side === EMenuSliderSides.left ? styles.SlideRight : styles.SlideLeft)}
-     `}
+      className={cx(styles.MenuSlider, {
+        [styles.MenuSliderLeft]: side === EMenuSliderSides.left,
+        [styles.MenuSliderRight]: side === EMenuSliderSides.right,
+        [styles.SlideRight]: show && side === EMenuSliderSides.left,
+        [styles.SlideLeft]: show && side === EMenuSliderSides.right,
+      })}
     >
       {list.map(({ option, onClick }) => {
-        if (!option) return null;
+        if (!option) {
+          return null;
+        }
         return (
           <li key={option} onClick={onClick} onKeyPress={onClick} role='treeitem'>
             {option}

@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 
 import { Backdrop, ButtonNeon } from 'Components/UI';
-import { FailureSvg } from 'Components/UI/LogoSvg';
+import { FailureSvg } from 'Components/UI/Svg';
 import { hideErrModal } from 'Store/appStateReducer/actions';
 
 import styles from './ErrorModal.module.scss';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { GenesisBoxSvg, NesBoxSvg, PsOneBoxSvg, SkeletonLinGradId, SkeletonLinGradSvg } from 'Components/UI/LogoSvg';
+import { GenesisBoxSvg, NesBoxSvg, PsOneBoxSvg, SkeletonLinGradId, SkeletonLinGradSvg } from 'Components/UI/Svg';
 import { TPlatformNames } from 'Configs/appConfig';
 
 interface IGameBoxSkeletonController extends React.SVGProps<SVGSVGElement> {

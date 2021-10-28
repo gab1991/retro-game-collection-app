@@ -5,7 +5,7 @@ import cn from 'classnames';
 import { EbayLotSection, IEbayLotSectionProps } from '../EbayLotSection';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { SixDots } from 'Components/UI/LogoSvg';
+import { SixDots } from 'Components/UI/Svg';
 import { EAvailableLists } from 'Configs/appConfig';
 import { removeGame } from 'Routes/GameDetailed/reducer/thunks';
 

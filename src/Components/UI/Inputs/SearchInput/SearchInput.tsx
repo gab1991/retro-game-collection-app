@@ -1,7 +1,7 @@
 import React, { InputHTMLAttributes, SyntheticEvent } from 'react';
 import cn from 'classnames';
 
-import { MemoMagnifyingGlassSvg } from 'Components/UI/LogoSvg';
+import { MemoMagnifyingGlassSvg } from 'Components/UI/Svg';
 
 import styles from './SearchInput.module.scss';
 

@@ -1,7 +1,7 @@
 import React, { HtmlHTMLAttributes } from 'react';
 import cn from 'classnames';
 
-import { EyeSvg } from 'Components/UI/LogoSvg';
+import { EyeSvg } from 'Components/UI/Svg';
 
 import styles from './Toggler.module.scss';
 

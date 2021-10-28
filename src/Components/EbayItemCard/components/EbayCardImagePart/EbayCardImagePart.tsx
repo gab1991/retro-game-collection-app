@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useEbayCardContext } from 'Components/EbayItemCard/context';
 import { SwiperConfigured } from 'Components/UI';
-import { EbayLogo } from 'Components/UI/LogoSvg';
+import { EbayLogo } from 'Components/UI/Svg';
 import { Swiper } from 'swiper/react';
 
 import styles from './EbayCardImagePart.module.scss';

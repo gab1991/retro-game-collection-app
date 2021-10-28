@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { EbaySwiper } from 'Components';
 
-import { ChevronSvg, EscSvg } from 'Components/UI/LogoSvg';
+import { ChevronSvg, EscSvg } from 'Components/UI/Svg';
 import { useGameDetailedContext } from 'Routes/GameDetailed/context';
 import { selectEbaySection } from 'Routes/GameDetailed/reducer/selectors';
 

@@ -1,7 +1,7 @@
 import React, { SyntheticEvent, useEffect, useState } from 'react';
 import cn from 'classnames';
 
-import { ArrowSvg } from '../LogoSvg';
+import { ArrowSvg } from '../Svg';
 
 import styles from './SelectBox.module.scss';
 

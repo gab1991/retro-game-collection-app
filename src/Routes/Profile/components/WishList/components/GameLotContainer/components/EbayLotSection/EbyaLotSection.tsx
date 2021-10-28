@@ -9,8 +9,8 @@ import { IRootState } from 'Store/types';
 import { DeepReadonly } from 'utility-types';
 
 import { ButtonNeon, KnobToggler } from 'Components/UI';
-import { CloseSvg, SixDots } from 'Components/UI/LogoSvg';
 import { WarnModal } from 'Components/UI/Modals';
+import { CloseSvg, SixDots } from 'Components/UI/Svg';
 import { TPlatformNames } from 'Configs/appConfig';
 import { GameBox } from 'Routes/Profile/components';
 import { toggleEbayVisibility } from 'Routes/Profile/reducer/thunks';
