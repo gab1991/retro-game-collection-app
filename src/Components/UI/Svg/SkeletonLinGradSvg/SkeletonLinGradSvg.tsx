@@ -1,6 +1,6 @@
 import React from 'react';
 
-import sassVars from 'Configs/Variables.scss';
+import sassVars from 'vars.scss';
 
 export const SkeletonLinGradId = 'left-to-right';
 

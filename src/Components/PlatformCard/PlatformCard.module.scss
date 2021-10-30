@@ -1,4 +1,4 @@
-@import '../../Configs/Variables.scss';
+@import 'vars.scss';
 
 .PlatformCard {
   background-color: rgba(0, 0, 0, 0.3);
@@ -14,8 +14,7 @@
 
   &:hover {
     cursor: pointer;
-    box-shadow: 0 0 10px $blue-shine-color, 0 0 30px $blue-shine-color,
-      0 0 60px $blue-shine-color;
+    box-shadow: 0 0 10px $blue-shine-color, 0 0 30px $blue-shine-color, 0 0 60px $blue-shine-color;
     background: url('../../Assets/images/blue_noise.jpg');
     background-position: center;
   }

@@ -7,7 +7,7 @@ import { TView } from 'Store/appStateReducer/types';
 import { setCurrentView } from 'Store/appStateReducer/actions';
 import { selectCurrenView } from 'Store/appStateReducer/selectors';
 
-import sassVars from 'Configs/Variables.scss';
+import sassVars from 'vars.scss';
 
 const mobileBreakPoint = parseInt(sassVars['breakpoints-mobile']);
 const tabletBreakpoint = parseInt(sassVars['breakpoints-tablet']);
