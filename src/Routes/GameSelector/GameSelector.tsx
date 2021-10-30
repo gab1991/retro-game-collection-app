@@ -62,7 +62,6 @@ export function GameSelector(): JSX.Element {
           <SearchInput
             type='text'
             placeholder='Name of a game'
-            name='gameSearch'
             onChange={gameSearchChangeHandler}
             onKeyPress={sendRequestHandler}
             onBtnClick={sendRequestHandler}
@@ -93,6 +92,7 @@ export function GameSelector(): JSX.Element {
           </div>
         ))}
         {!pageData.count &&
+          !noGamesFound &&
           Array.from({ length: appConfig.GameSelector.gamesPerRequest }).map((_, ind) => (
             <div className={styles.GameCardWrapper} key={ind}>
               <GameCardSkeleton className={styles.GameCard} />
