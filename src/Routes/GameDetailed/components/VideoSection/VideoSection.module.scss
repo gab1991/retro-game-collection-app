@@ -44,9 +44,8 @@
     }
   }
 
-  .VideoLabel {
-    cursor: pointer;
-
+  .SectionHeader {
+    width: 100%;
     margin-bottom: 15px;
     position: relative;
   }
@@ -70,24 +69,5 @@
     transform: translateX(-50%) translateY(-50%);
     height: 50%;
     width: 50%;
-  }
-}
-
-.DropDownSvgContainer {
-  cursor: pointer;
-  transform: translateY(-50%);
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  fill: whitesmoke;
-  height: 0.8rem;
-  width: 0.8rem;
-  display: inline-block;
-}
-
-.ChevronSvg {
-  path: {
-    stroke: currentColor;
-    stroke-width: 30;
   }
 }

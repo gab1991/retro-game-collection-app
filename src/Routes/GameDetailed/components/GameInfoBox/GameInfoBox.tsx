@@ -29,7 +29,7 @@ export function GameInfoBox(props: IGameInfoBoxProps): JSX.Element {
   }, [name, platform, dispatch]);
 
   return (
-    <div className={`${styles.GameInfoBox}`}>
+    <div className={styles.GameInfoBox}>
       <div className={styles.ImageContainer}>
         <GameBoxWithSkeleton name={name} platform={platform} />
       </div>

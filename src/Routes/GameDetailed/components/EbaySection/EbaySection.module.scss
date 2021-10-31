@@ -27,29 +27,10 @@
   .EbayOffersBtn {
     grid-area: label;
     position: relative;
-    background-color: transparent;
-    color: $font-white;
-    border: none;
     margin: 0 20px;
+
     @include respond-to(mobile) {
       margin: 0 10px;
     }
-  }
-}
-
-.SvgIcon {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-
-  height: 0.8rem;
-  width: 0.8rem;
-
-  path {
-    stroke: $font-white;
-    fill: $font-white;
-
-    stroke-width: 3;
   }
 }
