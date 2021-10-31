@@ -22,16 +22,16 @@ $text-color: $font-white;
     box-shadow: 0 0 5px $blue-shine-color, 0 0 10px $blue-shine-color, 0 0 40px $blue-shine-color;
     transform: scale(0.9, 0.9);
   }
+
+  &_notLoaded {
+    display: none;
+  }
 }
 
 .ImgContainer {
   width: 100%;
-  height: 80%;
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+  height: 100%;
+  object-fit: cover;
 }
 
 .NameSection {
