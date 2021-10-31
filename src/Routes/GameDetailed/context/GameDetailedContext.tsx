@@ -40,7 +40,6 @@ export function GameDetailedProvider({ children }: IGameDetailedProviderProps): 
 
   const toggleBlockVisibilty = (e: SyntheticEvent) => {
     const elm = e.currentTarget.getAttribute('data-elm');
-    // analyze later
     if (elm && isToggleableElms(elm)) {
       dispatch(toggleElmVisibility(elm));
     }
