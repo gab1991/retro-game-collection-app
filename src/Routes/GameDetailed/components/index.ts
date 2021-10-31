@@ -1,5 +1,6 @@
-export { ControlSection } from './ControlSection';
-export { EbaySection } from './EbaySection';
-export { GameInfoBox } from './GameInfoBox';
-export { ScreenshotSection } from './ScreenshotSection';
-export { VideoSection } from './VideoSection';
+export * from './ButtonsBar';
+export * from './ControlSection';
+export * from './EbaySection';
+export * from './GameInfoBox';
+export * from './ScreenshotSection';
+export * from './VideoSection';
