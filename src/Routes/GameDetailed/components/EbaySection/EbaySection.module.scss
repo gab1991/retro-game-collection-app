@@ -1,14 +1,5 @@
 @import 'vars.scss';
 
-@mixin section-header {
-  h2 {
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: normal;
-    font-style: italic;
-  }
-}
-
 .EbaySection {
   width: 100%;
 
@@ -18,7 +9,12 @@
     'ebay ebay';
   grid-template-rows: repeat(2, auto);
   grid-template-columns: repeat(2, 1fr);
-  @include section-header;
+  h2 {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: normal;
+    font-style: italic;
+  }
 
   .EbaySectionContent {
     grid-area: ebay;
@@ -28,10 +24,12 @@
   @include respond-to(mobile) {
     font-size: 0.8rem;
   }
-  .EbayLabel {
+  .EbayOffersBtn {
     grid-area: label;
-    cursor: pointer;
     position: relative;
+    background-color: transparent;
+    color: $font-white;
+    border: none;
     margin: 0 20px;
     @include respond-to(mobile) {
       margin: 0 10px;
@@ -39,21 +37,19 @@
   }
 }
 
-.DropDownSvgContainer {
-  cursor: pointer;
-  transform: translateY(-50%);
+.SvgIcon {
   position: absolute;
   top: 50%;
   right: 10px;
-  fill: whitesmoke;
+  transform: translateY(-50%);
+
   height: 0.8rem;
   width: 0.8rem;
-  display: inline-block;
-}
 
-.ChevronSvg {
-  path: {
-    stroke: currentColor;
-    stroke-width: 30;
+  path {
+    stroke: $font-white;
+    fill: $font-white;
+
+    stroke-width: 3;
   }
 }

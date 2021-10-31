@@ -14,20 +14,11 @@ export function EbaySection(): JSX.Element {
 
   return (
     <div className={styles.EbaySection}>
-      <div
-        tabIndex={0}
-        role='button'
-        className={styles.EbayLabel}
-        data-elm='ebaySection'
-        onClick={toggleBlockVisibilty}
-        onKeyPress={toggleBlockVisibilty}
-      >
+      <button className={styles.EbayOffersBtn} data-elm='ebaySection' onClick={toggleBlockVisibilty}>
         <h2>Ebay Offers</h2>
-        <div className={styles.DropDownSvgContainer}>
-          {ebaySection.show ? <EscSvg /> : <ChevronSvg className={styles.ChevronSvg} />}
-        </div>
+        {ebaySection.show ? <EscSvg className={styles.SvgIcon} /> : <ChevronSvg className={styles.SvgIcon} />}
         <hr></hr>
-      </div>
+      </button>
       {gameDetails && ebaySection.show && (
         <EbaySwiper platform={platform} gameName={gameDetails.name} className={styles.EbaySectionContent} />
       )}
