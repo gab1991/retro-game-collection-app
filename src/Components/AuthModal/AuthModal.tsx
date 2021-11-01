@@ -1,4 +1,5 @@
 import React from 'react';
+import cn from 'classnames';
 
 import { Backdrop } from 'Components/UI';
 
@@ -12,11 +13,11 @@ export function AuthModal(): JSX.Element {
 
   return (
     <div className={styles.AuthModal}>
-      <div className={`${styles.AuthCard} ${styles[activeSide]}`}>
+      <div className={cn(styles.AuthCard, styles[activeSide])}>
         <SignInForm />
         <SignUpForm />
       </div>
-      <Backdrop show />
+      <Backdrop />
     </div>
   );
 }

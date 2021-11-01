@@ -1,55 +1,21 @@
-import React, { SyntheticEvent, useState } from 'react';
-import { batch, useDispatch } from 'react-redux';
-import { authApi, HttpRespStats, isAxiosError } from 'Api';
+import React, { SyntheticEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { ESignInInputs } from 'Components/AuthModal/types';
+import { ISignInInput } from 'Components/AuthModal/types';
 
-import { AuthFormSpinner, CloseAuthModal } from 'Components/AuthModal/components';
+import { AuthFormSpinner, CloseAuthModalBtn } from 'Components/AuthModal/components';
 import { useAuthModalContext } from 'Components/AuthModal/context';
-import { ButtonNeon, InputAuth } from 'Components/UI';
-import { showAuthModal } from 'Store/appStateReducer/actions';
-import { signIn } from 'Store/authReducer/actions';
+import { ButtonNeon, ClassicInput } from 'Components/UI';
+import { selectIsAuthLoading } from 'Store/authReducer/selectors';
+import { signInThunk } from 'Store/authReducer/thunks';
 
 import styles from './SignInForm.module.scss';
 
 export function SignInForm(): JSX.Element {
+  const { signInInputChangeHandler, signInInputs, validateSignInInputs, toSignUp } = useAuthModalContext();
+
   const dispatch = useDispatch();
-  const [isSending, setIsSending] = useState(false);
-  const {
-    signInInputChangeHandler,
-    signInInputs,
-    validateSignInInputs,
-    setSignInErrField,
-    toSignUp,
-  } = useAuthModalContext();
-
-  const sendLoginReq = async ({ username, password }) => {
-    setIsSending(true);
-
-    try {
-      const {
-        data: { status },
-      } = await authApi.postSignIn(username, password);
-
-      if (status === 'success') {
-        batch(() => {
-          dispatch(signIn(username));
-          dispatch(showAuthModal(false));
-        });
-      }
-    } catch (err) {
-      if (
-        isAxiosError<{ err_message: string; field: ESignInInputs }>(err) &&
-        err.response?.status === HttpRespStats['Bad Request'] &&
-        err.response.data.field
-      ) {
-        const { err_message, field } = err.response.data;
-        setSignInErrField(err_message, field);
-      }
-    } finally {
-      setIsSending(false);
-    }
-  };
+  const isLoading = useSelector(selectIsAuthLoading);
 
   const regularLogin = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -57,21 +23,35 @@ export function SignInForm(): JSX.Element {
     const entireFormValid = validateSignInInputs();
 
     if (entireFormValid) {
-      const sendObj = { email: '', password: '', username: '' };
+      const sendObj = { password: '', username: '' };
 
       signInInputs.forEach(({ name, value }) => (sendObj[name] = value));
 
-      sendLoginReq(sendObj);
+      dispatch(signInThunk(sendObj.username, sendObj.password));
     }
   };
 
-  const guestEnterHandler = () => {
-    sendLoginReq({ password: 'guest1', username: 'guest' });
-  };
+  const guestEnterHandler = () => dispatch(signInThunk('guest', 'guest1'));
 
   const toSignUpLocal = (e: SyntheticEvent) => {
     e.preventDefault();
     toSignUp();
+  };
+
+  const renderInput = (input: ISignInInput) => {
+    const ClassicInputComp = input.type === 'password' ? ClassicInput.InputWithToggler : ClassicInput.Input;
+
+    return (
+      <ClassicInputComp
+        type={input.type}
+        placeholder={input.placeholder}
+        onChange={(e) => signInInputChangeHandler(e, input.name)}
+        value={input.value}
+        disabled={isLoading}
+        isError={!!input.errMsg}
+        hintText={input.errMsg}
+      />
+    );
   };
 
   return (
@@ -80,32 +60,28 @@ export function SignInForm(): JSX.Element {
       <form onSubmit={regularLogin}>
         <div className={styles.InputsSection}>
           {signInInputs.map((input) => (
-            <div key={input.name} className={styles.InputWrapper}>
-              <InputAuth
-                label={input.label}
-                type={input.type}
-                placeholder={input.placeholder}
-                value={input.value}
-                addToggler={input.type === 'password'}
-                onChange={(e) => {
-                  signInInputChangeHandler(e, input.name);
-                }}
-                errorMsg={input.errMsg}
-                disabled={isSending}
-              />
-            </div>
+            <ClassicInput.Label key={input.name} onClick={(e) => e.preventDefault()}>
+              {input.label}
+              {renderInput(input)}
+            </ClassicInput.Label>
           ))}
         </div>
         <div className={styles.GuestBtnSection}>
-          <ButtonNeon txtContent={`Continue as Guest`} rectangular color={'gray'} onClick={guestEnterHandler} />
+          <ButtonNeon className={styles.NeonBtn} rectangular color='gray' onClick={guestEnterHandler}>
+            Continue as Guest
+          </ButtonNeon>
         </div>
         <div className={styles.BtnSection}>
-          <ButtonNeon txtContent={`Sign in`} onClick={regularLogin} style={{ zIndex: 100 }} rectangular />
-          <ButtonNeon txtContent={`Sign Up`} rectangular onClick={toSignUpLocal} />
+          <ButtonNeon className={styles.NeonBtn} onClick={regularLogin} rectangular>
+            Sign in
+          </ButtonNeon>
+          <ButtonNeon className={styles.NeonBtn} rectangular onClick={toSignUpLocal}>
+            Sign Up
+          </ButtonNeon>
         </div>
       </form>
-      <CloseAuthModal />
-      {isSending && <AuthFormSpinner />}
+      <CloseAuthModalBtn className={styles.CloseBtn} />
+      {isLoading && <AuthFormSpinner />}
     </div>
   );
 }

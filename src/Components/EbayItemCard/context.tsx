@@ -1,6 +1,7 @@
 import React, { ReactNode, useContext, useEffect } from 'react';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { EEbaySortOrder } from 'Api';
+import { useEffectCallback } from 'CustomHooks';
 
 import { IRootState } from 'Store/types';
 import { DeepReadonly } from 'utility-types';
@@ -19,7 +20,6 @@ import {
 import { TEbayCard } from 'Typings/ebayData';
 
 interface IEbayCardContext {
-  calcTotalPrice: () => void;
   card: DeepReadonly<TEbayCard> | null;
   defineShippingCosts: () => void;
   itemData: DeepReadonly<TEbayCard['itemData']> | null;
@@ -49,9 +49,13 @@ export const EbayCardContextProvier = (props: IEbayCardContextProvierProps): JSX
       dispatch(getEbaySingleItemByIndex(platform, game, index, sortOrder));
       isLogged && dispatch(checkIfCardIsWatched(game, platform, index, sortOrder));
     });
-  }, [platform, game, sortOrder]);
+  }, [platform, game, sortOrder, index, isLogged, dispatch]);
 
-  const calcTotalPrice = () => dispatch(calculateTotalPrice(platform, game, index, sortOrder));
+  const calcTotalPrice = useEffectCallback(() => dispatch(calculateTotalPrice(platform, game, index, sortOrder)));
+
+  useEffect(() => {
+    calcTotalPrice();
+  }, [itemData?.currentPrice, card?.shippingCost, calcTotalPrice]);
 
   const defineShippingCosts = () => {
     itemId && dispatch(getShippingCosts(game, platform, itemId, index, sortOrder));
@@ -62,14 +66,14 @@ export const EbayCardContextProvier = (props: IEbayCardContextProvierProps): JSX
       return;
     }
     if (!isWatched) {
-      dispatch(watchEbayCard(game, platform, itemId, index));
+      dispatch(watchEbayCard(game, platform, itemId, index, sortOrder));
     } else {
-      dispatch(notWatchEbayCard(game, platform, itemId, index));
+      dispatch(notWatchEbayCard(game, platform, itemId, index, sortOrder));
     }
   };
 
   return (
-    <EbayCardContext.Provider value={{ calcTotalPrice, card, defineShippingCosts, itemData, onWatchBtnClick }}>
+    <EbayCardContext.Provider value={{ card, defineShippingCosts, itemData, onWatchBtnClick }}>
       {children}
     </EbayCardContext.Provider>
   );

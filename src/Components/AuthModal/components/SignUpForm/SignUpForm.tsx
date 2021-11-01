@@ -1,30 +1,20 @@
-import React, { SyntheticEvent, useState } from 'react';
-import { batch, useDispatch } from 'react-redux';
-import { authApi, isAxiosError } from 'Api';
+import React, { SyntheticEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { HttpRespStats, ISignUpData } from 'Api/types';
-import { ESignUpInputs } from 'Components/AuthModal/types';
+import { ESignUpInputs, ISignUpInput } from 'Components/AuthModal/types';
 
-import { AuthFormSpinner, CloseAuthModal } from 'Components/AuthModal/components';
+import { AuthFormSpinner, CloseAuthModalBtn } from 'Components/AuthModal/components';
 import { useAuthModalContext } from 'Components/AuthModal/context';
-import { ButtonNeon, InputAuth } from 'Components/UI';
-import { ECornerNotifierCorners } from 'Components/UI/Modals';
-import { showAuthModal, showCornerNotifier } from 'Store/appStateReducer/actions';
-import { signIn } from 'Store/authReducer/actions';
+import { ButtonNeon, ClassicInput } from 'Components/UI';
+import { selectIsAuthLoading } from 'Store/authReducer/selectors';
+import { signUpThunk } from 'Store/authReducer/thunks';
 
 import styles from './SignUpForm.module.scss';
 
 export function SignUpForm(): JSX.Element {
+  const { toSignIn, signUpInputs, signUpInputChangeHandler, validateSignUpInputs } = useAuthModalContext();
   const dispatch = useDispatch();
-  const {
-    isMobile,
-    toSignIn,
-    signUpInputs,
-    signUpInputChangeHandler,
-    validateSignUpInputs,
-    setSignUpErrField,
-  } = useAuthModalContext();
-  const [isSending, setIsSending] = useState(false);
+  const isLoading = useSelector(selectIsAuthLoading);
 
   const submitHandler = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -35,49 +25,11 @@ export function SignUpForm(): JSX.Element {
       const sendObj = { email: '', password: '', username: '' };
 
       signUpInputs.forEach(({ name, value }) => {
-        if (name === 'passConfirm') return;
+        if (name === ESignUpInputs.passConfirm) return;
         sendObj[name] = value;
       });
 
-      postSignUp(sendObj);
-    }
-  };
-
-  const postSignUp = async (signUpData: ISignUpData) => {
-    setIsSending(true);
-
-    try {
-      const {
-        data: { status },
-      } = await authApi.postSignUp(signUpData);
-
-      if (status === 'success') {
-        batch(() => {
-          dispatch(signIn(signUpData.username));
-          dispatch(showAuthModal(false));
-          !isMobile &&
-            dispatch(
-              showCornerNotifier({
-                corner: ECornerNotifierCorners.bottomLeft,
-                message: 'Account is successfully created',
-                removeTime: 1000,
-                show: true,
-              })
-            );
-        });
-      }
-    } catch (err) {
-      if (
-        isAxiosError<{ err_message: string; field: ESignUpInputs }>(err) &&
-        err.response?.status === HttpRespStats['Bad Request'] &&
-        err.response.data.field
-      ) {
-        const { err_message, field } = err.response.data;
-
-        setSignUpErrField(err_message, field);
-      }
-    } finally {
-      setIsSending(false);
+      dispatch(signUpThunk(sendObj));
     }
   };
 
@@ -86,33 +38,45 @@ export function SignUpForm(): JSX.Element {
     toSignIn();
   };
 
+  const renderInput = (input: ISignUpInput) => {
+    const ClassicInputComp = input.type === ESignUpInputs.password ? ClassicInput.InputWithToggler : ClassicInput.Input;
+
+    return (
+      <ClassicInputComp
+        type={input.type}
+        placeholder={input.placeholder}
+        onChange={(e) => signUpInputChangeHandler(e, input.name)}
+        value={input.value}
+        disabled={isLoading}
+        isError={!!input.errMsg}
+        hintText={input.errMsg}
+      />
+    );
+  };
+
   return (
-    <div className={`${styles.SignUp}`}>
+    <div className={styles.SignUp}>
       <h1>Start Your Journey</h1>
       <form onSubmit={submitHandler}>
         <div className={styles.InputsSection}>
           {signUpInputs.map((input) => (
-            <div key={input.name} className={styles.InputWrapper}>
-              <InputAuth
-                label={input.label}
-                type={input.type}
-                placeholder={input.placeholder}
-                value={input.value}
-                addToggler={input.type === 'password'}
-                onChange={(e) => signUpInputChangeHandler(e, input.name)}
-                errorMsg={input.errMsg}
-                disabled={isSending}
-              />
-            </div>
+            <ClassicInput.Label key={input.name} onClick={(e) => e.preventDefault()}>
+              {input.label}
+              {renderInput(input)}
+            </ClassicInput.Label>
           ))}
         </div>
         <div className={styles.BtnSection}>
-          <ButtonNeon txtContent={`Create Account`} rectangular onClick={submitHandler} />
-          <ButtonNeon txtContent={`Back to Sign In`} rectangular onClick={toSignInLocal} />
+          <ButtonNeon className={styles.NeonBtn} rectangular onClick={submitHandler}>
+            Create Account
+          </ButtonNeon>
+          <ButtonNeon className={styles.NeonBtn} rectangular onClick={toSignInLocal}>
+            Back to Sign In
+          </ButtonNeon>
         </div>
       </form>
-      <CloseAuthModal />
-      {isSending && <AuthFormSpinner />}
+      <CloseAuthModalBtn className={styles.CloseBtn} />
+      {isLoading && <AuthFormSpinner />}
     </div>
   );
 }

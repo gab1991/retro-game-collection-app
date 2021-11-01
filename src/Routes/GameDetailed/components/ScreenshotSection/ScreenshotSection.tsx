@@ -1,19 +1,16 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import { useSelector } from 'react-redux';
 
 import { SwiperConfigured } from 'Components/UI';
 import { selectScreenshots } from 'Routes/GameDetailed/reducer/selectors';
 
-interface IScreenshotSectionProps {
-  className?: string;
-}
+type TScreenshotSectionProps = HTMLAttributes<HTMLDivElement>;
 
-export function ScreenshotSection(props: IScreenshotSectionProps): JSX.Element {
-  const { className } = props;
+export function ScreenshotSection(props: TScreenshotSectionProps): JSX.Element {
   const screenshots = useSelector(selectScreenshots);
 
   return (
-    <div className={className}>
+    <div {...props}>
       <SwiperConfigured
         slides={screenshots.map((url) => (
           <img src={url} alt={url} key={url} />

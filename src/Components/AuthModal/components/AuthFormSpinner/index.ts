@@ -1,1 +1,1 @@
-export { AuthFormSpinner } from './AuthFormSpinner';
+export * from './AuthFormSpinner';

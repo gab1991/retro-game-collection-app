@@ -9,8 +9,8 @@ import { IRootState } from 'Store/types';
 import { DeepReadonly } from 'utility-types';
 
 import { ButtonNeon, KnobToggler } from 'Components/UI';
-import { CloseSvg, SixDots } from 'Components/UI/LogoSvg';
 import { WarnModal } from 'Components/UI/Modals';
+import { CloseSvg, SixDots } from 'Components/UI/Svg';
 import { TPlatformNames } from 'Configs/appConfig';
 import { GameBox } from 'Routes/Profile/components';
 import { toggleEbayVisibility } from 'Routes/Profile/reducer/thunks';
@@ -30,6 +30,7 @@ export interface IEbayLotSectionProps {
   children?: ReactNode;
   className?: string;
   game: DeepReadonly<IProfileGame>;
+  onRemoveModalConfirm?: () => void;
   platform: TPlatformNames;
   showingEbay?: boolean;
 }
@@ -42,21 +43,22 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
     platform,
     className,
     children,
+    onRemoveModalConfirm,
   } = props;
 
-  const [removing, setRemoving] = useState(false);
   const [showWarn, setShowWarn] = useState(false);
   const [isEbayTogglerOn, setIsEbayTogglerOn] = useState(isShowEbay);
   const watchedEbayCards = useSelector((state: IRootState) =>
     selectEbayCardItems(state, { game: gameName, platform, sortOrder: EEbaySortOrder.Watched })
   );
-  const initialEbayList = watchedEbayCards.length ? EEbaySortOrder.Watched : EEbaySortOrder['New Offers'];
+  const initialEbayList =
+    watchedEbayCards && watchedEbayCards.length ? EEbaySortOrder.Watched : EEbaySortOrder['New Offers'];
 
   const [activeEbaylist, setActiveEbaylist] = useState<EEbaySortOrder>(initialEbayList);
 
   useEffect(() => {
     dispatch(toggleEbayVisibility(gameName, platform, isEbayTogglerOn));
-  }, [isEbayTogglerOn]);
+  }, [isEbayTogglerOn, gameName, platform, dispatch]);
 
   const toggleEbayList: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     const desc = e.currentTarget.textContent;
@@ -68,8 +70,9 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
     setIsEbayTogglerOn(true);
   };
 
-  const removeFromWishHandler = () => {
-    setRemoving(true);
+  const onYesClick = () => {
+    onRemoveModalConfirm && onRemoveModalConfirm();
+    setShowWarn(false);
   };
 
   const knobEbayHandler = () => {
@@ -77,29 +80,28 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
   };
 
   return (
-    <div className={cn(styles.EbyaLotSection, { [styles.Removing]: removing }, className)}>
+    <div className={cn(styles.EbyaLotSection, className)}>
       <GameBox className={styles.Gamebox} game={game} platform={platform} showDesc={false} scaling={false} />
       <div className={styles.ButtonSection}>
         {Object.keys(buttonsToSortOrder).map((btn) => (
           <ButtonNeon
             key={btn}
-            txtContent={btn}
             onClick={toggleEbayList}
             color={activeEbaylist === buttonsToSortOrder[btn] && isEbayTogglerOn ? 'gray' : undefined}
-          />
+          >
+            {btn}
+          </ButtonNeon>
         ))}
       </div>
-      <div className={styles.NameSection}>
-        <div className={styles.NameBadge}>{trimName(gameName)}</div>
-      </div>
-      <div className={styles.KnobTogglerSection}>
-        <KnobToggler
-          checked={isEbayTogglerOn}
-          width={'40px'}
-          labelTxt={'Show ebay offers'}
-          onChangeHandler={knobEbayHandler}
-        />
-      </div>
+      <p className={styles.NameBadge}>{trimName(gameName)}</p>
+      <KnobToggler
+        checked={isEbayTogglerOn}
+        width='40px'
+        onChange={knobEbayHandler}
+        labelClassName={styles.KnobTogglerSection}
+      >
+        Show ebay offers
+      </KnobToggler>
       <div className={cn(styles.EbaySwiper, { [styles.EbaySwiper_expand]: isEbayTogglerOn })}>
         {isEbayTogglerOn && (
           <EbaySwiper
@@ -107,29 +109,19 @@ export function EbayLotSection(props: IEbayLotSectionProps): JSX.Element {
             gameName={gameName}
             platform={platform}
             sortOrder={activeEbaylist}
-            swiperProps={{ breakpoints: undefined }}
+            swiperProps={{ breakpoints: undefined, spaceBetween: 0 }}
           />
         )}
       </div>
       <div className={styles.ControlsSection}>{children || <SixDots className={cn(styles.sixDotsSvg)} />}</div>
-
-      <div
-        className={styles.CloseSvgWrapper}
-        onClick={() => setShowWarn(true)}
-        onKeyPress={() => setShowWarn(true)}
-        role={'button'}
-        tabIndex={0}
-      >
+      <button className={styles.closeBtn} onClick={() => setShowWarn(true)}>
         <CloseSvg />
-      </div>
+      </button>
       {showWarn && (
         <WarnModal
           message={`Do you really want to remove ${gameName}`}
           onBackdropClick={() => setShowWarn(false)}
-          onYesClick={() => {
-            removeFromWishHandler();
-            setShowWarn(false);
-          }}
+          onYesClick={onYesClick}
           onNoClick={() => setShowWarn(false)}
         />
       )}

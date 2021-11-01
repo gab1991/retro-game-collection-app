@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router';
+import { useEffectCallback } from 'CustomHooks';
 import { parse, stringify } from 'query-string';
 
 import { IGameSelectorQuery } from '../reducer/types';
@@ -17,19 +18,24 @@ interface IUseGameSelectorUrlReturn {
 }
 
 export function useGameSelectorUrl(): IUseGameSelectorUrlReturn {
-  const { search, pathname } = useLocation();
+  const { search: searchUrl, pathname } = useLocation();
   const history = useHistory();
   const query = useSelector(selectQuery);
+  const { search, page, ordername, direction } = query;
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const parsedParams = parse(search);
+  const parseInitialUrl = useEffectCallback(() => {
+    const parsedParams = parse(searchUrl);
     dispatch(setParsedQueryParams(parsedParams));
-  }, []);
+  });
 
   useEffect(() => {
-    history.push(`${pathname}?${stringify(query)}`);
-  }, [query]);
+    parseInitialUrl();
+  }, [parseInitialUrl]);
+
+  useEffect(() => {
+    history.push(`${pathname}?${stringify({ direction, ordername, page, search })}`);
+  }, [search, page, ordername, direction, history, pathname]);
 
   const setOrdering = (option: string) => {
     const [ordername, direction] = option.split(' ');
@@ -39,13 +45,9 @@ export function useGameSelectorUrl(): IUseGameSelectorUrlReturn {
     }
   };
 
-  const changeSearchStr = (str: string) => {
-    dispatch(changeSearchStrAction(encodeURI(str)));
-  };
+  const changeSearchStr = (str: string) => dispatch(changeSearchStrAction(encodeURI(str)));
 
-  const changePage = (page: number) => {
-    dispatch(changePageNumber(page));
-  };
+  const changePage = (page: number) => dispatch(changePageNumber(page));
 
   return { changePage, changeSearchStr, query, setOrdering };
 }

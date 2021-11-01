@@ -1,4 +1,4 @@
-@import 'Configs/Variables.scss';
+@import 'vars.scss';
 
 .EbyaLotSection {
   margin: 15px;
@@ -16,20 +16,17 @@
   grid-template-rows: 300px auto;
 
   @include respond-to(tablet) {
-    grid-template-columns: 170px 170px auto;
-  }
-
-  @include respond-to(mobile) {
+    width: 400px;
+    grid-template-columns: 170px 150px auto;
     grid-template-areas:
-      'gamebox btns'
-      'name toggler'
-      'ebay ebay';
-    grid-template-columns: 60% 40%;
+      'gamebox btns btns'
+      'name toggler controls'
+      'ebay ebay ebay';
     grid-template-rows: 200px min-content auto;
   }
 
   &:hover {
-    .CloseSvgWrapper {
+    .closeBtn {
       opacity: 0.3;
       visibility: visible;
       &:hover {
@@ -37,14 +34,10 @@
       }
     }
   }
+}
 
-  &.Removing {
-    animation: remove 400ms ease forwards;
-  }
-
-  .Gamebox {
-    grid-area: gamebox;
-  }
+.Gamebox {
+  grid-area: gamebox;
 }
 
 .ButtonSection {
@@ -61,6 +54,7 @@
 
   button {
     width: 110px;
+    padding: 5px 0px;
     font-size: 0.8rem;
   }
 
@@ -74,22 +68,19 @@
   }
 }
 
-.NameSection {
+.NameBadge {
   grid-area: name;
   width: 100%;
-  padding: 10px;
+  margin: 10px;
   display: flex;
   align-items: center;
-}
-
-.NameBadge {
+  justify-content: center;
+  text-align: center;
   user-select: none;
   width: 100%;
   padding: 5px;
   border-radius: 5px;
   background-color: getBtnColor('basic');
-  text-align: center;
-  @include flexCenter;
 
   @include respond-to(mobile) {
     font-size: 0.9rem;
@@ -97,13 +88,9 @@
 }
 
 .KnobTogglerSection {
-  @include w100v100;
   grid-area: toggler;
-  @include flexCenter;
   padding: 10px 0;
-  label {
-    font-size: 0.8rem;
-  }
+  font-size: 0.8rem;
 }
 
 .EbaySwiper {
@@ -121,7 +108,7 @@
     padding: 0px;
     height: 300px;
 
-    @include respond-to(mobile) {
+    @include respond-to(tablet) {
       height: 250px;
     }
 
@@ -129,10 +116,10 @@
       height: 100%;
 
       .swiper-slide {
-        width: 390px;
+        width: 100%;
         height: 100%;
 
-        @include respond-to(mobile) {
+        @include respond-to(tablet) {
           width: 100%;
         }
       }
@@ -148,7 +135,10 @@
   cursor: grab;
 }
 
-.CloseSvgWrapper {
+.closeBtn {
+  border: none;
+  color: white;
+  background-color: transparent;
   cursor: pointer;
   position: absolute;
   top: 7px;
@@ -162,6 +152,7 @@
 
 .ControlsSection {
   grid-area: controls;
+  padding: 10px;
   display: flex;
   align-items: center;
   justify-content: center;

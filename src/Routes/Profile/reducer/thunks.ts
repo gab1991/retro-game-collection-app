@@ -1,6 +1,7 @@
 import { batch } from 'react-redux';
 import { profileApi } from 'Api';
 
+import { IProfile } from './types';
 import { EEbaySortOrder, IReorderGames } from 'Api/types';
 import { TThunk } from 'Store/types';
 
@@ -11,6 +12,27 @@ import { setEbayItems } from 'Store/ebayItemsReducer/actions';
 import { fillProfile, reorderGames } from './actions';
 import { selectGamesFromList } from './selectors';
 
+export const setProfileDataThunk = (profile: IProfile): TThunk => (dispatch) => {
+  dispatch(fillProfile(profile));
+
+  //fill possible ebayCards
+  const {
+    wish_list: { platforms: platfromsInWishList = [] },
+  } = profile;
+
+  for (const platform of platfromsInWishList) {
+    const { name: platformName, games } = platform || {};
+
+    for (const game of games) {
+      const { name: gameName, watchedEbayOffers } = game || {};
+      const ebayItems = watchedEbayOffers.map((ebayItem) => ({
+        itemId: [ebayItem.id],
+      }));
+      dispatch(setEbayItems(ebayItems, platformName, gameName, EEbaySortOrder.Watched));
+    }
+  }
+};
+
 export const getProfileInfo = (): TThunk => async (dispatch) => {
   try {
     const {
@@ -20,25 +42,7 @@ export const getProfileInfo = (): TThunk => async (dispatch) => {
     if (!profile) {
       throw new Error('could get your profile');
     }
-
-    dispatch(fillProfile(profile));
-
-    //fill possible ebayCards
-    const {
-      wish_list: { platforms: platfromsInWishList = [] },
-    } = profile;
-
-    for (const platform of platfromsInWishList) {
-      const { name: platformName, games } = platform || {};
-
-      for (const game of games) {
-        const { name: gameName, watchedEbayOffers } = game || {};
-        const ebayItems = watchedEbayOffers.map((ebayItem) => ({
-          itemId: [ebayItem.id],
-        }));
-        dispatch(setEbayItems(ebayItems, platformName, gameName, EEbaySortOrder.Watched));
-      }
-    }
+    dispatch(setProfileDataThunk(profile));
   } catch (err) {
     dispatch(showErrModal({ message: `Couldn't get your profile! Try once more` }));
   }

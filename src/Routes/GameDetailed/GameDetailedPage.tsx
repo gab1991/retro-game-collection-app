@@ -31,7 +31,7 @@ export function GameDetailedPage(): JSX.Element {
     return () => {
       dispatch(flushGameDetailed());
     };
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     batch(() => {

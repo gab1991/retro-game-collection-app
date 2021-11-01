@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useEffectCallback } from 'CustomHooks';
 import { produce } from 'immer';
 
 import {
@@ -12,10 +13,11 @@ import {
   TSignInInputs,
   TSignUpInputs,
 } from 'Components/AuthModal/types';
+import { TAuthModalErrors } from 'Store/authReducer/types';
 
 import { SIGN_IN_INPUTS, SIGN_UP_INPUTS } from 'Components/AuthModal/inputs';
 import { validateAuthModalInput } from 'Components/AuthModal/validation';
-import { selectIsMobile } from 'Store/appStateReducer/selectors';
+import { selectSignInErrs, selectSignUpErrs } from 'Store/authReducer/selectors';
 
 const AuthModalContext = React.createContext<null | IAuthModalProviderContext>(null);
 
@@ -25,9 +27,6 @@ interface IAuthModalProviderProps {
 
 interface IAuthModalProviderContext {
   activeSide: EAuthModalSides;
-  isMobile: boolean;
-  setSignInErrField: (err_message: string, field: TAuthModalInputs) => void;
-  setSignUpErrField: (err_message: string, field: TAuthModalInputs) => void;
   signInInputChangeHandler: (e: React.ChangeEvent<HTMLInputElement>, input: ESignInInputs) => void;
   signInInputs: TSignInInputs;
   signUpInputChangeHandler: (e: React.ChangeEvent<HTMLInputElement>, input: ESignUpInputs) => void;
@@ -41,11 +40,33 @@ interface IAuthModalProviderContext {
 type TSideInputs = { [EAuthModalSides.signIn]: TSignInInputs; [EAuthModalSides.signUp]: TSignUpInputs };
 
 export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.Element {
-  const isMobile = useSelector(selectIsMobile);
   const [activeSide, setActiveSide] = useState(EAuthModalSides.signIn);
   const [inputs, setInputs] = useState<TSideInputs>({ signIn: SIGN_IN_INPUTS, signUp: SIGN_UP_INPUTS });
+  const signInErrors = useSelector(selectSignInErrs);
+  const singUpErrors = useSelector(selectSignUpErrs);
   const signInInputs = inputs.signIn;
   const signUpInputs = inputs.signUp;
+
+  const setApiErr = useEffectCallback((errObj: TAuthModalErrors, side: EAuthModalSides): void => {
+    const { err, field } = errObj;
+
+    const updState = produce(inputs, (draft) => {
+      const ind = draft[side].findIndex((input: ISignInInput | ISignUpInput) => input.name === field);
+      draft[side][ind].errMsg = err;
+      draft[side][ind].valid = false;
+    });
+
+    setInputs(updState);
+  });
+
+  useEffect(() => {
+    if (signInErrors) {
+      setApiErr(signInErrors, EAuthModalSides.signIn);
+    }
+    if (singUpErrors) {
+      setApiErr(singUpErrors, EAuthModalSides.signUp);
+    }
+  }, [signInErrors, singUpErrors, setApiErr]);
 
   const changeHandler = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -60,7 +81,7 @@ export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.El
       return;
     }
 
-    const { errMessage, isValid } = validateAuthModalInput(inputName, currentValue);
+    const { errMessage, isValid } = validateAuthModalInput(inputName, currentValue, inputs[side]);
 
     const updInputs = produce(inputs, (draft) => {
       draft[side][inputInd].value = currentValue;
@@ -84,9 +105,8 @@ export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.El
       draft[side].forEach((input: ISignInInput | ISignUpInput) => {
         if (!input.valid) {
           isValid = false;
-          if (input.value.length === 0) {
-            input.errMsg = 'This field is empty';
-          }
+
+          if (!input.value.length) input.errMsg = 'This field is empty';
         }
       });
     });
@@ -100,27 +120,6 @@ export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.El
 
   const validateSignUpInputs = () => validateInputs(EAuthModalSides.signUp);
 
-  const setErrField = (err_message: string, field: TAuthModalInputs, side: EAuthModalSides) => {
-    const updInputs = produce(inputs, (draft) => {
-      const updIndex = draft[side].findIndex((input: ISignInInput | ISignUpInput) => input.name === field);
-
-      if (updIndex < -1) {
-        return;
-      }
-
-      draft[side][updIndex].errMsg = err_message;
-      draft[side][updIndex].valid = false;
-    });
-
-    setInputs(updInputs);
-  };
-
-  const setSignInErrField = (err_message: string, field: TAuthModalInputs) =>
-    setErrField(err_message, field, EAuthModalSides.signIn);
-
-  const setSignUpErrField = (err_message: string, field: TAuthModalInputs) =>
-    setErrField(err_message, field, EAuthModalSides.signUp);
-
   const toSignUp = () => setActiveSide(EAuthModalSides.signUp);
 
   const toSignIn = () => setActiveSide(EAuthModalSides.signIn);
@@ -129,9 +128,6 @@ export function AuthModalProvider({ children }: IAuthModalProviderProps): JSX.El
     <AuthModalContext.Provider
       value={{
         activeSide,
-        isMobile,
-        setSignInErrField,
-        setSignUpErrField,
         signInInputChangeHandler,
         signInInputs,
         signUpInputChangeHandler,

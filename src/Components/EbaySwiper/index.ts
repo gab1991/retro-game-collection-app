@@ -1,1 +1,1 @@
-export { EbaySwiper } from './EbaySwiper';
+export * from './EbaySwiper';

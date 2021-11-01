@@ -1,0 +1,15 @@
+@import 'vars.scss';
+
+.Toggler {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border: none;
+  background-color: getBtnColor('basic');
+  transition: all 200ms linear;
+
+  &_pressed {
+    background-color: transparent;
+  }
+}

@@ -1,45 +1,48 @@
-@import '../../../Configs/Variables.scss';
+@import 'vars.scss';
+
 $border-radius: 7px;
 $transition: all 200ms ease-in-out;
 
 .SelectBox {
   @include w100v100;
   position: relative;
-  cursor: pointer;
 }
 
 .TextSection {
-  @include flexCenter;
-  height: 100%;
+  border: 1px solid rgba(82, 82, 82, 0.9);
+  border-radius: 0;
+  color: $font-white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  width: 100%;
   transition: all 100ms ease;
   text-transform: capitalize;
   background-color: getBtnColor('basic');
   flex: 1;
+
   &:hover {
     background-color: darken(getBtnColor('basic'), 10);
   }
-  &:last-of-type {
+
+  &_first {
+    border-radius: $border-radius;
+  }
+
+  &_first_open {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  &_last {
     border-bottom-left-radius: $border-radius;
     border-bottom-right-radius: $border-radius;
   }
-}
 
-.Selection {
-  @include w100v100;
-  border: 1px solid $basic-border-gray;
-  border-radius: $border-radius;
-  display: flex;
-  background-color: getBtnColor('basic');
-  transition: $transition;
-  &:hover {
-    background-color: darken(getBtnColor('basic'), 10);
-  }
-  &.ListOpen {
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-  }
-  .TextSection {
-    background-color: transparent;
+  span {
+    flex: 1;
   }
 }
 
@@ -47,22 +50,16 @@ $transition: all 200ms ease-in-out;
   width: 100%;
   z-index: 10;
   position: absolute;
-
-  li {
-    border: 1px solid $basic-border-gray;
-    border-top: none;
-  }
 }
 
-.SvgContainer {
+.ArrowSvg {
   height: 100%;
-  width: 18px;
+  width: 25px;
+  padding: 3px;
+  transform: rotate(0);
+  transition: $transition;
 
-  svg {
-    transform: rotate(0);
-    transition: $transition;
-    &.SvgRotate {
-      transform: rotate(90deg);
-    }
+  &_rotated {
+    transform: rotate(90deg);
   }
 }

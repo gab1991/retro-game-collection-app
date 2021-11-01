@@ -1,4 +1,4 @@
-import { ESignUpInputs, TAuthModalInputs } from 'Components/AuthModal/types';
+import { ESignUpInputs, TAuthModalInputs, TSignInInputs, TSignUpInputs } from 'Components/AuthModal/types';
 
 const regexList = {
   email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -15,6 +15,7 @@ function validate(name: TAcceptableNames, value: string): boolean {
 enum EValidateAuthModalInputErrors {
   email = 'Wrong email',
   emptyValue = 'Fill this field',
+  passConfirm = 'Passwords must match',
   password = 'Password must contain at least one number and 4 to 15 chars',
   username = 'Only numbers and letters allowed',
 }
@@ -24,7 +25,11 @@ interface IValidateAuthModalInputsReturn {
   isValid: boolean;
 }
 
-export const validateAuthModalInput = (input: TAuthModalInputs, value: string): IValidateAuthModalInputsReturn => {
+export const validateAuthModalInput = (
+  input: TAuthModalInputs,
+  value: string,
+  inputs: TSignInInputs | TSignUpInputs
+): IValidateAuthModalInputsReturn => {
   let isValid = true;
   let errMessage: EValidateAuthModalInputErrors | null = null;
 
@@ -44,10 +49,15 @@ export const validateAuthModalInput = (input: TAuthModalInputs, value: string): 
       errMessage = isValid ? null : EValidateAuthModalInputErrors.email;
       break;
     }
-    case ESignUpInputs.password:
-    case ESignUpInputs.passConfirm: {
+    case ESignUpInputs.password: {
       isValid = validate('password', value);
       errMessage = isValid ? null : EValidateAuthModalInputErrors.password;
+      break;
+    }
+    case ESignUpInputs.passConfirm: {
+      const passValue = (inputs as TSignUpInputs).find((input) => input.name === ESignUpInputs.password)?.value || '';
+      isValid = passValue === value;
+      errMessage = isValid ? null : EValidateAuthModalInputErrors.passConfirm;
       break;
     }
   }

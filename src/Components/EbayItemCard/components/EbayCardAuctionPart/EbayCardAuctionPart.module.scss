@@ -1,4 +1,4 @@
-@import 'Configs/Variables.scss';
+@import 'vars.scss';
 @import '../../EbayItemCard.module.scss';
 
 $dark-red: #4a0f0e;
@@ -20,6 +20,17 @@ $define-delivery-color: $brigh-red;
     overflow: hidden;
     text-align: center;
     font-size: 1rem;
+    position: relative;
+
+    &::after {
+      position: absolute;
+      content: '';
+      bottom: 0;
+      left: 0;
+      height: 10%;
+      width: 100%;
+      background: linear-gradient(0deg, #eeeeee 0%, transparent 100%);
+    }
   }
   button {
     margin: auto;
@@ -34,6 +45,7 @@ $define-delivery-color: $brigh-red;
 
 .PriceSection {
   margin-top: auto;
+  margin-bottom: 5px;
 }
 
 .AcutionSection {
@@ -49,20 +61,21 @@ $define-delivery-color: $brigh-red;
   width: 100%;
   margin: auto;
   font-size: 0.9rem;
+}
 
-  .SpinnerContainer {
-    position: relative;
-    width: 40px;
-    height: 22px;
-    margin: auto;
-  }
+.SpinnerContainer {
+  height: 1.15em;
+  margin: auto;
+}
 
-  .DefineShippingCosts {
-    border: none;
-    display: inline;
-    cursor: pointer;
-    color: $define-delivery-color;
-    text-decoration: underline;
+.DefineShippingCosts {
+  border: none;
+  display: inline;
+  color: $define-delivery-color;
+  text-decoration: underline;
+
+  &:hover {
+    background-color: transparent;
   }
 }
 
@@ -116,4 +129,8 @@ $define-delivery-color: $brigh-red;
       transform: rotate(-45deg);
     }
   }
+}
+
+.BtnGray {
+  background: rgb(58, 58, 58);
 }

@@ -1,3 +1,5 @@
+import { produce } from 'immer';
+
 import { TGameSelectorReducer, TGamwSelectorActions } from './types';
 import { createReducer } from 'typesafe-actions';
 
@@ -34,58 +36,57 @@ export const gameSelectorReducer = createReducer<TGameSelectorReducer, TGamwSele
   .handleAction(actions.writePageData, (state, { payload }): TGameSelectorReducer => ({ ...state, pageData: payload }))
   .handleAction(
     actions.changePageNumber,
-    (state, { payload }): TGameSelectorReducer => ({
-      ...state,
-      query: { ...state.query, page: payload },
-    })
+    (state, { payload }): TGameSelectorReducer =>
+      produce(state, (draft) => {
+        draft.query.page = payload;
+      })
   )
   .handleAction(
     actions.setNewOrdering,
-    (state, { payload: { ordername, direction } }): TGameSelectorReducer => ({
-      ...state,
-      query: { ...state.query, direction, ordername },
-    })
+    (state, { payload: { ordername, direction } }): TGameSelectorReducer =>
+      produce(state, (draft) => {
+        draft.query.direction = direction;
+        draft.query.ordername = ordername;
+      })
   )
   .handleAction(
     actions.changeSearchStrAction,
-    (state, { payload }): TGameSelectorReducer => ({
-      ...state,
-      query: { ...state.query, search: payload },
-    })
+    (state, { payload }): TGameSelectorReducer =>
+      produce(state, (draft) => {
+        draft.query.search = payload;
+      })
   )
   .handleAction(
     actions.setParsedQueryParams,
-    (state, { payload }): TGameSelectorReducer => {
-      const newParams = payload;
-      const query = { ...state.query };
-
-      for (const param in query) {
-        //negative cases fallback to default
-        if (!newParams[param]) {
-          if (param === 'page') {
-            query.page = 1;
-          } else if (param === 'search') {
-            query.search = '';
-          } else if (param === 'direction') {
-            query.direction = defaultOrdering.direction;
-          } else if (param === 'ordername') {
-            query.direction = defaultOrdering.direction;
+    (state, { payload: newParams }): TGameSelectorReducer =>
+      produce(state, (draft) => {
+        const { query } = draft;
+        for (const param in query) {
+          //negative cases fallback to default
+          if (!newParams[param]) {
+            if (param === 'page') {
+              query.page = 1;
+            } else if (param === 'search') {
+              query.search = '';
+            } else if (param === 'direction') {
+              query.direction = defaultOrdering.direction;
+            } else if (param === 'ordername') {
+              query.direction = defaultOrdering.direction;
+            }
+          }
+          //postitive cases
+          if (newParams[param]) {
+            if (param === 'page') {
+              query.page = Number(newParams[param]) || 1;
+            } else if (param === 'search') {
+              query.search = encodeURI(newParams[param] || '');
+            } else {
+              query[param] = newParams[param];
+            }
           }
         }
-        //postitive cases
-        if (newParams[param]) {
-          if (param === 'page') {
-            query.page = Number(newParams[param]) || 1;
-          } else if (param === 'search') {
-            // bug ts probaly
-            query.search = encodeURI(newParams[param] as string);
-          } else {
-            query[param] = newParams[param];
-          }
-        }
-      }
-      return { ...state, query, searchInputValue: query.search };
-    }
+        draft.searchInputValue = query.search;
+      })
   )
   .handleAction(
     actions.setSearchInputValue,

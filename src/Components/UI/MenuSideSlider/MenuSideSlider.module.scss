@@ -1,4 +1,4 @@
-@import 'Configs/Variables.scss';
+@import 'vars.scss';
 
 .MenuSlider {
   min-width: 200px;
@@ -24,7 +24,7 @@
 
     &::after {
       content: '';
-      z-index: 100;
+      z-index: 1;
       position: absolute;
       bottom: 0;
       left: -100%;

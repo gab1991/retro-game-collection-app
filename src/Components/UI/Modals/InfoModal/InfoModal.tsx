@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 
 import { Backdrop, ButtonNeon } from 'Components/UI';
-import { InfoSvg } from 'Components/UI/LogoSvg';
+import { InfoSvg } from 'Components/UI/Svg';
 import { hideInfoModal } from 'Store/appStateReducer/actions';
 
 import styles from './InfoModal.module.scss';
@@ -22,14 +22,16 @@ export function InfoModal(props: IInfoModalProps): JSX.Element {
 
   return (
     <div className={styles.InfoModal}>
-      <Backdrop onClick={hideModal} show />
+      <Backdrop onClick={hideModal} />
       <div className={styles.InfoModalMain}>
         <div className={styles.InfoSvgContainer}>
-          <InfoSvg />
+          <InfoSvg className={styles.InfoSvg} />
         </div>
         <div className={styles.MessageSection}>
           <p>{message}</p>
-          <ButtonNeon txtContent={btnTxtContent} onClick={hideModal} color={'red'} />
+          <ButtonNeon onClick={hideModal} color='red'>
+            {btnTxtContent}
+          </ButtonNeon>
         </div>
       </div>
     </div>

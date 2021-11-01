@@ -1,12 +1,11 @@
-@import '../../../../Configs/Variables.scss';
+@import 'vars.scss';
 
 .InputWrapper {
-  @include w100v100;
-  @include flexCenter;
+  position: relative;
   border: 1px solid $basic-border-gray;
-
   border-radius: 7px;
   overflow: hidden;
+
   transition: all 200ms ease-in-out;
 
   &:focus-within {
@@ -32,10 +31,13 @@
 }
 
 .SearchBtn {
+  position: absolute;
+  right: 0;
+  width: 20%;
+
   color: $font-white;
   flex: 1;
   height: 100%;
-  cursor: pointer;
   padding: 5px;
   border: none;
   background-color: getBtnColor('basic');

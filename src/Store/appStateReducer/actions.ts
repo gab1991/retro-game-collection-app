@@ -1,8 +1,7 @@
+import { TView } from './types';
 import { createAction } from 'typesafe-actions';
 
 import { ICornerNotifierProps, IErrorModalProps, IInfoModalProps } from 'Components/UI/Modals';
-
-export const setIsMobile = createAction('appState/setIsMobile', (value: boolean) => value)();
 
 export const showErrModal = createAction('appState/showErrModal', (modalProps: IErrorModalProps) => modalProps)();
 
@@ -20,3 +19,5 @@ export const showCornerNotifier = createAction(
 )();
 
 export const hideCornerNotifier = createAction('appState/hideCornerNotifier')();
+
+export const setCurrentView = createAction('appState/setCurrentView', (view: TView) => view)();

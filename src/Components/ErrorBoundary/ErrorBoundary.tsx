@@ -70,8 +70,8 @@ class _ErrorBoundary extends React.Component<IErrorBoundaryProps, IErrorBoundary
             </p>
           )}
           <div className={styles.BtnSection}>
-            <ButtonNeon txtContent={'Try to Realod'} onClick={this.reload} />
-            <ButtonNeon txtContent={'Go to Home Page'} onClick={this.goToHome} />
+            <ButtonNeon onClick={this.reload}>Try to Realod</ButtonNeon>
+            <ButtonNeon onClick={this.goToHome}>Go to Home Page</ButtonNeon>
           </div>
         </div>
       );

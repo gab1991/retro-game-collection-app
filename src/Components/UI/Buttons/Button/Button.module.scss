@@ -1,30 +1,16 @@
 .Button {
   border: none;
-  background: linear-gradient(
-    0deg,
-    rgba(0, 84, 160, 1) 0%,
-    rgb(1, 130, 204) 100%
-  );
-  width: max-content;
+  background: linear-gradient(0deg, rgba(0, 84, 160, 1) 0%, rgb(1, 130, 204) 100%);
   min-width: 120px;
-  padding: 0 5px;
+  padding: 5px;
   font-size: 1.1rem;
-  cursor: pointer;
   color: whitesmoke;
   border-radius: 4px;
-  &.Pressed {
-    background: rgb(58, 58, 58);
+
+  &:focus {
+    outline: none;
   }
-}
-
-.LetterSpacing:hover {
-  letter-spacing: 3px;
-}
-
-.Button:focus {
-  outline: none;
-}
-
-.Button:hover {
-  background: rgba(0, 84, 160, 1);
+  &:hover {
+    background: rgba(0, 84, 160, 1);
+  }
 }

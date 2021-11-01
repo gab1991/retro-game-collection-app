@@ -69,3 +69,12 @@ export const setEbayItemShippingCost = createAction(
 )();
 
 export const setContactSeller = createAction('ebayItems/setContactSeller', commonEbayActionPayloadCreator)();
+
+export const removeWatchedCard = createAction(
+  'ebayItems/removeWatchedCard',
+  (game: string, platform: TPlatformNames, ebayItemId: number) => ({
+    ebayItemId,
+    game,
+    platform,
+  })
+)();

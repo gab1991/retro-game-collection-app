@@ -1,2 +1,2 @@
-export * from './InputAuth';
+export * from './ClassicInput';
 export * from './SearchInput';

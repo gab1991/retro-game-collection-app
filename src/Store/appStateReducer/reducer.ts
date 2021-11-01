@@ -4,7 +4,7 @@ import { createReducer } from 'typesafe-actions';
 import * as actions from './actions';
 
 const initial: TAppStateReducer = {
-  isMobile: false,
+  currentView: 'mobile',
   showAuthModal: false,
   showCornerNotifier: { show: false },
   showErrorModal: { show: false },
@@ -12,7 +12,7 @@ const initial: TAppStateReducer = {
 };
 
 export const appStateReducer = createReducer<TAppStateReducer, TAppStateActions>(initial)
-  .handleAction(actions.setIsMobile, (state, { payload }): TAppStateReducer => ({ ...state, isMobile: payload }))
+  .handleAction(actions.setCurrentView, (state, { payload }): TAppStateReducer => ({ ...state, currentView: payload }))
   .handleAction(
     actions.showErrModal,
     (state, { payload: modalProps }): TAppStateReducer => ({

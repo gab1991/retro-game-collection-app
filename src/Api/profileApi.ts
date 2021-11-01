@@ -32,7 +32,7 @@ class ProfileApi extends Api {
     });
   }
 
-  notWatchEbayCard(ebayCard: IEbayCardObj): TApiResponse {
+  notWatchEbayCard(ebayCard: IEbayCardObj): TApiResponse<IProfile> {
     return this.executeReq({
       method: 'DELETE',
       url: `${endpoints.profile}/ebayCards/${ebayCard.platform}/${ebayCard.game}/${ebayCard.ebayItemId}`,
@@ -56,7 +56,7 @@ class ProfileApi extends Api {
     });
   }
 
-  removeGame(data: IRemoveGame): TApiResponse {
+  removeGame(data: IRemoveGame): TApiResponse<IProfile> {
     return this.executeReq({
       data,
       method: 'DELETE',
@@ -72,7 +72,7 @@ class ProfileApi extends Api {
     });
   }
 
-  watchEbayCard(ebayCard: IEbayCardObj): TApiResponse {
+  watchEbayCard(ebayCard: IEbayCardObj): TApiResponse<IProfile> {
     return this.executeReq({
       method: 'POST',
       url: `${endpoints.profile}/ebayCards/${ebayCard.platform}/${ebayCard.game}/${ebayCard.ebayItemId}`,

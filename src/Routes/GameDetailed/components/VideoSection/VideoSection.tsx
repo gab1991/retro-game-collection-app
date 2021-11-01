@@ -5,12 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { EVideoType, IUploadableElmemnt, TToggleableEmls } from 'Routes/GameDetailed/reducer/types';
 
 import { OvalSpinner } from 'Components/UI';
-import { ChevronSvg, EscSvg } from 'Components/UI/LogoSvg';
 import { useGameDetailedContext } from 'Routes/GameDetailed/context';
 import { selectVideos } from 'Routes/GameDetailed/reducer/selectors';
 import { getVideo } from 'Routes/GameDetailed/reducer/thunks';
 
 import styles from './VideoSection.module.scss';
+
+import { SectionHeader } from '..';
 
 interface IVideoElms {
   className: string;
@@ -23,6 +24,7 @@ export function VideoSection(): JSX.Element {
   const dispatch = useDispatch();
   const { toggleBlockVisibilty, name, platform } = useGameDetailedContext();
   const { gameplayVideo, soundtrackVideo } = useSelector(selectVideos);
+
   const videoElms: IVideoElms[] = [
     {
       className: styles.VideoSoundtrack,
@@ -52,20 +54,14 @@ export function VideoSection(): JSX.Element {
     <div className={styles.VideoSection}>
       {videoElms.map(({ className, elm, heading, video }) => (
         <div className={className} key={elm}>
-          <div
-            role='button'
-            tabIndex={0}
-            className={`${styles.VideoLabel}`}
-            data-elm={elm}
-            onKeyPress={toggleBlockVisibilty}
+          <SectionHeader
+            isOpen={video.show}
             onClick={toggleBlockVisibilty}
+            data-elm={elm}
+            className={styles.SectionHeader}
           >
-            <h2>{heading}</h2>
-            <div className={styles.DropDownSvgContainer}>
-              {video.show ? <EscSvg /> : <ChevronSvg className={styles.ChevronSvg} />}
-            </div>
-            <hr></hr>
-          </div>
+            {heading}
+          </SectionHeader>
           {video.show && (
             <div className={styles.PlayerWrapper}>
               {!video.url && (

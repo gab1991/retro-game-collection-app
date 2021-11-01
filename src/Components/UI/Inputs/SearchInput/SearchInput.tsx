@@ -1,39 +1,22 @@
-import React, { ChangeEvent, SyntheticEvent } from 'react';
+import React, { InputHTMLAttributes, SyntheticEvent } from 'react';
+import cn from 'classnames';
 
-import { MemoMagnifyingGlassSvg } from 'Components/UI/LogoSvg';
+import { MemoMagnifyingGlassSvg } from 'Components/UI/Svg';
 
 import styles from './SearchInput.module.scss';
 
-interface ISearchInput {
-  className?: string;
-  isFocused?: boolean;
-  name?: string;
+interface ISearchInput extends InputHTMLAttributes<HTMLInputElement> {
   onBtnClick?: (e: SyntheticEvent) => void;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-  onKeyPress?: (e: SyntheticEvent) => void;
-  placeholder?: string;
-  type: string;
-  value?: string;
+  wrapperClassName?: string;
 }
 
 export function SearchInput(props: ISearchInput): JSX.Element {
-  const { type, placeholder, name, onChange, onKeyPress, onBtnClick, value, className } = props;
+  const { onBtnClick, wrapperClassName, className, ...htmlProps } = props;
 
   return (
-    <div className={`${styles.InputWrapper} ${className}`}>
-      <input
-        className={styles.Input}
-        type={type}
-        placeholder={placeholder}
-        name={name}
-        onChange={onChange}
-        onKeyPress={onKeyPress}
-        autoComplete='off'
-        value={value}
-        //autoFocus={isFocused} accesability issues
-      />
-
-      <button name='searchBtn' className={styles.SearchBtn} onClick={onBtnClick}>
+    <div className={cn(styles.InputWrapper, wrapperClassName)}>
+      <input className={cn(styles.Input, className)} autoComplete='off' {...htmlProps} />
+      <button data-name='searchBtn' className={styles.SearchBtn} onClick={onBtnClick}>
         <MemoMagnifyingGlassSvg />
       </button>
     </div>

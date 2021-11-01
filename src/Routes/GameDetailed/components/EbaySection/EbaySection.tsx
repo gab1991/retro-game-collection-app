@@ -2,11 +2,12 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { EbaySwiper } from 'Components';
 
-import { ChevronSvg, EscSvg } from 'Components/UI/LogoSvg';
 import { useGameDetailedContext } from 'Routes/GameDetailed/context';
 import { selectEbaySection } from 'Routes/GameDetailed/reducer/selectors';
 
 import styles from './EbaySection.module.scss';
+
+import { SectionHeader } from '..';
 
 export function EbaySection(): JSX.Element {
   const { gameDetails, platform, toggleBlockVisibilty } = useGameDetailedContext();
@@ -14,27 +15,16 @@ export function EbaySection(): JSX.Element {
 
   return (
     <div className={styles.EbaySection}>
-      <div
-        tabIndex={0}
-        role='button'
-        className={styles.EbayLabel}
-        data-elm='ebaySection'
+      <SectionHeader
+        isOpen={ebaySection.show}
         onClick={toggleBlockVisibilty}
-        onKeyPress={toggleBlockVisibilty}
+        className={styles.EbayOffersBtn}
+        data-elm='ebaySection'
       >
-        <h2>Ebay Offers</h2>
-        <div className={styles.DropDownSvgContainer}>
-          {ebaySection.show ? <EscSvg /> : <ChevronSvg className={styles.ChevronSvg} />}
-        </div>
-        <hr></hr>
-      </div>
+        Ebay Offers
+      </SectionHeader>
       {gameDetails && ebaySection.show && (
-        <EbaySwiper
-          platform={platform}
-          gameName={gameDetails.name}
-          isLoading={ebaySection.isLoading}
-          className={styles.EbaySectionContent}
-        />
+        <EbaySwiper platform={platform} gameName={gameDetails.name} className={styles.EbaySectionContent} />
       )}
     </div>
   );

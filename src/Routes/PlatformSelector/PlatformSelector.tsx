@@ -9,7 +9,7 @@ export function PlatformSelector(): JSX.Element {
 
   return (
     <section className={styles.PlatformSelector}>
-      <h1 className={styles.Heading}>Choose your platform</h1>
+      <h1 className={styles.Heading}>CHOOSE YOUR PLATFORM</h1>
       <div className={styles.PlatformContainer}>
         {availablePlatforms.map((platform) => (
           <PlatformCard key={platform} name={platform} className={styles.PlatformCard} />

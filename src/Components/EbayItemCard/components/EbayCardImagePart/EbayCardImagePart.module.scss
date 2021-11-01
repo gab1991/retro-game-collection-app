@@ -1,4 +1,4 @@
-@import 'Configs/Variables.scss';
+@import 'vars.scss';
 
 $card-font-color: gray;
 
@@ -15,6 +15,7 @@ $card-font-color: gray;
   }
 
   .SvgWrapper {
+    cursor: pointer;
     color: $card-font-color;
     height: 30px;
     margin-top: auto;
@@ -47,4 +48,13 @@ $card-font-color: gray;
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.EbayLogo {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  fill: currentColor;
 }

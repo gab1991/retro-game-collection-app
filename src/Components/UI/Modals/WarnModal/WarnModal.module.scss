@@ -1,4 +1,4 @@
-@import '../../../../Configs/Variables.scss';
+@import 'vars.scss';
 $warn-background-color: gray;
 
 .WarnModal {
@@ -8,7 +8,9 @@ $warn-background-color: gray;
   left: 0;
   width: 100%;
   height: 100vh;
-  @include flexCenter;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .WarnWindow {

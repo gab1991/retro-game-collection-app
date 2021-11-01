@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 
 import { Backdrop, ButtonNeon } from 'Components/UI';
-import { FailureSvg } from 'Components/UI/LogoSvg';
+import { FailureSvg } from 'Components/UI/Svg';
 import { hideErrModal } from 'Store/appStateReducer/actions';
 
 import styles from './ErrorModal.module.scss';
@@ -29,14 +29,16 @@ export function ErrorModal(props: IErrorModalProps): JSX.Element {
 
   return (
     <div className={styles.ErrorModal}>
-      <Backdrop onClick={onBackdropClick} show />
+      <Backdrop onClick={onBackdropClick} />
       <div className={styles.ErrorModalMain}>
         <div className={styles.ErrorSvgContainer}>
-          <FailureSvg />
+          <FailureSvg className={styles.FailureSvg} />
         </div>
         <div className={styles.MessageSection}>
           <p>{message}</p>
-          <ButtonNeon txtContent={btnTxtContent} onClick={onBtnClick} color={'red'} />
+          <ButtonNeon onClick={onBtnClick} color='red'>
+            {btnTxtContent}
+          </ButtonNeon>
         </div>
       </div>
     </div>

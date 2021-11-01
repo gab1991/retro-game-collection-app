@@ -9,10 +9,12 @@ import { IRootState, TThunk } from 'Store/types';
 
 import { appConfig, TPlatformNames } from 'Configs/appConfig';
 import { setEbaySectionLoading } from 'Routes/GameDetailed/reducer/actions';
+import { setProfileDataThunk } from 'Routes/Profile/reducer/thunks';
 import { showErrModal, showInfoModal } from 'Store/appStateReducer/actions';
 import { IEbayCardItemData, TEbayCardPreviewRawData } from 'Typings/ebayData';
 
 import {
+  removeWatchedCard,
   setContactSeller,
   setEbayItems,
   setEbayItemShippingCost,
@@ -20,14 +22,14 @@ import {
   setEbaySingleItemData,
   setIsWatchedEbayCard,
 } from './actions';
-import { selectEbayCardItemId, selectEbayCardItemsReducer } from './selectors';
+import { selectAllEbayCardItems, selectEbayCardItemId } from './selectors';
 
 const DEFAULT_SORT_ORDER = appConfig.EbayCards.defaultSortOrder;
 
 export const getEbayItemsThunk = (platform: TPlatformNames, game: string, sortOrder = DEFAULT_SORT_ORDER): TThunk => {
   return async (dispatch, getStore) => {
     const store = getStore();
-    const ebayItems = selectEbayCardItemsReducer(store);
+    const ebayItems = selectAllEbayCardItems(store);
 
     //check if these ebay cards are already in reducer
     if (ebayItems?.[platform]?.[game]?.[sortOrder]) {
@@ -43,7 +45,6 @@ export const getEbayItemsThunk = (platform: TPlatformNames, game: string, sortOr
         items = ebayItems.map((ebayItem) => ({ itemId: [ebayItem.id] }));
       } else {
         const { data = null } = await ebayApi.getEbayItems(platform, game, sortOrder);
-
         if (data && data[0]) {
           const { item: ebayitems = [] } = data[0];
           items = ebayitems;
@@ -53,12 +54,10 @@ export const getEbayItemsThunk = (platform: TPlatformNames, game: string, sortOr
       dispatch(showErrModal({ message: 'Cannot fetch ebay cards! Try again later' }));
     }
 
-    if (items.length) {
-      batch(() => {
-        dispatch(setEbayItems(items, platform, game, sortOrder));
-        dispatch(setEbaySectionLoading(false));
-      });
-    }
+    batch(() => {
+      dispatch(setEbaySectionLoading(false));
+      dispatch(setEbayItems(items, platform, game, sortOrder));
+    });
   };
 };
 
@@ -132,7 +131,8 @@ export const checkIfCardIsWatched = (
   sortOrder = DEFAULT_SORT_ORDER
 ): TThunk => {
   return async (dispatch, getStore) => {
-    const itemId = selectEbayCardItemId(getStore(), {
+    const store = getStore();
+    const itemId = selectEbayCardItemId(store, {
       game,
       index,
       platform,
@@ -149,7 +149,6 @@ export const checkIfCardIsWatched = (
         game,
         platform,
       });
-
       if (payload && payload.inList) {
         dispatch(setIsWatchedEbayCard(game, platform, sortOrder, index, true));
       }
@@ -175,6 +174,8 @@ export const notWatchEbayCard = (
         game,
         platform,
       });
+
+      dispatch(removeWatchedCard(game, platform, ebayItemId));
     } catch (error) {
       batch(() => {
         dispatch(setIsWatchedEbayCard(game, platform, sortOrder, index, true));
@@ -199,11 +200,15 @@ export const watchEbayCard = (
     dispatch(setIsWatchedEbayCard(game, platform, sortOrder, index, true));
 
     try {
-      await profileApi.watchEbayCard({
+      const {
+        data: { payload },
+      } = await profileApi.watchEbayCard({
         ebayItemId,
         game,
         platform,
       });
+
+      payload && dispatch(setProfileDataThunk(payload));
     } catch (err) {
       if (
         isAxiosError<{ additionals: { showModal: boolean }; err_message: string }>(err) &&

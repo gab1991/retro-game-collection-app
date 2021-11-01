@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useEbayCardContext } from 'Components/EbayItemCard/context';
 import { SwiperConfigured } from 'Components/UI';
-import { EbayLogo } from 'Components/UI/LogoSvg';
+import { EbayLogo } from 'Components/UI/Svg';
 import { Swiper } from 'swiper/react';
 
 import styles from './EbayCardImagePart.module.scss';
@@ -19,9 +19,9 @@ export function EbayCardImagePart(): JSX.Element | null {
 
   return (
     <div className={styles.ImgArea}>
-      <SwiperConfigured slides={slides} customSwiperProps={swiperProps}></SwiperConfigured>
+      <SwiperConfigured slides={slides} customSwiperProps={swiperProps} />
       <a className={styles.SvgWrapper} href={itemUrl} rel='noopener noreferrer' target='_blank'>
-        <EbayLogo />
+        <EbayLogo className={styles.EbayLogo} />
       </a>
     </div>
   );

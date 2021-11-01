@@ -1,4 +1,4 @@
-@import '../../../../Configs/Variables.scss';
+@import 'vars.scss';
 
 $info-color: rgb(124, 182, 209);
 $modal-color: rgb(153, 153, 153);
@@ -12,7 +12,9 @@ $modal-color: rgb(153, 153, 153);
   left: 0;
   bottom: 0;
   right: 0;
-  @include flexCenter;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .InfoModalMain {
@@ -50,4 +52,8 @@ $modal-color: rgb(153, 153, 153);
       min-width: 110px;
     }
   }
+}
+
+.InfoModal {
+  position: 'absolute';
 }

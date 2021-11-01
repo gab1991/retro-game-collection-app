@@ -1,4 +1,4 @@
-@import '../../../../Configs/Variables.scss';
+@import 'vars.scss';
 
 $error-color: rgb(209, 124, 124);
 $modal-color: rgb(153, 153, 153);
@@ -12,7 +12,9 @@ $modal-color: rgb(153, 153, 153);
   left: 0;
   bottom: 0;
   right: 0;
-  @include flexCenter;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .ErrorModalMain {
@@ -43,4 +45,10 @@ $modal-color: rgb(153, 153, 153);
       min-width: 110px;
     }
   }
+}
+
+.FailureSvg {
+  left: 0;
+  position: 'absolute';
+  top: 0;
 }

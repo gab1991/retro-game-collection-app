@@ -1,6 +1,6 @@
 import React from 'react';
 
-import warnicon from '../../../../Assets/images/svg/warning.svg';
+import warnicon from 'Assets/images/svg/warning.svg';
 import { Backdrop, ButtonNeon } from 'Components/UI';
 
 import styles from './WarnModal.module.scss';
@@ -17,7 +17,7 @@ export function WarnModal(props: IWarnModal): JSX.Element {
 
   return (
     <div className={styles.WarnModal}>
-      <Backdrop onClick={onBackdropClick} show />
+      <Backdrop onClick={onBackdropClick} />
       <div className={styles.WarnWindow}>
         <div className={styles.TxtWrapper}>
           <div className={styles.ImgContainer}>
@@ -27,8 +27,12 @@ export function WarnModal(props: IWarnModal): JSX.Element {
         </div>
 
         <div className={styles.ButtonSection}>
-          <ButtonNeon txtContent={'YES'} rectangular onClick={onYesClick} />
-          <ButtonNeon txtContent={'NO'} rectangular onClick={onNoClick} />
+          <ButtonNeon rectangular onClick={onYesClick}>
+            YES
+          </ButtonNeon>
+          <ButtonNeon rectangular onClick={onNoClick}>
+            NO
+          </ButtonNeon>
         </div>
       </div>
     </div>

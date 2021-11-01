@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import cn from 'classnames';
 
 import { images, TPlatformNames } from 'Configs/appConfig';
 
@@ -23,15 +24,15 @@ export function GameCard(props: IGameCardProps): JSX.Element {
     <>
       <Link
         to={`/${platformName}/${slug}`}
-        className={`${styles.GameCard} ${className}`}
-        style={{ display: isImgLoaded ? 'flex' : 'none' }}
+        className={cn(styles.GameCard, className, { [styles.GameCard_notLoaded]: !isImgLoaded })}
       >
-        <div className={styles.ImgContainer}>
-          <img src={background || images.noPicture.background.src} alt={''} onLoad={() => setImageLoaded(true)} />
-        </div>
-        <div className={styles.NameSection}>
-          <p>{name}</p>
-        </div>
+        <img
+          className={styles.ImgContainer}
+          src={background || images.noPicture.background.src}
+          alt={''}
+          onLoad={() => setImageLoaded(true)}
+        />
+        <p className={styles.NameSection}>{name}</p>
       </Link>
       {!isImgLoaded && <GameCardSkeleton className={className} />}
     </>
