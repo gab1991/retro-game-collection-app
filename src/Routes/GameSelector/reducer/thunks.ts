@@ -8,7 +8,7 @@ import { showErrModal } from 'Store/appStateReducer/actions';
 import { setGamesToShow, setIsLoading, setNoGamesFound, writePageData } from './actions';
 import { selectQuery } from './selectors';
 
-export const getGamesForPlatform = (platformName: string): TThunk => {
+export const getGamesForPlatformThunk = (platformName: string): TThunk => {
   return async (dispatch, getStore) => {
     const state = getStore();
     const { page, direction, ordername, search } = selectQuery(state);

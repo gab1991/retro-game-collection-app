@@ -71,7 +71,7 @@ export function GameDetailedPage(): JSX.Element {
         <div className={styles.InfoSection}>{gameDetails && <GameInfoBox gameDetails={gameDetails} />}</div>
         <div className={styles.DescSection}>
           <hr></hr>
-          <div dangerouslySetInnerHTML={{ __html: descriptionHtml || 'No description' }} />
+          <div dangerouslySetInnerHTML={{ __html: descriptionHtml || '' }} />
         </div>
         <ControlSection />
       </div>

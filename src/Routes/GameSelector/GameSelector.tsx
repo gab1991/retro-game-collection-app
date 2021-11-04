@@ -9,11 +9,12 @@ import { appConfig, TPlatformNames } from 'Configs/appConfig';
 import { flushGameSelectorStore, setSearchInputValue } from 'Routes/GameSelector/reducer/actions';
 import {
   selectGamesToShow,
+  selectIsLoading,
   selectNoGamesFound,
   selectPageData,
   selectSearchInputValue,
 } from 'Routes/GameSelector/reducer/selectors';
-import { getGamesForPlatform } from 'Routes/GameSelector/reducer/thunks';
+import { getGamesForPlatformThunk } from 'Routes/GameSelector/reducer/thunks';
 
 import { GameCard } from './components';
 import { useGameSelectorUrl } from './hooks';
@@ -34,7 +35,10 @@ export function GameSelector(): JSX.Element {
   const pageData = useSelector(selectPageData);
   const searchInputValue = useSelector(selectSearchInputValue);
   const noGamesFound = useSelector(selectNoGamesFound);
+  const isLoading = useSelector(selectIsLoading);
   const { platformName } = useParams<{ platformName: TPlatformNames }>();
+
+  console.log(isLoading);
 
   useEffect(() => {
     return () => {
@@ -43,7 +47,7 @@ export function GameSelector(): JSX.Element {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getGamesForPlatform(platformName));
+    dispatch(getGamesForPlatformThunk(platformName));
   }, [queryPage, searchQuery, ordername, direction, platformName, dispatch]);
 
   const gameSearchChangeHandler = (e: ChangeEvent<HTMLInputElement>) => dispatch(setSearchInputValue(e.target.value));
@@ -86,13 +90,13 @@ export function GameSelector(): JSX.Element {
         </div>
       </div>
       <div className={styles.GamePicker}>
-        {gamesToShow.map((game) => (
-          <div className={styles.GameCardWrapper} key={game.slug}>
-            <GameCard {...game} platformName={platformName} key={game.slug} className={styles.GameCard} />
-          </div>
-        ))}
-        {!pageData.count &&
-          !noGamesFound &&
+        {!isLoading &&
+          gamesToShow.map((game) => (
+            <div className={styles.GameCardWrapper} key={game.slug}>
+              <GameCard {...game} platformName={platformName} key={game.slug} className={styles.GameCard} />
+            </div>
+          ))}
+        {isLoading &&
           Array.from({ length: appConfig.GameSelector.gamesPerRequest }).map((_, ind) => (
             <div className={styles.GameCardWrapper} key={ind}>
               <GameCardSkeleton className={styles.GameCard} />
