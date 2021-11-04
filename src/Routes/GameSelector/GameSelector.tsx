@@ -38,8 +38,6 @@ export function GameSelector(): JSX.Element {
   const isLoading = useSelector(selectIsLoading);
   const { platformName } = useParams<{ platformName: TPlatformNames }>();
 
-  console.log(isLoading);
-
   useEffect(() => {
     return () => {
       dispatch(flushGameSelectorStore());
