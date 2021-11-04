@@ -1,6 +1,8 @@
 @import 'vars.scss';
 
 .InputWrapper {
+  display: flex;
+  align-items: center;
   position: relative;
   border: 1px solid $basic-border-gray;
   border-radius: 7px;
