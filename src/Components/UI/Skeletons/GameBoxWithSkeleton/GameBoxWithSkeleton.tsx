@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { IRootState } from 'Store/types';
 
 import { GameBoxSkeletonController } from '../GameBoxSkeletonController';
+import { fileApi } from 'Api/fileApi';
 import { TPlatformNames } from 'Configs/appConfig';
 import { selectBoxArt } from 'Store/contentReducer/selectors';
 
@@ -23,8 +24,8 @@ export function GameBoxWithSkeleton(props: IGameBoxInfoSkeletonProps): JSX.Eleme
     <>
       {boxArtUrl && (
         <img
-          src={boxArtUrl}
-          alt={``}
+          src={fileApi.formPath(boxArtUrl)}
+          alt={name}
           onLoad={() => setIsLoaded(true)}
           style={{ display: isLoaded ? 'inline' : 'none' }}
           className={imgClassName}

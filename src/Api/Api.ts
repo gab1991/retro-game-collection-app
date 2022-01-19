@@ -17,7 +17,7 @@ interface IServerResponse<T = unknown> {
 
 export type TApiResponse<T = unknown> = TReqResult<IServerResponse<T>>;
 
-const backendUrl = IS_PROD ? '' : 'http://localhost:8000';
+export const backendUrl = IS_PROD ? '' : 'http://localhost:8000';
 
 export abstract class Api {
   private readonly client: TApiClient;
